@@ -34,8 +34,8 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 
 4. **Naam:** Milan
    **Persoonlijke leerdoelen**:  
-   - Iedere dag logboek bijhouden.
-   - ...  
+   - Iedere dag mijn logboek bijhouden en constant bewijs verzamelen voor portfolio zodat ik deze schooljaar ga halen.
+   - Meer op mezelf letten door rust te nemen en wandelingen te nemen tussen mijn werk door zodat ik mezelf niet overwerk.
    **Superkracht:** Coderen  
 
 ## 2. Gezamenlijk Leerdoel
