@@ -14,16 +14,15 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 ### **Teamleden**
 
 1. **Naam:** Anne
-   **Persoonlijke leerdoelen** *(vul hier **minimaal twee** in, maar meer mag altijd!)*:  
+   **Persoonlijke leerdoelen**:  
    - Leren Object Georiënteerd Programmeren.
-   - Niet alles uitstellen 
+   - Niet alles uitstellen  
    **Superkracht:** Hyperfocus
 
 2. **Naam:** Arsalaan
    **Persoonlijke leerdoelen**:  
    - Minder uitstellen.
    - Meer coding conventions naleven.
-   - ...  
    **Superkracht:** Uitstelgedrag  
 
 3. **Naam:** Lisa
@@ -109,6 +108,8 @@ Een goed samenwerkend team vereist vertrouwen en effectieve communicatie. Daarom
 [Meer informatie](https://agilewerken.nl/agile-en-scrum/piramide-van-lencioni/)
 
 **Opdracht:**
+
+![image](files://C:\Opleiding\Jaar 1\Semester 2\Project Fourmula\taamookeekee60\src\web\wwwroot\public\assets\img\Teamontwikkeling_Lencioni.webp) –
 
 1. Onderzoek en bespreek de vijf lagen van de Lencioni piramide.  
 2. Zoek bronnen die het model beschrijven en neem deze op in het samenwerkingscontract.  
