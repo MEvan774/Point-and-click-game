@@ -135,5 +135,5 @@ Door dit contract te ondertekenen, verklaren wij ons te houden aan de afspraken 
 |     Lisa      |   LHAKHOFF   |04/02/25|
 |     Anne      |     AVB      |04/02/25|
 |   Arsalaan    |     A.K      |04/02/25|
-|               |              |        |
+|    Milan      |   MBreuren   |04/02/25|
 |               |              |        |
