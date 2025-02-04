@@ -9,7 +9,7 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 ## 1. Teamgegevens
 
 **Teamnaam:** Fourmula  
-**Project:** The game - Software Engineering (Semester 2)
+**Project:** Kidnapped: Castle Breakout (part 2)
 
 ### **Teamleden**
 
@@ -76,8 +76,8 @@ Naast de Scrum-rollen verdelen we de volgende verantwoordelijkheden:
 
 - **Documentatieverantwoordelijke**  Anne & Lisa als invaller
 - **Code Reviewer**  Lisa & Anne als invaller
-- **Security Check**  Milan & Arselaan als invaller
-- **Build & Deploy**  Arselaan & Milan als invaller
+- **Security Check**  Milan & Arsalaan als invaller
+- **Build & Deploy**  Arsalaan & Milan als invaller
 
 ### 5.3 Afwezigheid
 
@@ -132,8 +132,8 @@ Door dit contract te ondertekenen, verklaren wij ons te houden aan de afspraken 
 
 | Naam teamlid  | Handtekening | Datum  |
 |---------------|--------------|--------|
-|      Lisa     |   LHAKHOFF   |04-02'25|
-|     Anne      |      AVB     |04/02/25|
-|               |              |        |
+|     Lisa      |   LHAKHOFF   |04/02/25|
+|     Anne      |     AVB      |04/02/25|
+|   Arsalaan    |     A.K      |04/02/25|
 |               |              |        |
 |               |              |        |
