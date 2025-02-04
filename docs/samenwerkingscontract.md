@@ -23,18 +23,20 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
    **Persoonlijke leerdoelen**:  
    - Minder uitstellen.
    - Meer coding conventions naleven.
+   - ...
    **Superkracht:** Uitstelgedrag  
 
 3. **Naam:** Lisa
    **Persoonlijke leerdoelen**:  
    - Minstens 15min - 30min per week aan het portfolio werken.
-   - Minstens 50% van de leeruitkomsten  “boven niveau”
+   - Minstens 50% van de leeruitkomsten  “boven niveau”.
+   - ...
    **Superkracht:** Perfectionisme en coderen
 
 4. **Naam:** Milan
    **Persoonlijke leerdoelen**:  
    - Iedere dag logboek bijhouden.
-   - …
+   - ...
    **Superkracht:** Coderen  
 
 ## 2. Gezamenlijk Leerdoel
