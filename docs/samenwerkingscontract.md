@@ -9,7 +9,7 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 ## 1. Teamgegevens
 
 **Teamnaam:** Fourmula  
-**Project:** Kidnapped: Castle Breakout (part 2)
+**Project:** Kidnapped: Castle Breakout
 
 ### **Teamleden**
 
