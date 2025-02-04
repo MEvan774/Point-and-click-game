@@ -8,7 +8,7 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 
 ## 1. Teamgegevens
 
-**Teamnaam:** Fourmula
+**Teamnaam:** Fourmula  
 **Project:** The game - Software Engineering (Semester 2)
 
 ### **Teamleden**
@@ -29,8 +29,7 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 3. **Naam:** Lisa
    **Persoonlijke leerdoelen**:  
    - Minstens 15min - 30min per week aan het portfolio werken.
-   - Minstens 50% van de leeruitkomsten  “boven niveau”.
-   - ...  
+   - Minstens 50% van de leeruitkomsten  “boven niveau”.  
    **Superkracht:** Perfectionisme en coderen
 
 4. **Naam:** Milan
@@ -41,12 +40,12 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 
 ## 2. Gezamenlijk Leerdoel
 
-Naast individuele leerdoelen stellen we ook **gezamenlijke leerdoelen** vast. Bespreek als team één of twee gezamenlijke valkuilen die voor meerdere teamleden herkenbaar zijn, zoals:
+Als team is het belangrijk om **gezamenlijke leerdoelen** op te stellen, gemeenschappelijke valkuilen zijn:
 
 - Timemanagement
 - Uitstelgedrag
 
-Door gezamenlijk een leerdoel te formuleren, ondersteunen we elkaar in de groei en zorgen we ervoor dat we als team sterker worden.
+Om deze valkuilen op te vangen zorgen we dat we elkaar pushen om sneller te beginnen met werken en om van elkaar de werkuren te monitoren door de check-in & check-out in Discord.
 
 ## 3. Doel van het Contract
 
@@ -55,12 +54,14 @@ Door gezamenlijk een leerdoel te formuleren, ondersteunen we elkaar in de groei 
   - We nemen beslissingen op een democratische manier, waarin ieders inbreng telt.  
   - We spreken af hoe we omgaan met conflicten, afwezigheid en feedback
 
+## 4. Teamrollen & Roulatie  
+
 ### 4.1 Scrumrollen per Sprint
 
 We gebruiken Scrum-rollen die elke **sprint** kunnen rouleren:
 
 - **Scrum Master (SM)**: faciliteert het proces, organiseert stand-ups, sprint planning en retrospective. Milan
-- **Product Owner (PO)**: bewaakt de backlog, stelt prioriteiten vast en beoordeelt de acceptatie van user stories. Lisa, Ronald, Kiek & Folkert
+- **Product Owner (PO)**: bewaakt de backlog, stelt prioriteiten vast en beoordeelt de acceptatie van user stories. Ronald, Kiek & Folkert. Lisa in geval van afwezigheid docenten.
 - **Development Team (Dev Team)**: (iedereen) voert de feitelijke taken uit (design, code, infrastructuur, testen).
 
 **Roulatie-afspraak:**
