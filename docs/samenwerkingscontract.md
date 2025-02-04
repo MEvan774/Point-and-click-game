@@ -16,7 +16,7 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 1. **Naam:** Anne
    **Persoonlijke leerdoelen** *(vul hier **minimaal twee** in, maar meer mag altijd!)*:  
    - Leren Object Georiënteerd Programmeren.
-   - ...  
+   - Niet alles uitstellen 
    **Superkracht:** Hyperfocus
 
 2. **Naam:** Arsalaan
@@ -140,7 +140,7 @@ Door dit contract te ondertekenen, verklaren wij ons te houden aan de afspraken 
 | Naam teamlid  | Handtekening | Datum  |
 |---------------|--------------|--------|
 |               |              |        |
-|               |              |        |
+|    Anne       |      AVB     |04/02/2025|
 |               |              |        |
 |               |              |        |
 |               |              |        |
