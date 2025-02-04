@@ -109,7 +109,7 @@ Een goed samenwerkend team vereist vertrouwen en effectieve communicatie. Daarom
 
 **Opdracht:**
 
-![image](files://C:\Opleiding\Jaar 1\Semester 2\Project Fourmula\taamookeekee60\src\web\wwwroot\public\assets\img\Teamontwikkeling_Lencioni.webp) –
+![image](files://C:\Opleiding\Jaar 1\Semester 2\Project Fourmula\taamookeekee60\src\web\wwwroot\public\assets\img\Lencioni-piramide-teamontwikkeling.jpg) –
 
 1. Onderzoek en bespreek de vijf lagen van de Lencioni piramide.  
 2. Zoek bronnen die het model beschrijven en neem deze op in het samenwerkingscontract.  
