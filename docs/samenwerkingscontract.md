@@ -107,14 +107,13 @@ Een goed samenwerkend team vereist vertrouwen en effectieve communicatie. Daarom
 
 [Meer informatie](https://agilewerken.nl/agile-en-scrum/piramide-van-lencioni/)
 
-**Opdracht:**
+De bron die het beste voor ons de piramide weergeeft is:
 
-![image](/src/web/wwwroot/public/assets/img/Teamontwikkeling_Lencioni.webp) –
+![image](/src/web/wwwroot/public/assets/img/Teamontwikkeling_Lencioni.webp)
 
-1. Onderzoek en bespreek de vijf lagen van de Lencioni piramide.  
-2. Zoek bronnen die het model beschrijven en neem deze op in het samenwerkingscontract.  
-3. Bespreek en beschrijf kort wat iedere laag betekent voor jullie als team.  
-4. Controleer of deze afspraken al in het contract staan en vul aan waar nodig.  
+[Insights Benelux](https://www.insightsbenelux.com/blog/teamontwikkeling/teamontwikkeling-met-de-piramide-van-lencioni)
+
+Insights Benelux heeft de beste omschrijving van de Lencioni piramide, omdat het een bedrijf voor coaching is. Er word uitleg gegeven over de lagen en aanmoediging om team-coaching te volgen. Dit bevorderd de onderlinge sfeer en samenwerking binnen het team.
 
 ## 9. Sancties
 
