@@ -47,6 +47,8 @@ Als team is het belangrijk om **gezamenlijke leerdoelen** op te stellen, gemeens
 
 Om deze valkuilen op te vangen zorgen we dat we elkaar pushen om sneller te beginnen met werken en om van elkaar de werkuren te monitoren door de check-in & check-out in Discord.
 
+Het gezamenlijke leerdoel voor sprint 3: Zo snel mogelijk alle administratieve elementen afronden zodat er genoeg tijd in coderen/programmeren gestopt kan worden.
+
 ## 3. Doel van het Contract
 
 - **Waarom dit contract?**  
@@ -66,7 +68,7 @@ We gebruiken Scrum-rollen die elke **sprint** kunnen rouleren:
 
 **Roulatie-afspraak:**
 
-- We willen dat **iedereen** minimaal één keer SM en één keer PO is geweest na 6 sprints.  
+- We willen dat **iedereen** die in eerdere projecten **geen** SM / PO geweest zijn, deze rollen een keer te zijn tijdens een van de 6 sprints. Zodra iedereen een keer de rol gehad heeft, begint de "cyclus" opnieuw.
 
 ### 4.2 Specifieke Taken
 
@@ -79,23 +81,12 @@ Naast de Scrum-rollen verdelen we de volgende verantwoordelijkheden:
 
 ### 5.3 Afwezigheid
 
-- **Ziekte of overmacht**: Meld dit zo snel mogelijk in Whatsapp.
+Om binnen het team afwezigheid te kunnen handhaven hebben we meerdere richtlijnen:
 
+- **Ziekte of overmacht**: Meld dit zo snel mogelijk in Whatsapp.
 - **Niet noodgevallen**: Meld minstens 24 uur van te voren met de reden in Whatsapp.
 
 ## 6. Urenregistratie in het Team
-
-We houden een urenstaat bij om inzicht te krijgen in de besteding van uren. Dit helpt om:
-
-- De voortgang te bewaken.
-- Efficiënter samen te werken.
-- Problemen tijdig te signaleren.
-- Een professionele werkhouding te ontwikkelen.
-
-**Praktijk in bedrijven**  
-In veel bedrijven wordt urenregistratie gebruikt om projecten te monitoren, kosten te bewaken en productiviteit te verbeteren. Ook kunnen teams zo onderling hun prestaties vergelijken en processen optimaliseren.
-
-**Hoe werkt het binnen jouw project?**
 
 Elke maandag analyseren we de urenstaat en vergelijken deze met andere teams om te leren van elkaars werkwijze.
 Urenverantwoording versturen via Discord.
@@ -126,13 +117,14 @@ Een goed samenwerkend team vereist vertrouwen en effectieve communicatie. Daarom
 
 ## 9. Sancties
 
-Bij structurele schending van afspraken kan het team passende maatregelen treffen. Deze worden in overleg vastgesteld en kunnen variëren afhankelijk van de ernst van de situatie. Voorbeelden van sancties kunnen onder andere zijn:
+Om de samenwerking zo soepel en prettig mogelijk te maken, worden de volgende sancties gehandteerd.
 
-- **Eerste waarschuwing**: Een individueel gesprek binnen het team waarin de situatie wordt besproken en concrete verbeterafspraken worden gemaakt.
-- **Tweede waarschuwing**: Een groepsgesprek waarin gezamenlijke afspraken worden herzien en herbevestigd.
-- **Derde maatregel**: Indien de problemen aanhouden, wordt de docent ingeschakeld voor verdere bemiddeling en besluitvorming.
+Deze sancties zijn van kracht op het gebied van: afwezigheid, niet nakomen van deadlines, planning en gebrek aan inzet.
 
-Elk teamlid heeft de verantwoordelijkheid om bij problemen tijdig het gesprek aan te gaan, zodat escalatie zoveel mogelijk wordt voorkomen.  
+- **Eerste waarschuwing**: De persoon in kwestie krijgt een individueel gesprek met de scrum-master om alert te worden op eventuele persoonlijke omstandigheden, de waarschuwing zal zonder consequenties zijn en geeft de persoon de kans om dingen die hij/zij niet met de hele groep wil delen in vertrouwen aan de scrum-master te vertellen. **De scrum-master mag deze omstandigheden alleen met de docenten delen wanneer hij/zij toestemming heeft van de persoon**
+- **Tweede waarschuwing**: De persoon krijgt een groepsgesprek, deze waarschuwing is zonder conesquenties.
+- **Derde maatregel**: De persoon krijgt een crisisgesprek met de groep en docenten, hier krijgt de persoon de laatste kans om zich te bewijzen binnen het team. Dit zal **14 dagen** duren. Na deze 14 dagen zal er een overleg met de docenten **zonder de persoon in kwestie** zijn om te bepalen of hij/zij zich bewezen heeft.
+Indien de persoon na deze 14 dagen zichzelf nog niet bewezen heeft zal hij/zij uit het team gezet (kunnen) worden.
 
 ## 10. Ondertekening
 
@@ -140,7 +132,7 @@ Door dit contract te ondertekenen, verklaren wij ons te houden aan de afspraken 
 
 | Naam teamlid  | Handtekening | Datum  |
 |---------------|--------------|--------|
-|               |              |        |
+|      Lisa     |   LHAKHOFF   |  04-02 |
 |               |              |        |
 |               |              |        |
 |               |              |        |
