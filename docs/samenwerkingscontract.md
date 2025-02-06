@@ -9,21 +9,20 @@ We gaan gedurende **3 sprints** aan de slag met het ontwerpen, realiseren en tes
 ## 1. Teamgegevens
 
 **Teamnaam:** Fourmula  
-**Project:** Kidnapped: Castle Breakout (part 2)
+**Project:** Kidnapped: Castle Breakout
 
 ### **Teamleden**
 
 1. **Naam:** Anne
-   **Persoonlijke leerdoelen** *(vul hier **minimaal twee** in, maar meer mag altijd!)*:  
+   **Persoonlijke leerdoelen**:  
    - Leren Object Georiënteerd Programmeren.
-   - Niet alles uitstellen 
+   - Niet alles uitstellen  
    **Superkracht:** Hyperfocus
 
 2. **Naam:** Arsalaan
    **Persoonlijke leerdoelen**:  
    - Minder uitstellen.
    - Meer coding conventions naleven.
-   - ...  
    **Superkracht:** Uitstelgedrag  
 
 3. **Naam:** Lisa
@@ -108,12 +107,13 @@ Een goed samenwerkend team vereist vertrouwen en effectieve communicatie. Daarom
 
 [Meer informatie](https://agilewerken.nl/agile-en-scrum/piramide-van-lencioni/)
 
-**Opdracht:**
+De bron die het beste voor ons de piramide weergeeft is:
 
-1. Onderzoek en bespreek de vijf lagen van de Lencioni piramide.  
-2. Zoek bronnen die het model beschrijven en neem deze op in het samenwerkingscontract.  
-3. Bespreek en beschrijf kort wat iedere laag betekent voor jullie als team.  
-4. Controleer of deze afspraken al in het contract staan en vul aan waar nodig.  
+![image](/src/web/wwwroot/public/assets/img/Teamontwikkeling_Lencioni.webp)
+
+[Insights Benelux](https://www.insightsbenelux.com/blog/teamontwikkeling/teamontwikkeling-met-de-piramide-van-lencioni)
+
+Insights Benelux heeft de beste omschrijving van de Lencioni piramide, omdat het een bedrijf voor coaching is. Er word uitleg gegeven over de lagen en aanmoediging om team-coaching te volgen. Dit bevorderd de onderlinge sfeer en samenwerking binnen het team.
 
 ## 9. Sancties
 
