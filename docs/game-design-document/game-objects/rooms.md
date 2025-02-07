@@ -49,4 +49,8 @@ Dagboek (diary)
 
 # Milan LivingRoom Kitchen
 LivingRoom:
-Player moet een zaklamp vinden in de storage room om de livingRoom te belichten. Hij kan de livingRoom betreden zonder zaklamp, maar dan kan hij niks doen tot hij de zaklamp, hebt. Als hij de zaklamp heeft, Dan ziet de player overal lichamen hangen, hij kan de keuken betreden met de zaklamp. In de keuken ziet hij een GhostCharacter die aan het koken is. De player moet lichaams delen verzamelen die de figuur op een raadsel achtige manier vraagt. Als de player klaar is, dan krijgt hij (een item om de volgende room te openen).
+Player moet een zaklamp vinden in de storage room om de livingRoom te belichten. Hij kan de livingRoom betreden zonder zaklamp, maar dan kan hij niks doen tot hij de zaklamp, hebt. Als hij de zaklamp heeft, Dan ziet de player overal lichamen hangen, hij kan de keuken betreden met de zaklamp. In de LivingRoom zijn er geen verstop plekken.
+
+KitchenRoom:
+In de keuken ziet hij een GhostCharacter die aan het koken is. De player moet lichaams delen verzamelen die de figuur op een raadsel achtige manier vraagt. Als de player klaar is, dan krijgt hij (een item om de volgende room te openen).
+In de Kitchen kan de player in de keuken kastje verstoppen.

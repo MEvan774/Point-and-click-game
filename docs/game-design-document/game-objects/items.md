@@ -20,4 +20,8 @@ title: Items
 
 LampItem om de donkere kamer te belichten. De cursor belicht de kamer en de player kan hiermee een geheime doorgang vinden. Als de player klaar is met de lamp, dan wordt deze vernietigd met een message: "Your lamp is gone"
 
-BodyPartItem De player kan deze verzamelen voor de ghostCharacter in de keuken. Deze item varieert kwa uiterlijk aan de hand van wat de de ghostCharacter vraagt. 
+BodyPartItem De player kan deze verzamelen voor de ghostCharacter in de keuken. Deze item varieert kwa uiterlijk aan de hand van wat de de ghostCharacter vraagt.
+
+LivingThingItem is iets levends die de player aan de GhostCharacter kan geven voor een extra beloning na zijn puzzel.
+
+BomItem Is een item die de player van de ghostCharacter krijgt. Hiermee kan de player de hek buiten opblazen en ontsnappen.
