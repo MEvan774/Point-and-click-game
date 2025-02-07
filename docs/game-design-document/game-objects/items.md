@@ -19,3 +19,5 @@ title: Items
 
 
 LampItem om de donkere kamer te belichten. De cursor belicht de kamer en de player kan hiermee een geheime doorgang vinden. Als de player klaar is met de lamp, dan wordt deze vernietigd met een message: "Your lamp is gone"
+
+BodyPartItem De player kan deze verzamelen voor de ghostCharacter in de keuken. Deze item varieert kwa uiterlijk aan de hand van wat de de ghostCharacter vraagt. 
