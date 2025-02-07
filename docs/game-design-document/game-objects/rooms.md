@@ -16,6 +16,9 @@ Als speler op de gesloten deuren klikt in de hallway (HallwayRoom) krijgt speler
 Als de speler de sleutel heeft gevonden en gebruikt op de gesloten deur in de hallway (HallwayRoom), komt hij terecht in de opslagruimte (Storage_roomRoom)
 In de opslagruimte (Storage_roomRoom) kan de speler een zaklamp (flashlight) vinden.
 Als je de flashlight gebruikt dan wordt het spel minder donker rondom je mouse cursor.
+Als de speler op de linker deur klikt in de hallway (HallwayRoom) komt de speler in het kantoor (OfficeRoom)
+In het kantoor (OfficeRoom) is een dagboek te vinden waarin informatie staat over hoe je hier terecht bent gekomen.
+In het kantoor (OfficeRoom) kan je geld vinden in het bureau en kan je een First-Aid Kit vinden.
 
 Als speler op de trap klikt, dan komt de speler terecht bij de voordeur (EntranceRoom). 
 
@@ -42,6 +45,7 @@ Een paar ervan zijn:
 **Easter eggs:**
 Bom (c4)
 Geld (money)
+Dagboek (diary)
 
 # Milan LivingRoom Kitchen
 LivingRoom:
