@@ -5,3 +5,5 @@ title: Characters
 **TODO:** Beschrijf hier welke *Characters* er allemaal in het spel zullen voorkomen en hoe de speler interactie met ze aangaat. Heeft de karakter een belangrijk *Item* die de speler alleen maar kan krijgen door een puzzel op te lossen? Beschrijf dan hier wat voor soort puzzel je kunt verwachten en/of link naar relevante andere *game objects*/onderdelen in je documentatie.
 
 De ontvoerder, De player moet hem vermijden en verstoppen om niet gevangen te worden en terug naar de slaapkamer gezet te worden.
+
+De GhostCharacter of gedaante die staat in de keuken. hij vraagt de player voor lichaams delen om in de pan te doen. Als de player de juiste lichaams delen heeft gevonden, krijgt hij een crowbar. Nadat hij de crowbar gegeven heeft, vraagt hij voor iets vers, dit is optioneel, maar als de player hem een kat geeft, krijgt hij een shotgun om uit de kasteel te ontsnappen. 
