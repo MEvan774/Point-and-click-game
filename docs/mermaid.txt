@@ -1,0 +1,12 @@
+flowchart TD
+
+    A(Bedroom) <--> B(Bathroom)
+    A <--> |Hallway key| C(Hallway)
+    C <--> D(Storage room)
+    C <--> E(Office)
+    C <--> F(Front door)
+    F <--> G(Livingroom)
+    F <--> |Crowbar + Outside key| H(Outside)
+    G <--> |Flashlight| I(Kitchen)
+    H <--> J(Shed)
+    H --> |Bomb / Gate key / Shotgun / Grinder| K[Ending]

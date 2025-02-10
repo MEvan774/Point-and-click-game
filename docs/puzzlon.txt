@@ -1,0 +1,198 @@
+
+: diagram  { 
+
+   events {
+   
+      in_bedroom : condition;
+
+      go_to_bathroom : action{
+         depends_on = [ in_bedroom ]
+      }
+      
+      in_bathroom : condition {
+         depends_on = [ go_to_bathroom ]
+      }
+      
+      get_hallway_key : action {
+         depends_on = [ in_bathroom ]
+      }
+      
+      go_to_bedroom : action {
+         depends_on = [ in_bathroom ]
+      }
+      
+      look_under_bed : action {
+         depends_on = [ in_bedroom ]
+      }
+      
+      get_easter_egg : action {
+         depends_on = [ look_under_bed ]
+      }
+      
+      go_to_hallway : action {
+         depends_on = [ in_bedroom, get_hallway_key ]
+      }
+      
+      in_hallway : condition {
+         depends_on = [ go_to_hallway ]
+      }
+      
+      go_to_storage_room : action {
+         depends_on = [ in_hallway ]
+      }
+      
+      in_storage_room : condition {
+         depends_on = [ go_to_storage_room ]
+      }
+      
+      look_in_mirror : action {
+         depends_on = [ in_storage_room ]
+      }
+      
+      solve_riddle : action {
+         depends_on = [ look_in_mirror ]
+      }
+      
+      get_code : action {
+         depends_on = [ solve_riddle ]
+      }
+      
+      use_code : action {
+         depends_on = [ get_code ]
+      }
+      
+      get_flashlight : action {
+         depends_on = [ use_code ]
+      }
+      
+      go_to_office : action {
+         depends_on = [ in_hallway ]
+      }
+      
+      in_office : condition {
+         depends_on = [ go_to_office ]
+      }
+      
+      look_in_bureau : action {
+         depends_on = [ in_office ]
+      }
+      
+      look_at_diary : action {
+         depends_on = [ in_office ]
+      }
+      
+      get_first_aid_kit : action {
+         depends_on = [ in_office ]
+      }
+      
+      go_to_front_door : action {
+         depends_on = [ in_hallway ]
+      }
+      
+      in_front_door : condition {
+         depends_on = [ go_to_front_door ]
+      }
+      
+      go_to_living_room : action {
+         depends_on = [ in_front_door ]
+      }
+      
+      in_living_room : condition {
+         depends_on = [ go_to_living_room ]
+      }
+      
+      use_flashlight : action {
+         depends_on = [ in_living_room, get_flashlight ]
+      }
+      
+      look_on_couch : action {
+         depends_on = [ use_flashlight ]
+      }
+      
+      get_money : action {
+         depends_on = [ look_on_couch, look_in_bureau ]
+         logic_gate_type = or
+      }
+      
+      go_to_kitchen : action {
+         depends_on = [ use_flashlight ]
+      }
+      
+      in_kitchen : condition {
+         depends_on = [ go_to_kitchen ]
+      }
+      
+      talk_to_ghost : action {
+         depends_on = [ in_kitchen ]
+      }
+      
+      get_requested_item : action {
+         depends_on = [ in_living_room, talk_to_ghost ]
+      }
+      
+      give_items : action {
+         depends_on = [ in_kitchen, get_requested_item ]
+      }
+      
+      get_outside_key : action {
+         depends_on = [ give_items ]
+      }
+      
+      get_living_thing : action {
+         depends_on = [ in_living_room, talk_to_ghost ]
+      }
+      
+      give_living_thing : action {
+         depends_on = [ in_kitchen, get_living_thing ]
+      }
+      
+      get_shotgun : action {
+         depends_on = [ give_living_thing ]
+      }
+      
+      get_crowbar : action {
+         depends_on = [ in_kitchen ]
+      }
+      
+      open_front_door : action {
+         depends_on = [ get_crowbar, in_front_door, get_outside_key ]
+      }
+      
+      go_to_outside : action {
+         depends_on = [ open_front_door, in_front_door ]
+      }
+      
+      in_outside : condition {
+         depends_on = [ go_to_outside ]
+      }
+      
+      go_to_shed : action {
+         depends_on = [ in_outside ]
+      }
+      
+      in_shed : condition {
+         depends_on = [ go_to_shed ]
+      }
+      
+      look_at_car : action {
+         depends_on = [ in_shed ]
+      }
+      
+      start_car : action {
+         depends_on = [ look_at_car ]
+      }
+      
+      look_in_freezer : action {
+         depends_on = [ in_shed ]
+      }
+      
+      get_saw : action {
+         depends_on = [ look_in_freezer ]
+      }
+      
+      open_gate : goal {
+         depends_on = [ get_shotgun, get_saw ]
+         logic_gate_type = or
+      }
+
+   }
