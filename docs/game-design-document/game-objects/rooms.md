@@ -1,7 +1,8 @@
 ---
 title: Rooms
 ---
-# Rooms
+## Rooms
+
 **TODO:** Beschrijf hier welke *Rooms* er allemaal in het spel zullen voorkomen en hoe deze met elkaar verbonden zijn. Is een *Item* nodig om een ruimte in te komen? Beschrijf dat dan hier en/of link naar relevante andere *game objecten*/onderdelen in je documentatie.
 
 De player start in een slaapkamer (BedroomRoom) waarin hij een een sleutel moet vinden om te ontsnappen.
@@ -20,7 +21,7 @@ Als de speler op de linker deur klikt in de hallway (HallwayRoom) komt de speler
 In het kantoor (OfficeRoom) is een dagboek te vinden waarin informatie staat over hoe je hier terecht bent gekomen.
 In het kantoor (OfficeRoom) kan je geld vinden in het bureau en kan je een First-Aid Kit vinden.
 
-Als speler op de trap klikt, dan komt de speler terecht bij de voordeur (EntranceRoom). 
+Als speler op de trap klikt, dan komt de speler terecht bij de voordeur (EntranceRoom).
 
 Als de speler op de voordeur klikt in de (EntranceRoom) dan krijgt de speler weer een bericht dat de deur op slot is.
 De speler kan via de (EntranceRoom) naar de woonkamer (LivingRoom).
@@ -28,26 +29,34 @@ In de woonkamer (Livingroom) kan je geld vinden onder de kussen op de bankstel.
 Via de woonkamer (LivingRoom) kan de speler naar de keuken (KitchenRoom).
 In de (KitchenRoom) kan je een koevoet (crowbar) vinden.
 
-### Fast forward
+De speler heeft nu alle benodigde items gevonden om naar buiten te gaan via de voordeur.
+Met de koevoet (crowbar) kan je de voordeur "openbreken" en naar buiten (OutsideRoom) gaan.
 
-De speler heeft alle benodigde items gevonden naar buiten te gaan via de voordeur.
-Eenmaal buiten (OutsideRoom) ziet de speler dat er een hek is, die gesloten is.
+Wanneer je buiten bent (OutsideRoom) zie je een schuur (ShedRoom), de speler kan hier naar binnen door op de schuur (ShedRoom) te klikken.
+Daarnaast zie je ook een hek die gesloten is.
+In de schuur (ShedRoom) ziet de speler een auto die onder het bloed zit en een vriezer die dicht is.
+Wanneer de speler op de auto klikt, komt de speler er achter dat de sleutel in het contact zit maar de auto niet start.
+Wanneer de speler op de vriezer klikt zal deze open gaan en ligt er een lijk in de vriezer, in de vriezer ligt een metaalzaag waarmee het hek misschien geopend kan worden.
+
 Om de hek te openen heeft de speler een item nodig om het slot open te breken.
 Je kan meerdere items vinden om de hek op meerdere manieren open te maken.
-Een paar ervan zijn: 
+Een paar ervan zijn:  
+
 - Met een bom (C4)
 - Met een sleutel (key)
 - Met een wapen (shotgun)
 - Met een koevoet (crowbar)
 - Met een slijptol (grinder)
+- Met een metaalzaag (saw)
 
----
+
 **Easter eggs:**
 Bom (c4)
 Geld (money)
 Dagboek (diary)
 
-# Milan LivingRoom Kitchen
+### Milan LivingRoom Kitchen
+
 LivingRoom:
 Player moet een zaklamp vinden in de storage room om de livingRoom te belichten. Hij kan de livingRoom betreden zonder zaklamp, maar dan kan hij niks doen tot hij de zaklamp, hebt. Als hij de zaklamp heeft, Dan ziet de player overal lichamen hangen, hij kan de keuken betreden met de zaklamp. In de LivingRoom zijn er geen verstop plekken.
 
