@@ -24,4 +24,4 @@ BodyPartItem De player kan deze verzamelen voor de ghostCharacter in de keuken. 
 
 LivingThingItem is iets levends die de player aan de GhostCharacter kan geven voor een extra beloning na zijn puzzel.
 
-BomItem Is een item die de player van de ghostCharacter krijgt. Hiermee kan de player de hek buiten opblazen en ontsnappen.
+BomBItem Is een item die de player van de ghostCharacter krijgt. Hiermee kan de player de hek buiten opblazen en ontsnappen.
