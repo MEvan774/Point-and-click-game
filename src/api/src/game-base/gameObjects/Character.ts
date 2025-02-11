@@ -15,6 +15,19 @@ export abstract class Character extends GameObject implements Talk {
      */
     protected constructor(alias: string) {
         super(alias);
+        this.onClickTalk();
+    }
+
+    /**
+     * Start talk when clicked on character
+     */
+    private onClickTalk() {
+        const character: HTMLElement | null = document.getElementById(this.alias);
+
+        if (!character) return;
+        character.addEventListener("click", () => {
+            this.talk();
+        })
     }
 
     /**
