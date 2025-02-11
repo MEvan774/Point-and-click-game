@@ -27,7 +27,7 @@ export abstract class Character extends GameObject implements Talk {
         if (!character) return;
         character.addEventListener("click", () => {
             this.talk();
-        })
+        });
     }
 
     /**
