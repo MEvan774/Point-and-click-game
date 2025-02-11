@@ -9,5 +9,3 @@ De ontvoerder, De player moet hem vermijden en verstoppen om niet gevangen te wo
 De GhostCharacter of gedaante die staat in de keuken. hij vraagt de player voor lichaams delen om in de pan te doen. Als de player de juiste lichaams delen heeft gevonden, krijgt hij een crowbar.
 
 mirrorChar: Een geest in de spiegel in de Storage room. Wanneer de speler in de spiegel kijkt kan hij interacteren met dit character. Als hij dit doet krijgt hij een raadsel van de character. Wanneer de speler het goede antwoord geeft wordt de kamer belicht en wordt de geest omgewisseld met het spiegelbeeld van de speler. Ook verschijnt er een code op de spiegel waarmee de speler een kluis met de flashlight kan openen. De mirrorChar is een zwarte schim met rode vlekken voor ogen als het enige opvallende kenmerk.
-
-corpseChar: Een lijk die in de vriezer van de schuur (ShedRoom) ligt. Je kan de metaalzaag in de vriezer pakken nadat je jouw excuses aan het lijk aanbiedt. Dit wordt gevolgd door een jumpscare en het daadwerkelijk pakken van de metaalzaag.

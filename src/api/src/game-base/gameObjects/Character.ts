@@ -1,4 +1,4 @@
-import { ActionResult } from "../actionResults/ActionResult";
+import { ActionResult, ActionResult } from "../actionResults/ActionResult";
 import { Talk } from "../actions/TalkAction";
 import { GameObject } from "./GameObject";
 
@@ -26,12 +26,32 @@ export abstract class Character extends GameObject implements Talk {
 
         if (!character) return;
         character.addEventListener("click", () => {
-            this.talk();
+            this.talk(0);
         })
     }
 
     /**
+     * @param choiceId The ID of the choice made (Optional)
+     * @returns Result of the action
+     * 
      * @inheritdoc
      */
     public abstract talk(choiceId?: number): ActionResult | undefined;
+}
+
+export class NPC extends Character {
+    constructor(alias: string) {
+        super(alias);
+    }
+
+    public talk(choiceId?: number): ActionResult | undefined {
+        if (choiceId === 0) {
+            console.log("test.");
+            return undefined;
+        }
+        else {
+            console.log("test2");
+            return undefined;
+        }
+    }
 }
