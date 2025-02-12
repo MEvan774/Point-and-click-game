@@ -44,7 +44,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
-            knowsAboutCode: false,
+            walkedToMirror: false,
+            solvedRiddle: false,
             knowsAboutSafe: false,
             safeOpened: false,
         };

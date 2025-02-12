@@ -2,11 +2,12 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TalkActionResult } from "../../game-base/actionResults/TalkActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
-import { TalkChoice } from "../../game-base/actions/TalkAction";
+import { Talk, TalkChoice } from "../../game-base/actions/TalkAction";
 import { Character } from "../../game-base/gameObjects/Character";
 import { gameService } from "../../global";
+import { PlayerSession } from "../types";
 
-export class MirrorCharacter extends Character implements Examine {
+export class MirrorCharacter extends Character implements Examine, Talk {
     public static readonly Alias: string = "ghost in the mirror";
 
     public constructor() {
@@ -25,6 +26,7 @@ export class MirrorCharacter extends Character implements Examine {
     }
 
     public talk(choiceId?: number): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         if (choiceId === 1) {
             return new TalkActionResult(
                 this,
@@ -38,20 +40,33 @@ export class MirrorCharacter extends Character implements Examine {
             )
         }
         else if (choiceId === 3) {
-            gameService.getPlayerSession().knowsAboutCode = true;
-            return new TextActionResult(["Ok, sure it's 9999."]);
+            playerSession.solvedRiddle = true;
+            return new TalkActionResult(
+                this,
+                [
+                    "Oh, the light turned on.",
+                    "There are numbers written on the mirror,",
+                    "Maybe this is the code for the safe?",
+                ],
+                [
+                    new TalkChoice(2, "Walk away."),
+                ]
+            );
         }
         else if (choiceId === 2 || choiceId === 4) {
+            playerSession.walkedToMirror = false;
             return new TextActionResult(["You walk away from the mirror."]);
         }
         else if (choiceId === 5) {
+            playerSession.walkedToMirror = false;
             return new TextActionResult([
                 "...",
-                "That's a stupid question."
+                "That's a stupid question.",
+                "You walk away from the mirror."
             ]);
         }
 
-        if (gameService.getPlayerSession().knowsAboutSafe) {
+        if (playerSession.knowsAboutSafe) {
             return new TalkActionResult(
                 this,
                 [

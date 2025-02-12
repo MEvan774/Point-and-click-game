@@ -10,6 +10,8 @@ import { MirrorCharacter } from "../characters/MirrorCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { SafeItem } from "../items/SafeItem";
 import { OpenAction } from "../actions/OpenAction";
+import { gameService } from "../../global";
+import { PlayerSession } from "../types";
 
 /**
  * Implemention of the storage room
@@ -36,7 +38,19 @@ export class StorageRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["storageRoom"];
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        const result: string[] = ["lightMirror"];
+
+        if (!playerSession.solvedRiddle) {
+            result.push("darkMirror");
+        }
+
+        if (!playerSession.walkedToMirror) {
+            result.push("storageRoom");
+        }
+
+        return result;
     }
 
     public objects(): SyncOrAsync<GameObject[]> {

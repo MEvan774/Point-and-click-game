@@ -4,6 +4,7 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { gameService } from "../../global";
 import { Open } from "../actions/OpenAction";
+import { PlayerSession } from "../types";
 
 export class SafeItem extends Item implements Examine, Open {
     public static readonly Alias: string = "Safe";
@@ -17,18 +18,31 @@ export class SafeItem extends Item implements Examine, Open {
     }
 
     public examine(): ActionResult | undefined {
-        gameService.getPlayerSession().knowsAboutSafe = true;
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.knowsAboutSafe = true;
 
-        return new TextActionResult([
-            "There is a safe in the closet.",
-            "The safe has a keypad on it.",
-            "Maybe someone knows the code?",
-        ]);
+        if (!playerSession.safeOpened) {
+            return new TextActionResult([
+                "There is a safe in the closet.",
+                "The safe has a keypad on it.",
+                "Maybe someone knows the code?",
+            ]);
+        }
+
+        return new TextActionResult(["The safe is open."]);
     }
 
     public open(): ActionResult | undefined {
-        if (gameService.getPlayerSession().knowsAboutCode) {
-            gameService.getPlayerSession().safeOpened = true;
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (!playerSession.solvedRiddle) {
+            return new TextActionResult([
+                "You need a code to open the safe.",
+                "Maybe try looking around?",
+            ])
+        }
+        else if (!playerSession.safeOpened) {
+            playerSession.safeOpened = true;
 
             return new TextActionResult([
                 "You put the code you got into the safe.",
@@ -36,11 +50,7 @@ export class SafeItem extends Item implements Examine, Open {
                 "It works! You found the flashlight.",
             ])
         }
-        else {
-            return new TextActionResult([
-                "You need a code to open the safe.",
-                "Maybe try looking around?",
-            ])
-        }
+
+        return new TextActionResult(["The safe is already open."]);
     }
 }
