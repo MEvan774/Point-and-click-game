@@ -3,6 +3,8 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
+import { MirrorItem } from "../items/MirrorItem";
+import { ExamineAction } from "../../game-base/actions/ExamineAction";
 
 /**
  * Implemention of the storage room
@@ -33,11 +35,15 @@ export class StorageRoom extends Room {
     }
 
     public objects(): SyncOrAsync<GameObject[]> {
-        return [];
+        return [
+            new MirrorItem(),
+        ];
     }
 
     public actions(): SyncOrAsync<Action[]> {
-        return [];
+        return [
+            new ExamineAction(),
+        ];
     }
 
     /**

@@ -15,7 +15,7 @@ export abstract class Item extends GameObject {
         super(alias);
     }
 
-    protected OnPickupItem() <void> {
+    //protected OnPickupItem() <void> {
 
-    }
+    //}
 }

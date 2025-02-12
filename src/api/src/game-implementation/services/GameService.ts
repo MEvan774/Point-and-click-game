@@ -4,6 +4,7 @@ import { StartupRoom } from "../rooms/StartupRoom";
 import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
 import { StorageRoom } from "../rooms/StorageRoom";
+import { MirrorItem } from "../items/MirrorItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -18,6 +19,9 @@ export class GameService extends BaseGameService<PlayerSession> {
         // Rooms
         this.registerGameObject(StartupRoom);
         this.registerGameObject(StorageRoom);
+
+        // Items
+        this.registerGameObject(MirrorItem);
 
         // Actions
         this.registerAction(OpenAction);
