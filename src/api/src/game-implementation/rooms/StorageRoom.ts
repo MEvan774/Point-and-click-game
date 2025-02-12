@@ -5,6 +5,7 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { MirrorItem } from "../items/MirrorItem";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
+import { GoToAction } from "../actions/GoToAction";
 
 /**
  * Implemention of the storage room
@@ -43,6 +44,7 @@ export class StorageRoom extends Room {
     public actions(): SyncOrAsync<Action[]> {
         return [
             new ExamineAction(),
+            new GoToAction(),
         ];
     }
 

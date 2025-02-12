@@ -5,6 +5,7 @@ import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
 import { StorageRoom } from "../rooms/StorageRoom";
 import { MirrorItem } from "../items/MirrorItem";
+import { GoToAction } from "../actions/GoToAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -25,6 +26,7 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Actions
         this.registerAction(OpenAction);
+        this.registerAction(GoToAction);
     }
 
     /**
