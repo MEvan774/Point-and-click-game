@@ -15,12 +15,22 @@ export abstract class Character extends GameObject implements Talk {
      */
     protected constructor(alias: string) {
         super(alias);
+        this.onClickTalk();
     }
 
     /**
-     * @param choiceId The ID of the choice made (Optional)
-     * @returns Result of the action
-     * 
+     * Start talk when clicked on character
+     */
+    private onClickTalk() {
+        const character: HTMLElement | null = document.getElementById(this.alias);
+
+        if (!character) return;
+        character.addEventListener("click", () => {
+            this.talk();
+        });
+    }
+
+    /**
      * @inheritdoc
      */
     public abstract talk(choiceId?: number): ActionResult | undefined;
