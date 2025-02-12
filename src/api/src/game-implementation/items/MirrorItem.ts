@@ -16,10 +16,10 @@ export class MirrorItem extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["The mirror stares back at you."]);
+        return new TextActionResult(["It looks like someone is staring at you..."]);
     }
 
     public goto(): ActionResult | undefined {
-        return new TextActionResult(["You go to the mirror."]);
+        return new TextActionResult(["You go up to the mirror."]);
     }
 }

@@ -6,6 +6,10 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { MirrorItem } from "../items/MirrorItem";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GoToAction } from "../actions/GoToAction";
+import { MirrorCharacter } from "../characters/MirrorCharacter";
+import { TalkAction } from "../../game-base/actions/TalkAction";
+import { SafeItem } from "../items/SafeItem";
+import { OpenAction } from "../actions/OpenAction";
 
 /**
  * Implemention of the storage room
@@ -38,6 +42,8 @@ export class StorageRoom extends Room {
     public objects(): SyncOrAsync<GameObject[]> {
         return [
             new MirrorItem(),
+            new MirrorCharacter(),
+            new SafeItem(),
         ];
     }
 
@@ -45,6 +51,8 @@ export class StorageRoom extends Room {
         return [
             new ExamineAction(),
             new GoToAction(),
+            new TalkAction(),
+            new OpenAction(),
         ];
     }
 
