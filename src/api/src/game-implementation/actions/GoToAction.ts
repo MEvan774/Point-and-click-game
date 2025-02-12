@@ -24,5 +24,8 @@ export class GoToAction extends Action {
         if (gameObject.instanceOf(GoTo)) {
             return gameObject.goto();
         }
+        else {
+            return undefined;
+        }
     }
 }
