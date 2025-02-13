@@ -31,7 +31,7 @@ Weet zelf niet precies waar ik mijn handen moet laten als ik niet aan de beurt b
 
 Arsalaan: Je kunt je armen het beste naast je lichaam laten hangen in plaats van (half) in je zakken. Gebruik het om extra ‘kracht’ achter je verhaal te zetten door bijvoorbeeld te duiden met je handen. Werk aan je mimiek: laat het zien in je gezicht als je praat over iets wat je tof vindt (je product)! De intonatie van je stem mag gevarieerder.
 ### Reflectie
-TODO
+Dank u wel voor deze feedback. Ik zal de volgende keer proberen om meer variatie in mijn stem te hebben. Daarnaast zal ik mijn best doen om mijn handen te gebruiken, zoals wijzen naar het bord.
 
 ### Storyboard, overzichtskaart en dependency diagram (Software Ontwerpen)
 - Jullie Story Board prikkelt de fantasie en is veelbelovend. Puzzels oplossen onder tijdsdruk is goed gevonden. Ook de doelgroep is goed gevonden. Wel willen we meer details in het Story Board zien. Jullie hebben nu de high lights in de presentatie opgenomen. 
