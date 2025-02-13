@@ -41,14 +41,16 @@ export class StorageRoom extends Room {
     public images(): string[] {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
-        const result: string[] = ["lightMirror"];
+        const result: string[] = [];
 
         if (!playerSession.solvedRiddle) {
             result.push("darkMirror");
         }
-
-        if (!playerSession.walkedToMirror) {
+        else if (!playerSession.walkedToMirror) {
             result.push("storageRoom");
+        }
+        else {
+            result.push("lightMirror");
         }
 
         return result;

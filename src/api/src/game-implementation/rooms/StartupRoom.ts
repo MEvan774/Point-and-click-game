@@ -40,7 +40,10 @@ export class StartupRoom extends Room implements Simple {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new SimpleAction("start-game", "Start Game")];
+        return [
+            new SimpleAction("start-game", "Start Game"),
+            new SimpleAction("to-storage", "To storage room"),
+        ];
     }
 
     /**
@@ -55,6 +58,14 @@ export class StartupRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "start-game") {
+            const room: Room = new StartupRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+
+        if (alias === "to-storage") {
             const room: Room = new StorageRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
