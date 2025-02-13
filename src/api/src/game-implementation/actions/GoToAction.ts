@@ -1,29 +1,28 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
-import { SafeItem } from "../items/SafeItem";
 
 @Interface
-export abstract class Open {
-    public abstract open(): ActionResult | undefined;
+export abstract class GoTo {
+    public abstract goto(): ActionResult | undefined;
 }
 
-export class OpenAction extends Action {
-    public static readonly Alias: string = "open";
+export class GoToAction extends Action {
+    public static readonly Alias: string = "go to";
 
     public constructor() {
-        super(OpenAction.Alias, true);
+        super(GoToAction.Alias, true);
     }
 
     public name(): string {
-        return "Open";
+        return "Go to";
     }
 
     public execute(_alias: string, gameObjects: GameObject[]): ActionResult | undefined {
         const gameObject: GameObject = gameObjects[0];
 
-        if (gameObject.instanceOf(Open)) {
-            return gameObject.open();
+        if (gameObject.instanceOf(GoTo)) {
+            return gameObject.goto();
         }
         else {
             return undefined;

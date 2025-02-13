@@ -3,6 +3,13 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { StartupRoom } from "../rooms/StartupRoom";
 import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
+import { StorageRoom } from "../rooms/StorageRoom";
+import { MirrorItem } from "../items/MirrorItem";
+import { GoToAction } from "../actions/GoToAction";
+import { MirrorCharacter } from "../characters/MirrorCharacter";
+import { TalkAction } from "../../game-base/actions/TalkAction";
+import { SafeItem } from "../items/SafeItem";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -16,9 +23,20 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Rooms
         this.registerGameObject(StartupRoom);
+        this.registerGameObject(StorageRoom);
+
+        // Items
+        this.registerGameObject(MirrorItem);
+        this.registerGameObject(SafeItem);
+        this.registerGameObject(DoorStorageHallwayItem);
+
+        // Characters
+        this.registerGameObject(MirrorCharacter);
 
         // Actions
         this.registerAction(OpenAction);
+        this.registerAction(GoToAction);
+        this.registerAction(TalkAction);
     }
 
     /**
@@ -28,6 +46,10 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
+            walkedToMirror: false,
+            solvedRiddle: false,
+            knowsAboutSafe: false,
+            safeOpened: false,
         };
     }
 

@@ -8,4 +8,9 @@ export type PlayerSession = {
     currentRoom: string;
     /** List of game object aliases the player owns */
     inventory: string[];
+
+    walkedToMirror: boolean;
+    knowsAboutSafe: boolean;
+    solvedRiddle: boolean;
+    safeOpened: boolean;
 };

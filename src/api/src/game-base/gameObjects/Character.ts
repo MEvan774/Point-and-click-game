@@ -1,4 +1,4 @@
-import { ActionResult, ActionResult } from "../actionResults/ActionResult";
+import { ActionResult } from "../actionResults/ActionResult";
 import { Talk } from "../actions/TalkAction";
 import { GameObject } from "./GameObject";
 
@@ -15,24 +15,6 @@ export abstract class Character extends GameObject implements Talk {
      */
     protected constructor(alias: string) {
         super(alias);
-        this.onClickTalk();
-    }
-
-    /**
-     * Start talk when clicked on character
-     */
-    private onClickTalk() {
-        const character: HTMLElement | null = document.getElementById(this.alias);
-
-        if (!character) return;
-        character.addEventListener("click", () => {
-<<<<<<< HEAD
-            this.talk(0);
-        })
-=======
-            this.talk();
-        });
->>>>>>> d048f2873f4ab71e9d24fe62a82c34aa0e88cdfd
     }
 
     /**
@@ -42,21 +24,4 @@ export abstract class Character extends GameObject implements Talk {
      * @inheritdoc
      */
     public abstract talk(choiceId?: number): ActionResult | undefined;
-}
-
-export class NPC extends Character {
-    constructor(alias: string) {
-        super(alias);
-    }
-
-    public talk(choiceId?: number): ActionResult | undefined {
-        if (choiceId === 0) {
-            console.log("test.");
-            return undefined;
-        }
-        else {
-            console.log("test2");
-            return undefined;
-        }
-    }
 }
