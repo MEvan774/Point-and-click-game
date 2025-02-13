@@ -13,7 +13,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
     public constructor() {
         super(MirrorCharacter.Alias);
     }
-    
+
     public name(): string {
         return "Mirror Character";
     }
@@ -22,7 +22,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
         return new TextActionResult([
             "The mirror stares back at you.",
             "Maybe try talking to it?",
-        ])
+        ]);
     }
 
     public talk(choiceId?: number): ActionResult | undefined {
@@ -31,13 +31,13 @@ export class MirrorCharacter extends Character implements Examine, Talk {
             return new TalkActionResult(
                 this,
                 [
-                    "Why do you want to know?"
+                    "Why do you want to know?",
                 ],
                 [
                     new TalkChoice(3, "I want to escape from here."),
                     new TalkChoice(4, "Nevermind."),
                 ]
-            )
+            );
         }
         else if (choiceId === 3) {
             playerSession.solvedRiddle = true;
@@ -62,7 +62,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
             return new TextActionResult([
                 "...",
                 "That's a stupid question.",
-                "You walk away from the mirror."
+                "You walk away from the mirror.",
             ]);
         }
 
@@ -91,9 +91,5 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
-    }
-
-    public open(): ActionResult | undefined {
-        return undefined;
     }
 }

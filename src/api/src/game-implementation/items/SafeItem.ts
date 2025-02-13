@@ -39,16 +39,17 @@ export class SafeItem extends Item implements Examine, Open {
             return new TextActionResult([
                 "You need a code to open the safe.",
                 "Maybe try looking around?",
-            ])
+            ]);
         }
         else if (!playerSession.safeOpened) {
             playerSession.safeOpened = true;
+            playerSession.inventory.push("FlashlightItem");
 
             return new TextActionResult([
                 "You put the code you got into the safe.",
                 "...",
                 "It works! You found the flashlight.",
-            ])
+            ]);
         }
 
         return new TextActionResult(["The safe is already open."]);

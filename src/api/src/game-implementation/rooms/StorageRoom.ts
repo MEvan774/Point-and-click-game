@@ -43,7 +43,7 @@ export class StorageRoom extends Room {
 
         const result: string[] = [];
 
-        if (!playerSession.solvedRiddle) {
+        if (!playerSession.solvedRiddle && playerSession.walkedToMirror) {
             result.push("darkMirror");
         }
         else if (!playerSession.walkedToMirror) {
