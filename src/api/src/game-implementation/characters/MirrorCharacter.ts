@@ -89,7 +89,11 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     new TalkChoice(5, "Hello? Is someone there?"),
                     new TalkChoice(2, "Walk away."),
                 ]
-            )
+            );
         }
+    }
+
+    public open(): ActionResult | undefined {
+        return undefined;
     }
 }

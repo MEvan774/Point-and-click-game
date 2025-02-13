@@ -12,6 +12,7 @@ import { SafeItem } from "../items/SafeItem";
 import { OpenAction } from "../actions/OpenAction";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
 
 /**
  * Implemention of the storage room
@@ -53,15 +54,16 @@ export class StorageRoom extends Room {
         return result;
     }
 
-    public objects(): SyncOrAsync<GameObject[]> {
+    public objects(): GameObject[] {
         return [
             new MirrorItem(),
             new MirrorCharacter(),
             new SafeItem(),
+            new DoorStorageHallwayItem(),
         ];
     }
 
-    public actions(): SyncOrAsync<Action[]> {
+    public actions(): Action[] {
         return [
             new ExamineAction(),
             new GoToAction(),
@@ -74,6 +76,8 @@ export class StorageRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToMirror = false;
+
         return new TextActionResult([
             "The room is dark, and there is a strong smell of blood.",
             "You can see something in the mirror",

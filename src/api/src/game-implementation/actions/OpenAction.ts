@@ -1,6 +1,7 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
+import { SafeItem } from "../items/SafeItem";
 
 @Interface
 export abstract class Open {
@@ -20,7 +21,7 @@ export class OpenAction extends Action {
 
     public execute(_alias: string, gameObjects: GameObject[]): ActionResult | undefined {
         const gameObject: GameObject = gameObjects[0];
-        
+
         if (gameObject.instanceOf(Open)) {
             return gameObject.open();
         }
