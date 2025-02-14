@@ -13,10 +13,12 @@ import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
 import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
 import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
 import { StairsDownStairsItem } from "../items/StairsDownstairsItem";
-import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
 import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
 import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
+import { ClosetItem } from "../items/Closetitem";
+import { HideAction } from "../actions/HideAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -43,6 +45,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(StairsDownStairsItem);
         this.registerGameObject(DoorOfficeHallwayItem);
         this.registerGameObject(DiaryItem);
+        this.registerGameObject(ClosetItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -51,6 +54,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(OpenAction);
         this.registerAction(GoToAction);
         this.registerAction(TalkAction);
+        this.registerAction(HideAction);
     }
 
     /**
