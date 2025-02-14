@@ -7,19 +7,23 @@ import { StartupRoom } from "../rooms/StartupRoom";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
 
-export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "DoorStorageHallwayItem";
+export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "DoorFrontDoorOutsideItem";
 
     public constructor() {
-        super(DoorStorageHallwayItem.Alias);
+        super(DoorFrontDoorOutsideItem.Alias);
     }
 
     public name(): string {
-        return "Hallway";
+        return "Outside";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This door leads back to the hallway."]);
+        return new TextActionResult([
+            "This is the door to get outside.",
+            "It is locked.",
+            "Seems like you need a key and something to get the planks of the door.",
+        ]);
     }
 
     public goto(): ActionResult | undefined {

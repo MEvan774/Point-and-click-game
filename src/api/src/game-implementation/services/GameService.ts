@@ -10,6 +10,10 @@ import { MirrorCharacter } from "../characters/MirrorCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { SafeItem } from "../items/SafeItem";
 import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
+import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
+import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
+import { StairsDownStairsItem } from "../items/StairsDownstairsItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -24,11 +28,15 @@ export class GameService extends BaseGameService<PlayerSession> {
         // Rooms
         this.registerGameObject(StartupRoom);
         this.registerGameObject(StorageRoom);
+        this.registerGameObject(FrontDoorRoom);
 
         // Items
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
+        this.registerGameObject(DoorFrontDoorLivingRoomItem);
+        this.registerGameObject(DoorFrontDoorOutsideItem);
+        this.registerGameObject(StairsDownStairsItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);

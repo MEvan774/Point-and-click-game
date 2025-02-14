@@ -59,14 +59,17 @@ export class StorageRoom extends Room {
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new MirrorItem(),
-            new SafeItem(),
-            new DoorStorageHallwayItem(),
         ];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
             objects.push(new MirrorCharacter());
+        }
+
+        if (!playerSession.walkedToMirror) {
+            objects.push(new SafeItem());
+            objects.push(new DoorStorageHallwayItem());
         }
 
         return objects;
