@@ -12,7 +12,7 @@ import { SafeItem } from "../items/SafeItem";
 import { OpenAction } from "../actions/OpenAction";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
-import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
 
 /**
  * Implemention of the storage room
