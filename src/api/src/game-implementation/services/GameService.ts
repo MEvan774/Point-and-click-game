@@ -9,6 +9,11 @@ import { GoToAction } from "../actions/GoToAction";
 import { MirrorCharacter } from "../characters/MirrorCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { SafeItem } from "../items/SafeItem";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
+import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
+import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
+import { StairsDownStairsItem } from "../items/StairsDownstairsItem";
 import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
 import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
 import { WorkRoom } from "../rooms/WorkRoom";
@@ -27,12 +32,16 @@ export class GameService extends BaseGameService<PlayerSession> {
         // Rooms
         this.registerGameObject(StartupRoom);
         this.registerGameObject(StorageRoom);
+        this.registerGameObject(FrontDoorRoom);
         this.registerGameObject(WorkRoom);
 
         // Items
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
-        this.registerGameObject(DoorStorageHallwayItem);
+        this.registerGameObject(DoorStorageHallwayItem);\
+        this.registerGameObject(DoorFrontDoorLivingRoomItem);
+        this.registerGameObject(DoorFrontDoorOutsideItem);
+        this.registerGameObject(StairsDownStairsItem);
         this.registerGameObject(DoorOfficeHallwayItem);
         this.registerGameObject(DiaryItem);
 

@@ -92,8 +92,4 @@ export class MirrorCharacter extends Character implements Examine, Talk {
             );
         }
     }
-
-    public open(): ActionResult | undefined {
-        return undefined;
-    }
 }

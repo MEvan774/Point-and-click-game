@@ -4,6 +4,7 @@ import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { FrontDoorRoom } from "./FrontDoorRoom";
 import { WorkRoom } from "./WorkRoom";
 import { StorageRoom } from "./StorageRoom";
 
@@ -44,6 +45,7 @@ export class StartupRoom extends Room implements Simple {
         return [
             new SimpleAction("start-game", "Start Game"),
             new SimpleAction("to-storage", "To storage room"),
+            new SimpleAction("to-front-door", "To front door"),
             new SimpleAction("to-office", "To office"),
         ];
     }
@@ -69,6 +71,14 @@ export class StartupRoom extends Room implements Simple {
 
         if (alias === "to-storage") {
             const room: Room = new StorageRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+
+        if (alias === "to-front-door") {
+            const room: Room = new FrontDoorRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
 

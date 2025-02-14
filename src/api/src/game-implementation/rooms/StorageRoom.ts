@@ -43,7 +43,7 @@ export class StorageRoom extends Room {
 
         const result: string[] = [];
 
-        if (!playerSession.solvedRiddle) {
+        if (!playerSession.solvedRiddle && playerSession.walkedToMirror) {
             result.push("darkMirror");
         }
         else if (!playerSession.walkedToMirror) {
@@ -57,12 +57,22 @@ export class StorageRoom extends Room {
     }
 
     public objects(): GameObject[] {
-        return [
+        const objects: GameObject[] = [
             new MirrorItem(),
-            new MirrorCharacter(),
-            new SafeItem(),
-            new DoorStorageHallwayItem(),
         ];
+
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+            objects.push(new MirrorCharacter());
+        }
+
+        if (!playerSession.walkedToMirror) {
+            objects.push(new SafeItem());
+            objects.push(new DoorStorageHallwayItem());
+        }
+
+        return objects;
     }
 
     public actions(): Action[] {

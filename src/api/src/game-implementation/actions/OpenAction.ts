@@ -1,7 +1,6 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
-import { SafeItem } from "../items/SafeItem";
 
 @Interface
 export abstract class Open {
