@@ -9,7 +9,10 @@ import { GoToAction } from "../actions/GoToAction";
 import { MirrorCharacter } from "../characters/MirrorCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { SafeItem } from "../items/SafeItem";
-import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayitem";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
+import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
+import { WorkRoom } from "../rooms/WorkRoom";
+import { DiaryItem } from "../items/DiaryItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -24,11 +27,14 @@ export class GameService extends BaseGameService<PlayerSession> {
         // Rooms
         this.registerGameObject(StartupRoom);
         this.registerGameObject(StorageRoom);
+        this.registerGameObject(WorkRoom);
 
         // Items
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
+        this.registerGameObject(DoorOfficeHallwayItem);
+        this.registerGameObject(DiaryItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
