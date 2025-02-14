@@ -2,31 +2,29 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Item } from "../../game-base/gameObjects/Item";
+import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
-import { PickUp } from "../actions/PickUpAction";
 
-export class DiaryItem extends Item implements Examine, PickUp {
-    public static readonly Alias: string = "Diary";
+export class DeskItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "Desk";
 
     public constructor() {
-        super(DiaryItem.Alias);
+        super(DeskItem.Alias);
     }
 
     public name(): string {
-        return "Diary";
+        return "Desk";
     }
 
     public examine(): ActionResult | undefined {
         return new TextActionResult ([
-            "This looks like a diary, maybe I need to pick it up.",
+            "There appears to be something on the desk. It looks like a diary.",
         ]);
     }
 
-    public pickup(): ActionResult | undefined {
+    public goto(): ActionResult | undefined {
         gameService.getPlayerSession().walkedToDesk = true;
 
-        return new TextActionResult([
-            "You have picked up the diary.",
-        ]);
+        return new TextActionResult(["You walk to the front of the desk."]);
     }
 }
