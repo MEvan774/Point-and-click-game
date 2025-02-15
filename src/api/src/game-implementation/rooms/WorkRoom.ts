@@ -1,12 +1,12 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
-import { ExamineAction } from "../../game-base/actions/ExamineAction";
+import { Examine, ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { PickUpAction } from "../actions/PickUpAction";
+import { PickUp, PickUpAction } from "../actions/PickUpAction";
 import { DeskItem } from "../items/DeskItem";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
@@ -15,7 +15,7 @@ import { PlayerSession } from "../types";
 /**
  * Implemention of the storage room
  */
-export class WorkRoom extends Room {
+export class WorkRoom extends Room implements Examine, PickUp {
     /** Alias of this room */
     public static readonly Alias: string = "workroom";
 
@@ -68,6 +68,24 @@ export class WorkRoom extends Room {
         }
 
         return actions;
+    }
+
+    public pickup(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (!playerSession.pickedUpDiary) {
+            playerSession.pickedUpDiary = true;
+            playerSession.inventory.push("DiaryItem");
+
+            return new TextActionResult([
+                "You have picked up the diary",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "You should probably pick up the diary.",
+            ]);
+        }
     }
 
     /**
