@@ -3,6 +3,11 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { StartupRoom } from "../rooms/StartupRoom";
 import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
+import { BedroomRoom } from "../rooms/BedroomRoom";
+import { BathroomRoom } from "../rooms/Bathroomroom";
+import { DoorBedroomItem } from "../items/DoorBedroomItem";
+import { PickUpAction } from "../actions/PickUpAction";
+import { GoToAction } from "../actions/GoToAction";
 import { StorageRoom } from "../rooms/StorageRoom";
 import { MirrorItem } from "../items/MirrorItem";
 import { GoToAction } from "../actions/GoToAction";
@@ -32,6 +37,16 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Rooms
         this.registerGameObject(StartupRoom);
+        this.registerGameObject(BedroomRoom);
+        this.registerGameObject(BathroomRoom);
+
+        // Actions
+        this.registerAction(OpenAction);
+        this.registerAction(PickUpAction);
+        this.registerAction(GoToAction);
+
+        // Items
+        this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(StorageRoom);
         this.registerGameObject(FrontDoorRoom);
         this.registerGameObject(WorkRoom);

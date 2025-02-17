@@ -4,6 +4,8 @@ import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { BathroomRoom } from "./Bathroomroom";
+import { BedroomRoom } from "./BedroomRoom";
 import { FrontDoorRoom } from "./FrontDoorRoom";
 import { WorkRoom } from "./WorkRoom";
 import { StorageRoom } from "./StorageRoom";
@@ -44,6 +46,8 @@ export class StartupRoom extends Room implements Simple {
     public actions(): Action[] {
         return [
             new SimpleAction("start-game", "Start Game"),
+            new SimpleAction("to-bathroom", "Go to bathroom"),
+            new SimpleAction("to-bedroom", "Go to bedroom"),
             new SimpleAction("to-storage", "To storage room"),
             new SimpleAction("to-front-door", "To front door"),
             new SimpleAction("to-office", "To office"),
@@ -62,12 +66,18 @@ export class StartupRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "start-game") {
+            // TODO: Change this to the actual first room of the game
+            const room: Room = new BedroomRoom();
+
             const room: Room = new StartupRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
 
             return room.examine();
         }
+
+        if (alias === "to-bathroom") {
+            const room: Room = new BathroomRoom();
 
         if (alias === "to-storage") {
             const room: Room = new StorageRoom();
@@ -76,6 +86,9 @@ export class StartupRoom extends Room implements Simple {
 
             return room.examine();
         }
+
+        if (alias === "to-bedroom") {
+            const room: Room = new BedroomRoom();
 
         if (alias === "to-front-door") {
             const room: Room = new FrontDoorRoom();
