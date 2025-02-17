@@ -20,7 +20,7 @@ export class StairsDownStairsItem extends Item implements Examine, GoTo {
 
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "The stairs to go upstairs.",
+            "The stairs to go upstairs",
         ]);
     }
 

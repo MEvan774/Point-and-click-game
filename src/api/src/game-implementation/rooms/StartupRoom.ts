@@ -89,8 +89,6 @@ export class StartupRoom extends Room implements Simple {
             const room: Room = new WorkRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
-
-            return room.examine();
         }
 
         return undefined;

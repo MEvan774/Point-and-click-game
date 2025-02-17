@@ -13,8 +13,6 @@ import { OpenAction } from "../actions/OpenAction";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
 import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
-import { HideAction } from "../actions/HideAction";
-import { ClosetItem } from "../items/Closetitem";
 
 /**
  * Implemention of the storage room
@@ -72,7 +70,6 @@ export class StorageRoom extends Room {
         if (!playerSession.walkedToMirror) {
             objects.push(new SafeItem());
             objects.push(new DoorStorageHallwayItem());
-            objects.push(new ClosetItem());
         }
 
         return objects;
@@ -84,7 +81,6 @@ export class StorageRoom extends Room {
             new GoToAction(),
             new TalkAction(),
             new OpenAction(),
-            new HideAction(),
         ];
     }
 
