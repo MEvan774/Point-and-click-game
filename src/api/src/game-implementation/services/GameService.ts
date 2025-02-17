@@ -24,6 +24,7 @@ import { ClosetItem } from "../items/Closetitem";
 import { HideAction } from "../actions/HideAction";
 import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
+import { CenterStorageItem } from "../items/CenterStorageItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -62,6 +63,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DiaryItem);
         this.registerGameObject(ClosetItem);
         this.registerGameObject(DeskItem);
+        this.registerGameObject(CenterStorageItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);

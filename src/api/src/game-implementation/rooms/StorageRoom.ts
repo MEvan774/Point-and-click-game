@@ -15,6 +15,7 @@ import { PlayerSession } from "../types";
 import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
 import { HideAction } from "../actions/HideAction";
 import { ClosetItem } from "../items/Closetitem";
+import { CenterStorageItem } from "../items/CenterStorageItem";
 
 /**
  * Implemention of the storage room
@@ -48,8 +49,11 @@ export class StorageRoom extends Room {
         if (!playerSession.solvedRiddle && playerSession.walkedToMirror) {
             result.push("darkMirror");
         }
-        else if (!playerSession.walkedToMirror) {
-            result.push("storageRoom");
+        else if (!playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+            result.push("StorageRoomDark");
+        }
+        else if (!playerSession.walkedToMirror && playerSession.solvedRiddle) {
+            result.push("StorageRoomLight");
         }
         else {
             result.push("lightMirror");
@@ -69,6 +73,10 @@ export class StorageRoom extends Room {
             objects.push(new MirrorCharacter());
         }
 
+        if (playerSession.walkedToMirror) {
+            objects.push(new CenterStorageItem());
+        }
+
         if (!playerSession.walkedToMirror) {
             objects.push(new SafeItem());
             objects.push(new DoorStorageHallwayItem());
@@ -79,13 +87,21 @@ export class StorageRoom extends Room {
     }
 
     public actions(): Action[] {
-        return [
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
-            new TalkAction(),
-            new OpenAction(),
-            new HideAction(),
         ];
+
+        if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+            actions.push(new TalkAction());
+        }
+        if (!playerSession.walkedToMirror) {
+            actions.push(new OpenAction());
+            actions.push(new HideAction());
+        }
+
+        return actions;
     }
 
     /**
