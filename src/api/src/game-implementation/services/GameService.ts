@@ -8,6 +8,22 @@ import { BathroomRoom } from "../rooms/Bathroomroom";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { GoToAction } from "../actions/GoToAction";
+import { StorageRoom } from "../rooms/StorageRoom";
+import { MirrorItem } from "../items/MirrorItem";
+import { GoToAction } from "../actions/GoToAction";
+import { MirrorCharacter } from "../characters/MirrorCharacter";
+import { TalkAction } from "../../game-base/actions/TalkAction";
+import { SafeItem } from "../items/SafeItem";
+import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
+import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
+import { StairsDownStairsItem } from "../items/StairsDownstairsItem";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
+import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
+import { WorkRoom } from "../rooms/WorkRoom";
+import { DiaryItem } from "../items/DiaryItem";
+import { DeskItem } from "../items/DeskItem";
+import { PickUpAction } from "../actions/PickUpAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -31,6 +47,29 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Items
         this.registerGameObject(DoorBedroomItem);
+        this.registerGameObject(StorageRoom);
+        this.registerGameObject(FrontDoorRoom);
+        this.registerGameObject(WorkRoom);
+
+        // Items
+        this.registerGameObject(MirrorItem);
+        this.registerGameObject(SafeItem);
+        this.registerGameObject(DoorStorageHallwayItem);
+        this.registerGameObject(DoorFrontDoorLivingRoomItem);
+        this.registerGameObject(DoorFrontDoorOutsideItem);
+        this.registerGameObject(StairsDownStairsItem);
+        this.registerGameObject(DoorOfficeHallwayItem);
+        this.registerGameObject(DiaryItem);
+        this.registerGameObject(DeskItem);
+
+        // Characters
+        this.registerGameObject(MirrorCharacter);
+
+        // Actions
+        this.registerAction(OpenAction);
+        this.registerAction(GoToAction);
+        this.registerAction(TalkAction);
+        this.registerAction(PickUpAction);
     }
 
     /**
@@ -40,6 +79,12 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
+            walkedToMirror: false,
+            solvedRiddle: false,
+            knowsAboutSafe: false,
+            safeOpened: false,
+            walkedToDesk: false,
+            pickedUpDiary: false,
         };
     }
 
