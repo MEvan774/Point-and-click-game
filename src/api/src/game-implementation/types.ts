@@ -13,4 +13,6 @@ export type PlayerSession = {
     knowsAboutSafe: boolean;
     solvedRiddle: boolean;
     safeOpened: boolean;
+    walkedToDesk: boolean;
+    pickedUpDiary: boolean;
 };

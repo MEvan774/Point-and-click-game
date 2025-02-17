@@ -33,9 +33,10 @@ const styles: string = css`
     }
 
     .header img {
-        width: auto;
-        height: 100%;
+        width: 1022px; /* Scale up while maintaining aspect ratio */
+        height: auto; /* Keeps aspect ratio */
         image-rendering: pixelated;
+        bottom: 0;
     }
 
     .header img:nth-child(n + 2) {
@@ -45,8 +46,16 @@ const styles: string = css`
     .content {
         flex-grow: 1;
         overflow: auto;
-        margin-top: 10px;
+        margin-top: 200px;
+        bottom: 0;
         padding: 0 10px;
+        z-index: 1;
+        background-color: #211e20;
+        height: 110px;
+        width: 833px;
+        box-shadow: 85px 85px 0px 85px #211e20;
+        -webkit-box-shadow: 85px 85px 0px 85px #211e20;
+        -moz-box-shadow: 85px 85px 0px 85px #211e20;
     }
 
     .content p {
@@ -58,15 +67,25 @@ const styles: string = css`
     }
 
     .footer {
-        border-radius: 10px 10px 0 0;
-        background-color: #52478b;
-        border: 1px solid #332c57;
         margin-top: 10px;
         display: flex;
         height: 105px;
+        border-radius: 10px 10px 0 0;
+        bottom: 0;
+        width: 523px;
+    }
+    .footer img {
+        image-rendering: pixelated; /* Keeps the pixelated look */
+  width: 1022px; /* Scale up while maintaining aspect ratio */
+  height: auto; /* Keeps aspect ratio */
+  position: absolute;
+  margin-top: -103px; /* Adjust as needed */
+  z-index: 1;
+  pointer-events: none;
     }
 
     .footer .buttons {
+        z-index: 2;
         display: flex;
         flex-direction: column;
         overflow: auto;
@@ -74,8 +93,9 @@ const styles: string = css`
     }
 
     .footer .button {
-        background-color: #7f6ed7;
-        border: 1px solid #332c57;
+        z-index: 1;
+        background-color: #e9efec;
+        color: #211e20;
         padding: 5px 10px;
         margin: 0 0 10px 10px;
         text-transform: uppercase;
@@ -86,7 +106,7 @@ const styles: string = css`
 
     .footer .button.active,
     .footer .button:hover {
-        background-color: #332c57;
+        background-color: #a0a08b;
     }
 `;
 
@@ -228,6 +248,7 @@ export class CanvasComponent extends HTMLElement {
     private renderFooter(): HTMLElement {
         return html`
             <div class="footer">
+                <img src="public/assets/img/ui/GameUI.png" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div>
                         ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
