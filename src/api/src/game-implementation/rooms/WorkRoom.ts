@@ -38,7 +38,7 @@ export class WorkRoom extends Room implements Examine, PickUp {
      */
     public images(): string[] {
         const result: string[] = [];
-        result.push("darkMirror");
+        result.push("OfficeRoom");
         return result;
     }
 
