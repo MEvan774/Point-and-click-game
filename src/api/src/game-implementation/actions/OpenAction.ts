@@ -19,6 +19,12 @@ export class OpenAction extends Action {
     }
 
     public execute(_alias: string, _gameObjects: GameObject[]): ActionResult | undefined {
+        const gameObject: GameObject = _gameObjects[0];
+
+        if (gameObject.instanceOf(Open)) {
+            return gameObject.open();
+        }
+
         return undefined;
     }
 }

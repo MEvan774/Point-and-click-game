@@ -4,6 +4,8 @@ import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { BathroomRoom } from "./Bathroomroom";
+import { BedroomRoom } from "./BedroomRoom";
 
 /**
  * Implemention of the startup room
@@ -39,7 +41,11 @@ export class StartupRoom extends Room implements Simple {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new SimpleAction("start-game", "Start Game")];
+        return [
+            new SimpleAction("start-game", "Start Game"),
+            new SimpleAction("to-bathroom", "Go to bathroom"),
+            new SimpleAction("to-bedroom", "Go to bedroom"),
+        ];
     }
 
     /**
@@ -55,9 +61,25 @@ export class StartupRoom extends Room implements Simple {
     public simple(alias: string): ActionResult | undefined {
         if (alias === "start-game") {
             // TODO: Change this to the actual first room of the game
-            const room: Room = new StartupRoom();
+            const room: Room = new BedroomRoom();
 
             // Set the current room to the startup room
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+
+        if (alias === "to-bathroom") {
+            const room: Room = new BathroomRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+
+        if (alias === "to-bedroom") {
+            const room: Room = new BedroomRoom();
+
             gameService.getPlayerSession().currentRoom = room.alias;
 
             return room.examine();
