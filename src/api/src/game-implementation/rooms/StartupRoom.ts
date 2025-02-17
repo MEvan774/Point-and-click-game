@@ -67,7 +67,7 @@ export class StartupRoom extends Room implements Simple {
     public simple(alias: string): ActionResult | undefined {
         if (alias === "start-game") {
             // TODO: Change this to the actual first room of the game
-            const room: Room = new BedroomRoom();
+            // const room: Room = new BedroomRoom();
 
             const room: Room = new StartupRoom();
 
@@ -79,6 +79,11 @@ export class StartupRoom extends Room implements Simple {
         if (alias === "to-bathroom") {
             const room: Room = new BathroomRoom();
 
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+
         if (alias === "to-storage") {
             const room: Room = new StorageRoom();
 
@@ -89,6 +94,11 @@ export class StartupRoom extends Room implements Simple {
 
         if (alias === "to-bedroom") {
             const room: Room = new BedroomRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
 
         if (alias === "to-front-door") {
             const room: Room = new FrontDoorRoom();
