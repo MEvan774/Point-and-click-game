@@ -6,8 +6,9 @@ import { GoTo } from "../actions/GoToAction";
 import { StartupRoom } from "../rooms/StartupRoom";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
+import { PickUp } from "../actions/PickUpAction";
 
-export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
+export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp {
     public static readonly Alias: string = "Hallway";
 
     public constructor() {
@@ -27,5 +28,13 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
 
         gameService.getPlayerSession().currentRoom = startupRoom.alias;
         return undefined;
+    }
+
+    public pickup(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToDesk = true;
+
+        return new TextActionResult([
+            "This door is very heavy, and therefor seems to be able to pack a punch! You have picked up the door.",
+        ]);
     }
 }

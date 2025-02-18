@@ -49,6 +49,10 @@ export class WorkRoom extends Room implements Examine, PickUp {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         if (playerSession.walkedToDesk) {
             objects.push(new DiaryItem());
+            // const doorIndex: number = objects.findIndex(obj => obj instanceof DoorOfficeHallwayItem);
+            // if (doorIndex !== -1) {
+            //     objects.splice(doorIndex, 1);
+            // }
         }
         else {
             objects.push(new DeskItem());
@@ -61,10 +65,18 @@ export class WorkRoom extends Room implements Examine, PickUp {
             new ExamineAction(),
             new GoToAction(),
         ];
+
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
-        if (playerSession.walkedToDesk) {
+        if (playerSession.walkedToDesk && !playerSession.pickedUpDiary) {
             actions.push(new PickUpAction());
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            if (playerSession.pickedUpDiary) {
+                const pickUp: number = actions.findIndex(act => act instanceof PickUpAction);
+                if (pickUp !== -1) {
+                    actions.splice(pickUp, 1);
+                }
+            }
         }
 
         return actions;
