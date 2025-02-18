@@ -37,12 +37,13 @@ export class SafeItem extends Item implements Examine, Open {
 
         if (!playerSession.solvedRiddle) {
             return new TextActionResult([
-                "You need a code to open the safe.",
-                "Maybe try looking around?",
+                "You put in a random code...",
+                "Wrong. Obviously.",
             ]);
         }
         else if (!playerSession.safeOpened) {
             playerSession.safeOpened = true;
+            playerSession.inventory.push("FlashlightItem");
 
             return new TextActionResult([
                 "You put the code you got into the safe.",

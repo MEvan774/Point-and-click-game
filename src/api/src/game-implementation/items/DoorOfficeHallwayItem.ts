@@ -19,7 +19,7 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This door leads back to the hallway"]);
+        return new TextActionResult(["This door leads back to the hallway."]);
     }
 
     public goto(): ActionResult | undefined {

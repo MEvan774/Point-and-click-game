@@ -20,7 +20,7 @@ export abstract class Character extends GameObject implements Talk {
     /**
      * @param choiceId The ID of the choice made (Optional)
      * @returns Result of the action
-     * 
+     *
      * @inheritdoc
      */
     public abstract talk(choiceId?: number): ActionResult | undefined;

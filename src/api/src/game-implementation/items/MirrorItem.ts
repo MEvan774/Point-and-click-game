@@ -17,12 +17,20 @@ export class MirrorItem extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["It looks like someone is staring at you..."]);
+        if (!gameService.getPlayerSession().solvedRiddle) {
+            return new TextActionResult(["It looks like someone is staring at you..."]);
+        }
+
+        return new TextActionResult(["The mirror looks normal."]);
     }
 
     public goto(): ActionResult | undefined {
-        gameService.getPlayerSession().walkedToMirror = true;
+        if (!gameService.getPlayerSession().walkedToMirror) {
+            gameService.getPlayerSession().walkedToMirror = true;
 
-        return new TextActionResult(["You go up to the mirror."]);
+            return new TextActionResult(["You go up to the mirror."]);
+        }
+
+        return new TextActionResult(["You are already here."]);
     }
 }
