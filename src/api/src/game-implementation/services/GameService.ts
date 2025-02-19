@@ -30,6 +30,10 @@ import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageItem } from "../items/CenterStorageItem";
 import { ReadAction } from "../actions/ReadAction";
+import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
+import { KitchenRoom } from "../rooms/KitchenRoom";
+import { DoorKitchenLivingRoomItem } from "../items/DoorKitchenLivingRoomItem";
+import { GhostCharacter } from "../characters/GhostCharacter";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -45,6 +49,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(StartupRoom);
         this.registerGameObject(HallwayRoom);
         this.registerGameObject(LivingRoom);
+        this.registerGameObject(KitchenRoom);
 
         // Actions
         this.registerAction(OpenAction);
@@ -72,6 +77,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
         this.registerGameObject(DoorFrontDoorLivingRoomItem);
+        this.registerGameObject(DoorLivingRoomKitchenItem);
+        this.registerGameObject(DoorKitchenLivingRoomItem);
         this.registerGameObject(DoorFrontDoorOutsideItem);
         this.registerGameObject(StairsDownStairsItem);
         this.registerGameObject(DoorOfficeHallwayItem);
@@ -82,6 +89,7 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Characters
         this.registerGameObject(MirrorCharacter);
+        this.registerGameObject(GhostCharacter);
 
         // Actions
         this.registerAction(OpenAction);
