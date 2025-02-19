@@ -7,6 +7,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { PickUp, PickUpAction } from "../actions/PickUpAction";
+import { ReadAction } from "../actions/ReadAction";
 import { DeskItem } from "../items/DeskItem";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
@@ -37,26 +38,33 @@ export class WorkRoom extends Room implements Examine, PickUp {
      * @inheritdoc
      */
     public images(): string[] {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
-        result.push("OfficeRoom");
+        if (playerSession.walkedToDesk && playerSession.pickedUpDiary && playerSession.readDiary) {
+            result.push("diaryContent");
+        }
+        else if (playerSession.walkedToDesk && !playerSession.pickedUpDiary) {
+            result.push("OfficeRoom");
+        }
+        else {
+            result.push("OfficeRoom");
+        }
         return result;
     }
 
     public objects(): GameObject[] {
-        const objects: GameObject[] = [
-            new DoorOfficeHallwayItem(),
-        ];
+        const objects: GameObject[] = [];
+
+        objects.push(new DoorOfficeHallwayItem());
+
         const playerSession: PlayerSession = gameService.getPlayerSession();
         if (playerSession.walkedToDesk) {
             objects.push(new DiaryItem());
-            // const doorIndex: number = objects.findIndex(obj => obj instanceof DoorOfficeHallwayItem);
-            // if (doorIndex !== -1) {
-            //     objects.splice(doorIndex, 1);
-            // }
         }
         else {
             objects.push(new DeskItem());
         }
+
         return objects;
     }
 
@@ -70,15 +78,11 @@ export class WorkRoom extends Room implements Examine, PickUp {
 
         if (playerSession.walkedToDesk && !playerSession.pickedUpDiary) {
             actions.push(new PickUpAction());
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            if (playerSession.pickedUpDiary) {
-                const pickUp: number = actions.findIndex(act => act instanceof PickUpAction);
-                if (pickUp !== -1) {
-                    actions.splice(pickUp, 1);
-                }
-            }
         }
 
+        if (playerSession.walkedToDesk && playerSession.pickedUpDiary) {
+            actions.push(new ReadAction());
+        }
         return actions;
     }
 
@@ -86,7 +90,6 @@ export class WorkRoom extends Room implements Examine, PickUp {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (!playerSession.pickedUpDiary) {
-            playerSession.pickedUpDiary = true;
             playerSession.inventory.push("DiaryItem");
 
             return new TextActionResult([
@@ -95,9 +98,15 @@ export class WorkRoom extends Room implements Examine, PickUp {
         }
         else {
             return new TextActionResult([
-                "You should probably pick up the diary.",
+                "You have already picked up the diary.",
             ]);
         }
+    }
+
+    public read(): ActionResult | undefined {
+        return new TextActionResult([
+            "You have started to read the diary",
+        ]);
     }
 
     /**
