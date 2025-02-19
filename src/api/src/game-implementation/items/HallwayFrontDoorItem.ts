@@ -5,6 +5,7 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoTo } from "../actions/GoToAction";
+import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
 import { LivingRoom } from "../rooms/LivingRoom";
 
 /**
@@ -21,18 +22,18 @@ export class HallwayFrontDoorItem extends Item implements Examine, GoTo {
         super(HallwayFrontDoorItem.Alias);
     }
 
-    public name(): SyncOrAsync<string> {
-        return "Stair to front door";
+    public name(): string {
+        return "Downstairs";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["I can go downstairs to the front door herre."]);
+        return new TextActionResult(["I can go downstairs to the front door here."]);
     }
 
     public goto(): ActionResult | undefined {
-        const livingRoom: Room = new LivingRoom();
+        const room: Room = new FrontDoorRoom();
 
-        gameService.getPlayerSession().currentRoom = livingRoom.alias;
-        return undefined;
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 }

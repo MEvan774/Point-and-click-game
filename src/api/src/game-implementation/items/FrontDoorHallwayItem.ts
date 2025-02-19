@@ -22,7 +22,7 @@ export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
     }
 
     public name(): SyncOrAsync<string> {
-        return "Go upstairs";
+        return "Upstairs";
     }
 
     public examine(): ActionResult | undefined {
@@ -30,9 +30,9 @@ export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        const corridorRoom: Room = new HallwayRoom();
+        const room: Room = new HallwayRoom();
 
-        gameService.getPlayerSession().currentRoom = corridorRoom.alias;
-        return undefined;
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 }

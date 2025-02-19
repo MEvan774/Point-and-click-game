@@ -5,6 +5,7 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
+import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
 
 /**
@@ -38,7 +39,7 @@ export class BathroomRoom extends Room {
 
     public objects(): GameObject[] {
         return [
-            new DoorBedroomItem(),
+            new DoorBathroomBedroomItem(),
         ];
     }
 

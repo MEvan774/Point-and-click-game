@@ -3,9 +3,9 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../actions/GoToAction";
-import { StartupRoom } from "../rooms/StartupRoom";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
+import { LivingRoom } from "../rooms/LivingRoom";
 
 export class DoorFrontDoorLivingRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "DoorFrontDoorLivingRoomItem";
@@ -23,9 +23,9 @@ export class DoorFrontDoorLivingRoomItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        const startupRoom: Room = new StartupRoom();
+        const room: Room = new LivingRoom();
 
-        gameService.getPlayerSession().currentRoom = startupRoom.alias;
-        return undefined;
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 }
