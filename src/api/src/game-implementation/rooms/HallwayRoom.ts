@@ -6,6 +6,8 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { DoorHallwayOfficeItem } from "../items/DoorHallwayOfficeItem";
+import { DoorHallwayStorageRoomItem } from "../items/DoorHallwayStorageRoomItem";
 import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
 import { LivingRoom } from "./LivingRoom";
 
@@ -42,6 +44,8 @@ export class HallwayRoom extends Room {
     public objects(): GameObject[] {
         return [
             new HallwayFrontDoorItem(),
+            new DoorHallwayStorageRoomItem(),
+            new DoorHallwayOfficeItem(),
         ];
     }
 

@@ -3,10 +3,13 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { Action } from "../../game-base/actions/Action";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
+import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { OpenAction } from "../actions/OpenAction";
+import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
+import { DoorBedroomItem } from "../items/DoorBedroomItem";
 import { BathroomRoom } from "./Bathroomroom";
 import { FrontDoorRoom } from "./FrontDoorRoom";
 import { StorageRoom } from "./StorageRoom";
@@ -46,12 +49,21 @@ export class BedroomRoom extends Room implements Simple {
             new ExamineAction(),
             new OpenAction(),
             new GoToAction(),
+            /*
             new SimpleAction("to-bathroom", "Go to bathroom"),
             new SimpleAction("to-bedroom", "Go to bedroom"),
             new SimpleAction("to-storage", "To storage room"),
             new SimpleAction("to-front-door", "To front door"),
             new SimpleAction("to-office", "To office"),
+            */
         ];
+    }
+
+    public objects(): GameObject[] {
+        return [
+            new DoorBedroomItem(),
+            new DoorBedroomBathroomItem(),
+        ]
     }
 
     /**
@@ -67,6 +79,7 @@ export class BedroomRoom extends Room implements Simple {
     /**
      * @inheritdoc
      */
+    /*
     public simple(alias: string): ActionResult | undefined {
         if (alias === "to-bathroom") {
             const room: Room = new BathroomRoom();
@@ -95,4 +108,5 @@ export class BedroomRoom extends Room implements Simple {
         }
         return undefined;
     }
+    */
 }
