@@ -34,7 +34,7 @@ export class FrontDoorRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        const result: string[] = ["frontDoorRoom"];
+        const result: string[] = ["FrontDoorRoom"];
         return result;
     }
 

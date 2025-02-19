@@ -5,7 +5,7 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 
-export class CenterStorageItem extends Item implements GoTo {
+export class CenterStorageItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Center Storage";
 
     public constructor() {
@@ -14,6 +14,13 @@ export class CenterStorageItem extends Item implements GoTo {
 
     public name(): string {
         return "Center of the room";
+    }
+
+    public examine(): ActionResult | undefined {
+        return new TextActionResult([
+            "The center of the room.",
+            "You can go back here of you're done with the mirror.",
+        ]);
     }
 
     public goto(): ActionResult | undefined {
