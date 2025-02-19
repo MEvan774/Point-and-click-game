@@ -15,4 +15,5 @@ export type PlayerSession = {
     safeOpened: boolean;
     walkedToDesk: boolean;
     pickedUpDiary: boolean;
+    readDiary: boolean;
 };

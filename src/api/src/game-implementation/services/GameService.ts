@@ -25,6 +25,7 @@ import { HideAction } from "../actions/HideAction";
 import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageItem } from "../items/CenterStorageItem";
+import { ReadAction } from "../actions/ReadAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -74,6 +75,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(TalkAction);
         this.registerAction(HideAction);
         this.registerAction(PickUpAction);
+        this.registerAction(ReadAction);
     }
 
     /**
@@ -89,6 +91,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             safeOpened: false,
             walkedToDesk: false,
             pickedUpDiary: false,
+            readDiary: false,
         };
     }
 
