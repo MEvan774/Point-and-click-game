@@ -1,0 +1,119 @@
+import { ActionResult } from "../../game-base/actionResults/ActionResult";
+import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
+import { Action } from "../../game-base/actions/Action";
+import { GameObject } from "../../game-base/gameObjects/GameObject";
+import { Room } from "../../game-base/gameObjects/Room";
+import { MirrorItem } from "../items/MirrorItem";
+import { ExamineAction } from "../../game-base/actions/ExamineAction";
+import { GoToAction } from "../actions/GoToAction";
+import { MirrorCharacter } from "../characters/MirrorCharacter";
+import { TalkAction } from "../../game-base/actions/TalkAction";
+import { SafeItem } from "../items/SafeItem";
+import { OpenAction } from "../actions/OpenAction";
+import { gameService } from "../../global";
+import { PlayerSession } from "../types";
+import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
+import { HideAction } from "../actions/HideAction";
+import { ClosetItem } from "../items/Closetitem";
+import { CenterStorageItem } from "../items/CenterStorageItem";
+
+/**
+ * Implemention of the storage room
+ */
+export class StorageRoom extends Room {
+    /** Alias of this room */
+    public static readonly Alias: string = "StorageRoom";
+
+    /**
+     * Create a new instance of this room
+     */
+    public constructor() {
+        super(StorageRoom.Alias);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public name(): string {
+        return "Storage Room";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public images(): string[] {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        const result: string[] = [];
+
+        if (!playerSession.solvedRiddle && playerSession.walkedToMirror) {
+            result.push("darkMirror");
+        }
+        else if (!playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+            result.push("StorageRoomDark");
+        }
+        else if (!playerSession.walkedToMirror && playerSession.solvedRiddle) {
+            result.push("StorageRoomLight");
+        }
+        else {
+            result.push("lightMirror");
+        }
+
+        return result;
+    }
+
+    public objects(): GameObject[] {
+        const objects: GameObject[] = [
+            new MirrorItem(),
+        ];
+
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+            objects.push(new MirrorCharacter());
+        }
+
+        if (playerSession.walkedToMirror) {
+            objects.push(new CenterStorageItem());
+        }
+
+        if (!playerSession.walkedToMirror) {
+            objects.push(new SafeItem());
+            objects.push(new DoorStorageHallwayItem());
+            objects.push(new ClosetItem());
+        }
+
+        return objects;
+    }
+
+    public actions(): Action[] {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        const actions: Action[] = [
+            new ExamineAction(),
+            new GoToAction(),
+        ];
+
+        if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+            actions.push(new TalkAction());
+        }
+        if (!playerSession.walkedToMirror) {
+            actions.push(new OpenAction());
+            actions.push(new HideAction());
+        }
+
+        return actions;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public examine(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToMirror = false;
+
+        return new TextActionResult([
+            "The room is dark, and there is a strong smell of blood.",
+            "You can see something in the mirror",
+            "Maybe you can turn on the light?",
+        ]);
+    }
+}

@@ -3,26 +3,26 @@ import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 
 @Interface
-export abstract class Open {
-    public abstract open(): ActionResult | undefined;
+export abstract class Read {
+    public abstract read(): ActionResult | undefined;
 }
 
-export class OpenAction extends Action {
-    public static readonly Alias: string = "open";
+export class ReadAction extends Action {
+    public static readonly Alias: string = "read";
 
     public constructor() {
-        super(OpenAction.Alias, true);
+        super(ReadAction.Alias, true);
     }
 
     public name(): string {
-        return "Open";
+        return "Read";
     }
 
     public execute(_alias: string, gameObjects: GameObject[]): ActionResult | undefined {
         const gameObject: GameObject = gameObjects[0];
 
-        if (gameObject.instanceOf(Open)) {
-            return gameObject.open();
+        if (gameObject.instanceOf(Read)) {
+            return gameObject.read();
         }
         else {
             return undefined;

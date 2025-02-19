@@ -1,7 +1,7 @@
 import { GameObject } from "./GameObject";
 
 /**
- * Base class used to represent an item
+ * @author Milan
  */
 export abstract class Item extends GameObject {
     /**
@@ -9,7 +9,13 @@ export abstract class Item extends GameObject {
      *
      * @param alias Alias of this item
      */
+    // public itemName: string;
+    // public itemDescription: string;
     protected constructor(alias: string) {
         super(alias);
     }
+
+    // protected OnPickupItem() <void> {
+
+    // }
 }
