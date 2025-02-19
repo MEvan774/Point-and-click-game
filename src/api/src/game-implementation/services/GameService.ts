@@ -3,6 +3,11 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { StartupRoom } from "../rooms/StartupRoom";
 import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
+import { HallwayRoom } from "../rooms/HallwayRoom";
+import { LivingRoom } from "../rooms/LivingRoom";
+import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
+import { GoToAction } from "../actions/GoToAction";
+import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -16,9 +21,16 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Rooms
         this.registerGameObject(StartupRoom);
+        this.registerGameObject(HallwayRoom);
+        this.registerGameObject(LivingRoom);
 
         // Actions
         this.registerAction(OpenAction);
+        this.registerAction(GoToAction);
+
+        // Items
+        this.registerGameObject(HallwayFrontDoorItem);
+        this.registerGameObject(FrontDoorHallwayItem);
     }
 
     /**

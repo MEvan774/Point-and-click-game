@@ -1,9 +1,12 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
-import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
+import { ExamineAction } from "../../game-base/actions/ExamineAction";
+import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { GoToAction } from "../actions/GoToAction";
+import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
 import { HallwayRoom } from "./HallwayRoom";
 
 /**
@@ -11,50 +14,57 @@ import { HallwayRoom } from "./HallwayRoom";
  *
  * @remarks Used as the first room for new player sessions.
  */
-export class StartupRoom extends Room implements Simple {
+export class LivingRoom extends Room {
     /** Alias of this room */
-    public static readonly Alias: string = "startup";
+    public static readonly Alias: string = "livingRoom";
 
     /**
      * Create a new instance of this room
      */
     public constructor() {
-        super(StartupRoom.Alias);
+        super(LivingRoom.Alias);
     }
 
     /**
      * @inheritdoc
      */
     public name(): string {
-        return "Example Game";
+        return "Living room";
     }
 
     /**
      * @inheritdoc
      */
     public images(): string[] {
-        return ["startup"];
+        return ["LivingRoomLight"];
+    }
+
+    public objects(): GameObject[] {
+        return [
+            new FrontDoorHallwayItem(),
+        ];
     }
 
     /**
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new SimpleAction("start-game", "Start Game")];
+        return [new ExamineAction(), new GoToAction()];
     }
 
     /**
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This is an example."]);
+        return new TextActionResult(["I cant see a thing! I need to find something to light up this room.",
+        ]);
     }
 
     /**
-     * @inheritdoc
-     */
+         * @inheritdoc
+         */
     public simple(alias: string): ActionResult | undefined {
-        if (alias === "start-game") {
+        if (alias === "corridor") {
             // TODO: Change this to the actual first room of the game
             const room: Room = new HallwayRoom();
 
