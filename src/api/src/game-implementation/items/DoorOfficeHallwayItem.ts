@@ -19,13 +19,23 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToDesk = false;
         return new TextActionResult(["This door leads back to the hallway."]);
     }
 
     public goto(): ActionResult | undefined {
         const startupRoom: Room = new StartupRoom();
 
+        gameService.getPlayerSession().walkedToDesk = false;
         gameService.getPlayerSession().currentRoom = startupRoom.alias;
         return undefined;
     }
+
+    // public pickup(): ActionResult | undefined {
+    //     gameService.getPlayerSession().walkedToDesk = true;
+
+    //     return new TextActionResult([
+    //         "This door is very heavy, and therefor seems to be able to pack a punch! You have picked up the door.",
+    //     ]);
+    // }
 }

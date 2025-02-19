@@ -7,6 +7,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { PickUp, PickUpAction } from "../actions/PickUpAction";
+import { ReadAction } from "../actions/ReadAction";
 import { DeskItem } from "../items/DeskItem";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
@@ -37,15 +38,25 @@ export class WorkRoom extends Room implements Examine, PickUp {
      * @inheritdoc
      */
     public images(): string[] {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
-        result.push("OfficeRoom");
+        if (playerSession.walkedToDesk && playerSession.pickedUpDiary && playerSession.readDiary) {
+            result.push("diaryContent");
+        }
+        else if (playerSession.walkedToDesk && !playerSession.pickedUpDiary) {
+            result.push("OfficeRoom");
+        }
+        else {
+            result.push("OfficeRoom");
+        }
         return result;
     }
 
     public objects(): GameObject[] {
-        const objects: GameObject[] = [
-            new DoorOfficeHallwayItem(),
-        ];
+        const objects: GameObject[] = [];
+
+        objects.push(new DoorOfficeHallwayItem());
+
         const playerSession: PlayerSession = gameService.getPlayerSession();
         if (playerSession.walkedToDesk) {
             objects.push(new DiaryItem());
@@ -53,6 +64,7 @@ export class WorkRoom extends Room implements Examine, PickUp {
         else {
             objects.push(new DeskItem());
         }
+
         return objects;
     }
 
@@ -61,12 +73,16 @@ export class WorkRoom extends Room implements Examine, PickUp {
             new ExamineAction(),
             new GoToAction(),
         ];
+
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
-        if (playerSession.walkedToDesk) {
+        if (playerSession.walkedToDesk && !playerSession.pickedUpDiary) {
             actions.push(new PickUpAction());
         }
 
+        if (playerSession.walkedToDesk && playerSession.pickedUpDiary) {
+            actions.push(new ReadAction());
+        }
         return actions;
     }
 
@@ -74,7 +90,6 @@ export class WorkRoom extends Room implements Examine, PickUp {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (!playerSession.pickedUpDiary) {
-            playerSession.pickedUpDiary = true;
             playerSession.inventory.push("DiaryItem");
 
             return new TextActionResult([
@@ -83,9 +98,15 @@ export class WorkRoom extends Room implements Examine, PickUp {
         }
         else {
             return new TextActionResult([
-                "You should probably pick up the diary.",
+                "You have already picked up the diary.",
             ]);
         }
+    }
+
+    public read(): ActionResult | undefined {
+        return new TextActionResult([
+            "You have started to read the diary",
+        ]);
     }
 
     /**
