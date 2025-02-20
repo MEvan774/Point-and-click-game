@@ -4,8 +4,9 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Talk, TalkChoice } from "../../game-base/actions/TalkAction";
 import { Character } from "../../game-base/gameObjects/Character";
+import { GoTo } from "../actions/GoToAction";
 
-export class GhostCharacter extends Character implements Examine, Talk {
+export class GhostCharacter extends Character implements Examine, Talk, GoTo {
     public static readonly Alias: string = "ghost in the mirror";
 
     public constructor() {
@@ -18,7 +19,13 @@ export class GhostCharacter extends Character implements Examine, Talk {
 
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "...",
+            "It unnerves me...",
+        ]);
+    }
+
+    public goto(): ActionResult | undefined {
+        return new TextActionResult([
+            "I'd prefer not to get close to him.",
         ]);
     }
 
@@ -51,7 +58,7 @@ export class GhostCharacter extends Character implements Examine, Talk {
             case 3:
             {
                 return new TextActionResult([
-                    "He smiles.",
+                    "You walked away...",
                 ]);
             }
         }

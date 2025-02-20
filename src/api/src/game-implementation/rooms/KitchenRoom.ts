@@ -38,7 +38,7 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["LivingRoomDark"];
+        return ["KitchenRoom"];
     }
 
     public objects(): GameObject[] {
