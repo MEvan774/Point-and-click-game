@@ -9,6 +9,7 @@ import { GoToAction } from "../actions/GoToAction";
 import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorItem";
 import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
 import { HallwayRoom } from "./HallwayRoom";
+import { KitchenRoom } from "./KitchenRoom";
 
 /**
  * Implemention of the startup room
@@ -65,16 +66,26 @@ export class LivingRoom extends Room {
          * @inheritdoc
          */
     public simple(alias: string): ActionResult | undefined {
-        if (alias === "corridor") {
-            // TODO: Change this to the actual first room of the game
-            const room: Room = new HallwayRoom();
+        switch (alias) {
+            case "corridor": {
+                // TODO: Change this to the actual first room of the game
+                const room: Room = new HallwayRoom();
 
-            // Set the current room to the startup room
-            gameService.getPlayerSession().currentRoom = room.alias;
+                // Set the current room to the startup room
+                gameService.getPlayerSession().currentRoom = room.alias;
 
-            return room.examine();
+                return room.examine();
+            }
+            case "kitchen": {
+                // TODO: Change this to the actual first room of the game
+                const room: Room = new KitchenRoom();
+
+                // Set the current room to the startup room
+                gameService.getPlayerSession().currentRoom = room.alias;
+
+                return room.examine();
+            }
         }
-
         return undefined;
     }
 }
