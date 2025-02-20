@@ -5,25 +5,25 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
-import { HallwayRoom } from "../rooms/HallwayRoom";
+import { WorkRoom } from "../rooms/WorkRoom";
 
-export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "DoorStorageHallwayItem";
+export class DoorHallwayOfficeItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "hallway-office-door";
 
     public constructor() {
-        super(DoorStorageHallwayItem.Alias);
+        super(DoorHallwayOfficeItem.Alias);
     }
 
     public name(): string {
-        return "Hallway";
+        return "Office";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This door leads back to the hallway."]);
+        return new TextActionResult(["This door leads to the office."]);
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new HallwayRoom();
+        const room: Room = new WorkRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();

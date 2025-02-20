@@ -2,33 +2,28 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Item } from "../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { Open } from "../actions/OpenAction";
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
-import { HallwayRoom } from "../rooms/HallwayRoom";
 import { Room } from "../../game-base/gameObjects/Room";
+import { BathroomRoom } from "../rooms/Bathroomroom";
 
-export class DoorBedroomItem extends Item implements Examine, Open, GoTo {
-    public static readonly Alias: string = "bedroom-door";
+export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "bathroom-door";
 
     public constructor() {
-        super(DoorBedroomItem.Alias);
+        super(DoorBedroomBathroomItem.Alias);
     }
 
     public name(): string {
-        return "Hallway";
+        return "Bathroom";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["There seems to be a key inside the bathtub."]);
-    }
-
-    public open(): ActionResult | undefined {
-        return new TextActionResult(["The door is locked, maybe there is a key nearby."]);
+        return new TextActionResult(["The door leads to a bathroom"]);
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new HallwayRoom();
+        const room: Room = new BathroomRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();

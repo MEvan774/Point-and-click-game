@@ -7,6 +7,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
 import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
+import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
 import { StairsDownStairsItem } from "../items/StairsDownstairsItem";
 
 /**
@@ -42,7 +43,7 @@ export class FrontDoorRoom extends Room {
         const objects: GameObject[] = [
             new DoorFrontDoorLivingRoomItem(),
             new DoorFrontDoorOutsideItem(),
-            new StairsDownStairsItem(),
+            new FrontDoorHallwayItem(),
         ];
 
         return objects;
