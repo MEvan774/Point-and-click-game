@@ -127,6 +127,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             walkedToDesk: false,
             pickedUpDiary: false,
             readDiary: false,
+            isPickingUp: false,
         };
     }
 

@@ -16,4 +16,5 @@ export type PlayerSession = {
     walkedToDesk: boolean;
     pickedUpDiary: boolean;
     readDiary: boolean;
+    isPickingUp: boolean;
 };
