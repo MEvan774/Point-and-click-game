@@ -8,7 +8,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 
 export class DooHallwayBedroomItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "hallway-storageroom-door";
+    public static readonly Alias: string = "hallway-bedroom-door";
 
     public constructor() {
         super(DooHallwayBedroomItem.Alias);
