@@ -6,7 +6,6 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoTo } from "../actions/GoToAction";
 import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
-import { LivingRoom } from "../rooms/LivingRoom";
 
 /**
  * Base class used to represent an item
