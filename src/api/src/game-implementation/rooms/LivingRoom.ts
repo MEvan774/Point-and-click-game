@@ -7,7 +7,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorItem";
-import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
+import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
 import { HallwayRoom } from "./HallwayRoom";
 import { KitchenRoom } from "./KitchenRoom";
 
@@ -43,7 +43,7 @@ export class LivingRoom extends Room {
 
     public objects(): GameObject[] {
         return [
-            new DoorLivingRoomFrontDoorItem(),
+            new DoorLivingRoomFrontDoorItem(), new DoorLivingRoomKitchenItem(),
         ];
     }
 

@@ -27,6 +27,10 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
+        // Set a if statemenet if player doesnt have the key or other item.
+        return new TextActionResult([
+            "Its locked, i should find a key.",
+        ]);
         const startupRoom: Room = new StartupRoom();
 
         gameService.getPlayerSession().currentRoom = startupRoom.alias;

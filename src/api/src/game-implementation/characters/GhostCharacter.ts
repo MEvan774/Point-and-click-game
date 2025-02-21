@@ -7,7 +7,7 @@ import { Character } from "../../game-base/gameObjects/Character";
 import { GoTo } from "../actions/GoToAction";
 
 export class GhostCharacter extends Character implements Examine, Talk, GoTo {
-    public static readonly Alias: string = "ghost in the mirror";
+    public static readonly Alias: string = "ghostCharacter";
 
     public constructor() {
         super(GhostCharacter.Alias);

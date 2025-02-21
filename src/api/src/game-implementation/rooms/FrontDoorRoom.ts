@@ -8,7 +8,6 @@ import { GoToAction } from "../actions/GoToAction";
 import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
 import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
 import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
-import { StairsDownStairsItem } from "../items/StairsDownstairsItem";
 
 /**
  * Implemention of the storage room
