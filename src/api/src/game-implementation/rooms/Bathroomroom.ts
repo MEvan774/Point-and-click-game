@@ -6,7 +6,6 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
-import { DoorBedroomItem } from "../items/DoorBedroomItem";
 
 /**
  * Implemention of the bathroom room
