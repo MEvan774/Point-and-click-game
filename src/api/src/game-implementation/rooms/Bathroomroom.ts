@@ -1,14 +1,21 @@
+// BathroomRoom.ts
+
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
+import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
+import { BathroomItem } from "../items/BathroomItem";
+import { BathtubItem } from "../items/BathtubItem";
+import { PlayerSession } from "../types";
+import { PickUpAction } from "../actions/PickUpAction";
 
 /**
- * Implemention of the bathroom room
+ * Implementation of the bathroom room
  *
  * @remarks Used as the first room for new player sessions.
  */
@@ -33,20 +40,48 @@ export class BathroomRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["bathroomRoom"];
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        const result: string[] = [];
+
+        if (!playerSession.isPickingUpkey && !playerSession.pickedUpKey) {
+            result.push("bathroomRoom");
+        }
+        else if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
+            result.push("bathtubItem"); // Show the key in the bathtub once walked to it
+        }
+        else {
+            result.push("bathroomRoom");
+        }
+        return result;
     }
 
     public objects(): GameObject[] {
-        return [
+        const objects: GameObject[] = [
             new DoorBathroomBedroomItem(),
+            new BathroomItem(), // This should represent the bathtub
         ];
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (!playerSession.walkedToBathtub) {
+            objects.push(new BathtubItem()); // This represents the key inside the bathtub
+        }
+        return objects;
     }
 
     public actions(): Action[] {
-        return [
+        const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
         ];
+
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
+            actions.push(new PickUpAction());
+        }
+
+        return actions;
     }
 
     /**

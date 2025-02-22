@@ -5,7 +5,6 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
-import { OpenAction } from "../actions/OpenAction";
 import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
 
@@ -41,7 +40,6 @@ export class BedroomRoom extends Room {
     public actions(): Action[] {
         return [
             new ExamineAction(),
-            new OpenAction(),
             new GoToAction(),
         ];
     }

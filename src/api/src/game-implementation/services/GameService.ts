@@ -9,8 +9,10 @@ import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
 import { DooHallwayBedroomItem } from "../items/DoorHallwayBedroomRoomItem";
 import { GoToAction } from "../actions/GoToAction";
 import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
+import { BathroomItem } from "../items/BathroomItem";
+import { BathtubItem } from "../items/BathtubItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
-import { BathroomRoom } from "../rooms/Bathroomroom";
+import { BathroomRoom } from "../rooms/BathroomRoom";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
 import { StorageRoom } from "../rooms/StorageRoom";
 import { MirrorItem } from "../items/MirrorItem";
@@ -79,6 +81,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(WorkRoom);
 
         // Items
+        this.registerGameObject(BathroomItem);
+        this.registerGameObject(BathtubItem);
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
@@ -120,6 +124,9 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
+            walkedToBathtub: false,
+            isPickingUpkey: false,
+            pickedUpKey: false,
             walkedToMirror: false,
             solvedRiddle: false,
             knowsAboutSafe: false,

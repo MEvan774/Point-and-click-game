@@ -9,6 +9,9 @@ export type PlayerSession = {
     /** List of game object aliases the player owns */
     inventory: string[];
 
+    walkedToBathtub: boolean;
+    isPickingUpkey: boolean;
+    pickedUpKey: boolean;
     walkedToMirror: boolean;
     knowsAboutSafe: boolean;
     solvedRiddle: boolean;
