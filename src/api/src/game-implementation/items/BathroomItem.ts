@@ -1,5 +1,3 @@
-// BathroomItem.ts
-
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Item } from "../../game-base/gameObjects/Item";
@@ -9,7 +7,7 @@ import { PlayerSession } from "../types";
 import { GoTo } from "../actions/GoToAction";
 
 export class BathroomItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "bathtub";
+    public static readonly Alias: string = "Bathtub";
 
     public constructor() {
         super(BathroomItem.Alias);
@@ -30,7 +28,7 @@ export class BathroomItem extends Item implements Examine, GoTo {
 
     public goto(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.walkedToBathtub = true; // Player walks to the bathtub
+        playerSession.walkedToBathtub = true;
         return new TextActionResult(["You walk to the bathtub."]);
     }
 }
