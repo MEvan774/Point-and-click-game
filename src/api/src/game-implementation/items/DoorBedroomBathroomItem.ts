@@ -5,7 +5,7 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
-import { BathroomRoom } from "../rooms/BathroomRoom";
+import { BathroomRoom } from "../rooms/Bathroomroom";
 
 export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "bathroom-door";
