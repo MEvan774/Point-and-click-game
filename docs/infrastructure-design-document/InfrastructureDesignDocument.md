@@ -15,6 +15,28 @@
 # Stap 10: 
 ### Backend configureren
 
+
+Stap 7:
+
+Ik heb de volgende stappen gevolgd:
+
+Eerst ben ik naar de main branch gegaan in Visual Studio Code.
+Daarna heb ik npm install uitgevoerd, waardoor alles up-to-date werd.
+
+Vervolgens heb ik npm run build uitgevoerd, waardoor er een dist-map werd aangemaakt.
+Daarin zaten twee mappen: web en api.
+
+Vervolgens heb ik de app "Bitvise" gebruikt om een SFTP-verbinding te maken met de HBO ICT CLOUD DATABASE.
+
+Toen heb ik in de wwwroot map de dist/web-bestanden gezet en in de app-map de dist/app-bestanden.
+
+En als laatste heb ik de omgeving in de HBO ICT CLOUD herstart.
+
+
+
+Stap 10: 
+Backend configureren
+
 Installeer de benodigde software en afhankelijkheden voor de backend.
 Configureer de server en zorg ervoor dat deze klaar is om requests te verwerken.
 Implementeer API die de communicatie tussen de frontend en backend mogelijk maken.
