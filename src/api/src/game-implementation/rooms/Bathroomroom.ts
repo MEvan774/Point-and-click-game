@@ -14,8 +14,6 @@ import { PickUpAction } from "../actions/PickUpAction";
 
 /**
  * Implementation of the bathroom room
- *
- * @remarks Used as the first room for new player sessions.
  */
 export class BathroomRoom extends Room implements Examine {
     public static readonly Alias: string = "bathroom";
@@ -39,7 +37,6 @@ export class BathroomRoom extends Room implements Examine {
      */
     public images(): string[] {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-
         const result: string[] = [];
 
         if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
@@ -83,6 +80,7 @@ export class BathroomRoom extends Room implements Examine {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToBathtub = false;
         return new TextActionResult([
             "This is a bathroom.",
             "...",
