@@ -1,5 +1,3 @@
-// BathtubItem.ts
-
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Item } from "../../game-base/gameObjects/Item";
