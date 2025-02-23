@@ -248,7 +248,7 @@ export class CanvasComponent extends HTMLElement {
     private renderFooter(): HTMLElement {
         return html`
             <div class="footer">
-                <img src="public/assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
+                <img src="public/assets/img/ui/GameUI.png" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div>
                         ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
