@@ -7,11 +7,11 @@ import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 
-export class DooHallwayBedroomItem extends Item implements Examine, GoTo {
+export class DoorHallwayBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-bedroom-door";
 
     public constructor() {
-        super(DooHallwayBedroomItem.Alias);
+        super(DoorHallwayBedroomItem.Alias);
     }
 
     public name(): string {
