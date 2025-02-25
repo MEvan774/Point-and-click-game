@@ -5,34 +5,35 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoTo } from "../actions/GoToAction";
-import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
+import { KitchenRoom } from "../rooms/KitchenRoom";
 
 /**
  * Base class used to represent an item
  */
-export class HallwayFrontDoorItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "StairToFrontDoor";
+export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "LivingToKitchenDoor";
     /**
      * Create a new instance of this item
      *
      * @param alias Alias of this item
      */
     public constructor() {
-        super(HallwayFrontDoorItem.Alias);
+        super(DoorLivingRoomKitchenItem.Alias);
     }
 
-    public name(): string {
-        return "Downstairs";
+    public name(): SyncOrAsync<string> {
+        return "Door to the kitchen";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["I can go downstairs to the front door here."]);
+        return new TextActionResult(["There is blood on the door...",
+            "I'm not sure if i want to see whats behind there."]);
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new FrontDoorRoom();
+        const livingRoom: Room = new KitchenRoom();
 
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        gameService.getPlayerSession().currentRoom = livingRoom.alias;
+        return undefined;
     }
 }

@@ -6,9 +6,10 @@
 export type PlayerSession = {
     /** Alias of the room the player is in */
     currentRoom: string;
-    /** List of game object aliases the player owns */
     inventory: string[];
-
+    walkedToBathtub: boolean;
+    isPickingUpkey: boolean;
+    pickedUpKey: boolean;
     walkedToMirror: boolean;
     knowsAboutSafe: boolean;
     solvedRiddle: boolean;
@@ -16,4 +17,5 @@ export type PlayerSession = {
     walkedToDesk: boolean;
     pickedUpDiary: boolean;
     readDiary: boolean;
+    isPickingUp: boolean;
 };

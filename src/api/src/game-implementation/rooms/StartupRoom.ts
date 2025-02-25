@@ -67,7 +67,6 @@ export class StartupRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "start-game") {
-            // TODO: Change this to the actual first room of the game
             const room: Room = new BedroomRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;

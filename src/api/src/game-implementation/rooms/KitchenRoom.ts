@@ -2,14 +2,13 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
+import { TalkAction } from "../../game-base/actions/TalkAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorHallwayBedroomItem } from "../items/DoorHallwayBedroomroomItem";
-import { DoorHallwayOfficeItem } from "../items/DoorHallwayOfficeItem";
-import { DoorHallwayStorageRoomItem } from "../items/DoorHallwayStorageRoomItem";
-import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
+import { GhostCharacter } from "../characters/GhostCharacter";
+import { DoorKitchenLivingRoomItem } from "../items/DoorKitchenLivingRoomItem";
 import { LivingRoom } from "./LivingRoom";
 
 /**
@@ -17,37 +16,34 @@ import { LivingRoom } from "./LivingRoom";
  *
  * @remarks Used as the first room for new player sessions.
  */
-export class HallwayRoom extends Room {
+export class KitchenRoom extends Room {
     /** Alias of this room */
-    public static readonly Alias: string = "corridor";
+    public static readonly Alias: string = "kitchenRoom";
 
     /**
      * Create a new instance of this room
      */
     public constructor() {
-        super(HallwayRoom.Alias);
+        super(KitchenRoom.Alias);
     }
 
     /**
      * @inheritdoc
      */
     public name(): string {
-        return "Corridor";
+        return "kitchen room";
     }
 
     /**
      * @inheritdoc
      */
     public images(): string[] {
-        return ["Corridor"];
+        return ["KitchenRoom"];
     }
 
     public objects(): GameObject[] {
         return [
-            new HallwayFrontDoorItem(),
-            new DoorHallwayStorageRoomItem(),
-            new DoorHallwayOfficeItem(),
-            new DoorHallwayBedroomItem(),
+            new DoorKitchenLivingRoomItem(), new GhostCharacter(),
         ];
     }
 
@@ -55,21 +51,20 @@ export class HallwayRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction()];
+        return [new ExamineAction(), new GoToAction(), new TalkAction()];
     }
 
     /**
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["Im in a long hallway, cold air is going trough the window.",
-            "I see stairs up ahead.",
+        return new TextActionResult(["I smell a strong rotting smell... I feel sick.",
         ]);
     }
 
     /**
-     * @inheritdoc
-     */
+         * @inheritdoc
+         */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "livingRoom") {
             // TODO: Change this to the actual first room of the game
