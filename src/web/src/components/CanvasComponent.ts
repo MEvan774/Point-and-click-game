@@ -3,6 +3,7 @@ import { css, html, htmlArray } from "../helpers/webComponents";
 import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
+import { GameObject } from "../../../api/src/game-base/gameObjects/GameObject";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -200,9 +201,10 @@ export class CanvasComponent extends HTMLElement {
      */
     private renderTitle(): string {
         const roomName: string | undefined = this._currentGameState?.roomName;
+        const inventory: string[] | undefined = this._currentGameState?.inventory;
 
-        if (roomName) {
-            return `<div class="title">${roomName}</div>`;
+        if (roomName && inventory) {
+            return `<div class="title">${inventory[0]}</div>`;
         }
 
         return "";

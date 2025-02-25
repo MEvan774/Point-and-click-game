@@ -1,3 +1,5 @@
+import { GameObject } from "../api/src/game-base/gameObjects/GameObject";
+
 /**
  * A game state is used to instruct the client application what to do
  *
@@ -23,6 +25,8 @@ export type DefaultGameState = {
     actions: ActionReference[];
     /** Game objects that can be interacted with by the player */
     objects: GameObjectReference[];
+    /** Inventory of the player */
+    inventory: string[];
 };
 
 /**

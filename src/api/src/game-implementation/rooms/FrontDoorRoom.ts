@@ -4,6 +4,7 @@ import { Action } from "../../game-base/actions/Action";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
+import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
 import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
@@ -53,6 +54,12 @@ export class FrontDoorRoom extends Room {
             new ExamineAction(),
             new GoToAction(),
         ];
+    }
+
+    public inventory(): GameObject[] {
+        const inventory: GameObject[] = gameService.getGameObjectsFromInventory();
+
+        return inventory;
     }
 
     /**

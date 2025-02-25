@@ -24,5 +24,5 @@ export abstract class GameObject {
     /**
      * Get the name of this game object
      */
-    public abstract name(): SyncOrAsync<string>;
+    public abstract name(): string;
 }
