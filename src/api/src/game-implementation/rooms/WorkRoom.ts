@@ -72,7 +72,6 @@ export class WorkRoom extends Room implements Examine, PickUp {
         const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
-            new PickUpAction(),
         ];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
