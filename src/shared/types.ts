@@ -1,5 +1,3 @@
-import { GameObject } from "../api/src/game-base/gameObjects/GameObject";
-
 /**
  * A game state is used to instruct the client application what to do
  *
