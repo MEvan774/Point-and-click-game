@@ -200,8 +200,24 @@ export class CanvasComponent extends HTMLElement {
      */
     private renderTitle(): string {
         const roomName: string | undefined = this._currentGameState?.roomName;
+        const inventory: string[] | undefined = this._currentGameState?.inventory;
 
-        if (roomName) {
+        if (roomName && inventory) {
+            if (inventory.length > 0) {
+                let title: string = `<div class="title">${roomName}<br>`;
+
+                for (let x: number = 0; x < inventory.length; x++) {
+                    if (x !== 0) {
+                        title += ", ";
+                    }
+
+                    title += "<img src='/assets/img/Items/" + inventory[x] + ".png' height='50px'/>";
+                }
+
+                title += "</div>";
+
+                return title;
+            }
             return `<div class="title">${roomName}</div>`;
         }
 

@@ -148,6 +148,9 @@ export class GameController {
             objects.push(await this.convertGameObjectToReference(object));
         }
 
+        // Get Inventory
+        const inventory: string[] = gameService.getPlayerSession().inventory;
+
         // Combine all data into a game state
         return {
             type: "default",
@@ -157,6 +160,7 @@ export class GameController {
             text: text,
             actions: actions,
             objects: objects,
+            inventory: inventory,
         };
     }
 

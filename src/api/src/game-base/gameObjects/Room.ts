@@ -1,3 +1,4 @@
+import { gameService } from "../../global";
 import { ActionResult } from "../actionResults/ActionResult";
 import { Action } from "../actions/Action";
 import { Examine } from "../actions/ExamineAction";
@@ -43,6 +44,12 @@ export abstract class Room extends GameObject implements Examine {
      */
     public objects(): SyncOrAsync<GameObject[]> {
         return [];
+    }
+
+    public inventory(): GameObject[] {
+        const inventory: GameObject[] = gameService.getGameObjectsFromInventory();
+
+        return inventory;
     }
 
     /**

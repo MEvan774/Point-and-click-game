@@ -23,6 +23,8 @@ export type DefaultGameState = {
     actions: ActionReference[];
     /** Game objects that can be interacted with by the player */
     objects: GameObjectReference[];
+    /** Inventory of the player */
+    inventory: string[];
 };
 
 /**
