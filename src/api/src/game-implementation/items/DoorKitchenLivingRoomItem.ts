@@ -21,8 +21,8 @@ export class DoorKitchenLivingRoomItem extends Item implements Examine, GoTo {
         super(DoorKitchenLivingRoomItem.Alias);
     }
 
-    public name(): SyncOrAsync<string> {
-        return "Door to the Living room";
+    public name(): string {
+        return "Livingroom";
     }
 
     public examine(): ActionResult | undefined {
@@ -33,6 +33,6 @@ export class DoorKitchenLivingRoomItem extends Item implements Examine, GoTo {
         const livingRoom: Room = new LivingRoom();
 
         gameService.getPlayerSession().currentRoom = livingRoom.alias;
-        return undefined;
+        return livingRoom.examine();
     }
 }
