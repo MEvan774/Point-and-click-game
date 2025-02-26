@@ -47,6 +47,8 @@ export type GameObjectReference = {
     alias: string;
     /** Name of the game object */
     name: string;
+    /** List of action aliases that this object supports */
+    validActions: string[];
 };
 
 /**

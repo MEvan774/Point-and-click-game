@@ -12,13 +12,16 @@ import { HallwayRoom } from "../rooms/HallwayRoom";
  */
 export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "FrontDoorToStair";
+
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     /**
      * Create a new instance of this item
      *
      * @param alias Alias of this item
      */
     public constructor() {
-        super(FrontDoorHallwayItem.Alias);
+        super(FrontDoorHallwayItem.Alias, FrontDoorHallwayItem.validActions);
     }
 
     public name(): SyncOrAsync<string> {

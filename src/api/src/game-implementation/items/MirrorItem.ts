@@ -8,8 +8,10 @@ import { gameService } from "../../global";
 export class MirrorItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Mirror";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(MirrorItem.Alias);
+        super(MirrorItem.Alias, MirrorItem.validActions);
     }
 
     public name(): string {

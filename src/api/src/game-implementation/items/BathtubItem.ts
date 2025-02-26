@@ -9,8 +9,10 @@ import { PickUp } from "../actions/PickUpAction";
 export class BathtubItem extends Item implements Examine, PickUp {
     public static readonly Alias: string = "key_in_bathtub";
 
+    public static readonly validActions: string[] = ["examine", "pick up"];
+
     public constructor() {
-        super(BathtubItem.Alias);
+        super(BathtubItem.Alias, BathtubItem.validActions);
     }
 
     public name(): string {

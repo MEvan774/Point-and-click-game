@@ -9,8 +9,10 @@ import { GoTo } from "../actions/GoToAction";
 export class BathroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Bathtub";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(BathroomItem.Alias);
+        super(BathroomItem.Alias, BathroomItem.validActions);
     }
 
     public name(): string {

@@ -12,13 +12,16 @@ import { LivingRoom } from "../rooms/LivingRoom";
  */
 export class DoorKitchenLivingRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "KitchenToLivingRoomDoor";
+
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     /**
      * Create a new instance of this item
      *
      * @param alias Alias of this item
      */
     public constructor() {
-        super(DoorKitchenLivingRoomItem.Alias);
+        super(DoorKitchenLivingRoomItem.Alias, DoorKitchenLivingRoomItem.validActions);
     }
 
     public name(): string {

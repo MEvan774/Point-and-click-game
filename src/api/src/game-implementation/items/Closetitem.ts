@@ -7,8 +7,10 @@ import { Hide } from "../actions/HideAction";
 export class ClosetItem extends Item implements Examine, Hide {
     public static readonly Alias: string = "Closet";
 
+    public static readonly validActions: string[] = ["examine", "hide"];
+
     public constructor() {
-        super(ClosetItem.Alias);
+        super(ClosetItem.Alias, ClosetItem.validActions);
     }
 
     public name(): string {

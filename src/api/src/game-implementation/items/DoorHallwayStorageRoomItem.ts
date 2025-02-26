@@ -10,8 +10,10 @@ import { StorageRoom } from "../rooms/StorageRoom";
 export class DoorHallwayStorageRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-storageroom-door";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(DoorHallwayStorageRoomItem.Alias);
+        super(DoorHallwayStorageRoomItem.Alias, DoorHallwayStorageRoomItem.validActions);
     }
 
     public name(): string {
