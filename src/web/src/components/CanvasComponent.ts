@@ -262,6 +262,7 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
+        console.log(this._currentGameState?.actions);
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
@@ -271,13 +272,21 @@ export class CanvasComponent extends HTMLElement {
                     </div>
                     <div>
                         ${this._selectedActionButton
-                            ? this._currentGameState?.objects.map(button => this.renderGameObjectButton(button)) || ""
+                            ? this._currentGameState?.objects
+                                .filter(object => this.isObjectValidForAction(object, this._selectedActionButton))
+                                .map(button => this.renderGameObjectButton(button)) || ""
                             : ""
                         }
                     </div>
                 </div>
             </div>
         `;
+    }
+
+    private isObjectValidForAction(object: GameObjectReference, selectedAction: ActionReference | undefined): boolean | undefined {
+        if (!selectedAction) return;
+
+        return object.validActions.includes(selectedAction.alias);
     }
 
     /**

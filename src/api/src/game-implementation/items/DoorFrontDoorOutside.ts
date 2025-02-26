@@ -3,9 +3,6 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../actions/GoToAction";
-import { StartupRoom } from "../rooms/StartupRoom";
-import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
 
 export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "DoorFrontDoorOutsideItem";
@@ -27,13 +24,8 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        // Set a if statemenet if player doesnt have the key or other item.
         return new TextActionResult([
-            "Its locked, i should find a key.",
+            "Its locked, i should find a key and something to get the planks of the door.",
         ]);
-        const startupRoom: Room = new StartupRoom();
-
-        gameService.getPlayerSession().currentRoom = startupRoom.alias;
-        return undefined;
     }
 }
