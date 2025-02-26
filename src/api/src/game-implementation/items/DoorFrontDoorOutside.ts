@@ -7,8 +7,10 @@ import { GoTo } from "../actions/GoToAction";
 export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "DoorFrontDoorOutsideItem";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(DoorFrontDoorOutsideItem.Alias);
+        super(DoorFrontDoorOutsideItem.Alias, DoorFrontDoorOutsideItem.validActions);
     }
 
     public name(): string {

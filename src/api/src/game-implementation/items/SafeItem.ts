@@ -9,8 +9,10 @@ import { PlayerSession } from "../types";
 export class SafeItem extends Item implements Examine, Open {
     public static readonly Alias: string = "Safe";
 
+    public static readonly validActions: string[] = ["examine", "open"];
+
     public constructor() {
-        super(SafeItem.Alias);
+        super(SafeItem.Alias, SafeItem.validActions);
     }
 
     public name(): string {

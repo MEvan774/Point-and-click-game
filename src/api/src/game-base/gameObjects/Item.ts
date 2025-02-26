@@ -10,7 +10,7 @@ export abstract class Item extends GameObject {
      * @param alias Alias of this item
      * @param validActions Valid actions for the item
      */
-    protected constructor(alias: string) {
-        super(alias, ["examine", "go to"]);
+    protected constructor(alias: string, validActions: string[]) {
+        super(alias, validActions);
     }
 }

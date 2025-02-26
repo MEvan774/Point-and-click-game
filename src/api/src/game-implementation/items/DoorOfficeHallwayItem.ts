@@ -11,8 +11,10 @@ import { PickUp } from "../actions/PickUpAction";
 export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp {
     public static readonly Alias: string = "office-hallway-door";
 
+    public static readonly validActions: string[] = ["examine", "go to", "pick up"];
+
     public constructor() {
-        super(DoorOfficeHallwayItem.Alias);
+        super(DoorOfficeHallwayItem.Alias, DoorOfficeHallwayItem.validActions);
     }
 
     public name(): string {

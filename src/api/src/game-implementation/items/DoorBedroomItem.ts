@@ -10,8 +10,10 @@ import { Room } from "../../game-base/gameObjects/Room";
 export class DoorBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-door";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(DoorBedroomItem.Alias);
+        super(DoorBedroomItem.Alias, DoorBedroomItem.validActions);
     }
 
     public name(): string {

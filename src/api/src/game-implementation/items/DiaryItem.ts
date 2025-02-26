@@ -10,8 +10,10 @@ import { PlayerSession } from "../types";
 export class DiaryItem extends Item implements Examine, PickUp, Read {
     public static readonly Alias: string = "Diary";
 
+    public static readonly validActions: string[] = ["examine", "pick up", "read"];
+
     public constructor() {
-        super(DiaryItem.Alias);
+        super(DiaryItem.Alias, DiaryItem.validActions);
     }
 
     public name(): string {

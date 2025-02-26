@@ -9,8 +9,10 @@ import { PlayerSession } from "../types";
 export class DeskItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Desk";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(DeskItem.Alias);
+        super(DeskItem.Alias, DeskItem.validActions);
     }
 
     public name(): string {
