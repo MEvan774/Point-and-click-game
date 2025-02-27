@@ -6,8 +6,10 @@ import { Page } from "../enums/Page";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
+
+
     :host {
-        font-family: "Onesize";
+        font-family: "DungeonFont";
         width: 100%;
         max-width: 1024px;
         height: 100%;
@@ -98,7 +100,7 @@ const styles: string = css`
         color: #211e20;
         padding: 5px 10px;
         margin: 0 0 10px 10px;
-        text-transform: uppercase;
+        font-weight: bold;
         cursor: pointer;
         display: inline-block;
         user-select: none;
