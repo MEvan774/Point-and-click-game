@@ -5,9 +5,13 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { gameService } from "../../global";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class SafeItem extends Item implements Examine, Open {
     public static readonly Alias: string = "Safe";
+    public _position: Vector2 = { x: 20, y: 140 };
+    public _size: Vector2 = { x: 80, y: 80 };
+    public _action: ActionTypes = ActionTypes.Open;
 
     public constructor() {
         super(SafeItem.Alias);

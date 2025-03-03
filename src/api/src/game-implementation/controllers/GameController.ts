@@ -202,6 +202,10 @@ export class GameController {
         return {
             alias: gameObject.alias,
             name: await gameObject.name(),
+            position: gameObject._position,
+            size: gameObject._size,
+            isDebugHitboxOn: gameObject._isDebugHitboxVisible,
+            actionAlias: gameObject._action,
         };
     }
 };
