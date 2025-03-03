@@ -12,9 +12,10 @@ export class ClosetItem extends Item implements Examine, Hide {
     public _size: Vector2 = { x: 250, y: 430 };
     public _isDebugHitboxVisible: boolean = true;
     public _action: ActionTypes = ActionTypes.Hide;
+    public static readonly validActions: string[] = ["examine", "hide"];
 
     public constructor() {
-        super(ClosetItem.Alias);
+        super(ClosetItem.Alias, ClosetItem.validActions);
     }
 
     public name(): string {

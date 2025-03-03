@@ -5,27 +5,25 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
-import { BathroomRoom } from "../rooms/Bathroomroom";
+import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
 
-export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "bathroom-door";
-
-    public static readonly validActions: string[] = ["examine", "go to"];
+export class DoorOutsideFrontdoor extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "Outside Frontdoor room";
 
     public constructor() {
-        super(DoorBedroomBathroomItem.Alias, DoorBedroomBathroomItem.validActions);
+        super(DoorOutsideFrontdoor.Alias);
     }
 
     public name(): string {
-        return "Bathroom";
+        return "Outside";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["The door leads to a bathroom"]);
+        return new TextActionResult(["The door leads back to the FrontDoorRoom"]);
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new BathroomRoom();
+        const room: Room = new FrontDoorRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();

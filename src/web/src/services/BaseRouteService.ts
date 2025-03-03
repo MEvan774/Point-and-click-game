@@ -30,6 +30,7 @@ export abstract class BaseRouteService {
                 },
             }
         );
+        console.log("Response = ", `${VITE_API_URL}${path}${data ? `?${new URLSearchParams(data).toString()}` : ""}`);
 
         if (parseInt(response.headers.get("content-length")!) > 0) {
             return response.json() as T1;

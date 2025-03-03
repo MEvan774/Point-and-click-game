@@ -12,17 +12,20 @@ import { LivingRoom } from "../rooms/LivingRoom";
  */
 export class DoorKitchenLivingRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "KitchenToLivingRoomDoor";
+
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     /**
      * Create a new instance of this item
      *
      * @param alias Alias of this item
      */
     public constructor() {
-        super(DoorKitchenLivingRoomItem.Alias);
+        super(DoorKitchenLivingRoomItem.Alias, DoorKitchenLivingRoomItem.validActions);
     }
 
-    public name(): SyncOrAsync<string> {
-        return "Door to the Living room";
+    public name(): string {
+        return "Livingroom";
     }
 
     public examine(): ActionResult | undefined {
@@ -33,6 +36,6 @@ export class DoorKitchenLivingRoomItem extends Item implements Examine, GoTo {
         const livingRoom: Room = new LivingRoom();
 
         gameService.getPlayerSession().currentRoom = livingRoom.alias;
-        return undefined;
+        return livingRoom.examine();
     }
 }

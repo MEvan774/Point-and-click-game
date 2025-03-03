@@ -6,9 +6,11 @@ import { OpenAction } from "../actions/OpenAction";
 import { HallwayRoom } from "../rooms/HallwayRoom";
 import { LivingRoom } from "../rooms/LivingRoom";
 import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
-import { DooHallwayBedroomItem } from "../items/DoorHallwayBedroomRoomItem";
+import { DoorHallwayBedroomItem } from "../items/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
 import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
+import { BathroomItem } from "../items/BathroomItem";
+import { BathtubItem } from "../items/BathtubItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
@@ -79,6 +81,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(WorkRoom);
 
         // Items
+        this.registerGameObject(BathroomItem);
+        this.registerGameObject(BathtubItem);
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
@@ -97,7 +101,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorBathroomBedroomItem);
         this.registerGameObject(DoorHallwayStorageRoomItem);
         this.registerGameObject(DoorHallwayOfficeItem);
-        this.registerGameObject(DooHallwayBedroomItem);
+        this.registerGameObject(DoorHallwayBedroomItem);
         this.registerGameObject(DoorLivingRoomFrontDoorItem);
 
         // Characters
@@ -120,6 +124,10 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
+            selectedItem: "",
+            walkedToBathtub: false,
+            isPickingUpkey: false,
+            pickedUpKey: false,
             walkedToMirror: false,
             solvedRiddle: false,
             knowsAboutSafe: false,
@@ -127,6 +135,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             walkedToDesk: false,
             pickedUpDiary: false,
             readDiary: false,
+            isPickingUp: false,
         };
     }
 

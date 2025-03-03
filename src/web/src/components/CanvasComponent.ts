@@ -79,12 +79,12 @@ const styles: string = css`
     }
     .footer img {
         image-rendering: pixelated; /* Keeps the pixelated look */
-  width: 1022px; /* Scale up while maintaining aspect ratio */
-  height: auto; /* Keeps aspect ratio */
-  position: absolute;
-  margin-top: -103px; /* Adjust as needed */
-  z-index: 1;
-  pointer-events: none;
+    width: 1022px; /* Scale up while maintaining aspect ratio */
+    height: auto; /* Keeps aspect ratio */
+    position: absolute;
+    margin-top: -103px; /* Adjust as needed */
+    z-index: 1;
+    pointer-events: none;
     }
 
     .footer .buttons {
@@ -111,6 +111,23 @@ const styles: string = css`
     .footer .button:hover {
         background-color: #a0a08b;
     }
+
+    .buttonImage {
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+
+    .buttonImage.active {
+        background-color: gray;
+        border: 2px solid white;
+        border-radius: 20px;
+        filter: brightness(1.2);
+    }
 `;
 
 /**
@@ -128,6 +145,8 @@ export class CanvasComponent extends HTMLElement {
     private _selectedActionButton?: ActionReference;
     /** Current active game object buttons */
     private _selectedGameObjectButtons: Set<GameObjectReference> = new Set<GameObjectReference>();
+    /** Current selected inventory item */
+    private _selectedInventoryItem?: string;
 
     private hitBoxes: HitBox[] = [];
 
@@ -197,6 +216,51 @@ export class CanvasComponent extends HTMLElement {
         }
 
         this.shadowRoot.append(...elements);
+
+        this.attachInventoryButtonListeners();
+    }
+
+    /**
+     * Makes buttons for the items in the inventory
+     *
+     * @returns void
+     */
+    private attachInventoryButtonListeners(): void {
+        if (!this.shadowRoot) return;
+
+        const buttons: NodeListOf<Element> = this.shadowRoot.querySelectorAll(".buttonImage");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", async event => {
+                event.preventDefault();
+
+                await this.handleInventoryButtonClick(button.id);
+            });
+        });
+    }
+
+    /**
+     * Handles the actions when the inventory is clicked
+     *
+     * @param itemId Id of the selected item
+     */
+    private async handleInventoryButtonClick(itemId: string): Promise<void> {
+        if (this._selectedInventoryItem === itemId) {
+            this._selectedInventoryItem = undefined;
+        }
+        else {
+            this._selectedInventoryItem = itemId;
+
+            this.render();
+
+            const state: GameState | undefined = await this._gameRouteService.inventoryAction(itemId);
+
+            if (state === undefined) {
+                return;
+            }
+
+            this.updateGameState(state);
+        }
     }
 
     /**
@@ -206,8 +270,28 @@ export class CanvasComponent extends HTMLElement {
      */
     private renderTitle(): string {
         const roomName: string | undefined = this._currentGameState?.roomName;
+        const inventory: string[] | undefined = this._currentGameState?.inventory;
 
-        if (roomName) {
+        if (roomName && inventory) {
+            if (inventory.length > 0) {
+                let title: string = `<div class="title">${roomName}<br>`;
+
+                for (let x: number = 0; x < inventory.length; x++) {
+                    if (x !== 0) {
+                        title += ", ";
+                    }
+
+                    const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
+
+                    title += "<button id='" + inventory[x] +
+                    "' class='buttonImage " + isActive + "'}><img src='/assets/img/Items/" +
+                    inventory[x] + ".png' height='50px'/></button>";
+                }
+
+                title += "</div>";
+
+                return title;
+            }
             return `<div class="title">${roomName}</div>`;
         }
 
@@ -252,22 +336,38 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
+        console.log(this._currentGameState?.actions);
         return html`
             <div class="footer">
-                <img src="public/assets/img/ui/GameUI.png" alt="Pixel Art" class="pixel-art">
+                <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div>
                         ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
                     </div>
                     <div>
                         ${this._selectedActionButton
-                            ? this._currentGameState?.objects.map(button => this.renderGameObjectButton(button)) || ""
+                            ? this._currentGameState?.objects
+                                .filter(object => this.isObjectValidForAction(object, this._selectedActionButton))
+                                .map(button => this.renderGameObjectButton(button)) || ""
                             : ""
                         }
                     </div>
                 </div>
             </div>
         `;
+    }
+
+    /**
+     * Checkt voor elk object in de Room of het werkt met de aangeklikte actie
+     *
+     * @param object Gameobject om te testen
+     * @param selectedAction Actie die aangeklikt is om objecten bij te testen
+     * @returns boolean of de Gameobject past bij de actie
+     */
+    private isObjectValidForAction(object: GameObjectReference, selectedAction: ActionReference | undefined): boolean | undefined {
+        if (!selectedAction) return;
+
+        return object.validActions.includes(selectedAction.alias);
     }
 
     /**

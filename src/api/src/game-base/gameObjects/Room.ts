@@ -1,3 +1,4 @@
+import { gameService } from "../../global";
 import { ActionResult } from "../actionResults/ActionResult";
 import { Action } from "../actions/Action";
 import { Examine } from "../actions/ExamineAction";
@@ -13,9 +14,10 @@ export abstract class Room extends GameObject implements Examine {
      * Create a new instance of this room
      *
      * @param alias Alias of this room
+     * @param validActions Valid actions for the room
      */
     protected constructor(alias: string) {
-        super(alias);
+        super(alias, ["examine"]);
     }
 
     /**
@@ -43,6 +45,12 @@ export abstract class Room extends GameObject implements Examine {
      */
     public objects(): SyncOrAsync<GameObject[]> {
         return [];
+    }
+
+    public inventory(): GameObject[] {
+        const inventory: GameObject[] = gameService.getGameObjectsFromInventory();
+
+        return inventory;
     }
 
     /**

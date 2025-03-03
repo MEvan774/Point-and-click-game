@@ -13,8 +13,10 @@ export class SafeItem extends Item implements Examine, Open {
     public _size: Vector2 = { x: 80, y: 80 };
     public _action: ActionTypes = ActionTypes.Open;
 
+    public static readonly validActions: string[] = ["examine", "open"];
+
     public constructor() {
-        super(SafeItem.Alias);
+        super(SafeItem.Alias, SafeItem.validActions);
     }
 
     public name(): string {

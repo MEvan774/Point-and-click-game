@@ -5,37 +5,36 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
-import { DoorBedroomItem } from "../items/DoorBedroomItem";
+import { DoorOutsideFrontdoor } from "../items/DoorOutsideFrontdoor";
 
 /**
  * Implemention of the bedroom room
  *
  * @remarks Used as the first room for new player sessions.
  */
-export class BedroomRoom extends Room {
-    public static readonly Alias: string = "bedroom";
+export class OutsideRoom extends Room {
+    public static readonly Alias: string = "outside";
 
     /**
      * Create a new instance of this room
      */
     public constructor() {
-        super(BedroomRoom.Alias);
+        super(OutsideRoom.Alias);
     }
 
     /**
      * @inheritdoc
      */
     public name(): string {
-        return "Bedroom";
+        return "Outside the castle";
     }
 
     /**
      * @inheritdoc
      */
-    public images(): string[] {
-        return ["bedroomRoom"];
-    }
+    //    public images(): string[] {
+    //        return ["outsideRoom"];
+    //    }
 
     public actions(): Action[] {
         return [
@@ -46,8 +45,7 @@ export class BedroomRoom extends Room {
 
     public objects(): GameObject[] {
         return [
-            new DoorBedroomItem(),
-            new DoorBedroomBathroomItem(),
+            new DoorOutsideFrontdoor(),
         ];
     }
 
@@ -56,8 +54,9 @@ export class BedroomRoom extends Room {
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "This is a bedroom.",
-            "There are 2 doors.",
+            "This is outside the castle.",
+            "There is a shed that's half open.",
+            "There is a fence that's locked.",
         ]);
     }
 }

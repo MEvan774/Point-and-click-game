@@ -5,12 +5,15 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { gameService } from "../../global";
 import { PickUp } from "../actions/PickUpAction";
 import { Read } from "../actions/ReadAction";
+import { PlayerSession } from "../types";
 
 export class DiaryItem extends Item implements Examine, PickUp, Read {
     public static readonly Alias: string = "Diary";
 
+    public static readonly validActions: string[] = ["examine", "pick up", "read"];
+
     public constructor() {
-        super(DiaryItem.Alias);
+        super(DiaryItem.Alias, DiaryItem.validActions);
     }
 
     public name(): string {
@@ -18,16 +21,27 @@ export class DiaryItem extends Item implements Examine, PickUp, Read {
     }
 
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.isPickingUp = false;
+        playerSession.readDiary = false;
         return new TextActionResult ([
             "This looks like a diary, maybe I need to pick it up.",
         ]);
     }
 
     public pickup(): ActionResult | undefined {
-        gameService.getPlayerSession().pickedUpDiary = true;
-        return new TextActionResult([
-            "You have picked up the diary.",
-        ]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.isPickingUp = true;
+
+        if (!playerSession.pickedUpDiary) {
+            playerSession.inventory.push("DiaryItem");
+            playerSession.pickedUpDiary = true;
+            return new TextActionResult(["You have picked up the diary"]);
+        }
+        else {
+            playerSession.isPickingUp = false;
+            return new TextActionResult(["You have already picked up the diary."]);
+        }
     }
 
     public read(): ActionResult | undefined {
