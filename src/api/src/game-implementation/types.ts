@@ -7,6 +7,7 @@ export type PlayerSession = {
     /** Alias of the room the player is in */
     currentRoom: string;
     inventory: string[];
+    selectedItem: string;
     walkedToBathtub: boolean;
     isPickingUpkey: boolean;
     pickedUpKey: boolean;

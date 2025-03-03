@@ -1,4 +1,4 @@
-import { ActionReference, ExecuteActionRequest, GameObjectReference, GameState } from "@shared/types";
+import { ActionReference, ExecuteActionRequest, GameObjectReference, GameState, InventoryActionRequest } from "@shared/types";
 import { Request, Response } from "express";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TalkActionResult } from "../../game-base/actionResults/TalkActionResult";
@@ -24,6 +24,28 @@ export class GameController {
         // Execute the Examine action on the current room
         const gameState: GameState | undefined = await this.executeAction(
             ExamineAction.Alias
+        );
+
+        if (gameState) {
+            res.json(gameState);
+        }
+        else {
+            res.status(500).end();
+        }
+    }
+
+    /**
+     * Handle the request to change the selected inventory item
+     *
+     * @remarks Response is a 200 with a `GameState` on success, otherwise a 500.
+     */
+    public async handleInventoryRequest(req: Request, res: Response): Promise<void> {
+        // Extract the data from the request body
+        const inventoryActionRequest: InventoryActionRequest = req.body as InventoryActionRequest;
+
+        // Execute the requested action on the requested game objects
+        const gameState: GameState | undefined = await this.inventoryAction(
+            inventoryActionRequest.selectedItem
         );
 
         if (gameState) {
@@ -65,6 +87,24 @@ export class GameController {
      *
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
+    private async inventoryAction(selectedItem: string): Promise<GameState | undefined> {
+        // If no selectedItem, use the one in the player session
+        if (!selectedItem || selectedItem.length === 0) {
+            selectedItem = gameService.getPlayerSession().selectedItem;
+        }
+
+        // Convert the result of the action to the new game state
+        return this.convertActionResultToGameState(undefined, selectedItem);
+    }
+
+    /**
+     * Execute the requested action and convert the result to a type of `GameState`.
+     *
+     * @param actionAlias Alias of action to execute
+     * @param gameObjectAliases Optional list of game object aliases to execute the action on
+     *
+     * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
+     */
     private async executeAction(actionAlias: string, gameObjectAliases?: string[]): Promise<GameState | undefined> {
         // If no game object aliases are defined, use the current room instead.
         if (!gameObjectAliases || gameObjectAliases.length === 0) {
@@ -95,7 +135,7 @@ export class GameController {
      *
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
-    private async convertActionResultToGameState(actionResult?: ActionResult): Promise<GameState | undefined> {
+    private async convertActionResultToGameState(actionResult?: ActionResult, selectedItem?: string): Promise<GameState | undefined> {
         // If the client application has to switch pages, handle it now.
         if (actionResult instanceof SwitchPageActionResult) {
             return {
@@ -118,8 +158,11 @@ export class GameController {
         // Determine the text to show to the player
         let text: string[];
 
-        if (actionResult instanceof TextActionResult) {
+        if (actionResult instanceof TextActionResult && !selectedItem) {
             text = actionResult.text;
+        }
+        else if (selectedItem) {
+            text = ["You get the " + selectedItem + " from your inventory."];
         }
         else {
             text = ["That doesn't make any sense."];
@@ -139,6 +182,13 @@ export class GameController {
             for (const action of await room.actions()) {
                 actions.push(await this.convertActionToReference(action));
             }
+        }
+
+        if (!selectedItem) {
+            selectedItem = gameService.getPlayerSession().selectedItem;
+        }
+        else {
+            gameService.getPlayerSession().selectedItem = selectedItem;
         }
 
         // Determine the game objects to show to the player
@@ -161,6 +211,7 @@ export class GameController {
             actions: actions,
             objects: objects,
             inventory: inventory,
+            selectedItem: selectedItem,
         };
     }
 

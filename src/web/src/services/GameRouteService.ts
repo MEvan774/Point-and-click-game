@@ -1,4 +1,4 @@
-import { ExecuteActionRequest, GameState } from "@shared/types";
+import { ExecuteActionRequest, GameState, InventoryActionRequest } from "@shared/types";
 import { BaseRouteService } from "./BaseRouteService";
 
 /**
@@ -33,6 +33,18 @@ export class GameRouteService extends BaseRouteService {
             });
         }
         catch {
+            return undefined;
+        }
+    }
+
+    public async inventoryAction(objectId: string): Promise<GameState | undefined> {
+        try {
+            return await this.postJsonApi<GameState, InventoryActionRequest>("game/state", {
+                selectedItem: objectId,
+            });
+        }
+        catch (error) {
+            console.error(error);
             return undefined;
         }
     }

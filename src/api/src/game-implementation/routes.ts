@@ -18,3 +18,4 @@ router.use(gameService.createPlayerSessionMiddleware());
 
 router.get("/state", (req, res) => gameController.handleStateRequest(req, res));
 router.post("/action", (req, res) => gameController.handleActionRequest(req, res));
+router.post("/state", (req, res) => gameController.handleInventoryRequest(req, res));
