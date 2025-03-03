@@ -3,6 +3,7 @@ import { css, html, htmlArray } from "../helpers/webComponents";
 import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
+import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -147,6 +148,8 @@ export class CanvasComponent extends HTMLElement {
     /** Current selected inventory item */
     private _selectedInventoryItem?: string;
 
+    private hitBoxes: HitBox[] = [];
+
     /**
      * The "constructor" of a Web Component
      */
@@ -192,6 +195,7 @@ export class CanvasComponent extends HTMLElement {
      * Render the contents of this page
      */
     private render(): void {
+        this.RemoveHitBoxes();
         if (!this.shadowRoot) {
             return;
         }
@@ -301,7 +305,7 @@ export class CanvasComponent extends HTMLElement {
      */
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
-
+        setTimeout(() => this.addHitboxes(), 10);
         if (roomImages && roomImages.length > 0) {
             return `
                 <div class="header">
@@ -462,5 +466,50 @@ export class CanvasComponent extends HTMLElement {
 
         // Otherwise, update the game state.
         this.updateGameState(state);
+    }
+
+    private addHitboxes(): void {
+        if (this._currentGameState) {
+            const objRef: GameObjectReference[] = this._currentGameState.objects;
+
+            for (let i: number = 0; i < this._currentGameState.objects.length; i++) {
+                this.hitBoxes.push(new HitBox(objRef[i].position, objRef[i].size,
+                    objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
+            }
+        }
+    }
+
+    public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        const tempObjects: string[] = [];
+        tempObjects.push(objectAlias);
+        // Try to execute the action with all game objects on the list
+        const state: GameState | undefined = await this._gameRouteService.executeAction(
+            actionAlias,
+            tempObjects
+        );
+
+        // If 2 more game objects where on the list, clear it.
+        if (this._selectedGameObjectButtons.size >= 2) {
+            this._selectedActionButton = undefined;
+            this._selectedGameObjectButtons.clear();
+        }
+
+        // Refresh the web component
+        this.render();
+
+        // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
+        if (state === undefined) {
+            return;
+        }
+
+        // Otherwise, update the game state.
+        this.updateGameState(state);
+    }
+
+    private RemoveHitBoxes(): void {
+        for (let i: number = 0; i < this.hitBoxes.length; i++) {
+            this.hitBoxes[i].removeHitBox();
+        }
+        this.hitBoxes = [];
     }
 }
