@@ -124,6 +124,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
+            selectedItem: "",
             walkedToBathtub: false,
             isPickingUpkey: false,
             pickedUpKey: false,

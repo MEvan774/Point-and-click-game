@@ -28,6 +28,9 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
         if (!gameService.getPlayerSession().pickedUpKey) {
             return new TextActionResult(["The door is locked, maybe there is a key nearby."]);
         }
+        else if (gameService.getPlayerSession().selectedItem !== "KeyItem") {
+            return new TextActionResult(["I should use the key I found."]);
+        }
         else {
             const room: Room = new HallwayRoom();
             gameService.getPlayerSession().currentRoom = room.alias;

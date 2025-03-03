@@ -25,6 +25,8 @@ export type DefaultGameState = {
     objects: GameObjectReference[];
     /** Inventory of the player */
     inventory: string[];
+    /** Selected item */
+    selectedItem: string;
 };
 
 /**
@@ -69,4 +71,12 @@ export type ExecuteActionRequest = {
     action: string;
     /** Aliases of the game objects to execute the action on */
     objects?: string[];
+};
+
+/**
+ * Change selected inventory item
+ */
+export type InventoryActionRequest = {
+    /** Selected Item */
+    selectedItem: string;
 };
