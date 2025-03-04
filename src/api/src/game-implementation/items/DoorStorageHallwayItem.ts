@@ -10,11 +10,11 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "DoorStorageHallwayItem";
-    public _position: Vector2 = { x: -480, y: 120 };
-    public _size: Vector2 = { x: 140, y: 400 };
-    public _isDebugHitboxVisible: boolean = false;
-    public _action: ActionTypes = ActionTypes.GoTo;
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public _position: Vector2 = { x: -480, y: 200 };
+    public _size: Vector2 = { x: 140, y: 350 };
+    public _isDebugHitboxVisible: boolean = true;
+    public _action: ActionTypes = ActionTypes.Examine;
+    public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
         super(DoorStorageHallwayItem.Alias, DoorStorageHallwayItem.validActions);

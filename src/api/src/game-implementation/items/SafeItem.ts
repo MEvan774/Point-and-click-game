@@ -9,11 +9,12 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class SafeItem extends Item implements Examine, Open {
     public static readonly Alias: string = "Safe";
-    public _position: Vector2 = { x: 20, y: 140 };
-    public _size: Vector2 = { x: 80, y: 80 };
-    public _action: ActionTypes = ActionTypes.Open;
+    public _position: Vector2 = { x: 35, y: 200 };
+    public _size: Vector2 = { x: 60, y: 60 };
+    public _action: ActionTypes = ActionTypes.Examine;
+    public _isDebugHitboxVisible: boolean = true;
 
-    public static readonly validActions: string[] = ["examine", "open"];
+    public static readonly validActions: string[] = ["open"];
 
     public constructor() {
         super(SafeItem.Alias, SafeItem.validActions);

@@ -9,11 +9,11 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 export class MirrorItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Mirror";
 
-    public _position: Vector2 = { x: -240, y: 120 };
-    public _size: Vector2 = { x: 170, y: 280 };
-    public _isDebugHitboxVisible: boolean = false;
-    public _action: ActionTypes = ActionTypes.GoTo;
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public _position: Vector2 = { x: -235, y: 180 };
+    public _size: Vector2 = { x: 155, y: 245 };
+    public _isDebugHitboxVisible: boolean = true;
+    public _action: ActionTypes = ActionTypes.Examine;
+    public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
         super(MirrorItem.Alias, MirrorItem.validActions);

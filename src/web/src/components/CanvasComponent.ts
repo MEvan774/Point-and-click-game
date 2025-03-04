@@ -292,7 +292,10 @@ export class CanvasComponent extends HTMLElement {
 
                 return title;
             }
-            return `<div class="title">${roomName}</div>`;
+            const title: string = `<div class="title">${roomName}<br>
+            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+
+            return title;
         }
 
         return "";
@@ -336,7 +339,6 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        console.log(this._currentGameState?.actions);
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
