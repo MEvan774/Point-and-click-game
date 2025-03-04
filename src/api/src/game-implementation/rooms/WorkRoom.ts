@@ -59,9 +59,9 @@ export class WorkRoom extends Room implements Examine {
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
-        if (playerSession.walkedToDesk) {
+        // if (playerSession.walkedToDesk) {
             objects.push(new DiaryItem());
-        }
+        // }
         if (!playerSession.isPickingUp) {
             objects.push(new DoorOfficeHallwayItem());
         }

@@ -1,6 +1,7 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Item } from "../../game-base/gameObjects/Item";
 import { gameService } from "../../global";
 import { PickUp } from "../actions/PickUpAction";
@@ -11,6 +12,10 @@ export class DiaryItem extends Item implements Examine, PickUp, Read {
     public static readonly Alias: string = "Diary";
 
     public static readonly validActions: string[] = ["examine", "pick up", "read"];
+    public _position: Vector2 = { x: -50, y: 330 };
+    public _size: Vector2 = { x: 90, y: 60 };
+    public _isDebugHitboxVisible: boolean = false;
+    public _action: ActionTypes = ActionTypes.PickUp;
 
     public constructor() {
         super(DiaryItem.Alias, DiaryItem.validActions);
