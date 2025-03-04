@@ -42,6 +42,7 @@ import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
 import { DoorHallwayStorageRoomItem } from "../items/DoorHallwayStorageRoomItem";
 import { DoorHallwayOfficeItem } from "../items/DoorHallwayOfficeItem";
 import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorItem";
+import { EyeCharacter } from "../characters/EyeCharacter";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -107,6 +108,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         // Characters
         this.registerGameObject(MirrorCharacter);
         this.registerGameObject(GhostCharacter);
+        this.registerGameObject(EyeCharacter);
 
         // Actions
         this.registerAction(OpenAction);
