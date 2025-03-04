@@ -49,6 +49,14 @@ export type GameObjectReference = {
     alias: string;
     /** Name of the game object */
     name: string;
+    /** X and Y Axis for hitbox position */
+    position: Vector2;
+    /** width and height for hitbox size */
+    size: Vector2;
+    /** visibility for the hitbox for debug purposes */
+    isDebugHitboxOn: boolean;
+    /** name of the action alias that will be used when clicked on */
+    actionAlias: string;
     /** List of action aliases that this object supports */
     validActions: string[];
 };
