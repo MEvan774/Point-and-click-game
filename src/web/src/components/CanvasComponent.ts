@@ -113,6 +113,7 @@ const styles: string = css`
     }
 
     .buttonImage {
+        image-rendering: pixelated;
         background: none;
         color: inherit;
         border: none;
