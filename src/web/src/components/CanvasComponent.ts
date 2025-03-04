@@ -343,8 +343,8 @@ export class CanvasComponent extends HTMLElement {
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
-                    <div>
-                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                    <div class="actionButtons">
+                        
                     </div>
                     <div>
                         ${this._selectedActionButton
@@ -377,14 +377,14 @@ export class CanvasComponent extends HTMLElement {
      *
      * @returns HTML element of the action button
      */
-    private renderActionButton(button: ActionReference): HTMLElement {
+    private renderActionButton(action: ActionReference, object: GameObjectReference): HTMLElement {
         const element: HTMLElement = html`
-            <a class="button ${this._selectedActionButton === button ? "active" : ""}">
-                ${button.name}
+            <a class="button ${this._selectedActionButton === action ? "active" : ""}">
+                ${action.name}
             </a>
         `;
 
-        element.addEventListener("click", () => this.handleClickAction(button));
+        element.addEventListener("click", () => this.handleClickAction(action, object));
 
         return element;
     }
@@ -411,8 +411,8 @@ export class CanvasComponent extends HTMLElement {
      *
      * @param button Action button that was clicked
      */
-    private async handleClickAction(button: ActionReference): Promise<void> {
-        // If this actions needs a game object, show the available game objects.
+    private async handleClickAction(action: ActionReference, object: GameObjectReference): Promise<void> {
+        /** If this actions needs a game object, show the available game objects.
         if (button.needsObject) {
             this._selectedActionButton = button;
             this._selectedGameObjectButtons.clear();
@@ -421,9 +421,10 @@ export class CanvasComponent extends HTMLElement {
 
             return;
         }
+        */
 
         // Otherwise, execute the action and update the game state.
-        const state: GameState | undefined = await this._gameRouteService.executeAction(button.alias);
+        const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
         if (state === undefined) {
             return;
@@ -482,8 +483,28 @@ export class CanvasComponent extends HTMLElement {
     }
 
     public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        // Get selected object
+        const objectRef: GameObjectReference[] | undefined = this._currentGameState?.objects;
+        if (!objectRef) return;
+
+        const currentObject: GameObjectReference | undefined = objectRef.find(obj => obj.alias === objectAlias);
+        if (!currentObject) return;
+
+        // Get possible actions
+        const allActions: ActionReference[] | undefined = this._currentGameState?.actions;
+        const actions: ActionReference[] = [];
+
+        if (!allActions) return;
+
+        for (let x: number = 0; x < allActions.length; x++) {
+            if (this.isObjectValidForAction(currentObject, allActions[x])) {
+                actions.push(allActions[x]);
+            }
+        }
+
         const tempObjects: string[] = [];
         tempObjects.push(objectAlias);
+
         // Try to execute the action with all game objects on the list
         const state: GameState | undefined = await this._gameRouteService.executeAction(
             actionAlias,
@@ -496,9 +517,6 @@ export class CanvasComponent extends HTMLElement {
             this._selectedGameObjectButtons.clear();
         }
 
-        // Refresh the web component
-        this.render();
-
         // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
         if (state === undefined) {
             return;
@@ -506,6 +524,19 @@ export class CanvasComponent extends HTMLElement {
 
         // Otherwise, update the game state.
         this.updateGameState(state);
+
+        // Set action buttons
+        setTimeout(() => {
+            const buttonsHTML: HTMLDivElement | null | undefined = this.shadowRoot?.querySelector(".actionButtons");
+
+            if (buttonsHTML) {
+                buttonsHTML.innerHTML = "";
+                for (let x: number = 0; x < actions.length; x++) {
+                    const actionButton: HTMLElement = this.renderActionButton(actions[x], currentObject);
+                    buttonsHTML.appendChild(actionButton);
+                }
+            }
+        }, 0);
     }
 
     private RemoveHitBoxes(): void {
