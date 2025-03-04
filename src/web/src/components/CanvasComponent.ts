@@ -339,6 +339,20 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
+        if (this._currentGameState?.roomAlias === "startup") {
+            return html`
+            <div class="footer">
+                <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
+                <div class="buttons">
+                    <div class="actionButtons">
+                        ${this._currentGameState.actions.map(button => this.renderActionButton(button))}
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        `;
+        }
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
@@ -377,14 +391,19 @@ export class CanvasComponent extends HTMLElement {
      *
      * @returns HTML element of the action button
      */
-    private renderActionButton(action: ActionReference, object: GameObjectReference): HTMLElement {
+    private renderActionButton(action: ActionReference, object?: GameObjectReference): HTMLElement {
         const element: HTMLElement = html`
             <a class="button ${this._selectedActionButton === action ? "active" : ""}">
                 ${action.name}
             </a>
         `;
 
-        element.addEventListener("click", () => this.handleClickAction(action, object));
+        if (object) {
+            element.addEventListener("click", () => this.handleClickAction(action, object));
+        }
+        else {
+            element.addEventListener("click", () => this.handleClickAction(action));
+        }
 
         return element;
     }
@@ -411,26 +430,26 @@ export class CanvasComponent extends HTMLElement {
      *
      * @param button Action button that was clicked
      */
-    private async handleClickAction(action: ActionReference, object: GameObjectReference): Promise<void> {
-        /** If this actions needs a game object, show the available game objects.
-        if (button.needsObject) {
-            this._selectedActionButton = button;
-            this._selectedGameObjectButtons.clear();
+    private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
+        // Execute the action and update the game state.
+        if (object) {
+            const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
-            this.render();
+            if (state === undefined) {
+                return;
+            }
 
-            return;
+            this.updateGameState(state);
         }
-        */
+        else {
+            const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias);
 
-        // Otherwise, execute the action and update the game state.
-        const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
+            if (state === undefined) {
+                return;
+            }
 
-        if (state === undefined) {
-            return;
+            this.updateGameState(state);
         }
-
-        this.updateGameState(state);
     }
 
     /**

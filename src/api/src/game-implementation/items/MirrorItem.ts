@@ -11,7 +11,7 @@ export class MirrorItem extends Item implements Examine, GoTo {
 
     public _position: Vector2 = { x: -235, y: 180 };
     public _size: Vector2 = { x: 155, y: 245 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["go to"];
 

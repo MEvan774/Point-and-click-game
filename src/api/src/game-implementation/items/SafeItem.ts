@@ -12,7 +12,7 @@ export class SafeItem extends Item implements Examine, Open {
     public _position: Vector2 = { x: 35, y: 200 };
     public _size: Vector2 = { x: 60, y: 60 };
     public _action: ActionTypes = ActionTypes.Examine;
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = false;
 
     public static readonly validActions: string[] = ["open"];
 

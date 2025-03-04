@@ -10,7 +10,7 @@ export class ClosetItem extends Item implements Examine, Hide {
 
     public _position: Vector2 = { x: 220, y: 150 };
     public _size: Vector2 = { x: 250, y: 430 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["hide"];
 

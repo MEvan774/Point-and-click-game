@@ -14,7 +14,7 @@ export abstract class Character extends GameObject implements Talk {
      * @param alias Alias of this character
      */
     protected constructor(alias: string) {
-        super(alias, ["examine", "talk"]);
+        super(alias, ["talk"]);
     }
 
     /**

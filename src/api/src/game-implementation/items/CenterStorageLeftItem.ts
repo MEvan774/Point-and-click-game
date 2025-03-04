@@ -4,34 +4,35 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
-import { HallwayRoom } from "../rooms/HallwayRoom";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
-export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "DoorStorageHallwayItem";
-    public _position: Vector2 = { x: -480, y: 200 };
-    public _size: Vector2 = { x: 140, y: 350 };
+export class CenterStorageLeftItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "Center Storage";
+    public _position: Vector2 = { x: -510, y: 95 };
+    public _size: Vector2 = { x: 250, y: 535 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
+
     public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
-        super(DoorStorageHallwayItem.Alias, DoorStorageHallwayItem.validActions);
+        super(CenterStorageLeftItem.Alias, CenterStorageLeftItem.validActions);
     }
 
     public name(): string {
-        return "Hallway";
+        return "Center of the room";
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This door leads back to the hallway."]);
+        return new TextActionResult([
+            "The center of the room.",
+            "You can go back here of you're done with the mirror.",
+        ]);
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new HallwayRoom();
+        gameService.getPlayerSession().walkedToMirror = false;
 
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        return new TextActionResult(["You go back."]);
     }
 }
