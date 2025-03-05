@@ -63,9 +63,7 @@ export class StorageRoom extends Room {
     }
 
     public objects(): GameObject[] {
-        const objects: GameObject[] = [
-            new MirrorItem(),
-        ];
+        const objects: GameObject[] = [];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
@@ -81,6 +79,7 @@ export class StorageRoom extends Room {
             objects.push(new SafeItem());
             objects.push(new DoorStorageHallwayItem());
             objects.push(new ClosetItem());
+            objects.push(new MirrorItem());
         }
 
         return objects;

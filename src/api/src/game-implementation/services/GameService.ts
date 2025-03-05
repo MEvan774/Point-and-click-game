@@ -3,10 +3,17 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { StartupRoom } from "../rooms/StartupRoom";
 import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
+import { HallwayRoom } from "../rooms/HallwayRoom";
+import { LivingRoom } from "../rooms/LivingRoom";
+import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
+import { DoorHallwayBedroomItem } from "../items/DoorHallwayBedroomroomItem";
+import { GoToAction } from "../actions/GoToAction";
+import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
+import { BathroomItem } from "../items/BathroomItem";
+import { BathtubItem } from "../items/BathtubItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
-import { GoToAction } from "../actions/GoToAction";
 import { StorageRoom } from "../rooms/StorageRoom";
 import { MirrorItem } from "../items/MirrorItem";
 import { MirrorCharacter } from "../characters/MirrorCharacter";
@@ -26,6 +33,15 @@ import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageItem } from "../items/CenterStorageItem";
 import { ReadAction } from "../actions/ReadAction";
+import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
+import { KitchenRoom } from "../rooms/KitchenRoom";
+import { DoorKitchenLivingRoomItem } from "../items/DoorKitchenLivingRoomItem";
+import { GhostCharacter } from "../characters/GhostCharacter";
+import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
+import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
+import { DoorHallwayStorageRoomItem } from "../items/DoorHallwayStorageRoomItem";
+import { DoorHallwayOfficeItem } from "../items/DoorHallwayOfficeItem";
+import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -39,6 +55,17 @@ export class GameService extends BaseGameService<PlayerSession> {
 
         // Rooms
         this.registerGameObject(StartupRoom);
+        this.registerGameObject(HallwayRoom);
+        this.registerGameObject(LivingRoom);
+        this.registerGameObject(KitchenRoom);
+
+        // Actions
+        this.registerAction(OpenAction);
+        this.registerAction(GoToAction);
+
+        // Items
+        this.registerGameObject(HallwayFrontDoorItem);
+        this.registerGameObject(FrontDoorHallwayItem);
         this.registerGameObject(BedroomRoom);
         this.registerGameObject(BathroomRoom);
 
@@ -54,10 +81,14 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(WorkRoom);
 
         // Items
+        this.registerGameObject(BathroomItem);
+        this.registerGameObject(BathtubItem);
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
         this.registerGameObject(DoorFrontDoorLivingRoomItem);
+        this.registerGameObject(DoorLivingRoomKitchenItem);
+        this.registerGameObject(DoorKitchenLivingRoomItem);
         this.registerGameObject(DoorFrontDoorOutsideItem);
         this.registerGameObject(StairsDownStairsItem);
         this.registerGameObject(DoorOfficeHallwayItem);
@@ -65,9 +96,17 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(ClosetItem);
         this.registerGameObject(DeskItem);
         this.registerGameObject(CenterStorageItem);
+        this.registerGameObject(DoorBedroomItem);
+        this.registerGameObject(DoorBedroomBathroomItem);
+        this.registerGameObject(DoorBathroomBedroomItem);
+        this.registerGameObject(DoorHallwayStorageRoomItem);
+        this.registerGameObject(DoorHallwayOfficeItem);
+        this.registerGameObject(DoorHallwayBedroomItem);
+        this.registerGameObject(DoorLivingRoomFrontDoorItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
+        this.registerGameObject(GhostCharacter);
 
         // Actions
         this.registerAction(OpenAction);
@@ -85,6 +124,10 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             inventory: [],
+            selectedItem: "",
+            walkedToBathtub: false,
+            isPickingUpkey: false,
+            pickedUpKey: false,
             walkedToMirror: false,
             solvedRiddle: false,
             knowsAboutSafe: false,
@@ -92,6 +135,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             walkedToDesk: false,
             pickedUpDiary: false,
             readDiary: false,
+            isPickingUp: false,
         };
     }
 
