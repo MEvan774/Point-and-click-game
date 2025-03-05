@@ -15,8 +15,7 @@ export type PlayerSession = {
     knowsAboutSafe: boolean;
     solvedRiddle: boolean;
     safeOpened: boolean;
-    walkedToDesk: boolean;
     pickedUpDiary: boolean;
-    readDiary: boolean;
-    isPickingUp: boolean;
+    clickedFirstAid: boolean;
+    pickedUpFirstAid: boolean;
 };
