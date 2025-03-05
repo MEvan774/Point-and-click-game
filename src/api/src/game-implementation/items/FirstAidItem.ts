@@ -12,7 +12,7 @@ export class FirstAidItem extends Item implements Examine, PickUp {
     public static readonly validActions: string[] = ["pick up"];
     public _position: Vector2 = { x: -300, y: 280 };
     public _size: Vector2 = { x: 100, y: 80 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
 
     public constructor() {
