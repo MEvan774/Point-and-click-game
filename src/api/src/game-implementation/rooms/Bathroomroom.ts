@@ -41,8 +41,14 @@ export class BathroomRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
 
-        if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
+        if (playerSession.walkedToBathtub && !playerSession.pickedUpKey) {
             result.push("bathtubKeyItem");
+        }
+        else if (playerSession.pickedUpKey) {
+            result.push("bathroomRoomPickedUp");
+        }
+        else if (playerSession.isPickingUpkey && playerSession.walkedToBathtub) {
+            result.push("bathtubKeyItemPickedUp");
         }
         else {
             result.push("bathroomRoom");

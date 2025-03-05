@@ -46,6 +46,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
             }
             case 1:
                 gameService.getPlayerSession().pickedUpKey = false;
+                gameService.getPlayerSession().isPickingUpkey = false;
                 {
                     return new TalkActionResult(
                         this,
@@ -65,6 +66,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
             }
             case 3:
             {
+                gameService.getPlayerSession().isPickingUpkey = true;
                 gameService.getPlayerSession().pickedUpKey = true;
                 gameService.getPlayerSession().inventory.push("KeyItem");
                 return new TextActionResult([
