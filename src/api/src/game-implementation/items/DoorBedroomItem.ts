@@ -6,11 +6,16 @@ import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { HallwayRoom } from "../rooms/HallwayRoom";
 import { Room } from "../../game-base/gameObjects/Room";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class DoorBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-door";
+    public _action: ActionTypes = ActionTypes.Examine;
+    public _position: Vector2 = { x: -100, y: 400 };
+    public _size: Vector2 = { x: 200, y: 200 };
+    public _isDebugHitboxVisible: boolean = true;
 
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public static readonly validActions: string[] = [ActionTypes.GoTo];
 
     public constructor() {
         super(DoorBedroomItem.Alias, DoorBedroomItem.validActions);
