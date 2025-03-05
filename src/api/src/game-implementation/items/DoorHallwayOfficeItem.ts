@@ -14,7 +14,11 @@ export class DoorHallwayOfficeItem extends Item implements Examine, GoTo {
     public _position: Vector2 = { x: -180, y: 200 };
     public _size: Vector2 = { x: 90, y: 270 };
 
-    public static readonly validActions: string[] = [ActionTypes.GoTo];
+    public static readonly validActions: string[] = ["examine", "go to"];
+    public _position: Vector2 = { x: -240, y: 120 };
+    public _size: Vector2 = { x: 170, y: 280 };
+    public _isDebugHitboxVisible: boolean = false;
+    public _action: ActionTypes = ActionTypes.GoTo;
 
     public constructor() {
         super(DoorHallwayOfficeItem.Alias, DoorHallwayOfficeItem.validActions);
