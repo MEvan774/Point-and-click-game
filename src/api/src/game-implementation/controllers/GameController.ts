@@ -88,9 +88,9 @@ export class GameController {
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
     private async inventoryAction(selectedItem: string): Promise<GameState | undefined> {
-        // If no selectedItem, use the one in the player session
+        // If no selectedItem, make empty
         if (!selectedItem || selectedItem.length === 0) {
-            selectedItem = gameService.getPlayerSession().selectedItem;
+            gameService.getPlayerSession().selectedItem = "";
         }
 
         // Convert the result of the action to the new game state
@@ -165,7 +165,7 @@ export class GameController {
             text = ["You get the " + selectedItem + " from your inventory."];
         }
         else {
-            text = ["That doesn't make any sense."];
+            text = ["You put the item back."];
         }
 
         // Determine the actions to show to the player

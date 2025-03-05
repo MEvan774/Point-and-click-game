@@ -122,7 +122,7 @@ const styles: string = css`
         outline: inherit;
     }
 
-    .buttonImage.active {
+    .active-item {
         background-color: gray;
         border: 2px solid white;
         border-radius: 20px;
@@ -238,6 +238,21 @@ export class CanvasComponent extends HTMLElement {
                 await this.handleInventoryButtonClick(button.id);
             });
         });
+
+        if (this._currentGameState) {
+            const inventory: string[] = this._currentGameState.inventory;
+
+            for (let x: number = 0; x < inventory.length; x++) {
+                if (inventory[x] === this._currentGameState.selectedItem) {
+                    const selectedItem: Element | null = this.shadowRoot.querySelector("#" + this._currentGameState.selectedItem);
+
+                    if (selectedItem instanceof HTMLElement) {
+                        selectedItem.classList.add("active-item");
+                        this._selectedInventoryItem = this._currentGameState.selectedItem;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -248,11 +263,18 @@ export class CanvasComponent extends HTMLElement {
     private async handleInventoryButtonClick(itemId: string): Promise<void> {
         if (this._selectedInventoryItem === itemId) {
             this._selectedInventoryItem = undefined;
+
+            const state: GameState | undefined = await this._gameRouteService.inventoryAction("");
+
+            if (state === undefined) {
+                return;
+            }
+
+            this.updateGameState(state);
+            this.render();
         }
         else {
             this._selectedInventoryItem = itemId;
-
-            this.render();
 
             const state: GameState | undefined = await this._gameRouteService.inventoryAction(itemId);
 
@@ -261,6 +283,7 @@ export class CanvasComponent extends HTMLElement {
             }
 
             this.updateGameState(state);
+            this.render();
         }
     }
 
