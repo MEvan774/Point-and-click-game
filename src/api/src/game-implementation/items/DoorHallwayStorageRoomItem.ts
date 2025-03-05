@@ -6,11 +6,14 @@ import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
 import { StorageRoom } from "../rooms/StorageRoom";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class DoorHallwayStorageRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-storageroom-door";
-
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public _action: ActionTypes = ActionTypes.Examine;
+    public _position: Vector2 = { x: 100, y: 200 };
+    public _size: Vector2 = { x: 90, y: 270 };
+    public static readonly validActions: string[] = [ActionTypes.GoTo];
 
     public constructor() {
         super(DoorHallwayStorageRoomItem.Alias, DoorHallwayStorageRoomItem.validActions);
