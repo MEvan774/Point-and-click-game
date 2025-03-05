@@ -149,6 +149,7 @@ export class CanvasComponent extends HTMLElement {
     private _selectedInventoryItem?: string;
 
     private hitBoxes: HitBox[] = [];
+    private isActionTalk: boolean = false;
 
     /**
      * The "constructor" of a Web Component
@@ -339,15 +340,13 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        if (this._currentGameState?.roomAlias === "startup") {
+        if (this._currentGameState?.roomAlias === "startup" || this.isActionTalk) {
             return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div class="actionButtons">
-                        ${this._currentGameState.actions.map(button => this.renderActionButton(button))}
-                    </div>
-                    <div>
+                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
                     </div>
                 </div>
             </div>
@@ -358,15 +357,6 @@ export class CanvasComponent extends HTMLElement {
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div class="actionButtons">
-                        
-                    </div>
-                    <div>
-                        ${this._selectedActionButton
-                            ? this._currentGameState?.objects
-                                .filter(object => this.isObjectValidForAction(object, this._selectedActionButton))
-                                .map(button => this.renderGameObjectButton(button)) || ""
-                            : ""
-                        }
                     </div>
                 </div>
             </div>
@@ -409,26 +399,10 @@ export class CanvasComponent extends HTMLElement {
     }
 
     /**
-     * Render a game object button for a given game object reference
+     * Handle the click on an action button, checkt of object er is en of action talk is
      *
-     * @returns HTML element of the game object button
-     */
-    private renderGameObjectButton(button: GameObjectReference): HTMLElement {
-        const element: HTMLElement = html`
-            <a class="button ${this._selectedGameObjectButtons.has(button) ? "active" : ""}">
-                ${button.name}
-            </a>
-        `;
-
-        element.addEventListener("click", () => this.handleClickGameObject(button));
-
-        return element;
-    }
-
-    /**
-     * Handle the click on an action button
-     *
-     * @param button Action button that was clicked
+     * @param action Action button that was clicked
+     * @param object Object that was clicked
      */
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
@@ -439,6 +413,7 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
+            this.isActionTalk = false;
             this.updateGameState(state);
         }
         else {
@@ -448,46 +423,21 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
+            this.isActionTalk = false;
             this.updateGameState(state);
         }
-    }
 
-    /**
-     * Handle the click on a game object button
-     *
-     * @param button Game object button that was clicked
-     */
-    private async handleClickGameObject(button: GameObjectReference): Promise<void> {
-        // If no action button was clicked, do not try to handle this click.
-        if (!this._selectedActionButton) {
-            return;
+        // Gives buttons if the action is talk
+        if (action.alias.includes("talk")) {
+            this.isActionTalk = true;
+            this.render();
+            this.isActionTalk = false;
         }
 
-        // Add the game object to list of selected game objects
-        this._selectedGameObjectButtons.add(button);
-
-        // Try to execute the action with all game objects on the list
-        const state: GameState | undefined = await this._gameRouteService.executeAction(
-            this._selectedActionButton.alias,
-            [...this._selectedGameObjectButtons].map(e => e.alias)
-        );
-
-        // If 2 more game objects where on the list, clear it.
-        if (this._selectedGameObjectButtons.size >= 2) {
-            this._selectedActionButton = undefined;
-            this._selectedGameObjectButtons.clear();
+        // Renders room if the talk action is finished
+        if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":5")) {
+            this.render();
         }
-
-        // Refresh the web component
-        this.render();
-
-        // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
-        if (state === undefined) {
-            return;
-        }
-
-        // Otherwise, update the game state.
-        this.updateGameState(state);
     }
 
     private addHitboxes(): void {
@@ -501,6 +451,12 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
+    /**
+     * Sets actions when clicking on hitboxes
+     *
+     * @param actionAlias alias of the clicked action
+     * @param objectAlias alias of the clicked object
+     */
     public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
         // Get selected object
         const objectRef: GameObjectReference[] | undefined = this._currentGameState?.objects;
