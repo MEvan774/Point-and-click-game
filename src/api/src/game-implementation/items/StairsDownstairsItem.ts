@@ -6,11 +6,17 @@ import { GoTo } from "../actions/GoToAction";
 import { StartupRoom } from "../rooms/StartupRoom";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class StairsDownStairsItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "StairsDownStairsItem";
 
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public _position: Vector2 = { x: 0, y: 0 };
+    public _size: Vector2 = { x: 155, y: 245 };
+    public _isDebugHitboxVisible: boolean = true;
+    public _action: ActionTypes = ActionTypes.Examine;
+
+    public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
         super(StairsDownStairsItem.Alias, StairsDownStairsItem.validActions);
