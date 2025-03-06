@@ -8,6 +8,7 @@ export type PlayerSession = {
     currentRoom: string;
     inventory: string[];
     selectedItem: string;
+    hiddenIn: string;
     walkedToBathtub: boolean;
     isPickingUpkey: boolean;
     pickedUpKey: boolean;

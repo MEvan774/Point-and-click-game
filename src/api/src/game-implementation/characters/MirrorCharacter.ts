@@ -40,36 +40,105 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     "Why do you want to know?",
                 ],
                 [
-                    new TalkChoice(3, "I want to escape from here."),
-                    new TalkChoice(4, "Nevermind."),
+                    new TalkChoice(3, "Maybe it can help me escape."),
+                    new TalkChoice(2, "Nevermind."),
                 ]
             );
         }
         else if (choiceId === 3) {
-            playerSession.solvedRiddle = true;
             return new TalkActionResult(
                 this,
                 [
-                    "Oh, the light turned on.",
-                    "There are numbers written on the mirror,",
-                    "Maybe this is the code for the safe?",
+                    "Then you have to solve my three riddles. Ready?",
                 ],
                 [
-                    new TalkChoice(2, "Walk away."),
+                    new TalkChoice(5, "I'm ready."),
                 ]
             );
         }
-        else if (choiceId === 2 || choiceId === 4) {
+        else if (choiceId === 2) {
             playerSession.walkedToMirror = false;
             return new TextActionResult(["You walk away from the mirror."]);
         }
-        else if (choiceId === 5) {
+        else if (choiceId === 4) {
             playerSession.walkedToMirror = false;
             return new TextActionResult([
                 "...",
                 "That's a stupid question.",
                 "You walk away from the mirror.",
             ]);
+        }
+        else if (choiceId === 5) {
+            return new TalkActionResult(
+                this,
+                [
+                    "I consume without eating, I grow without life,",
+                    "Sharp as a blade, cutting deeper than knife.",
+                    "What spreads through this castle like poison unseen,",
+                    "Consuming all hope with its merciless sheen?",
+                ],
+                [
+                    new TalkChoice(6, "Blood"),
+                    new TalkChoice(7, "Despair"),
+                    new TalkChoice(6, "Silence"),
+                    new TalkChoice(6, "Pain"),
+                ]
+            );
+        }
+        else if (choiceId === 6) {
+            playerSession.walkedToMirror = false;
+            return new TextActionResult([
+                "The moment you say the answer, you hear an alarm go off.",
+                "You can hear someone coming...",
+                "You better hide!",
+            ]);
+        }
+        else if (choiceId === 7) {
+            return new TalkActionResult(
+                this,
+                [
+                    "I break without touching, I kill without hands,",
+                    "Invisible chains in these haunted lands.",
+                    "What force can destroy without leaving a trace?",
+                ],
+                [
+                    new TalkChoice(6, "Time"),
+                    new TalkChoice(6, "Illness"),
+                    new TalkChoice(6, "Curse"),
+                    new TalkChoice(8, "Guilt"),
+                ]
+            );
+        }
+        else if (choiceId === 8) {
+            return new TalkActionResult(
+                this,
+                [
+                    "Crimson rivers flow where I tread,",
+                    "Whispers of silence from the long dead.",
+                    "My essence lingers between shadow and light,",
+                    "What am I that haunts this castle's night?",
+                ],
+                [
+                    new TalkChoice(6, "The owner's curse"),
+                    new TalkChoice(6, "A bloodstain"),
+                    new TalkChoice(9, "The anger of the dead"),
+                    new TalkChoice(6, "Darkness"),
+                ]
+            );
+        }
+        if (choiceId === 9) {
+            playerSession.solvedRiddle = true;
+            return new TalkActionResult(
+                this,
+                [
+                    "Suddenly, the light turns on.",
+                    "You can see numbers on the mirror.",
+                    "I guess you gave the right answers.",
+                ],
+                [
+                    new TalkChoice(2, "Walk away."),
+                ]
+            );
         }
 
         if (playerSession.knowsAboutSafe) {
@@ -79,7 +148,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     "...",
                 ],
                 [
-                    new TalkChoice(5, "Hello? Is someone there?"),
+                    new TalkChoice(4, "Hello? Is someone there?"),
                     new TalkChoice(1, "Can you tell me the code of the safe?"),
                     new TalkChoice(2, "Walk away."),
                 ]
@@ -92,7 +161,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     "...",
                 ],
                 [
-                    new TalkChoice(5, "Hello? Is someone there?"),
+                    new TalkChoice(4, "Hello? Is someone there?"),
                     new TalkChoice(2, "Walk away."),
                 ]
             );

@@ -309,7 +309,7 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'><img src='public/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                     console.log("Item: ", inventory[x]);
                 }
@@ -460,7 +460,7 @@ export class CanvasComponent extends HTMLElement {
         }
 
         // Renders room if the talk action is finished
-        if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":5")) {
+        if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
             this.render();
         }
     }
