@@ -1,6 +1,7 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
@@ -13,7 +14,10 @@ import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
 export class HallwayFrontDoorItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "StairToFrontDoor";
 
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public _action: ActionTypes = ActionTypes.Examine;
+    public _position: Vector2 = { x: -90, y: 150 };
+    public _size: Vector2 = { x: 180, y: 200 };
+    public static readonly validActions: string[] = [ActionTypes.GoTo];
 
     /**
      * Create a new instance of this item

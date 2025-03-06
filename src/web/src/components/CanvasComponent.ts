@@ -113,6 +113,7 @@ const styles: string = css`
     }
 
     .buttonImage {
+        image-rendering: pixelated;
         background: none;
         color: inherit;
         border: none;
@@ -302,13 +303,13 @@ export class CanvasComponent extends HTMLElement {
 
                 for (let x: number = 0; x < inventory.length; x++) {
                     if (x !== 0) {
-                        title += ", ";
+                        title += "  ";
                     }
 
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'}><img src='/assets/img/Items/" +
+                    "' class='buttonImage " + isActive + "'}><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
 
