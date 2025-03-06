@@ -33,7 +33,6 @@ import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
 import { ReadAction } from "../actions/ReadAction";
-=======
 import { CenterStorageItem } from "../items/CenterStorageItem";
 import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
 import { KitchenRoom } from "../rooms/KitchenRoom";
