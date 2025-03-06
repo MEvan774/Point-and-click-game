@@ -18,4 +18,5 @@ export type PlayerSession = {
     pickedUpDiary: boolean;
     clickedFirstAid: boolean;
     pickedUpFirstAid: boolean;
+    gameOptions: string[];
 };

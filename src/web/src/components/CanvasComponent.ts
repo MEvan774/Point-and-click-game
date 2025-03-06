@@ -129,6 +129,33 @@ const styles: string = css`
         border-radius: 20px;
         filter: brightness(1.2);
     }
+
+    .options {
+        float: right;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 15%;
+        height: 15%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: flex;
+        justifyContent: center;
+        alignItems: center;
+    }
+
+    .overlayOptions {
+        backgroundColor = "#fff";
+        padding = "20px";
+        borderRadius = "8px";
+        textAlign = "center";
+    }
 `;
 
 /**
@@ -219,6 +246,8 @@ export class CanvasComponent extends HTMLElement {
         this.shadowRoot.append(...elements);
 
         this.attachInventoryButtonListeners();
+        this.attachOptionsButtonListener();
+        this.attachOptionsCloseButtonListener();
     }
 
     /**
@@ -265,6 +294,69 @@ export class CanvasComponent extends HTMLElement {
     }
 
     /**
+     * Function to display basic option choices within the game
+     */
+    private attachOptionsButtonListener(): void {
+        if (!this.shadowRoot) return;
+
+        // Zoek de knop in de shadowRoot
+        const optionsButton: HTMLButtonElement | null = this.shadowRoot.querySelector("#optionsBtn");
+
+        if (optionsButton) {
+            // Voeg de click event listener toe
+            optionsButton.addEventListener("click", () => {
+                console.log("Opties-knop geklikt!");
+                this.renderOptions();
+            });
+        }
+    }
+
+    /**
+     * Render de opties in een overlay
+     */
+    private renderOptions(): void {
+        if (!this.shadowRoot) return;
+        const overlay: HTMLDivElement | null = this.shadowRoot.querySelector(".overlayDiv");
+        const optionList: string[] = this._currentGameState?.gameOptions || [];
+        if (overlay) {
+            overlay.classList.add("overlay");
+            const optionsContainer: HTMLDivElement = document.createElement("div");
+            optionsContainer.classList.add("overlayOptions");
+
+            for (let i: number = 0; i < optionList.length; i++) {
+                const optionButton: HTMLButtonElement = document.createElement("button");
+                optionButton.textContent = optionList[i];
+                optionButton.classList.add("option-btn");
+
+                optionButton.addEventListener("click", () => {
+                    console.log(`${optionList[i]} gekozen!`);
+                    this.closeOptions(overlay);
+                });
+                optionsContainer.appendChild(optionButton);
+            }
+            overlay.appendChild(optionsContainer);
+            this.shadowRoot.appendChild(overlay);
+        }
+    }
+
+    /**
+     * Sluit de overlay
+     */
+    private closeOptions(overlay: HTMLDivElement): void {
+        this.shadowRoot?.removeChild(overlay);
+    }
+
+    private attachOptionsCloseButtonListener(): void {
+        if (!this.shadowRoot) return;
+        const closeBtn: HTMLButtonElement | null = this.shadowRoot.querySelector("#closeBtn");
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                console.log("someone clicked close");
+            });
+        }
+    }
+
+    /**
      * Render the title element
      *
      * @returns String with raw HTML for the title element. Can be empty.
@@ -272,7 +364,6 @@ export class CanvasComponent extends HTMLElement {
     private renderTitle(): string {
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
-
         if (roomName && inventory) {
             if (inventory.length > 0) {
                 let title: string = `<div class="title">${roomName}<br>`;
@@ -285,17 +376,17 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'}><img src='/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
-
+                title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
+                title += "<div class='overlayDiv'></div>";
                 title += "</div>";
 
                 return title;
             }
             return `<div class="title">${roomName}</div>`;
         }
-
         return "";
     }
 
