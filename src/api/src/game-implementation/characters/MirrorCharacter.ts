@@ -3,12 +3,18 @@ import { TalkActionResult } from "../../game-base/actionResults/TalkActionResult
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Talk, TalkChoice } from "../../game-base/actions/TalkAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Character } from "../../game-base/gameObjects/Character";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
 
 export class MirrorCharacter extends Character implements Examine, Talk {
     public static readonly Alias: string = "ghost in the mirror";
+
+    public _position: Vector2 = { x: -520, y: 40 };
+    public _size: Vector2 = { x: 1025, y: 450 };
+    public _isDebugHitboxVisible: boolean = true;
+    public _action: ActionTypes = ActionTypes.Talk;
 
     public constructor() {
         super(MirrorCharacter.Alias);

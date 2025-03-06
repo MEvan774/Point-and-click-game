@@ -6,11 +6,10 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { PickUpAction } from "../actions/PickUpAction";
-import { ReadAction } from "../actions/ReadAction";
 import { DeskItem } from "../items/DeskItem";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
+import { FirstAidItem } from "../items/FirstAidItem";
 import { PlayerSession } from "../types";
 
 /**
@@ -28,23 +27,22 @@ export class WorkRoom extends Room implements Examine {
     }
 
     /**
-     * @inheritdoc
+     * Function to declare the name of the room
+     * @returns the name of the room
      */
     public name(): string {
         return "Work Room";
     }
 
     /**
-     * @inheritdoc
+     * Function to retrieve images for the room
+     * @returns the image for in the room
      */
     public images(): string[] {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
-        if (playerSession.walkedToDesk && playerSession.readDiary && playerSession.pickedUpDiary) {
+        if (playerSession.selectedItem === "DiaryItem") {
             result.push("diaryContent");
-        }
-        else if (playerSession.walkedToDesk && !playerSession.pickedUpDiary && !playerSession.readDiary) {
-            result.push("OfficeRoom");
         }
         else {
             result.push("OfficeRoom");
@@ -52,52 +50,37 @@ export class WorkRoom extends Room implements Examine {
         return result;
     }
 
+    /**
+     * Function to retrieve all objects for in the room
+     * @returns the objecs for in the room
+     */
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new DeskItem(),
+            new FirstAidItem(),
+            new DiaryItem(),
+            new DoorOfficeHallwayItem(),
         ];
-
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-
-        if (playerSession.walkedToDesk) {
-            objects.push(new DiaryItem());
-        }
-        if (!playerSession.isPickingUp) {
-            objects.push(new DoorOfficeHallwayItem());
-        }
-
         return objects;
     }
 
+    /**
+     * Function to retrieve all actions for in the room
+     * @returns the actions for within the room
+     */
     public actions(): Action[] {
         const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
         ];
-
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-
-        if (playerSession.walkedToDesk && playerSession.pickedUpDiary) {
-            actions.push(new ReadAction());
-        }
-        if (playerSession.walkedToDesk && !playerSession.isPickingUp && !playerSession.pickedUpDiary) {
-            actions.push(new PickUpAction());
-        }
         return actions;
     }
 
-    public read(): ActionResult | undefined {
-        return new TextActionResult([
-            "You have started to read the diary",
-        ]);
-    }
-
     /**
-     * @inheritdoc
+     * Function to examine objects or characters within the room
+     * @returns a text response based off the examine action
      */
     public examine(): ActionResult | undefined {
-        gameService.getPlayerSession().walkedToDesk = false;
-
         return new TextActionResult([
             "You entered what seems to be the office.",
             "Maybe there is a clue?",

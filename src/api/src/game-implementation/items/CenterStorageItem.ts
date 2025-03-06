@@ -8,8 +8,10 @@ import { gameService } from "../../global";
 export class CenterStorageItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Center Storage";
 
+    public static readonly validActions: string[] = ["examine", "go to"];
+
     public constructor() {
-        super(CenterStorageItem.Alias);
+        super(CenterStorageItem.Alias, CenterStorageItem.validActions);
     }
 
     public name(): string {

@@ -3,11 +3,14 @@ import { css, html, htmlArray } from "../helpers/webComponents";
 import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
+import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
+
+
     :host {
-        font-family: "Onesize";
+        font-family: "DungeonFont";
         width: 100%;
         max-width: 1024px;
         height: 100%;
@@ -76,12 +79,12 @@ const styles: string = css`
     }
     .footer img {
         image-rendering: pixelated; /* Keeps the pixelated look */
-  width: 1022px; /* Scale up while maintaining aspect ratio */
-  height: auto; /* Keeps aspect ratio */
-  position: absolute;
-  margin-top: -103px; /* Adjust as needed */
-  z-index: 1;
-  pointer-events: none;
+    width: 1022px; /* Scale up while maintaining aspect ratio */
+    height: auto; /* Keeps aspect ratio */
+    position: absolute;
+    margin-top: -103px; /* Adjust as needed */
+    z-index: 1;
+    pointer-events: none;
     }
 
     .footer .buttons {
@@ -98,7 +101,7 @@ const styles: string = css`
         color: #211e20;
         padding: 5px 10px;
         margin: 0 0 10px 10px;
-        text-transform: uppercase;
+        font-weight: bold;
         cursor: pointer;
         display: inline-block;
         user-select: none;
@@ -107,6 +110,24 @@ const styles: string = css`
     .footer .button.active,
     .footer .button:hover {
         background-color: #a0a08b;
+    }
+
+    .buttonImage {
+        image-rendering: pixelated;
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+    }
+
+    .buttonImage.active {
+        background-color: gray;
+        border: 2px solid white;
+        border-radius: 20px;
+        filter: brightness(1.2);
     }
 `;
 
@@ -125,6 +146,10 @@ export class CanvasComponent extends HTMLElement {
     private _selectedActionButton?: ActionReference;
     /** Current active game object buttons */
     private _selectedGameObjectButtons: Set<GameObjectReference> = new Set<GameObjectReference>();
+    /** Current selected inventory item */
+    private _selectedInventoryItem?: string;
+
+    private hitBoxes: HitBox[] = [];
 
     /**
      * The "constructor" of a Web Component
@@ -171,6 +196,7 @@ export class CanvasComponent extends HTMLElement {
      * Render the contents of this page
      */
     private render(): void {
+        this.RemoveHitBoxes();
         if (!this.shadowRoot) {
             return;
         }
@@ -191,6 +217,51 @@ export class CanvasComponent extends HTMLElement {
         }
 
         this.shadowRoot.append(...elements);
+
+        this.attachInventoryButtonListeners();
+    }
+
+    /**
+     * Makes buttons for the items in the inventory
+     *
+     * @returns void
+     */
+    private attachInventoryButtonListeners(): void {
+        if (!this.shadowRoot) return;
+
+        const buttons: NodeListOf<Element> = this.shadowRoot.querySelectorAll(".buttonImage");
+
+        buttons.forEach(button => {
+            button.addEventListener("click", async event => {
+                event.preventDefault();
+
+                await this.handleInventoryButtonClick(button.id);
+            });
+        });
+    }
+
+    /**
+     * Handles the actions when the inventory is clicked
+     *
+     * @param itemId Id of the selected item
+     */
+    private async handleInventoryButtonClick(itemId: string): Promise<void> {
+        if (this._selectedInventoryItem === itemId) {
+            this._selectedInventoryItem = undefined;
+        }
+        else {
+            this._selectedInventoryItem = itemId;
+
+            this.render();
+
+            const state: GameState | undefined = await this._gameRouteService.inventoryAction(itemId);
+
+            if (state === undefined) {
+                return;
+            }
+
+            this.updateGameState(state);
+        }
     }
 
     /**
@@ -200,8 +271,28 @@ export class CanvasComponent extends HTMLElement {
      */
     private renderTitle(): string {
         const roomName: string | undefined = this._currentGameState?.roomName;
+        const inventory: string[] | undefined = this._currentGameState?.inventory;
 
-        if (roomName) {
+        if (roomName && inventory) {
+            if (inventory.length > 0) {
+                let title: string = `<div class="title">${roomName}<br>`;
+
+                for (let x: number = 0; x < inventory.length; x++) {
+                    if (x !== 0) {
+                        title += "  ";
+                    }
+
+                    const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
+
+                    title += "<button id='" + inventory[x] +
+                    "' class='buttonImage " + isActive + "'}><img src='/assets/img/items/" +
+                    inventory[x] + ".png' height='50px'/></button>";
+                }
+
+                title += "</div>";
+
+                return title;
+            }
             return `<div class="title">${roomName}</div>`;
         }
 
@@ -215,7 +306,7 @@ export class CanvasComponent extends HTMLElement {
      */
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
-
+        setTimeout(() => this.addHitboxes(), 10);
         if (roomImages && roomImages.length > 0) {
             return `
                 <div class="header">
@@ -246,6 +337,7 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
+        console.log(this._currentGameState?.actions);
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
@@ -255,13 +347,28 @@ export class CanvasComponent extends HTMLElement {
                     </div>
                     <div>
                         ${this._selectedActionButton
-                            ? this._currentGameState?.objects.map(button => this.renderGameObjectButton(button)) || ""
+                            ? this._currentGameState?.objects
+                                .filter(object => this.isObjectValidForAction(object, this._selectedActionButton))
+                                .map(button => this.renderGameObjectButton(button)) || ""
                             : ""
                         }
                     </div>
                 </div>
             </div>
         `;
+    }
+
+    /**
+     * Checkt voor elk object in de Room of het werkt met de aangeklikte actie
+     *
+     * @param object Gameobject om te testen
+     * @param selectedAction Actie die aangeklikt is om objecten bij te testen
+     * @returns boolean of de Gameobject past bij de actie
+     */
+    private isObjectValidForAction(object: GameObjectReference, selectedAction: ActionReference | undefined): boolean | undefined {
+        if (!selectedAction) return;
+
+        return object.validActions.includes(selectedAction.alias);
     }
 
     /**
@@ -360,5 +467,50 @@ export class CanvasComponent extends HTMLElement {
 
         // Otherwise, update the game state.
         this.updateGameState(state);
+    }
+
+    private addHitboxes(): void {
+        if (this._currentGameState) {
+            const objRef: GameObjectReference[] = this._currentGameState.objects;
+
+            for (let i: number = 0; i < this._currentGameState.objects.length; i++) {
+                this.hitBoxes.push(new HitBox(objRef[i].position, objRef[i].size,
+                    objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
+            }
+        }
+    }
+
+    public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        const tempObjects: string[] = [];
+        tempObjects.push(objectAlias);
+        // Try to execute the action with all game objects on the list
+        const state: GameState | undefined = await this._gameRouteService.executeAction(
+            actionAlias,
+            tempObjects
+        );
+
+        // If 2 more game objects where on the list, clear it.
+        if (this._selectedGameObjectButtons.size >= 2) {
+            this._selectedActionButton = undefined;
+            this._selectedGameObjectButtons.clear();
+        }
+
+        // Refresh the web component
+        this.render();
+
+        // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
+        if (state === undefined) {
+            return;
+        }
+
+        // Otherwise, update the game state.
+        this.updateGameState(state);
+    }
+
+    private RemoveHitBoxes(): void {
+        for (let i: number = 0; i < this.hitBoxes.length; i++) {
+            this.hitBoxes[i].removeHitBox();
+        }
+        this.hitBoxes = [];
     }
 }

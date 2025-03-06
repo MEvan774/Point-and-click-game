@@ -11,8 +11,10 @@ import { PickUp } from "../actions/PickUpAction";
 export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp {
     public static readonly Alias: string = "office-hallway-door";
 
+    public static readonly validActions: string[] = ["examine", "go to", "pick up"];
+
     public constructor() {
-        super(DoorOfficeHallwayItem.Alias);
+        super(DoorOfficeHallwayItem.Alias, DoorOfficeHallwayItem.validActions);
     }
 
     public name(): string {
@@ -21,7 +23,6 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp
 
     public examine(): ActionResult | undefined {
         gameService.getPlayerSession().walkedToDesk = false;
-        gameService.getPlayerSession().isPickingUp = false;
         return new TextActionResult(["This door leads back to the hallway."]);
     }
 
@@ -29,12 +30,13 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp
         const room: Room = new HallwayRoom();
 
         gameService.getPlayerSession().walkedToDesk = false;
-        gameService.getPlayerSession().isPickingUp = false;
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
     }
 
     public pickup(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToDesk = true;
+
         return new TextActionResult([
             "This door is very heavy, and therefor seems to be able to pack a punch! You have picked up the door.",
         ]);
