@@ -4,6 +4,9 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Hide } from "../actions/HideAction";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
+import { gameService } from "../../global";
+import { Room } from "../../game-base/gameObjects/Room";
+import { HiddenRoom } from "../rooms/HiddenRoom";
 
 export class ClosetItem extends Item implements Examine, Hide {
     public static readonly Alias: string = "Closet";
@@ -31,6 +34,10 @@ export class ClosetItem extends Item implements Examine, Hide {
     }
 
     public hide(): ActionResult | undefined {
-        return new TextActionResult(["You hide in the closet."]);
+        gameService.getPlayerSession().hiddenIn = "StorageRoom";
+        const room: Room = new HiddenRoom();
+
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 }

@@ -32,9 +32,6 @@ import { HideAction } from "../actions/HideAction";
 import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
-import { ReadAction } from "../actions/ReadAction";
-=======
-import { CenterStorageItem } from "../items/CenterStorageItem";
 import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
 import { KitchenRoom } from "../rooms/KitchenRoom";
 import { DoorKitchenLivingRoomItem } from "../items/DoorKitchenLivingRoomItem";
@@ -47,6 +44,9 @@ import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorIte
 import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
 import { EyeCharacter } from "../characters/EyeCharacter";
 import { FirstAidItem } from "../items/FirstAidItem";
+import { HiddenRoom } from "../rooms/HiddenRoom";
+import { StopHidingItem } from "../items/StopHidingItem";
+import { StopHidingAction } from "../actions/StopHidingAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -68,6 +68,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(WorkRoom);
         this.registerGameObject(BedroomRoom);
         this.registerGameObject(BathroomRoom);
+        this.registerGameObject(HiddenRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
@@ -97,6 +98,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorLivingRoomFrontDoorItem);
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
+        this.registerGameObject(StopHidingItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -109,6 +111,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(TalkAction);
         this.registerAction(HideAction);
         this.registerAction(PickUpAction);
+        this.registerAction(StopHidingAction);
     }
 
     /**
@@ -119,6 +122,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             currentRoom: StartupRoom.Alias,
             inventory: [],
             selectedItem: "",
+            hiddenIn: "",
             walkedToBathtub: false,
             isPickingUpkey: false,
             pickedUpKey: false,
