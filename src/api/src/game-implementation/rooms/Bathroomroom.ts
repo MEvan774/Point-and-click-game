@@ -11,6 +11,8 @@ import { BathroomItem } from "../items/BathroomItem";
 import { BathtubItem } from "../items/BathtubItem";
 import { PlayerSession } from "../types";
 import { PickUpAction } from "../actions/PickUpAction";
+import { EyeCharacter } from "../characters/EyeCharacter";
+import { TalkAction } from "../../game-base/actions/TalkAction";
 
 /**
  * Implementation of the bathroom room
@@ -39,8 +41,14 @@ export class BathroomRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
 
-        if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
+        if (playerSession.walkedToBathtub && !playerSession.pickedUpKey) {
             result.push("bathtubKeyItem");
+        }
+        else if (playerSession.pickedUpKey) {
+            result.push("bathroomRoomPickedUp");
+        }
+        else if (playerSession.isPickingUpkey && playerSession.walkedToBathtub) {
+            result.push("bathtubKeyItemPickedUp");
         }
         else {
             result.push("bathroomRoom");
@@ -56,8 +64,10 @@ export class BathroomRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (playerSession.walkedToBathtub) {
-            objects.push(new BathtubItem()); // This represents the key inside the bathtub
+            objects.push(new BathtubItem());
+            objects.push(new EyeCharacter()); // This represents the key inside the bathtub
         }
+
         return objects;
     }
 
@@ -68,6 +78,10 @@ export class BathroomRoom extends Room implements Examine {
         ];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.walkedToBathtub) {
+            actions.push(new TalkAction());
+        }
 
         if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
             actions.push(new PickUpAction());

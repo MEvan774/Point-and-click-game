@@ -6,6 +6,7 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorOutsideFrontdoor } from "../items/DoorOutsideFrontdoor";
+import { DoorOutsideShed } from "../items/DoorOutsideShed";
 
 /**
  * Implemention of the bedroom room
@@ -46,6 +47,7 @@ export class OutsideRoom extends Room {
     public objects(): GameObject[] {
         return [
             new DoorOutsideFrontdoor(),
+            new DoorOutsideShed(),
         ];
     }
 
