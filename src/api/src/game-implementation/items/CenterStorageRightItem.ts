@@ -4,14 +4,19 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
-export class CenterStorageItem extends Item implements Examine, GoTo {
+export class CenterStorageRightItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Center Storage";
+    public _position: Vector2 = { x: 260, y: 95 };
+    public _size: Vector2 = { x: 250, y: 535 };
+    public _isDebugHitboxVisible: boolean = false;
+    public _action: ActionTypes = ActionTypes.Examine;
 
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
-        super(CenterStorageItem.Alias, CenterStorageItem.validActions);
+        super(CenterStorageRightItem.Alias, CenterStorageRightItem.validActions);
     }
 
     public name(): string {

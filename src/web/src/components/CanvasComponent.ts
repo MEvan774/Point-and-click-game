@@ -123,7 +123,7 @@ const styles: string = css`
         outline: inherit;
     }
 
-    .buttonImage.active {
+    .active-item {
         background-color: gray;
         border: 2px solid white;
         border-radius: 20px;
@@ -150,6 +150,7 @@ export class CanvasComponent extends HTMLElement {
     private _selectedInventoryItem?: string;
 
     private hitBoxes: HitBox[] = [];
+    private isActionTalk: boolean = false;
 
     /**
      * The "constructor" of a Web Component
@@ -238,6 +239,21 @@ export class CanvasComponent extends HTMLElement {
                 await this.handleInventoryButtonClick(button.id);
             });
         });
+
+        if (this._currentGameState) {
+            const inventory: string[] = this._currentGameState.inventory;
+
+            for (let x: number = 0; x < inventory.length; x++) {
+                if (inventory[x] === this._currentGameState.selectedItem) {
+                    const selectedItem: Element | null = this.shadowRoot.querySelector("#" + this._currentGameState.selectedItem);
+
+                    if (selectedItem instanceof HTMLElement) {
+                        selectedItem.classList.add("active-item");
+                        this._selectedInventoryItem = this._currentGameState.selectedItem;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -248,11 +264,18 @@ export class CanvasComponent extends HTMLElement {
     private async handleInventoryButtonClick(itemId: string): Promise<void> {
         if (this._selectedInventoryItem === itemId) {
             this._selectedInventoryItem = undefined;
+
+            const state: GameState | undefined = await this._gameRouteService.inventoryAction("");
+
+            if (state === undefined) {
+                return;
+            }
+
+            this.updateGameState(state);
+            this.render();
         }
         else {
             this._selectedInventoryItem = itemId;
-
-            this.render();
 
             const state: GameState | undefined = await this._gameRouteService.inventoryAction(itemId);
 
@@ -261,6 +284,7 @@ export class CanvasComponent extends HTMLElement {
             }
 
             this.updateGameState(state);
+            this.render();
         }
     }
 
@@ -293,7 +317,10 @@ export class CanvasComponent extends HTMLElement {
 
                 return title;
             }
-            return `<div class="title">${roomName}</div>`;
+            const title: string = `<div class="title">${roomName}<br>
+            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+
+            return title;
         }
 
         return "";
@@ -337,21 +364,23 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        console.log(this._currentGameState?.actions);
+        if (this._currentGameState?.roomAlias === "startup" || this.isActionTalk) {
+            return html`
+            <div class="footer">
+                <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
+                <div class="buttons">
+                    <div class="actionButtons">
+                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                    </div>
+                </div>
+            </div>
+        `;
+        }
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
-                    <div>
-                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
-                    </div>
-                    <div>
-                        ${this._selectedActionButton
-                            ? this._currentGameState?.objects
-                                .filter(object => this.isObjectValidForAction(object, this._selectedActionButton))
-                                .map(button => this.renderGameObjectButton(button)) || ""
-                            : ""
-                        }
+                    <div class="actionButtons">
                     </div>
                 </div>
             </div>
@@ -376,97 +405,63 @@ export class CanvasComponent extends HTMLElement {
      *
      * @returns HTML element of the action button
      */
-    private renderActionButton(button: ActionReference): HTMLElement {
+    private renderActionButton(action: ActionReference, object?: GameObjectReference): HTMLElement {
         const element: HTMLElement = html`
-            <a class="button ${this._selectedActionButton === button ? "active" : ""}">
-                ${button.name}
+            <a class="button ${this._selectedActionButton === action ? "active" : ""}">
+                ${action.name}
             </a>
         `;
 
-        element.addEventListener("click", () => this.handleClickAction(button));
+        if (object) {
+            element.addEventListener("click", () => this.handleClickAction(action, object));
+        }
+        else {
+            element.addEventListener("click", () => this.handleClickAction(action));
+        }
 
         return element;
     }
 
     /**
-     * Render a game object button for a given game object reference
+     * Handle the click on an action button, checkt of object er is en of action talk is
      *
-     * @returns HTML element of the game object button
+     * @param action Action button that was clicked
+     * @param object Object that was clicked
      */
-    private renderGameObjectButton(button: GameObjectReference): HTMLElement {
-        const element: HTMLElement = html`
-            <a class="button ${this._selectedGameObjectButtons.has(button) ? "active" : ""}">
-                ${button.name}
-            </a>
-        `;
+    private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
+        // Execute the action and update the game state.
+        if (object) {
+            const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
-        element.addEventListener("click", () => this.handleClickGameObject(button));
+            if (state === undefined) {
+                return;
+            }
 
-        return element;
-    }
+            this.isActionTalk = false;
+            this.updateGameState(state);
+        }
+        else {
+            const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias);
 
-    /**
-     * Handle the click on an action button
-     *
-     * @param button Action button that was clicked
-     */
-    private async handleClickAction(button: ActionReference): Promise<void> {
-        // If this actions needs a game object, show the available game objects.
-        if (button.needsObject) {
-            this._selectedActionButton = button;
-            this._selectedGameObjectButtons.clear();
+            if (state === undefined) {
+                return;
+            }
 
+            this.isActionTalk = false;
+            this.updateGameState(state);
+        }
+
+        // Gives buttons if the action is talk
+        if (action.alias.includes("talk")) {
+            this.isActionTalk = true;
             this.render();
-
-            return;
+            this.isActionTalk = false;
         }
 
-        // Otherwise, execute the action and update the game state.
-        const state: GameState | undefined = await this._gameRouteService.executeAction(button.alias);
-
-        if (state === undefined) {
-            return;
+        // Renders room if the talk action is finished
+        if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":5")) {
+            this.render();
         }
-
-        this.updateGameState(state);
-    }
-
-    /**
-     * Handle the click on a game object button
-     *
-     * @param button Game object button that was clicked
-     */
-    private async handleClickGameObject(button: GameObjectReference): Promise<void> {
-        // If no action button was clicked, do not try to handle this click.
-        if (!this._selectedActionButton) {
-            return;
-        }
-
-        // Add the game object to list of selected game objects
-        this._selectedGameObjectButtons.add(button);
-
-        // Try to execute the action with all game objects on the list
-        const state: GameState | undefined = await this._gameRouteService.executeAction(
-            this._selectedActionButton.alias,
-            [...this._selectedGameObjectButtons].map(e => e.alias)
-        );
-
-        // If 2 more game objects where on the list, clear it.
-        if (this._selectedGameObjectButtons.size >= 2) {
-            this._selectedActionButton = undefined;
-            this._selectedGameObjectButtons.clear();
-        }
-
-        // Refresh the web component
-        this.render();
-
-        // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
-        if (state === undefined) {
-            return;
-        }
-
-        // Otherwise, update the game state.
-        this.updateGameState(state);
     }
 
     private addHitboxes(): void {
@@ -480,9 +475,35 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
+    /**
+     * Sets actions when clicking on hitboxes
+     *
+     * @param actionAlias alias of the clicked action
+     * @param objectAlias alias of the clicked object
+     */
     public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        // Get selected object
+        const objectRef: GameObjectReference[] | undefined = this._currentGameState?.objects;
+        if (!objectRef) return;
+
+        const currentObject: GameObjectReference | undefined = objectRef.find(obj => obj.alias === objectAlias);
+        if (!currentObject) return;
+
+        // Get possible actions
+        const allActions: ActionReference[] | undefined = this._currentGameState?.actions;
+        const actions: ActionReference[] = [];
+
+        if (!allActions) return;
+
+        for (let x: number = 0; x < allActions.length; x++) {
+            if (this.isObjectValidForAction(currentObject, allActions[x])) {
+                actions.push(allActions[x]);
+            }
+        }
+
         const tempObjects: string[] = [];
         tempObjects.push(objectAlias);
+
         // Try to execute the action with all game objects on the list
         const state: GameState | undefined = await this._gameRouteService.executeAction(
             actionAlias,
@@ -495,9 +516,6 @@ export class CanvasComponent extends HTMLElement {
             this._selectedGameObjectButtons.clear();
         }
 
-        // Refresh the web component
-        this.render();
-
         // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
         if (state === undefined) {
             return;
@@ -505,6 +523,19 @@ export class CanvasComponent extends HTMLElement {
 
         // Otherwise, update the game state.
         this.updateGameState(state);
+
+        // Set action buttons
+        setTimeout(() => {
+            const buttonsHTML: HTMLDivElement | null | undefined = this.shadowRoot?.querySelector(".actionButtons");
+
+            if (buttonsHTML) {
+                buttonsHTML.innerHTML = "";
+                for (let x: number = 0; x < actions.length; x++) {
+                    const actionButton: HTMLElement = this.renderActionButton(actions[x], currentObject);
+                    buttonsHTML.appendChild(actionButton);
+                }
+            }
+        }, 0);
     }
 
     private RemoveHitBoxes(): void {

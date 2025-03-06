@@ -15,7 +15,8 @@ import { PlayerSession } from "../types";
 import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
 import { HideAction } from "../actions/HideAction";
 import { ClosetItem } from "../items/Closetitem";
-import { CenterStorageItem } from "../items/CenterStorageItem";
+import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
+import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
 
 /**
  * Implemention of the storage room
@@ -72,7 +73,8 @@ export class StorageRoom extends Room {
         }
 
         if (playerSession.walkedToMirror) {
-            objects.push(new CenterStorageItem());
+            objects.push(new CenterStorageLeftItem());
+            objects.push(new CenterStorageRightItem());
         }
 
         if (!playerSession.walkedToMirror) {

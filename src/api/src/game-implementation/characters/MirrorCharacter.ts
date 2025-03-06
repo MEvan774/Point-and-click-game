@@ -11,10 +11,10 @@ import { PlayerSession } from "../types";
 export class MirrorCharacter extends Character implements Examine, Talk {
     public static readonly Alias: string = "ghost in the mirror";
 
-    public _position: Vector2 = { x: -520, y: 40 };
-    public _size: Vector2 = { x: 1025, y: 450 };
-    public _isDebugHitboxVisible: boolean = true;
-    public _action: ActionTypes = ActionTypes.Talk;
+    public _position: Vector2 = { x: -270, y: 100 };
+    public _size: Vector2 = { x: 530, y: 530 };
+    public _isDebugHitboxVisible: boolean = false;
+    public _action: ActionTypes = ActionTypes.Examine;
 
     public constructor() {
         super(MirrorCharacter.Alias);

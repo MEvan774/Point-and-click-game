@@ -8,11 +8,11 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 export class ClosetItem extends Item implements Examine, Hide {
     public static readonly Alias: string = "Closet";
 
-    public _position: Vector2 = { x: 220, y: 80 };
+    public _position: Vector2 = { x: 220, y: 150 };
     public _size: Vector2 = { x: 250, y: 430 };
-    public _isDebugHitboxVisible: boolean = true;
-    public _action: ActionTypes = ActionTypes.Hide;
-    public static readonly validActions: string[] = ["examine", "hide"];
+    public _isDebugHitboxVisible: boolean = false;
+    public _action: ActionTypes = ActionTypes.Examine;
+    public static readonly validActions: string[] = ["hide"];
 
     public constructor() {
         super(ClosetItem.Alias, ClosetItem.validActions);
@@ -24,9 +24,9 @@ export class ClosetItem extends Item implements Examine, Hide {
 
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "The closet is empty apart from some old clothes.",
-            "A person could fit inside,",
-            "But luckily there isn't.",
+            "There is blood coming out of the closet.",
+            "But at least there are no dead bodies inside...",
+            "The closet is large enough to hide in if it's needed.",
         ]);
     }
 

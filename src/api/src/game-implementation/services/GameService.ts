@@ -31,6 +31,9 @@ import { ClosetItem } from "../items/Closetitem";
 import { HideAction } from "../actions/HideAction";
 import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
+import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
+import { ReadAction } from "../actions/ReadAction";
+=======
 import { CenterStorageItem } from "../items/CenterStorageItem";
 import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
 import { KitchenRoom } from "../rooms/KitchenRoom";
@@ -41,6 +44,7 @@ import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
 import { DoorHallwayStorageRoomItem } from "../items/DoorHallwayStorageRoomItem";
 import { DoorHallwayOfficeItem } from "../items/DoorHallwayOfficeItem";
 import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorItem";
+import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
 import { EyeCharacter } from "../characters/EyeCharacter";
 import { FirstAidItem } from "../items/FirstAidItem";
 
@@ -83,7 +87,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DiaryItem);
         this.registerGameObject(ClosetItem);
         this.registerGameObject(DeskItem);
-        this.registerGameObject(CenterStorageItem);
+        this.registerGameObject(CenterStorageLeftItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(DoorBedroomBathroomItem);
         this.registerGameObject(DoorBathroomBedroomItem);
@@ -91,6 +95,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorHallwayOfficeItem);
         this.registerGameObject(DoorHallwayBedroomItem);
         this.registerGameObject(DoorLivingRoomFrontDoorItem);
+        this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
 
         // Characters

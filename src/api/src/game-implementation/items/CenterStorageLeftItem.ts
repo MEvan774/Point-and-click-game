@@ -3,39 +3,36 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../actions/GoToAction";
-import { StartupRoom } from "../rooms/StartupRoom";
 import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
-export class StairsDownStairsItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "StairsDownStairsItem";
-
-    public _position: Vector2 = { x: 0, y: 0 };
-    public _size: Vector2 = { x: 155, y: 245 };
-    public _isDebugHitboxVisible: boolean = true;
+export class CenterStorageLeftItem extends Item implements Examine, GoTo {
+    public static readonly Alias: string = "Center Storage";
+    public _position: Vector2 = { x: -510, y: 95 };
+    public _size: Vector2 = { x: 250, y: 535 };
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
 
     public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
-        super(StairsDownStairsItem.Alias, StairsDownStairsItem.validActions);
+        super(CenterStorageLeftItem.Alias, CenterStorageLeftItem.validActions);
     }
 
     public name(): string {
-        return "Stairs";
+        return "Center of the room";
     }
 
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "The stairs to go upstairs.",
+            "The center of the room.",
+            "You can go back here of you're done with the mirror.",
         ]);
     }
 
     public goto(): ActionResult | undefined {
-        const startupRoom: Room = new StartupRoom();
+        gameService.getPlayerSession().walkedToMirror = false;
 
-        gameService.getPlayerSession().currentRoom = startupRoom.alias;
-        return undefined;
+        return new TextActionResult(["You go back."]);
     }
 }
