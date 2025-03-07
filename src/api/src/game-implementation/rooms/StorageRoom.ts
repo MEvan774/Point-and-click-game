@@ -111,6 +111,14 @@ export class StorageRoom extends Room {
     public examine(): ActionResult | undefined {
         gameService.getPlayerSession().walkedToMirror = false;
 
+        if (gameService.getPlayerSession().solvedRiddle) {
+            return new TextActionResult([
+                "Now that the light is on, you can see everything more clearly.",
+                "The smell of blood is still hanging in the air",
+                "At least the mirror is back to normal.",
+            ]);
+        }
+
         return new TextActionResult([
             "The room is dark, and there is a strong smell of blood.",
             "You can see something in the mirror",
