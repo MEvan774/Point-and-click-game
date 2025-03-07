@@ -1,4 +1,3 @@
-import { PlayerService } from "../../../../web/src/services/PlayerService";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
@@ -39,7 +38,7 @@ export class FrontDoorRoom extends Room {
      */
     public images(): string[] {
         if (gameService.getPlayerSession().planksGone) {
-            return ["FrontDoorRoomOpen"];
+            return ["frontDoorRoomOpen"];
         }
 
         return ["frontDoorRoom"];

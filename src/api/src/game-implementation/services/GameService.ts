@@ -32,8 +32,6 @@ import { HideAction } from "../actions/HideAction";
 import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
-import { ReadAction } from "../actions/ReadAction";
-import { CenterStorageItem } from "../items/CenterStorageItem";
 import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
 import { KitchenRoom } from "../rooms/KitchenRoom";
 import { DoorKitchenLivingRoomItem } from "../items/DoorKitchenLivingRoomItem";
@@ -122,7 +120,7 @@ export class GameService extends BaseGameService<PlayerSession> {
     public createNewPlayerSession(): PlayerSession {
         return {
             currentRoom: StartupRoom.Alias,
-            inventory: [],
+            inventory: ["OutsideKeyItem", "CrowbarItem"],
             selectedItem: "",
             hiddenIn: "",
             walkedToBathtub: false,
