@@ -11,9 +11,9 @@ import { StopHiding } from "../actions/StopHidingAction";
 export class StopHidingItem extends Item implements Examine, StopHiding {
     public static readonly Alias: string = "StopHidingItem";
 
-    public _position: Vector2 = { x: -110, y: 139 };
-    public _size: Vector2 = { x: 190, y: 245 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _position: Vector2 = { x: -510, y: 95 };
+    public _size: Vector2 = { x: 1020, y: 520 };
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["stop hiding"];
 
