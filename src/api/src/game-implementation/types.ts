@@ -19,4 +19,6 @@ export type PlayerSession = {
     pickedUpDiary: boolean;
     clickedFirstAid: boolean;
     pickedUpFirstAid: boolean;
+    planksGone: boolean;
+    outsideKeyUsed: boolean;
 };
