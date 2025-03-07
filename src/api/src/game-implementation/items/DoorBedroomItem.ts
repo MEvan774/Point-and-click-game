@@ -30,7 +30,7 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        if (!gameService.getPlayerSession().pickedUpKey) {
+        if (!gameService.getPlayerSession().inventory.includes("KeyItem")) {
             return new TextActionResult(["The door is locked, maybe there is a key nearby."]);
         }
         else if (gameService.getPlayerSession().selectedItem !== "KeyItem") {
