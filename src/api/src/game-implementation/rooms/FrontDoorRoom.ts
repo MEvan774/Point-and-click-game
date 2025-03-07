@@ -6,9 +6,11 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { OpenAction } from "../actions/OpenAction";
 import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
 import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
 import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
+import { PlayerSession } from "../types";
 
 /**
  * Implemention of the storage room
@@ -35,8 +37,11 @@ export class FrontDoorRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        const result: string[] = ["frontDoorRoom"];
-        return result;
+        if (gameService.getPlayerSession().planksGone) {
+            return ["frontDoorRoomOpen"];
+        }
+
+        return ["frontDoorRoom"];
     }
 
     public objects(): GameObject[] {
@@ -53,6 +58,7 @@ export class FrontDoorRoom extends Room {
         return [
             new ExamineAction(),
             new GoToAction(),
+            new OpenAction(),
         ];
     }
 
@@ -66,6 +72,14 @@ export class FrontDoorRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.planksGone && playerSession.outsideKeyUsed) {
+            return new TextActionResult([
+                "The front door is open",
+                "I can go outside from here.",
+            ]);
+        }
         return new TextActionResult([
             "This looks like the door to get outside,",
             "But it is locked.",
