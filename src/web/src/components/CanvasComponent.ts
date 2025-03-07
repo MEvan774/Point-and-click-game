@@ -311,6 +311,7 @@ export class CanvasComponent extends HTMLElement {
                     title += "<button id='" + inventory[x] +
                     "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
+                    console.log("Item: ", inventory[x]);
                 }
 
                 title += "</div>";
