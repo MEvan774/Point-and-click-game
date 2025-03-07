@@ -20,6 +20,39 @@
 
 - Security: Er wordt gebruik gemaakt van HTTPS.
 
+# 3: Beschrijf vereisten, standaarden en richtlijnen
+
+Functionele vereisten:
+- De voortgang van de gebruiker wordt opgeslagen op hun eigen apparaat, zodat ze verder kunnen spelen als ze het opnieuw opstarten, in plaats van dat ze opnieuw moeten beginnen.
+- De game is toegankelijk via een webbrowser.
+
+Technische vereisten:
+- De API ondersteunt veilige communicatie via HTTPS.
+- De gegevens worden opgeslagen in de local storage, en er worden geen gegevens opgeslagen in een online database.
+
+Standaarden en richtlijnen:
+- Gebruik van de Code Conventions van de HBO-ICT Knowledgebase.
+- Gebruik van de OWASP-beveiligingsrichtlijnen voor veilige API's.
+
+Wetten en regelgeving:
+- Niet opslaan van gebruikersgegevens.
+
+# 4: Inrichting van de infrastructuur
+
+De infrastructuur voor dit project wordt volledig gehost op de HBO-ICT.Cloud, bestaande uit:
+
+1.  Frontend: Een statisch gehoste webapplicatie.
+
+2.  Backend: Een API-server, draaiend op Express.js.
+
+3.  Database: Niet gebruikt.
+
+Teamgegevens:
+
+Frontend URL: 
+Backend URL: 
+Poorten: 3366
+
 # Stap 10: 
 ### Backend configureren
 
