@@ -10,23 +10,43 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { Open } from "../actions/OpenAction";
 import { StartupRoom } from "../rooms/StartupRoom";
 
+/**
+ * The item that is used to go to the OutsideRoom from the FrontDoorRoom
+ *
+ * @remarks Implements the Examine, GoTo and Open action
+ */
 export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Open {
+    // Alias of the item used to find the item
     public static readonly Alias: string = "DoorFrontDoorOutsideItem";
 
+    /**
+     * _position: Position of the item's hitbox
+     * _size: Size of the item's hitbox
+     * _isDebugHitboxVisible: If true, shows the hitbox as a pink square
+     * _action: Action that happens when clicked on the item's hitbox
+     * validActions: Array of the alias of the actions that are possible for this item
+     */
     public _position: Vector2 = { x: -110, y: 139 };
     public _size: Vector2 = { x: 190, y: 245 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["go to", "open"];
 
+    // Create a new instance of this item
     public constructor() {
         super(DoorFrontDoorOutsideItem.Alias, DoorFrontDoorOutsideItem.validActions);
     }
 
+    // Name of the item, shows up on the buttons for example
     public name(): string {
         return "Outside";
     }
 
+    /**
+     * Tells about the state of the door
+     *
+     * @returns TextActionResult with the state of the door (open/closed)
+     */
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
@@ -64,6 +84,11 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
         ]);
     }
 
+    /**
+     * Go to the OutsideRoom if door is opened, otherwise tells the user what they need to open the door
+     *
+     * @returns room.examine() for the OutsideRoom, or TextActionResult naming what is needed to open the door
+     */
     public goto(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
@@ -95,6 +120,11 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
         ]);
     }
 
+    /**
+     * Opens the door if the right item is selected, otherwise tells the user what they need to open the door
+     *
+     * @returns TextActionResult about the state of the door
+     */
     public open(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 

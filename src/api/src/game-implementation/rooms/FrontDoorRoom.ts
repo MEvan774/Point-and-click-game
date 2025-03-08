@@ -13,7 +13,7 @@ import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
 import { PlayerSession } from "../types";
 
 /**
- * Implemention of the storage room
+ * Implemention of the FrontDoorRoom
  */
 export class FrontDoorRoom extends Room {
     /** Alias of this room */
@@ -27,6 +27,7 @@ export class FrontDoorRoom extends Room {
     }
 
     /**
+     * Name of the room, used for buttons for example
      * @inheritdoc
      */
     public name(): string {
@@ -34,9 +35,12 @@ export class FrontDoorRoom extends Room {
     }
 
     /**
+     * Images for the room
+     *
      * @inheritdoc
      */
     public images(): string[] {
+        // If the CrowbarItem is used on the FrontDoorItem
         if (gameService.getPlayerSession().planksGone) {
             return ["frontDoorRoomOpen"];
         }
@@ -44,6 +48,11 @@ export class FrontDoorRoom extends Room {
         return ["frontDoorRoom"];
     }
 
+    /**
+     * The objects in the Room
+     *
+     * @returns Array of the GameObjects in the Room
+     */
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new DoorFrontDoorLivingRoomItem(),
@@ -54,6 +63,11 @@ export class FrontDoorRoom extends Room {
         return objects;
     }
 
+    /**
+     * The actions in the Room
+     *
+     * @returns Array of the Actions in the Room
+     */
     public actions(): Action[] {
         return [
             new ExamineAction(),
@@ -62,6 +76,11 @@ export class FrontDoorRoom extends Room {
         ];
     }
 
+    /**
+     * The inventory of the player
+     *
+     * @returns Array of the GameObjects in the inventory
+     */
     public inventory(): GameObject[] {
         const inventory: GameObject[] = gameService.getGameObjectsFromInventory();
 
@@ -69,11 +88,14 @@ export class FrontDoorRoom extends Room {
     }
 
     /**
+     * Tells about the state of the Room
+     *
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
+        // Checks if the door is open
         if (playerSession.planksGone && playerSession.outsideKeyUsed) {
             return new TextActionResult([
                 "The front door is open",
