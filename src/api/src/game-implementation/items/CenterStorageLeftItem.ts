@@ -8,6 +8,13 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class CenterStorageLeftItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Center Storage";
+    /**
+     * @param _action determines which action will be executed when clicked on.
+     * @param _position determines where the hitbox will be located.
+     * @param _size determines the size of the hibox
+     * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @param validActions the options that will show up when clicked on.
+     */
     public _position: Vector2 = { x: -510, y: 95 };
     public _size: Vector2 = { x: 250, y: 535 };
     public _isDebugHitboxVisible: boolean = false;

@@ -464,10 +464,11 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
+    // Creates all hitboxes for the room
     private addHitboxes(): void {
         if (this._currentGameState) {
+            // Gets all gameObject references and assign them to their hitboxes
             const objRef: GameObjectReference[] = this._currentGameState.objects;
-
             for (let i: number = 0; i < this._currentGameState.objects.length; i++) {
                 this.hitBoxes.push(new HitBox(objRef[i].position, objRef[i].size,
                     objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
@@ -501,6 +502,7 @@ export class CanvasComponent extends HTMLElement {
             }
         }
 
+        // Makes a tempory object array so its valid for the executeAction function
         const tempObjects: string[] = [];
         tempObjects.push(objectAlias);
 
@@ -538,6 +540,7 @@ export class CanvasComponent extends HTMLElement {
         }, 0);
     }
 
+    /** Removes all hiboxes from the canvas making place for new hitboxes */
     private RemoveHitBoxes(): void {
         for (let i: number = 0; i < this.hitBoxes.length; i++) {
             this.hitBoxes[i].removeHitBox();

@@ -10,6 +10,13 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class DoorHallwayStorageRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-storageroom-door";
+    /**
+     * @_action determines which action will be executed when clicked on.
+     * @_position determines where the hitbox will be located.
+     * @_size determines the size of the hibox
+     * @_isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @validActions the options that will show up when clicked on.
+     */
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: 100, y: 200 };
     public _size: Vector2 = { x: 90, y: 270 };
