@@ -8,22 +8,42 @@ import { Character } from "../../game-base/gameObjects/Character";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
 
+/**
+ * Implemention of the MirrorCharacter
+ *
+ * @remarks Implements Examine en Talk
+ */
 export class MirrorCharacter extends Character implements Examine, Talk {
+    // Alias of the item used to find the item
     public static readonly Alias: string = "ghost in the mirror";
 
+    /**
+     * _position: Position of the item's hitbox
+     * _size: Size of the item's hitbox
+     * _isDebugHitboxVisible: If true, shows the hitbox as a pink square
+     * _action: Action that happens when clicked on the item's hitbox
+     * validActions: Array of the alias of the actions that are possible for this item
+     */
     public _position: Vector2 = { x: -270, y: 100 };
     public _size: Vector2 = { x: 530, y: 530 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
 
+    // Create a new instance of this item
     public constructor() {
         super(MirrorCharacter.Alias);
     }
 
+    // Name of the item, shows up on the buttons for example
     public name(): string {
         return "Mirror Character";
     }
 
+    /**
+     * Tells about the MirrorCharacter, hints at the talk action
+     *
+     * @returns TextActionResult with the examine
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
             "The mirror stares back at you.",
@@ -31,8 +51,15 @@ export class MirrorCharacter extends Character implements Examine, Talk {
         ]);
     }
 
+    /**
+     * Talks with the MirrorCharacter
+     *
+     * @returns TalkActionResult with more dialoge
+     */
     public talk(choiceId?: number): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        // When "Can you tell me the code of the safe?" is chosen
         if (choiceId === 1) {
             return new TalkActionResult(
                 this,
@@ -45,7 +72,15 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
-        else if (choiceId === 3) {
+
+        // When "Walk away." is chosen
+        if (choiceId === 2) {
+            playerSession.walkedToMirror = false;
+            return new TextActionResult(["You walk away from the mirror."]);
+        }
+
+        // When "Maybe it can help me escape." is chosen
+        if (choiceId === 3) {
             return new TalkActionResult(
                 this,
                 [
@@ -56,11 +91,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
-        else if (choiceId === 2) {
-            playerSession.walkedToMirror = false;
-            return new TextActionResult(["You walk away from the mirror."]);
-        }
-        else if (choiceId === 4) {
+
+        // When "Hello? Is someone there?" is chosen
+        if (choiceId === 4) {
             playerSession.walkedToMirror = false;
             return new TextActionResult([
                 "...",
@@ -68,7 +101,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 "You walk away from the mirror.",
             ]);
         }
-        else if (choiceId === 5) {
+
+        // When "I'm ready." is chosen
+        if (choiceId === 5) {
             return new TalkActionResult(
                 this,
                 [
@@ -85,7 +120,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
-        else if (choiceId === 6) {
+
+        // When a wrong answer is chosen
+        if (choiceId === 6) {
             playerSession.walkedToMirror = false;
             return new TextActionResult([
                 "The moment you say the answer, you hear an alarm go off.",
@@ -93,7 +130,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 "You better hide!",
             ]);
         }
-        else if (choiceId === 7) {
+
+        // When "Despair" is chosen
+        if (choiceId === 7) {
             return new TalkActionResult(
                 this,
                 [
@@ -109,7 +148,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
-        else if (choiceId === 8) {
+
+        // When "Guilt" is chosen
+        if (choiceId === 8) {
             return new TalkActionResult(
                 this,
                 [
@@ -126,6 +167,8 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
+
+        // When "The anger of the dead" is chosen
         if (choiceId === 9) {
             playerSession.solvedRiddle = true;
             return new TalkActionResult(
@@ -141,6 +184,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
             );
         }
 
+        // When the SafeItem has been examined and Talk is selected
         if (playerSession.knowsAboutSafe) {
             return new TalkActionResult(
                 this,
@@ -154,17 +198,17 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                 ]
             );
         }
-        else {
-            return new TalkActionResult(
-                this,
-                [
-                    "...",
-                ],
-                [
-                    new TalkChoice(4, "Hello? Is someone there?"),
-                    new TalkChoice(2, "Walk away."),
-                ]
-            );
-        }
+
+        // When Talk is selected and SafeItem is not examined
+        return new TalkActionResult(
+            this,
+            [
+                "...",
+            ],
+            [
+                new TalkChoice(4, "Hello? Is someone there?"),
+                new TalkChoice(2, "Walk away."),
+            ]
+        );
     }
 }

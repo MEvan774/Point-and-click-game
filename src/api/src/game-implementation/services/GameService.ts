@@ -115,6 +115,7 @@ export class GameService extends BaseGameService<PlayerSession> {
     }
 
     /**
+     * Creates a new PlayerSession when a new game is started, sets all data to the base values
      * @inheritdoc
      */
     public createNewPlayerSession(): PlayerSession {

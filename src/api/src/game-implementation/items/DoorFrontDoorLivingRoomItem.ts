@@ -8,27 +8,52 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { LivingRoom } from "../rooms/LivingRoom";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
+/**
+ * The item that is used to go to the LivingRoom from the FrontDoorRoom
+ *
+ * @remarks Implements the Examine and the GoTo action
+ */
 export class DoorFrontDoorLivingRoomItem extends Item implements Examine, GoTo {
+    // Alias of the item used to find the item
     public static readonly Alias: string = "DoorFrontDoorLivingRoomItem";
 
+    /**
+     * _position: Position of the item's hitbox
+     * _size: Size of the item's hitbox
+     * _isDebugHitboxVisible: If true, shows the hitbox as a pink square
+     * _action: Action that happens when clicked on the item's hitbox
+     * validActions: Array of the alias of the actions that are possible for this item
+     */
     public _position: Vector2 = { x: 320, y: 160 };
     public _size: Vector2 = { x: 170, y: 400 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["go to"];
 
+    // Create a new instance of this item
     public constructor() {
         super(DoorFrontDoorLivingRoomItem.Alias, DoorFrontDoorLivingRoomItem.validActions);
     }
 
+    // Name of the item, shows up on the buttons for example
     public name(): string {
         return "Livingroom";
     }
 
+    /**
+     * Tells about where the door leads to
+     *
+     * @returns TextActionResult with information about the item
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult(["This door leads to the livingroom."]);
     }
 
+    /**
+     * Go to the LivingRoom and examines this room
+     *
+     * @returns room.examine() for the LivingRoom
+     */
     public goto(): ActionResult | undefined {
         const room: Room = new LivingRoom();
 
