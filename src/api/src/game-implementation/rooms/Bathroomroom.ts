@@ -8,9 +8,7 @@ import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { DoorBathroomBedroomItem } from "../items/DoorBathroomBedroomItem";
 import { BathroomItem } from "../items/BathroomItem";
-import { BathtubItem } from "../items/BathtubItem";
 import { PlayerSession } from "../types";
-import { PickUpAction } from "../actions/PickUpAction";
 import { EyeCharacter } from "../characters/EyeCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 
@@ -64,7 +62,6 @@ export class BathroomRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (playerSession.walkedToBathtub) {
-            objects.push(new BathtubItem());
             objects.push(new EyeCharacter()); // This represents the key inside the bathtub
         }
 
@@ -81,10 +78,6 @@ export class BathroomRoom extends Room implements Examine {
 
         if (playerSession.walkedToBathtub) {
             actions.push(new TalkAction());
-        }
-
-        if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
-            actions.push(new PickUpAction());
         }
 
         return actions;

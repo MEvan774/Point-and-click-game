@@ -10,7 +10,6 @@ import { DoorHallwayBedroomItem } from "../items/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
 import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
 import { BathroomItem } from "../items/BathroomItem";
-import { BathtubItem } from "../items/BathtubItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
 import { DoorBedroomItem } from "../items/DoorBedroomItem";
@@ -70,7 +69,6 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(FrontDoorHallwayItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(BathroomItem);
-        this.registerGameObject(BathtubItem);
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
