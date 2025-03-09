@@ -1,7 +1,7 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { Item } from "../../game-base/gameObjects/Item";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 /* import { GoTo } from "../actions/GoToAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { ShedRoom } from "../rooms/ShedRoom";

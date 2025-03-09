@@ -1,12 +1,12 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { ActionTypes } from "../../game-base/enums/ActionAlias";
-import { Item } from "../../game-base/gameObjects/Item";
-import { Room } from "../../game-base/gameObjects/Room";
-import { gameService } from "../../global";
-import { GoTo } from "../actions/GoToAction";
-import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { gameService } from "../../../global";
+import { GoTo } from "../../actions/GoToAction";
+import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
 
 /**
  * Base class used to represent an item

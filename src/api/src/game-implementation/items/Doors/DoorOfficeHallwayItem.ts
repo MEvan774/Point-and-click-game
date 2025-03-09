@@ -1,12 +1,12 @@
-import { Item } from "../../game-base/gameObjects/Item";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { GoTo } from "../actions/GoToAction";
-import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
-import { HallwayRoom } from "../rooms/HallwayRoom";
-import { PickUp } from "../actions/PickUpAction";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
+import { gameService } from "../../../global";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { HallwayRoom } from "../../rooms/HallwayRoom";
+import { PickUp } from "../../actions/PickUpAction";
 
 export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp {
     public static readonly Alias: string = "office-hallway-door";
