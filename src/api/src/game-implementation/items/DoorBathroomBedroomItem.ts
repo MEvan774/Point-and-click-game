@@ -12,8 +12,8 @@ export class DoorBathroomBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "bathroom bedroom door";
 
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: 100, y: 200 };
-    public _size: Vector2 = { x: 200, y: 200 };
+    public _position: Vector2 = { x: 315, y: 116 };
+    public _size: Vector2 = { x: 109, y: 310 };
     public static readonly validActions: string[] = ["examine", "go to"];
     public _isDebugHitboxVisible: boolean = true;
 

@@ -10,8 +10,8 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 export class BathroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Bathtub";
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: 150, y: 410 };
-    public _size: Vector2 = { x: 200, y: 200 };
+    public _position: Vector2 = { x: -152, y: 287 };
+    public _size: Vector2 = { x: 288, y: 100 };
     public _isDebugHitboxVisible: boolean = true;
 
     public static readonly validActions: string[] = [ActionTypes.GoTo];

@@ -11,8 +11,8 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 export class DoorBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-door";
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -100, y: 400 };
-    public _size: Vector2 = { x: 200, y: 200 };
+    public _position: Vector2 = { x: -96, y: 112 };
+    public _size: Vector2 = { x: 205, y: 275 };
     public _isDebugHitboxVisible: boolean = true;
 
     public static readonly validActions: string[] = [ActionTypes.GoTo];
