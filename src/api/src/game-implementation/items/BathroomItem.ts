@@ -9,6 +9,13 @@ import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class BathroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Bathtub";
+    /**
+     * @_action determines which action will be executed when clicked on.
+     * @_position determines where the hitbox will be located.
+     * @_size determines the size of the hibox
+     * @_isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @validActions the options that will show up when clicked on.
+     */
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: 150, y: 410 };
     public _size: Vector2 = { x: 200, y: 200 };

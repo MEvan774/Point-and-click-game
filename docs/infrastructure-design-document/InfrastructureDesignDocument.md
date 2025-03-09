@@ -2,15 +2,23 @@
 ## Organisatorische context
 ### Opdracht & opdrachtever:
 - Deze game wordt ontwikkeld door medewerkers van Game Studio Luca Stars.
+
 - Inhoudelijke en technische eisen worden bepaald door de Product Owners en er wordt door middel van meerdere T.M.C cyclussen en guerilla testen bepaald of deze eisen goed nageleefd worden
 
 ### Gebruikers & rollen:
-- Spelers: Dit zijn de mensen die de game gaan gebruiken
-- Ontwikkelteam: Het team werkt aan de gamefunctionaliteit en de backend van de game.
+- Spelers: Dit zijn de mensen die de game gaan gebruiken, zij kunnen doormiddel van puzzels oplossen, items vinden of raadsels op te lossen voortgang maken binnen de game en op deze manier het spel uitspelen.
+
+- Ontwikkelteam: Het team werkt aan de gamefunctionaliteit en de communicatie tussen de front-end en backend van de game.
+
 - Docenten & begeleiders: Begeleiden het ontwikkelproces en beoordelen het product.
 
 # Stap 2:
 ## Technische context
+- Data-Opslag: Wij maken gebruik van SessionStorage om de voortgang van het spel op te slaan.
+
+- Communicatie Front-End -> Backend: Communicatie tussen de front-en-backend vindt bij ons plaats via onder andere "shared/types" en "game-implementation/GameController".
+
+- Security: Er wordt gebruik gemaakt van HTTPS.
 
 # 3: Beschrijf vereisten, standaarden en richtlijnen
 

@@ -12,18 +12,34 @@ export class DoorLivingRoomFrontDoorItem extends Item implements Examine, GoTo {
 
     public static readonly validActions: string[] = ["examine", "go to"];
 
+    /**
+     * Create a new instance of this item
+     *
+     * @param alias Alias of this item
+     */
     public constructor() {
         super(DoorLivingRoomFrontDoorItem.Alias, DoorLivingRoomFrontDoorItem.validActions);
     }
 
+    // Name of the item, shows up on the buttons for example
     public name(): string {
         return "Front door";
     }
 
+    /**
+     * Tells about where the door leads to
+     *
+     * @returns TextActionResult with information about the item
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult(["This door leads to the front door."]);
     }
 
+    /**
+     * Go to the FrontDoorRoom and examines this room
+     *
+     * @returns room.examine() for the FrontDoorRoom
+     */
     public goto(): ActionResult | undefined {
         const room: Room = new FrontDoorRoom();
 
