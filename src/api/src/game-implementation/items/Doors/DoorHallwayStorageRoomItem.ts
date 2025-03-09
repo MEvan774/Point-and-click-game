@@ -1,12 +1,12 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { Item } from "../../game-base/gameObjects/Item";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { GoTo } from "../actions/GoToAction";
-import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
-import { StorageRoom } from "../rooms/StorageRoom";
-import { ActionTypes } from "../../game-base/enums/ActionAlias";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
+import { gameService } from "../../../global";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { StorageRoom } from "../../rooms/StorageRoom";
+import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
 export class DoorHallwayStorageRoomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-storageroom-door";
