@@ -5,8 +5,8 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
-import { DoorBedroomItem } from "../items/DoorBedroomItem";
+import { DoorBedroomBathroomItem } from "../items/Doors/DoorBedroomBathroomItem";
+import { DoorBedroomItem } from "../items/Doors/DoorBedroomItem";
 
 /**
  * Implemention of the bedroom room

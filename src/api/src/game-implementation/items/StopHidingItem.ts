@@ -2,20 +2,20 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { Hide } from "../actions/HideAction";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
-import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
-import { HiddenRoom } from "../rooms/HiddenRoom";
+import { StorageRoom } from "../rooms/StorageRoom";
+import { gameService } from "../../global";
+import { StopHiding } from "../actions/StopHidingAction";
 
 /**
- * A closet the player can hide inside
+ * The item to stop hiding when hiding
  *
- * @remarks Implements the Examine and Hide action
+ * @remarks Implements the Examine and StopHiding action
  */
-export class ClosetItem extends Item implements Examine, Hide {
+export class StopHidingItem extends Item implements Examine, StopHiding {
     // Alias of the item used to find the item
-    public static readonly Alias: string = "Closet";
+    public static readonly Alias: string = "StopHidingItem";
 
     /**
      * _position: Position of the item's hitbox
@@ -24,43 +24,47 @@ export class ClosetItem extends Item implements Examine, Hide {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 220, y: 150 };
-    public _size: Vector2 = { x: 250, y: 430 };
+    public _position: Vector2 = { x: -510, y: 95 };
+    public _size: Vector2 = { x: 1020, y: 520 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
-    public static readonly validActions: string[] = ["hide"];
+    public static readonly validActions: string[] = ["stop hiding"];
 
     // Create a new instance of this item
     public constructor() {
-        super(ClosetItem.Alias, ClosetItem.validActions);
+        super(StopHidingItem.Alias, StopHidingItem.validActions);
     }
 
     // Name of the item, shows up on the buttons for example
     public name(): string {
-        return "Closet";
+        return "Stop hiding";
     }
 
     /**
-     * Tells about the item
+     * Asks if the player wants to stop hiding
      *
-     * @returns TextActionResult with the examine
+     * @returns TextActionResult with the question to stop hiding
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "There is blood coming out of the closet.",
-            "But at least there are no dead bodies inside...",
-            "The closet is large enough to hide in if it's needed.",
+            "Want to stop hiding?",
         ]);
     }
 
     /**
-     * Brings the player to the HiddenRoom and saves the StorageRoom in the PlayerSession
+     * Stop hiding and go back to the previous room
      *
-     * @returns room.examine() of the HiddenRoom
+     * @returns room.examine() for the room hidden in
      */
-    public hide(): ActionResult | undefined {
-        gameService.getPlayerSession().hiddenIn = "StorageRoom";
-        const room: Room = new HiddenRoom();
+    public stopHiding(): ActionResult | undefined {
+        let room: Room;
+
+        if (gameService.getPlayerSession().hiddenIn === "StorageRoom") {
+            room = new StorageRoom();
+        }
+        else {
+            return undefined;
+        }
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();

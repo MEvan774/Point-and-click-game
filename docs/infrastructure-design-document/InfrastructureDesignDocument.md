@@ -2,15 +2,56 @@
 ## Organisatorische context
 ### Opdracht & opdrachtever:
 - Deze game wordt ontwikkeld door medewerkers van Game Studio Luca Stars.
+
 - Inhoudelijke en technische eisen worden bepaald door de Product Owners en er wordt door middel van meerdere T.M.C cyclussen en guerilla testen bepaald of deze eisen goed nageleefd worden
 
 ### Gebruikers & rollen:
-- Spelers: Dit zijn de mensen die de game gaan gebruiken
-- Ontwikkelteam: Het team werkt aan de gamefunctionaliteit en de backend van de game.
+- Spelers: Dit zijn de mensen die de game gaan gebruiken, zij kunnen doormiddel van puzzels oplossen, items vinden of raadsels op te lossen voortgang maken binnen de game en op deze manier het spel uitspelen.
+
+- Ontwikkelteam: Het team werkt aan de gamefunctionaliteit en de communicatie tussen de front-end en backend van de game.
+
 - Docenten & begeleiders: Begeleiden het ontwikkelproces en beoordelen het product.
 
 # Stap 2:
 ## Technische context
+- Data-Opslag: Wij maken gebruik van SessionStorage om de voortgang van het spel op te slaan.
+
+- Communicatie Front-End -> Backend: Communicatie tussen de front-en-backend vindt bij ons plaats via onder andere "shared/types" en "game-implementation/GameController".
+
+- Security: Er wordt gebruik gemaakt van HTTPS.
+
+# 3: Beschrijf vereisten, standaarden en richtlijnen
+
+Functionele vereisten:
+- De voortgang van de gebruiker wordt opgeslagen op hun eigen apparaat, zodat ze verder kunnen spelen als ze het opnieuw opstarten, in plaats van dat ze opnieuw moeten beginnen.
+- De game is toegankelijk via een webbrowser.
+
+Technische vereisten:
+- De API ondersteunt veilige communicatie via HTTPS.
+- De gegevens worden opgeslagen in de local storage, en er worden geen gegevens opgeslagen in een online database.
+
+Standaarden en richtlijnen:
+- Gebruik van de Code Conventions van de HBO-ICT Knowledgebase.
+- Gebruik van de OWASP-beveiligingsrichtlijnen voor veilige API's.
+
+Wetten en regelgeving:
+- Niet opslaan van gebruikersgegevens.
+
+# 4: Inrichting van de infrastructuur
+
+De infrastructuur voor dit project wordt volledig gehost op de HBO-ICT.Cloud, bestaande uit:
+
+1.  Frontend: Een statisch gehoste webapplicatie.
+
+2.  Backend: Een API-server, draaiend op Express.js.
+
+3.  Database: Niet gebruikt.
+
+Teamgegevens:
+
+Frontend URL: 
+Backend URL: 
+Poorten: 3366
 
 # Stap 10: 
 ### Backend configureren

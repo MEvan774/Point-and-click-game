@@ -1,15 +1,22 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { Item } from "../../game-base/gameObjects/Item";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { GoTo } from "../actions/GoToAction";
-import { gameService } from "../../global";
-import { HallwayRoom } from "../rooms/HallwayRoom";
-import { Room } from "../../game-base/gameObjects/Room";
-import { ActionTypes } from "../../game-base/enums/ActionAlias";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
+import { gameService } from "../../../global";
+import { HallwayRoom } from "../../rooms/HallwayRoom";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
 export class DoorBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-door";
+    /**
+     * @param _action determines which action will be executed when clicked on.
+     * @param _position determines where the hitbox will be located.
+     * @param _size determines the size of the hibox
+     * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @param validActions the options that will show up when clicked on.
+     */
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: -96, y: 112 };
     public _size: Vector2 = { x: 205, y: 275 };
@@ -39,7 +46,7 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
      * @returns room.examine() for the HallwayRoom
      */
     public goto(): ActionResult | undefined {
-        if (!gameService.getPlayerSession().pickedUpKey) {
+        if (!gameService.getPlayerSession().inventory.includes("KeyItem")) {
             return new TextActionResult(["The door is locked, maybe there is a key nearby."]);
         }
         else if (gameService.getPlayerSession().selectedItem !== "KeyItem") {

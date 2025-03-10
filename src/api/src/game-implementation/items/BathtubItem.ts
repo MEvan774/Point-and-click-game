@@ -4,11 +4,11 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
-import { GoTo } from "../actions/GoToAction";
+import { PickUp } from "../actions/PickUpAction";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
-export class BathroomItem extends Item implements Examine, GoTo {
-    public static readonly Alias: string = "Bathtub";
+export class BathtubItem extends Item implements Examine, PickUp {
+    public static readonly Alias: string = "key_in_bathtub";
     /**
      * @_action determines which action will be executed when clicked on.
      * @_position determines where the hitbox will be located.
@@ -17,42 +17,42 @@ export class BathroomItem extends Item implements Examine, GoTo {
      * @validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -152, y: 287 };
-    public _size: Vector2 = { x: 288, y: 100 };
+    public _position: Vector2 = { x: -150, y: 0 };
+    public _size: Vector2 = { x: 200, y: 200 };
     public _isDebugHitboxVisible: boolean = true;
 
-    public static readonly validActions: string[] = [ActionTypes.GoTo];
+    public static readonly validActions: string[] = [ActionTypes.PickUp];
 
     public constructor() {
-        super(BathroomItem.Alias, BathroomItem.validActions);
+        super(BathtubItem.Alias, BathtubItem.validActions);
     }
 
-    // Returns the name of the item.
     public name(): string {
-        return "Bathtub";
+        return "Key";
     }
 
-    /**
-     * Tell the player a bit about the room.
-     *
-     * @returns TextActionResult with information about the item
-     */
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.walkedToBathtub = false;
+        playerSession.isPickingUpkey = false;
         playerSession.pickedUpKey = false;
         return new TextActionResult([
-            "There is a bathtub in the bathroom, obviously.",
+            "There seems to be a key in the bathtub.",
+            "This may be the key needed to unlock the door in the bedroom.",
         ]);
     }
 
-    /**
-     * Go to the bathtub in the bathroomRoom.
-     * @returns
-     */
-    public goto(): ActionResult | undefined {
+    public pickup(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.walkedToBathtub = true;
-        return new TextActionResult(["You walk to the bathtub."]);
+        playerSession.isPickingUpkey = true;
+
+        if (!playerSession.pickedUpKey) {
+            playerSession.inventory.push("KeyItem");
+            playerSession.pickedUpKey = true;
+            return new TextActionResult(["You have picked up the key"]);
+        }
+        else {
+            playerSession.isPickingUpkey = false;
+            return new TextActionResult(["You have already picked up the key."]);
+        }
     }
 }

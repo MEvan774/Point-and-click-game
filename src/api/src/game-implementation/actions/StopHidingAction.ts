@@ -3,39 +3,39 @@ import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 
 @Interface
-export abstract class Hide {
-    public abstract hide(): ActionResult | undefined;
+export abstract class StopHiding {
+    public abstract stopHiding(): ActionResult | undefined;
 }
 
 /**
- * Action used to hide in items
+ * Action used to stop hiding
  */
-export class HideAction extends Action {
+export class StopHidingAction extends Action {
     // Alias used to find the item
-    public static readonly Alias: string = "hide";
+    public static readonly Alias: string = "stop hiding";
 
     // Create new instance of the action
     public constructor() {
-        super(HideAction.Alias, true);
+        super(StopHidingAction.Alias, true);
     }
 
     // Name used for buttons
     public name(): string {
-        return "Hide";
+        return "Stop hiding";
     }
 
     /**
-     * Execute the HideAction
+     * Execute the StopHidingAction
      *
      * @param _alias Alias of the Action
      * @param gameObjects Array of the GameObjects selected
-     * @returns gameObject.hide()
+     * @returns gameObject.stopHiding()
      */
     public execute(_alias: string, gameObjects: GameObject[]): ActionResult | undefined {
         const gameObject: GameObject = gameObjects[0];
 
-        if (gameObject.instanceOf(Hide)) {
-            return gameObject.hide();
+        if (gameObject.instanceOf(StopHiding)) {
+            return gameObject.stopHiding();
         }
         else {
             return undefined;
