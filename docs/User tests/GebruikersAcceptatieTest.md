@@ -7,10 +7,10 @@
 
 ## Legenda
 
-De testscenarios kennen meerdere categorieen:
-1 - Generiek / functionaliteiten
-2 - Room / character / item specifiek
-3 - Ontwerp / UI
+De testscenarios kennen meerdere categorieen:  
+1 - Generiek / functionaliteiten  
+2 - Room / character / item specifiek  
+3 - Ontwerp / UI  
 
 ## Testscenarios
 
