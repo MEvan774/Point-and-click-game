@@ -3,12 +3,18 @@ import { TalkActionResult } from "../../game-base/actionResults/TalkActionResult
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Talk, TalkChoice } from "../../game-base/actions/TalkAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Character } from "../../game-base/gameObjects/Character";
 import { gameService } from "../../global";
 import { GoTo } from "../actions/GoToAction";
 
 export class EyeCharacter extends Character implements Examine, Talk, GoTo {
     public static readonly Alias: string = "eyeCharacter";
+
+    public _position: Vector2 = { x: -318, y: 100 };
+    public _size: Vector2 = { x: 350, y: 450 };
+    public _isDebugHitboxVisible: boolean = true;
+    public _action: ActionTypes = ActionTypes.Examine;
 
     // Create a new instance of EyeCharacter.
     public constructor() {
