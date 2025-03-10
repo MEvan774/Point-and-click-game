@@ -20,14 +20,24 @@ export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
         super(DoorBedroomBathroomItem.Alias, DoorBedroomBathroomItem.validActions);
     }
 
+    // Shows the name of the room.
     public name(): string {
         return "Bathroom";
     }
 
+    /**
+     * Tell the player where this door leads to.
+     * @returns TextActionResult with information about the "item".
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult(["The door leads to a bathroom"]);
     }
 
+    /**
+     * Let the player go to the BathroomRoom.
+     *
+     * @returns room.examine() for the BathroomRoom.
+     */
     public goto(): ActionResult | undefined {
         const room: Room = new BathroomRoom();
 

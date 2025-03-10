@@ -26,6 +26,7 @@ export class BathroomRoom extends Room implements Examine {
     }
 
     /**
+     * Shows the name of the room.
      * @inheritdoc
      */
     public name(): string {
@@ -33,6 +34,7 @@ export class BathroomRoom extends Room implements Examine {
     }
 
     /**
+     * Shows the images of the room, according to the player's actions.
      * @inheritdoc
      */
     public images(): string[] {
@@ -54,20 +56,27 @@ export class BathroomRoom extends Room implements Examine {
         return result;
     }
 
+    /**
+     * @returns Objects in the room.
+     */
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new DoorBathroomBedroomItem(),
-            new BathroomItem(), // This should represent the bathtub
+            new BathroomItem(),
         ];
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (playerSession.walkedToBathtub) {
-            objects.push(new EyeCharacter()); // This represents the key inside the bathtub
+            objects.push(new EyeCharacter());
         }
 
         return objects;
     }
 
+    /**
+     * Show all the available actions in the room.
+     * @inheritdoc
+     */
     public actions(): Action[] {
         const actions: Action[] = [
             new ExamineAction(),
@@ -84,6 +93,7 @@ export class BathroomRoom extends Room implements Examine {
     }
 
     /**
+     * Describe the room.
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {

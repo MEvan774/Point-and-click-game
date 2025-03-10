@@ -21,14 +21,23 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
         super(DoorBedroomItem.Alias, DoorBedroomItem.validActions);
     }
 
+    // Shows the name of the room
     public name(): string {
         return "Hallway";
     }
 
+    /**
+     * Tell the player where this door leads to.
+     * @returns TextActionResult with information about the "item".
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult(["This door leads to the hallway."]);
     }
 
+    /**
+     * Go to the HallwayRoom after all the checks are "true". Else stay in the same room.
+     * @returns room.examine() for the HallwayRoom
+     */
     public goto(): ActionResult | undefined {
         if (!gameService.getPlayerSession().pickedUpKey) {
             return new TextActionResult(["The door is locked, maybe there is a key nearby."]);

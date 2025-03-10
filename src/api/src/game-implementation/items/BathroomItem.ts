@@ -20,10 +20,16 @@ export class BathroomItem extends Item implements Examine, GoTo {
         super(BathroomItem.Alias, BathroomItem.validActions);
     }
 
+    // Returns the name of the item.
     public name(): string {
         return "Bathtub";
     }
 
+    /**
+     * Tell the player a bit about the room.
+     *
+     * @returns TextActionResult with information about the item
+     */
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         playerSession.walkedToBathtub = false;
@@ -33,6 +39,10 @@ export class BathroomItem extends Item implements Examine, GoTo {
         ]);
     }
 
+    /**
+     * Go to the bathtub in the bathroomRoom.
+     * @returns
+     */
     public goto(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         playerSession.walkedToBathtub = true;
