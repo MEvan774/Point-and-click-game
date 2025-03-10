@@ -10,26 +10,40 @@ import { GoTo } from "../actions/GoToAction";
 export class EyeCharacter extends Character implements Examine, Talk, GoTo {
     public static readonly Alias: string = "eyeCharacter";
 
+    // Create a new instance of EyeCharacter.
     public constructor() {
         super(EyeCharacter.Alias);
     }
 
+    // Return the name of the character.
     public name(): string {
         return "Eye Character";
     }
 
+    /**
+     * Tells you a bit about the EyeCharacter.
+     *
+     * @returns TextActionResult with an examin function.
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
             "It is looking at you, obviously.",
         ]);
     }
 
+    // A goto action for the EyeCharacter.
     public goto(): ActionResult | undefined {
         return new TextActionResult([
             "Really? You want to go there?",
         ]);
     }
 
+    /**
+     * Talk to the EyeCharacter.
+     * @class TalkChoice will call this function with the choiceId.
+     *
+     * @returns TalkActionResult returns more dialog options.
+     */
     public talk(choiceId?: number): ActionResult | undefined {
         switch (choiceId) {
             case undefined: {

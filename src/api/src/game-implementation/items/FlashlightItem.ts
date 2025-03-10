@@ -32,7 +32,7 @@ export class FlashlightItem extends Item implements Examine {
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "This is a flashlight.",
+            "This is a flashlight!",
         ]);
     }
 }
