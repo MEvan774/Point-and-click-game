@@ -8,7 +8,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GhostCharacter } from "../characters/GhostCharacter";
-import { DoorKitchenLivingRoomItem } from "../items/Doors/DoorKitchenLivingRoomItem";
+import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomItem";
 import { LivingRoom } from "./LivingRoom";
 
 /**

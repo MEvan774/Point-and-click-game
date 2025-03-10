@@ -8,7 +8,7 @@ import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { DeskItem } from "../items/DeskItem";
 import { DiaryItem } from "../items/DiaryItem";
-import { DoorOfficeHallwayItem } from "../items/Doors/DoorOfficeHallwayItem";
+import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
 import { FirstAidItem } from "../items/FirstAidItem";
 import { PlayerSession } from "../types";
 

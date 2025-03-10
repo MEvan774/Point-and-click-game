@@ -6,7 +6,7 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorBathroomBedroomItem } from "../items/Doors/DoorBathroomBedroomItem";
+import { DoorBathroomBedroomItem } from "../items/doors/DoorBathroomBedroomItem";
 import { BathroomItem } from "../items/BathroomItem";
 import { PlayerSession } from "../types";
 import { EyeCharacter } from "../characters/EyeCharacter";

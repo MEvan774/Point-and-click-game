@@ -12,7 +12,7 @@ import { SafeItem } from "../items/SafeItem";
 import { OpenAction } from "../actions/OpenAction";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
-import { DoorStorageHallwayItem } from "../items/Doors/DoorStorageHallwayItem";
+import { DoorStorageHallwayItem } from "../items/doors/DoorStorageHallwayItem";
 import { HideAction } from "../actions/HideAction";
 import { ClosetItem } from "../items/Closetitem";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";

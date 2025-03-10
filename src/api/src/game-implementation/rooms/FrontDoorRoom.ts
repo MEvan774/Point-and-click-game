@@ -7,9 +7,9 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { OpenAction } from "../actions/OpenAction";
-import { DoorFrontDoorLivingRoomItem } from "../items/Doors/DoorFrontDoorLivingRoomItem";
-import { DoorFrontDoorOutsideItem } from "../items/Doors/DoorFrontDoorOutside";
-import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
+import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
+import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
 import { PlayerSession } from "../types";
 
 /**
