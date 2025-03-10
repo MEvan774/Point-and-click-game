@@ -7,7 +7,7 @@
 
 ## Legenda
 
-De testscenarios kennen meerdere categorieen:  
+De testscenarios kennen meerdere categorieen, het formaat is als volgt: UAT-ID (categorie)  
 1 - Generiek / functionaliteiten  
 2 - Room / character / item specifiek  
 3 - Ontwerp / UI  
