@@ -36,4 +36,6 @@ export type PlayerSession = {
     planksGone: boolean;
     // True when the OutsideKeyItem is used on the FrontDoorItem
     outsideKeyUsed: boolean;
+    // True when clicked on help
+    clickedHelp: boolean;
 };
