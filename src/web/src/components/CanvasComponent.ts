@@ -129,6 +129,19 @@ const styles: string = css`
         border-radius: 20px;
         filter: brightness(1.2);
     }
+
+    .button-Startup {
+        z-index: 1;
+        background-color: #e9efec;
+        color: #211e20;
+        padding: 20px 20px;
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+        font-size: 40px;
+    }
 `;
 
 /**
@@ -294,6 +307,10 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the title element. Can be empty.
      */
     private renderTitle(): string {
+        if (this._currentGameState?.roomAlias === "startup") {
+            return "";
+        }
+
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
 
@@ -335,6 +352,14 @@ export class CanvasComponent extends HTMLElement {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
         setTimeout(() => this.addHitboxes(), 10);
         if (roomImages && roomImages.length > 0) {
+            if (this._currentGameState?.roomAlias === "startup") {
+                return `
+                    <div class="header">
+                        ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                        ${this._currentGameState.text.map(text => `<p>${text}</p>`).join("") || ""}
+                    </div>
+                `;
+            }
             return `
                 <div class="header">
                     ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
@@ -351,6 +376,10 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the content element
      */
     private renderContent(): string {
+        if (this._currentGameState?.roomAlias === "startup") {
+            return `
+            `;
+        }
         return `
             <div class="content">
                 ${this._currentGameState?.text.map(text => `<p>${text}</p>`).join("") || ""}
@@ -364,10 +393,9 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        if (this._currentGameState?.roomAlias === "startup" || this.isActionTalk) {
+        if (this.isActionTalk || this._currentGameState?.roomAlias === "startup") {
             return html`
             <div class="footer">
-                <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div class="actionButtons">
                         ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
@@ -376,6 +404,7 @@ export class CanvasComponent extends HTMLElement {
             </div>
         `;
         }
+
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
@@ -406,11 +435,21 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the action button
      */
     private renderActionButton(action: ActionReference, object?: GameObjectReference): HTMLElement {
-        const element: HTMLElement = html`
+        let element: HTMLElement;
+        if (this._currentGameState?.roomAlias === "startup") {
+            element = html`
+            <a class="button-Startup ${this._selectedActionButton === action ? "active" : ""}">
+                ${action.name}
+            </a>
+        `;
+        }
+        else {
+            element = html`
             <a class="button ${this._selectedActionButton === action ? "active" : ""}">
                 ${action.name}
             </a>
         `;
+        }
 
         if (object) {
             element.addEventListener("click", () => this.handleClickAction(action, object));

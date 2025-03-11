@@ -134,6 +134,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             pickedUpFirstAid: false,
             planksGone: false,
             outsideKeyUsed: false,
+            clickedHelp: false,
         };
     }
 
