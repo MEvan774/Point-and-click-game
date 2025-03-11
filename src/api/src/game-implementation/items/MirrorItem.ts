@@ -59,6 +59,7 @@ export class MirrorItem extends Item implements Examine, GoTo {
      * @returns TextActionResult that tells the player they go to the mirror
      */
     public goto(): ActionResult | undefined {
+        gameService.getPlayerSession().walkedToMirror = true;
         return new TextActionResult(["You go up to the mirror."]);
     }
 }
