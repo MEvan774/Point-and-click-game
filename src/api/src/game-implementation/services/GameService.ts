@@ -46,6 +46,7 @@ import { FirstAidItem } from "../items/FirstAidItem";
 import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
+import { GameOverRoom } from "../rooms/GameOverRoom";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -68,6 +69,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(BedroomRoom);
         this.registerGameObject(BathroomRoom);
         this.registerGameObject(HiddenRoom);
+        this.registerGameObject(GameOverRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
