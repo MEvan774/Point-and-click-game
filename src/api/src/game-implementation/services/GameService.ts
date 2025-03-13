@@ -28,7 +28,6 @@ import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
 import { ClosetItem } from "../items/Closetitem";
 import { HideAction } from "../actions/HideAction";
-import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
 import { DoorLivingRoomKitchenItem } from "../items/doors/DoorLivingRoomKitchenItem";
@@ -87,7 +86,6 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorOfficeHallwayItem);
         this.registerGameObject(DiaryItem);
         this.registerGameObject(ClosetItem);
-        this.registerGameObject(DeskItem);
         this.registerGameObject(CenterStorageLeftItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(DoorBedroomBathroomItem);
@@ -137,6 +135,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             planksGone: false,
             outsideKeyUsed: false,
             clickedHelp: false,
+            clickedDiary: false,
         };
     }
 

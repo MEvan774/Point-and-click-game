@@ -5,6 +5,7 @@ import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
+import { HallwayRoom } from "./HallwayRoom";
 
 /**
  * Implemention of the startup room
@@ -73,7 +74,7 @@ export class StartupRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "new-game") {
-            const room: Room = new BedroomRoom();
+            const room: Room = new HallwayRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
 
