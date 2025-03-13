@@ -46,6 +46,9 @@ import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
 import { GameOverRoom } from "../rooms/GameOverRoom";
+import { ShedRoom } from "../rooms/ShedRoom";
+import { FreezerItem } from "../items/FreezerItem";
+import { CorpseCharacter } from "../characters/CorpseCharacter";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -69,6 +72,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(BathroomRoom);
         this.registerGameObject(HiddenRoom);
         this.registerGameObject(GameOverRoom);
+        this.registerGameObject(ShedRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
@@ -97,11 +101,13 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
         this.registerGameObject(StopHidingItem);
+        this.registerGameObject(FreezerItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
         this.registerGameObject(GhostCharacter);
         this.registerGameObject(EyeCharacter);
+        this.registerGameObject(CorpseCharacter);
 
         // Actions
         this.registerAction(OpenAction);
