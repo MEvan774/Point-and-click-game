@@ -6,7 +6,7 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 
 export class FreezerItem extends Item implements Examine {
     public static readonly Alias: string = "Freezer";
-    public _position: Vector2 = { x: 230, y: 350 };
+    public _position: Vector2 = { x: 230, y: 400 };
     public _size: Vector2 = { x: 200, y: 170 };
     public _isDebugHitboxVisible: boolean = true;
     public _action: ActionTypes = ActionTypes.Examine;
