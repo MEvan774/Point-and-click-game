@@ -60,16 +60,27 @@ export class BathroomRoom extends Room implements Examine {
      * @returns Objects in the room.
      */
     public objects(): GameObject[] {
-        const objects: GameObject[] = [
-            new DoorBathroomBedroomItem(),
-            new BathroomItem(),
-        ];
+        const objects: GameObject[] = [];
+
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
+        // if the player has not walked to the bathtub and has not picked up the key
+        if (!playerSession.walkedToBathtub && !playerSession.pickedUpKey) {
+            objects.push(new DoorBathroomBedroomItem());
+            objects.push(new BathroomItem());
+        }
+
+        // if the player has walked to the bathtub and has not picked up the key
         if (playerSession.walkedToBathtub) {
             objects.push(new EyeCharacter());
         }
 
+        if (playerSession.pickedUpKey) {
+            objects.push(new DoorBathroomBedroomItem());
+            objects.push(new BathroomItem());
+        }
+        else
+            objects.push(new BathroomItem());
         return objects;
     }
 
