@@ -6,16 +6,15 @@ import { GoTo } from "../../actions/GoToAction";
 import { gameService } from "../../../global";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { HallwayRoom } from "../../rooms/HallwayRoom";
-import { PickUp } from "../../actions/PickUpAction";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
-export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp {
+export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "office-hallway-door";
     public _position: Vector2 = { x: -510, y: 455 };
     public _size: Vector2 = { x: 855, y: 50 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.GoTo;
-    public static readonly validActions: string[] = ["examine", "go to", "pick up"];
+    public static readonly validActions: string[] = ["examine", "go to"];
 
     public constructor() {
         super(DoorOfficeHallwayItem.Alias, DoorOfficeHallwayItem.validActions);
@@ -34,12 +33,5 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo, PickUp
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
-    }
-
-    public pickup(): ActionResult | undefined {
-
-        return new TextActionResult([
-            "This door is very heavy, and therefor seems to be able to pack a punch! You have picked up the door.",
-        ]);
     }
 }
