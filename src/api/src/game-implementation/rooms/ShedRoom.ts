@@ -21,7 +21,6 @@ export class ShedRoom extends Room implements Examine {
     }
 
     public images(): string[] {
-        // const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
 
         result.push("ShedroomDark");
