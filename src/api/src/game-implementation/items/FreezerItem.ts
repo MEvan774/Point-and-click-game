@@ -3,8 +3,9 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
+import { GoTo } from "../actions/GoToAction";
 
-export class FreezerItem extends Item implements Examine {
+export class FreezerItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Freezer";
     public _position: Vector2 = { x: 230, y: 350 };
     public _size: Vector2 = { x: 200, y: 170 };
