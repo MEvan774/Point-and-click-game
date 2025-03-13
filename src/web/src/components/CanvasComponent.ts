@@ -88,7 +88,7 @@ const styles: string = css`
     }
 
     .footer .buttons {
-        z-index: 2;
+        z-index: 2000;
         display: flex;
         flex-direction: column;
         overflow: auto;
@@ -96,7 +96,7 @@ const styles: string = css`
     }
 
     .footer .button {
-        z-index: 1;
+        z-index: 2000;
         background-color: #e9efec;
         color: #211e20;
         padding: 5px 10px;
