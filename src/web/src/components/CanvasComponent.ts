@@ -379,13 +379,14 @@ export class CanvasComponent extends HTMLElement {
                     "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
-                title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
-                title += "<div class='overlayDiv'></div>";
                 title += "</div>";
 
                 return title;
             }
-            return `<div class="title">${roomName}</div>`;
+            return `<div class="title">${roomName}<br>
+            <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
+            <div class='overlayDiv'></div>
+            </div>`;
         }
         return "";
     }
