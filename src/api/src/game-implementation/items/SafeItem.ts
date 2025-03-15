@@ -52,7 +52,7 @@ export class SafeItem extends Item implements Examine, Open {
 
         // Checks if the safe has been opened
         if (playerSession.safeOpened) {
-            return new TextActionResult(["The safe is open."]);
+            return new TextActionResult(["The safe is already open."]);
         }
 
         // If the safe is not open

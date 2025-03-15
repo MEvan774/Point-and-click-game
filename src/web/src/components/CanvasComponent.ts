@@ -393,7 +393,7 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        if (this.isActionTalk || this._currentGameState?.roomAlias === "startup" || this._currentGameState?.roomAlias === "game-over") {
+        if (this._currentGameState?.roomAlias === "startup" || this._currentGameState?.roomAlias === "game-over") {
             return html`
             <div class="footer">
                 <div class="buttons">
@@ -403,6 +403,19 @@ export class CanvasComponent extends HTMLElement {
                 </div>
             </div>
         `;
+        }
+
+        if (this.isActionTalk) {
+            return html`
+                <div class="footer">
+                    <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
+                    <div class="buttons">
+                        <div class="actionButtons">
+                            ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         return html`
