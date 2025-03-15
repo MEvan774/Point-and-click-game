@@ -7,6 +7,13 @@ import { GoTo } from "../actions/GoToAction";
 import { Open } from "../actions/OpenAction";
 
 export class FreezerItem extends Item implements Examine, GoTo, Open {
+    /**
+     * _position: Position of the item's hitbox
+     * _size: Size of the item's hitbox
+     * _isDebugHitboxVisible: If true, shows the hitbox as a pink square
+     * _action: Action that happens when clicked on the item's hitbox
+     * validActions: Array of the alias of the actions that are possible for this item
+     */
     public static readonly Alias: string = "Freezer";
     public _position: Vector2 = { x: 230, y: 400 };
     public _size: Vector2 = { x: 200, y: 170 };
@@ -18,6 +25,11 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
         super(FreezerItem.Alias, FreezerItem.validActions);
     }
 
+    /**
+     * Tells about the item
+     *
+     * @returns TextActionResult with the examine
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
@@ -38,6 +50,7 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
         ]);
     }
 
+    // Name of the item, shows up on the buttons for example
     public name(): string {
         return "Freezer";
     }

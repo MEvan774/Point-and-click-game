@@ -8,6 +8,13 @@ import { PlayerSession } from "../types";
 import { gameService } from "../../global";
 
 export class LightSwitchItem extends Item implements Examine, Press {
+    /**
+     * _position: Position of the item's hitbox
+     * _size: Size of the item's hitbox
+     * _isDebugHitboxVisible: If true, shows the hitbox as a pink square
+     * _action: Action that happens when clicked on the item's hitbox
+     * validActions: Array of the alias of the actions that are possible for this item
+     */
     public static readonly Alias: string = "Light Switch";
     public static readonly ValidActions: string[] = ["press"];
     public _position: Vector2 = { x: 195, y: 315 };
