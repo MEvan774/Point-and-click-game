@@ -398,7 +398,7 @@ export class CanvasComponent extends HTMLElement {
             <div class="footer">
                 <div class="buttons">
                     <div class="actionButtons">
-                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                        ${this._currentGameState.actions.map(button => this.renderActionButton(button))}
                     </div>
                 </div>
             </div>
