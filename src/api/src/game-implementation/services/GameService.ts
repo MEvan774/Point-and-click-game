@@ -46,6 +46,7 @@ import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
 import { GameOverRoom } from "../rooms/GameOverRoom";
+import { LightItem } from "../items/LightItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -97,6 +98,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
         this.registerGameObject(StopHidingItem);
+        this.registerGameObject(LightItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
