@@ -1,6 +1,7 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
@@ -13,7 +14,11 @@ import { KitchenRoom } from "../rooms/KitchenRoom";
 export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "LivingToKitchenDoor";
 
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public _action: ActionTypes = ActionTypes.Examine;
+    public _position: Vector2 = { x: 40, y: 200 };
+    public _size: Vector2 = { x: 150, y: 240 };
+    public static readonly validActions: string[] = [ActionTypes.Examine, ActionTypes.GoTo];
+    public _isDebugHitboxVisible: boolean = false;
 
     /**
      * Create a new instance of this item
@@ -35,8 +40,8 @@ export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
      * @returns TextActionResult with information about the item
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["There is blood on the door...",
-            "I'm not sure if i want to see whats behind there."]);
+        return new TextActionResult(["You see blood near the door...",
+            "You try to guess whats behind it."]);
     }
 
     /**

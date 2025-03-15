@@ -6,11 +6,23 @@ import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
 import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 export class DoorLivingRoomFrontDoorItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "DoorLivingRoomFrontDoorItem";
 
-    public static readonly validActions: string[] = ["examine", "go to"];
+    /**
+         * @param _action determines which action will be executed when clicked on.
+         * @param _position determines where the hitbox will be located.
+         * @param _size determines the size of the hibox
+         * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+         * @param validActions the options that will show up when clicked on.
+         */
+    public _action: ActionTypes = ActionTypes.Examine;
+    public _position: Vector2 = { x: 360, y: 100 };
+    public _size: Vector2 = { x: 180, y: 560 };
+    public static readonly validActions: string[] = [ActionTypes.Examine, ActionTypes.GoTo];
+    public _isDebugHitboxVisible: boolean = false;
 
     /**
      * Create a new instance of this item
