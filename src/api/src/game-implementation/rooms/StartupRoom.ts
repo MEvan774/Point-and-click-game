@@ -5,8 +5,7 @@ import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
-import { HallwayRoom } from "./HallwayRoom";
-import { ShedRoom } from "./ShedRoom";
+// import { ShedRoom } from "./ShedRoom";
 
 /**
  * Implemention of the startup room
@@ -81,13 +80,13 @@ export class StartupRoom extends Room implements Simple {
 
             return room.examine();
         }
-        if (alias === "shed-room") {
-            const room: Room = new ShedRoom();
+        // if (alias === "shed-room") {
+        //     const room: Room = new ShedRoom();
 
-            gameService.getPlayerSession().currentRoom = room.alias;
+        //     gameService.getPlayerSession().currentRoom = room.alias;
 
-            return room.examine();
-        }
+        //     return room.examine();
+        // }
         if (alias === "help" && !gameService.getPlayerSession().clickedHelp) {
             gameService.getPlayerSession().clickedHelp = true;
 
