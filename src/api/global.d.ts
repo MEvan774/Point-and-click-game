@@ -5,6 +5,7 @@ declare global {
      * @template T Return type of the function
      */
     type SyncOrAsync<T> = T | Promise<T>;
+    const VITE_API_URL: string;
     type Vector2 = { x: number; y: number };
 }
 
