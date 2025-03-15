@@ -17,9 +17,9 @@ export class BathroomItem extends Item implements Examine, GoTo {
      * @validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -152, y: 287 };
+    public _position: Vector2 = { x: -152, y: 337 };
     public _size: Vector2 = { x: 288, y: 100 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = !gameService.getPlayerSession().walkedToBathtub;
 
     public static readonly validActions: string[] = [ActionTypes.GoTo];
 
@@ -38,9 +38,6 @@ export class BathroomItem extends Item implements Examine, GoTo {
      * @returns TextActionResult with information about the item
      */
     public examine(): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.walkedToBathtub = false;
-        playerSession.pickedUpKey = false;
         return new TextActionResult([
             "There is a bathtub in the bathroom, obviously.",
         ]);
