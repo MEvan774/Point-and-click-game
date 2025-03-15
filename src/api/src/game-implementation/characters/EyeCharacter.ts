@@ -34,7 +34,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "Really? You want to go there?",
+            "Uhhh... it's just an eye with a key around it's neck. What's so special about that?",
         ]);
     }
 
@@ -57,7 +57,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                 return new TalkActionResult(
                     this,
                     [
-                        "...",
+                        "Really now? You're talking to an eye?",
                     ],
                     [
                         new TalkChoice(1, "Hello?"),
@@ -89,6 +89,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                 if (!playerSession.pickedUpKey) {
                     playerSession.inventory.push("KeyItem");
                     playerSession.pickedUpKey = true;
+                    playerSession.walkedToBathtub = false;
                     return new TextActionResult([
                         "You snatched the key and ran away...",
                     ]);
