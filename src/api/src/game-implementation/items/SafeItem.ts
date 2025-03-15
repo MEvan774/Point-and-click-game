@@ -52,7 +52,7 @@ export class SafeItem extends Item implements Examine, Open {
 
         // Checks if the safe has been opened
         if (playerSession.safeOpened) {
-            return new TextActionResult(["The safe is open."]);
+            return new TextActionResult(["The safe is already open."]);
         }
 
         // If the safe is not open
@@ -83,7 +83,7 @@ export class SafeItem extends Item implements Examine, Open {
             playerSession.inventory.push("FlashlightItem");
 
             return new TextActionResult([
-                "You put the code you got into the safe.",
+                "You put the code you found into the safe.",
                 "...",
                 "It works! You found the flashlight.",
             ]);
@@ -91,7 +91,8 @@ export class SafeItem extends Item implements Examine, Open {
 
         // When the riddle has not been solved and the SafeItem is not open
         return new TextActionResult([
-            "You put in a random code...",
+            "You don't know the code.",
+            "You try a random code...",
             "Wrong. Obviously.",
         ]);
     }
