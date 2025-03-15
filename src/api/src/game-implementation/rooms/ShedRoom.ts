@@ -5,9 +5,14 @@ import { Examine, ExamineAction } from "../../game-base/actions/ExamineAction";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
+import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { OpenAction } from "../actions/OpenAction";
+import { PressAction } from "../actions/PressAction";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { FreezerItem } from "../items/FreezerItem";
+import { LightSwitchItem } from "../items/LightSwitchItem";
+import { PlayerSession } from "../types";
 
 export class ShedRoom extends Room implements Examine {
     public static readonly Alias: string = "Shed";
@@ -22,15 +27,20 @@ export class ShedRoom extends Room implements Examine {
 
     public images(): string[] {
         const result: string[] = [];
-
-        result.push("ShedroomDark");
-
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.pressedLight) {
+            result.push("ShedroomLight");
+        }
+        else {
+            result.push("ShedroomDark");
+        }
         return result;
     }
 
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new CorpseCharacter(),
+            new LightSwitchItem(),
             new FreezerItem(),
         ];
         return objects;
@@ -41,6 +51,8 @@ export class ShedRoom extends Room implements Examine {
         actions.push(new ExamineAction());
         actions.push(new GoToAction());
         actions.push(new TalkAction());
+        actions.push(new PressAction());
+        actions.push(new OpenAction());
 
         return actions;
     }

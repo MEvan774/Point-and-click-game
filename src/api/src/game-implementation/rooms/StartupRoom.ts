@@ -43,7 +43,7 @@ export class StartupRoom extends Room implements Simple {
      */
     public actions(): Action[] {
         const actions: Action[] = [new SimpleAction("new-game", "New Game")];
-
+        actions.push(new SimpleAction("shed-room", "Shed Room"));
         if (!gameService.getPlayerSession().clickedHelp) {
             actions.push(new SimpleAction("help", "Instructions"));
         }
@@ -75,6 +75,13 @@ export class StartupRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "new-game") {
+            const room: Room = new BedroomRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+        if (alias === "shed-room") {
             const room: Room = new ShedRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;

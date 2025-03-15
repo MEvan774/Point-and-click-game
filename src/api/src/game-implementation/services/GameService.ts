@@ -49,6 +49,8 @@ import { GameOverRoom } from "../rooms/GameOverRoom";
 import { ShedRoom } from "../rooms/ShedRoom";
 import { FreezerItem } from "../items/FreezerItem";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
+import { LightSwitchItem } from "../items/LightSwitchItem";
+import { PressAction } from "../actions/PressAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -102,6 +104,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(FirstAidItem);
         this.registerGameObject(StopHidingItem);
         this.registerGameObject(FreezerItem);
+        this.registerGameObject(LightSwitchItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -114,6 +117,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(GoToAction);
         this.registerAction(TalkAction);
         this.registerAction(HideAction);
+        this.registerAction(PressAction);
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
     }
@@ -142,6 +146,8 @@ export class GameService extends BaseGameService<PlayerSession> {
             outsideKeyUsed: false,
             clickedHelp: false,
             clickedDiary: false,
+            clickedLight: false,
+            pressedLight: false,
         };
     }
 
