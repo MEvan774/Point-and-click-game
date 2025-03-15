@@ -47,9 +47,9 @@ export class ClosetItem extends Item implements Examine, Hide {
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "There is blood coming out of the closet.",
-            "But at least there are no dead bodies inside...",
-            "The closet is large enough to hide in if it's needed.",
+            "The closet is big enough to hide inside.",
+            "There is blood inside though...",
+            "But I guess it's better than getting caught.",
         ]);
     }
 
