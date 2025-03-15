@@ -5,6 +5,7 @@ import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
+import { HallwayRoom } from "./HallwayRoom";
 
 /**
  * Implemention of the startup room
@@ -40,28 +41,54 @@ export class StartupRoom extends Room implements Simple {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [
-            new SimpleAction("start-game", "Start Game"),
-        ];
+        const actions: Action[] = [new SimpleAction("new-game", "New Game")];
+
+        if (!gameService.getPlayerSession().clickedHelp) {
+            actions.push(new SimpleAction("help", "Instructions"));
+        }
+        else {
+            actions.push(new SimpleAction("help", "Close instructions"));
+        }
+        return actions;
     }
 
     /**
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This is an example."]);
+        if (gameService.getPlayerSession().clickedHelp) {
+            return new TextActionResult([
+                "Click on objects to examine them and see the possible actions.",
+                "Click on the action that you want to execute.",
+                "If you want to execute an action you need an object for,",
+                "Click on the object in your inventory,",
+                "and then on the object and action you want to use it on.",
+                "You win when you escape.",
+            ]);
+        }
+        return new TextActionResult([""]);
     }
 
     /**
      * @inheritdoc
      */
     public simple(alias: string): ActionResult | undefined {
-        if (alias === "start-game") {
-            const room: Room = new BedroomRoom();
+        if (alias === "new-game") {
+            const room: Room = new HallwayRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
 
             return room.examine();
+        }
+        if (alias === "help" && !gameService.getPlayerSession().clickedHelp) {
+            gameService.getPlayerSession().clickedHelp = true;
+
+            return this.examine();
+        }
+        if (alias === "help") {
+            gameService.getPlayerSession().clickedHelp = false;
+
+            return this.examine();
         }
 
         return undefined;

@@ -10,7 +10,13 @@ import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
 export class StairsDownStairsItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "StairsDownStairsItem";
-
+    /**
+     * @_action determines which action will be executed when clicked on.
+     * @_position determines where the hitbox will be located.
+     * @_size determines the size of the hibox
+     * @_isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @validActions the options that will show up when clicked on.
+     */
     public _position: Vector2 = { x: 0, y: 0 };
     public _size: Vector2 = { x: 155, y: 245 };
     public _isDebugHitboxVisible: boolean = true;

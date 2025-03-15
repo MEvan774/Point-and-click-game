@@ -5,48 +5,47 @@ import { PlayerSession } from "../types";
 import { OpenAction } from "../actions/OpenAction";
 import { HallwayRoom } from "../rooms/HallwayRoom";
 import { LivingRoom } from "../rooms/LivingRoom";
-import { HallwayFrontDoorItem } from "../items/Doors/HallwayFrontDoorItem";
-import { DoorHallwayBedroomItem } from "../items/Doors/DoorHallwayBedroomroomItem";
+import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
+import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
-import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
+import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
 import { BathroomItem } from "../items/BathroomItem";
-import { BathtubItem } from "../items/BathtubItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
-import { DoorBedroomItem } from "../items/Doors/DoorBedroomItem";
+import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
 import { StorageRoom } from "../rooms/StorageRoom";
 import { MirrorItem } from "../items/MirrorItem";
 import { MirrorCharacter } from "../characters/MirrorCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { SafeItem } from "../items/SafeItem";
 import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
-import { DoorFrontDoorLivingRoomItem } from "../items/Doors/DoorFrontDoorLivingRoomItem";
-import { DoorFrontDoorOutsideItem } from "../items/Doors/DoorFrontDoorOutside";
-import { StairsDownStairsItem } from "../items/Doors/StairsDownstairsItem";
-import { DoorStorageHallwayItem } from "../items/Doors/DoorStorageHallwayItem";
-import { DoorOfficeHallwayItem } from "../items/Doors/DoorOfficeHallwayItem";
+import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
+import { StairsDownStairsItem } from "../items/doors/StairsDownstairsItem";
+import { DoorStorageHallwayItem } from "../items/doors/DoorStorageHallwayItem";
+import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
 import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
 import { ClosetItem } from "../items/Closetitem";
 import { HideAction } from "../actions/HideAction";
-import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
-import { DoorLivingRoomKitchenItem } from "../items/Doors/DoorLivingRoomKitchenItem";
+import { DoorLivingRoomKitchenItem } from "../items/doors/DoorLivingRoomKitchenItem";
 import { KitchenRoom } from "../rooms/KitchenRoom";
-import { DoorKitchenLivingRoomItem } from "../items/Doors/DoorKitchenLivingRoomItem";
+import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomItem";
 import { GhostCharacter } from "../characters/GhostCharacter";
-import { DoorBedroomBathroomItem } from "../items/Doors/DoorBedroomBathroomItem";
-import { DoorBathroomBedroomItem } from "../items/Doors/DoorBathroomBedroomItem";
-import { DoorHallwayStorageRoomItem } from "../items/Doors/DoorHallwayStorageRoomItem";
-import { DoorHallwayOfficeItem } from "../items/Doors/DoorHallwayOfficeItem";
-import { DoorLivingRoomFrontDoorItem } from "../items/Doors/DoorLivingRoomFrontDoorItem";
+import { DoorBedroomBathroomItem } from "../items/doors/DoorBedroomBathroomItem";
+import { DoorBathroomBedroomItem } from "../items/doors/DoorBathroomBedroomItem";
+import { DoorHallwayStorageRoomItem } from "../items/doors/DoorHallwayStorageRoomItem";
+import { DoorHallwayOfficeItem } from "../items/doors/DoorHallwayOfficeItem";
+import { DoorLivingRoomFrontDoorItem } from "../items/doors/DoorLivingRoomFrontDoorItem";
 import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
 import { EyeCharacter } from "../characters/EyeCharacter";
 import { FirstAidItem } from "../items/FirstAidItem";
 import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
+import { GameOverRoom } from "../rooms/GameOverRoom";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -69,13 +68,13 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(BedroomRoom);
         this.registerGameObject(BathroomRoom);
         this.registerGameObject(HiddenRoom);
+        this.registerGameObject(GameOverRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
         this.registerGameObject(FrontDoorHallwayItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(BathroomItem);
-        this.registerGameObject(BathtubItem);
         this.registerGameObject(MirrorItem);
         this.registerGameObject(SafeItem);
         this.registerGameObject(DoorStorageHallwayItem);
@@ -87,7 +86,6 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorOfficeHallwayItem);
         this.registerGameObject(DiaryItem);
         this.registerGameObject(ClosetItem);
-        this.registerGameObject(DeskItem);
         this.registerGameObject(CenterStorageLeftItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(DoorBedroomBathroomItem);
@@ -136,6 +134,8 @@ export class GameService extends BaseGameService<PlayerSession> {
             pickedUpFirstAid: false,
             planksGone: false,
             outsideKeyUsed: false,
+            clickedHelp: false,
+            clickedDiary: false,
         };
     }
 

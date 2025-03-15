@@ -6,10 +6,10 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorHallwayBedroomItem } from "../items/Doors/DoorHallwayBedroomroomItem";
-import { DoorHallwayOfficeItem } from "../items/Doors/DoorHallwayOfficeItem";
-import { DoorHallwayStorageRoomItem } from "../items/Doors/DoorHallwayStorageRoomItem";
-import { HallwayFrontDoorItem } from "../items/Doors/HallwayFrontDoorItem";
+import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
+import { DoorHallwayOfficeItem } from "../items/doors/DoorHallwayOfficeItem";
+import { DoorHallwayStorageRoomItem } from "../items/doors/DoorHallwayStorageRoomItem";
+import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
 import { LivingRoom } from "./LivingRoom";
 
 /**

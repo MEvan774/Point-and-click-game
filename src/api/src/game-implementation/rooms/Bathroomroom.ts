@@ -6,11 +6,9 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorBathroomBedroomItem } from "../items/Doors/DoorBathroomBedroomItem";
+import { DoorBathroomBedroomItem } from "../items/doors/DoorBathroomBedroomItem";
 import { BathroomItem } from "../items/BathroomItem";
-import { BathtubItem } from "../items/BathtubItem";
 import { PlayerSession } from "../types";
-import { PickUpAction } from "../actions/PickUpAction";
 import { EyeCharacter } from "../characters/EyeCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 
@@ -28,6 +26,7 @@ export class BathroomRoom extends Room implements Examine {
     }
 
     /**
+     * Shows the name of the room.
      * @inheritdoc
      */
     public name(): string {
@@ -35,6 +34,7 @@ export class BathroomRoom extends Room implements Examine {
     }
 
     /**
+     * Shows the images of the room, according to the player's actions.
      * @inheritdoc
      */
     public images(): string[] {
@@ -56,21 +56,27 @@ export class BathroomRoom extends Room implements Examine {
         return result;
     }
 
+    /**
+     * @returns Objects in the room.
+     */
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new DoorBathroomBedroomItem(),
-            new BathroomItem(), // This should represent the bathtub
+            new BathroomItem(),
         ];
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (playerSession.walkedToBathtub) {
-            objects.push(new BathtubItem());
-            objects.push(new EyeCharacter()); // This represents the key inside the bathtub
+            objects.push(new EyeCharacter());
         }
 
         return objects;
     }
 
+    /**
+     * Show all the available actions in the room.
+     * @inheritdoc
+     */
     public actions(): Action[] {
         const actions: Action[] = [
             new ExamineAction(),
@@ -83,14 +89,11 @@ export class BathroomRoom extends Room implements Examine {
             actions.push(new TalkAction());
         }
 
-        if (playerSession.walkedToBathtub && !playerSession.isPickingUpkey) {
-            actions.push(new PickUpAction());
-        }
-
         return actions;
     }
 
     /**
+     * Describe the room.
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
