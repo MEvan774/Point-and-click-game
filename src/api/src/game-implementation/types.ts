@@ -46,4 +46,6 @@ export type PlayerSession = {
     clickedLight: boolean;
     // True when freezer is opened
     openedFreezer: boolean;
+    // True when walked to freezer
+    walkedToFreezer: boolean;
 };

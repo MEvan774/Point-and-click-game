@@ -149,6 +149,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             clickedLight: false,
             pressedLight: false,
             openedFreezer: false,
+            walkedToFreezer: false,
         };
     }
 

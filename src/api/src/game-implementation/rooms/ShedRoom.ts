@@ -34,6 +34,11 @@ export class ShedRoom extends Room implements Examine {
         else {
             result.push("ShedroomDark");
         }
+
+        // if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
+        //     result.push("Freezer");
+        // }
+
         return result;
     }
 
@@ -41,12 +46,11 @@ export class ShedRoom extends Room implements Examine {
         const objects: GameObject[] = [
             new LightSwitchItem(),
             new FreezerItem(),
-            new CorpseCharacter(),
         ];
-        // const playerSession: PlayerSession = gameService.getPlayerSession();
-        // if (playerSession.openedFreezer) {
-        //     objects.push(new CorpseCharacter());
-        // }
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
+            objects.push(new CorpseCharacter());
+        }
         return objects;
     }
 

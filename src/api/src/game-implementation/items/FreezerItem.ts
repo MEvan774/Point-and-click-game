@@ -27,6 +27,8 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
     }
 
     public goto(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.walkedToFreezer = true;
         return new TextActionResult([
             "You walk up to the freezer, not knowing what you'll find",
         ]);
