@@ -17,6 +17,7 @@ import { HideAction } from "../actions/HideAction";
 import { ClosetItem } from "../items/Closetitem";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
 import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
+import { LightItem } from "../items/LightItem";
 
 /**
  * Implemention of the StorageRoom
@@ -97,6 +98,7 @@ export class StorageRoom extends Room {
             objects.push(new DoorStorageHallwayItem());
             objects.push(new ClosetItem());
             objects.push(new MirrorItem());
+            objects.push(new LightItem());
         }
 
         return objects;
