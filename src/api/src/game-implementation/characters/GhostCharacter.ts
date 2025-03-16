@@ -27,22 +27,35 @@ export class GhostCharacter extends Character implements Examine, Talk, GoTo {
         super(GhostCharacter.Alias);
     }
 
+    // Name of the item, shows up on the buttons for example
     public name(): string {
         return "Ghost Character";
     }
 
+    /**
+     * Tells about the GhostCharacter, hints at the talk action
+     *
+     * @returns TextActionResult with the examine
+     */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
             "It unnerves me...",
         ]);
     }
 
+    // When the goTo action is used on the ghostCharacter
     public goto(): ActionResult | undefined {
         return new TextActionResult([
             "I'd prefer not to get close to him.",
         ]);
     }
 
+    /**
+     * Talks with the GhostCharacter
+     * @class TalkChoice Will call this function again but with its given choiceId
+     *
+     * @returns TalkActionResult with more dialoge
+     */
     public talk(choiceId?: number): ActionResult | undefined {
         switch (choiceId) {
             case undefined: {

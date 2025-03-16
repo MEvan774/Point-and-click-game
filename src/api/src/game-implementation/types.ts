@@ -26,6 +26,8 @@ export type PlayerSession = {
     solvedRiddle: boolean;
     // True when the player opened the SafeItem
     safeOpened: boolean;
+    // True when player clicked on DiaryItem
+    clickedDiary: boolean;
     // True when player picked up the DiaryItem
     pickedUpDiary: boolean;
     // True when player clicked on the FirstAidItem
@@ -36,4 +38,6 @@ export type PlayerSession = {
     planksGone: boolean;
     // True when the OutsideKeyItem is used on the FrontDoorItem
     outsideKeyUsed: boolean;
+    // True when clicked on help
+    clickedHelp: boolean;
 };

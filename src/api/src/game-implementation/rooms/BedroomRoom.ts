@@ -5,8 +5,8 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
-import { DoorBedroomItem } from "../items/DoorBedroomItem";
+import { DoorBedroomBathroomItem } from "../items/doors/DoorBedroomBathroomItem";
+import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
 
 /**
  * Implemention of the bedroom room
@@ -24,6 +24,7 @@ export class BedroomRoom extends Room {
     }
 
     /**
+     * Shows the name of the room.
      * @inheritdoc
      */
     public name(): string {
@@ -31,12 +32,17 @@ export class BedroomRoom extends Room {
     }
 
     /**
+     * Shows the image of the room.
      * @inheritdoc
      */
     public images(): string[] {
         return ["bedroomRoom"];
     }
 
+    /**
+     * Shows all the available actions in the room
+     * @inheritdoc
+     */
     public actions(): Action[] {
         return [
             new ExamineAction(),
@@ -44,6 +50,9 @@ export class BedroomRoom extends Room {
         ];
     }
 
+    /**
+     * @returns Objects in the room
+     */
     public objects(): GameObject[] {
         return [
             new DoorBedroomItem(),
@@ -52,6 +61,7 @@ export class BedroomRoom extends Room {
     }
 
     /**
+     * Shows the description of the room.
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {

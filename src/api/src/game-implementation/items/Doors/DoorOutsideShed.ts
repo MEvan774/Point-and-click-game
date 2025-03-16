@@ -1,7 +1,7 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { Item } from "../../game-base/gameObjects/Item";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 /* import { GoTo } from "../actions/GoToAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { ShedRoom } from "../rooms/ShedRoom";
@@ -10,7 +10,7 @@ export class DoorOutsideShed extends Item implements Examine {
     public static readonly Alias: string = "Outside Shed room";
 
     public constructor() {
-        super(DoorOutsideShed.Alias);
+        super(DoorOutsideShed.Alias, ["examine"]);
     }
 
     public name(): string {

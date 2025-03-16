@@ -1,12 +1,12 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { Item } from "../../game-base/gameObjects/Item";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { GoTo } from "../actions/GoToAction";
-import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
-import { BathroomRoom } from "../rooms/Bathroomroom";
-import { ActionTypes } from "../../game-base/enums/ActionAlias";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
+import { gameService } from "../../../global";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { BathroomRoom } from "../../rooms/Bathroomroom";
+import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
 export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "bathroom-door";
@@ -18,8 +18,8 @@ export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
      * @param validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: 100, y: 200 };
-    public _size: Vector2 = { x: 200, y: 200 };
+    public _position: Vector2 = { x: 323, y: 174 };
+    public _size: Vector2 = { x: 100, y: 307 };
     public static readonly validActions: string[] = ["examine", "go to"];
     public _isDebugHitboxVisible: boolean = true;
 

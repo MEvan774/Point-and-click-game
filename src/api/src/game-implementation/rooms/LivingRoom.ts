@@ -6,8 +6,8 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorLivingRoomFrontDoorItem } from "../items/DoorLivingRoomFrontDoorItem";
-import { DoorLivingRoomKitchenItem } from "../items/DoorLivingRoomKitchenItem";
+import { DoorLivingRoomFrontDoorItem } from "../items/doors/DoorLivingRoomFrontDoorItem";
+import { DoorLivingRoomKitchenItem } from "../items/doors/DoorLivingRoomKitchenItem";
 import { HallwayRoom } from "./HallwayRoom";
 import { KitchenRoom } from "./KitchenRoom";
 

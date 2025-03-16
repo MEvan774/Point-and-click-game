@@ -57,12 +57,16 @@ export class StopHidingItem extends Item implements Examine, StopHiding {
      * @returns room.examine() for the room hidden in
      */
     public stopHiding(): ActionResult | undefined {
-        if (gameService.getPlayerSession().hiddenIn === "StorageRoom") {
-            const room: Room = new StorageRoom();
+        let room: Room;
 
-            gameService.getPlayerSession().currentRoom = room.alias;
-            return room.examine();
+        if (gameService.getPlayerSession().hiddenIn === "StorageRoom") {
+            room = new StorageRoom();
         }
-        return;
+        else {
+            return undefined;
+        }
+
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 }
