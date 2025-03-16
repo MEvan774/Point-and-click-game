@@ -3,13 +3,22 @@ import { TalkActionResult } from "../../game-base/actionResults/TalkActionResult
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Talk, TalkChoice } from "../../game-base/actions/TalkAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Character } from "../../game-base/gameObjects/Character";
-// import { gameService } from "../../global";
-import { GoTo } from "../actions/GoToAction";
-// import { PlayerSession } from "../types";
 
-export class CorpseCharacter extends Character implements Examine, Talk, GoTo {
+export class CorpseCharacter extends Character implements Examine, Talk {
     public static readonly Alias: string = "CorpseChar";
+    /**
+     * _position: Position of the item's hitbox
+     * _size: Size of the item's hitbox
+     * _isDebugHitboxVisible: If true, shows the hitbox as a pink square
+     * _action: Action that happens when clicked on the item's hitbox
+     * validActions: Array of the alias of the actions that are possible for this item
+     */
+    public _position: Vector2 = { x: -270, y: 100 };
+    public _size: Vector2 = { x: 530, y: 530 };
+    public _isDebugHitboxVisible: boolean = false;
+    public _action: ActionTypes = ActionTypes.Examine;
 
     public constructor() {
         super(CorpseCharacter.Alias);
@@ -20,7 +29,7 @@ export class CorpseCharacter extends Character implements Examine, Talk, GoTo {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["Test"]);
+        return new TextActionResult(["You expect a horrid smell, but the flesh is gone. Only the bones remain."]);
     }
 
     public goto(): ActionResult | undefined {

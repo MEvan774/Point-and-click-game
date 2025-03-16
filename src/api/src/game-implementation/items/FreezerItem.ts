@@ -5,6 +5,8 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { GoTo } from "../actions/GoToAction";
 import { Open } from "../actions/OpenAction";
+import { PlayerSession } from "../types";
+import { gameService } from "../../global";
 
 export class FreezerItem extends Item implements Examine, GoTo, Open {
     public static readonly Alias: string = "Freezer";
@@ -31,11 +33,19 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
     }
 
     public open(): ActionResult | undefined {
-        return new TextActionResult([
-            "You open the freezer and see a skeleton inside it.",
-            "By the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
-            "It appears to be holding a metal saw in it's hand.\nThis might come in handy to destroy the lock I saw on the gate",
-        ]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (!playerSession.openedFreezer) {
+            playerSession.openedFreezer = true;
+            return new TextActionResult([
+                "You open the freezer and see a skeleton inside it.\nBy the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
+                "It appears to be holding a metal saw in it's hand.\nThis might come in handy to destroy the lock I saw on the gate",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "The freezer is open",
+            ]);
+        }
     }
 
     public name(): string {

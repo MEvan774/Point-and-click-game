@@ -39,10 +39,14 @@ export class ShedRoom extends Room implements Examine {
 
     public objects(): GameObject[] {
         const objects: GameObject[] = [
-            new CorpseCharacter(),
             new LightSwitchItem(),
             new FreezerItem(),
+            new CorpseCharacter(),
         ];
+        // const playerSession: PlayerSession = gameService.getPlayerSession();
+        // if (playerSession.openedFreezer) {
+        //     objects.push(new CorpseCharacter());
+        // }
         return objects;
     }
 
