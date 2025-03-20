@@ -162,6 +162,8 @@ export class GameService extends BaseGameService<PlayerSession> {
             clickedDiary: false,
             clickedLight: false,
             pressedLight: false,
+            openedFreezer: false,
+            walkedToFreezer: false,
         };
     }
 

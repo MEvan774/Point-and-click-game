@@ -6,6 +6,7 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
+import { ShedRoom } from "./ShedRoom";
 
 /**
  * Implemention of the startup room
@@ -82,6 +83,12 @@ export class StartupRoom extends Room implements Simple {
 
             return room.examine();
         }
+        if (alias === "shed-room") {
+            const room: Room = new ShedRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
         if (alias === "continue") {
             const lastRoom: string = gameService.getPlayerSession().lastRoom;
 

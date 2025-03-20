@@ -28,21 +28,29 @@ export class ShedRoom extends Room implements Examine {
     public images(): string[] {
         const result: string[] = [];
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (playerSession.pressedLight) {
+        if (playerSession.pressedLight && !playerSession.walkedToFreezer) {
             result.push("ShedroomLight");
         }
-        else {
+        else if (!playerSession.pressedLight && !playerSession.walkedToFreezer) {
             result.push("ShedroomDark");
         }
+
+        if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
+            result.push("Freezer");
+        }
+
         return result;
     }
 
     public objects(): GameObject[] {
         const objects: GameObject[] = [
-            new CorpseCharacter(),
             new LightSwitchItem(),
             new FreezerItem(),
         ];
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
+            objects.push(new CorpseCharacter());
+        }
         return objects;
     }
 

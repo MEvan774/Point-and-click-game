@@ -5,6 +5,8 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { GoTo } from "../actions/GoToAction";
 import { Open } from "../actions/OpenAction";
+import { PlayerSession } from "../types";
+import { gameService } from "../../global";
 
 export class FreezerItem extends Item implements Examine, GoTo, Open {
     /**
@@ -31,23 +33,40 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
      * @returns TextActionResult with the examine
      */
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.walkedToFreezer = false;
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);
     }
 
     public goto(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.walkedToFreezer = true;
         return new TextActionResult([
             "You walk up to the freezer, not knowing what you'll find",
         ]);
     }
 
     public open(): ActionResult | undefined {
-        return new TextActionResult([
-            "You open the freezer and see a skeleton inside it.",
-            "By the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
-            "It appears to be holding a metal saw in it's hand.\nThis might come in handy to destroy the lock I saw on the gate",
-        ]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (!playerSession.walkedToFreezer) {
+            return new TextActionResult([
+                "I need to walk to the freezer to open it",
+            ]);
+        }
+        else if (!playerSession.openedFreezer) {
+            playerSession.openedFreezer = true;
+            return new TextActionResult([
+                "You open the freezer and see a skeleton inside it.\nBy the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
+                "It appears to be holding a metal saw in it's hand.\nThis might come in handy to destroy the lock I saw on the gate",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "The freezer is open",
+            ]);
+        }
     }
 
     // Name of the item, shows up on the buttons for example
