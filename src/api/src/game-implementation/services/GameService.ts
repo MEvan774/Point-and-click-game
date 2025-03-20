@@ -25,6 +25,7 @@ import { DoorOutsideFrontdoor } from "../items/doors/DoorOutsideFrontdoor";
 import { StairsDownStairsItem } from "../items/doors/StairsDownstairsItem";
 import { DoorStorageHallwayItem } from "../items/doors/DoorStorageHallwayItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
+import { OutsideRoom } from "../rooms/OutsideRoom";
 import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
 import { ClosetItem } from "../items/Closetitem";
@@ -76,6 +77,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(HiddenRoom);
         this.registerGameObject(GameOverRoom);
         this.registerGameObject(ShedRoom);
+        this.registerGameObject(OutsideRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
