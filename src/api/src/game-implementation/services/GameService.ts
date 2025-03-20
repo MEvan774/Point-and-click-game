@@ -46,12 +46,16 @@ import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { GameOverRoom } from "../rooms/GameOverRoom";
 import { ShedRoom } from "../rooms/ShedRoom";
 import { FreezerItem } from "../items/FreezerItem";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PressAction } from "../actions/PressAction";
+=======
+import { WinScreenRoom } from "../rooms/WinScreenRoom";
+>>>>>>> Stashed changes
 =======
 import { WinScreenRoom } from "../rooms/WinScreenRoom";
 >>>>>>> Stashed changes
@@ -78,8 +82,12 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(BathroomRoom);
         this.registerGameObject(HiddenRoom);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         this.registerGameObject(GameOverRoom);
         this.registerGameObject(ShedRoom);
+=======
+        this.registerGameObject(WinScreenRoom);
+>>>>>>> Stashed changes
 =======
         this.registerGameObject(WinScreenRoom);
 >>>>>>> Stashed changes

@@ -6,6 +6,10 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+import { WinScreenRoom } from "./WinScreenRoom";
+>>>>>>> Stashed changes
 =======
 import { WinScreenRoom } from "./WinScreenRoom";
 >>>>>>> Stashed changes
@@ -76,8 +80,13 @@ export class StartupRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         if (alias === "new-game") {
             const room: Room = new BedroomRoom();
+=======
+        if (alias === "start-game") {
+            const room: Room = new WinScreenRoom();
+>>>>>>> Stashed changes
 =======
         if (alias === "start-game") {
             const room: Room = new WinScreenRoom();
