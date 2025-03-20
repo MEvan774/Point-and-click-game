@@ -180,7 +180,7 @@ export class CanvasComponent extends HTMLElement {
     private async refreshGameState(): Promise<void> {
         const state: GameState = await this._gameRouteService.getGameState();
 
-        this.updateGameState(state);
+        await this.updateGameState(state);
     }
 
     /**
@@ -188,7 +188,7 @@ export class CanvasComponent extends HTMLElement {
      *
      * @param state Game state to update the canvas to
      */
-    private updateGameState(state: GameState): void {
+    private async updateGameState(state: GameState): Promise<void> {
         // Handle switching pages, if requested.
         if (state.type === "switch-page") {
             this._gameEventService.switchPage(state.page as Page);
@@ -203,13 +203,17 @@ export class CanvasComponent extends HTMLElement {
         this._selectedGameObjectButtons.clear();
 
         // Refresh the web component
-        this.render();
+        await this.render();
     }
 
     /**
      * Render the contents of this page
      */
-    private render(): void {
+    private async render(): Promise<void> {
+        if (!sessionStorage.getItem("visited")) {
+            await this.goToStartup();
+        }
+
         this.RemoveHitBoxes();
         if (!this.shadowRoot) {
             return;
@@ -233,6 +237,26 @@ export class CanvasComponent extends HTMLElement {
         this.shadowRoot.append(...elements);
 
         this.attachInventoryButtonListeners();
+    }
+
+    private async goToStartup(): Promise<void> {
+        sessionStorage.setItem("visited", "true");
+
+        if (!this._currentGameState) {
+            console.error("No gamestate");
+            return undefined;
+        }
+
+        const actions: ActionReference[] = this._currentGameState.actions;
+        const objects: GameObjectReference[] = this._currentGameState.objects;
+
+        for (let x: number = 0; x < actions.length; x++) {
+            for (let y: number = 0; y < objects.length; y++) {
+                if (actions[x].alias === "go to startup" && objects[y].alias === "to startup") {
+                    await this.handleClickAction(actions[x], objects[y]);
+                }
+            }
+        }
     }
 
     /**
@@ -284,8 +308,8 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
-            this.updateGameState(state);
-            this.render();
+            await this.updateGameState(state);
+            await this.render();
         }
         else {
             this._selectedInventoryItem = itemId;
@@ -296,8 +320,8 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
-            this.updateGameState(state);
-            this.render();
+            await this.updateGameState(state);
+            await this.render();
         }
     }
 
@@ -500,7 +524,7 @@ export class CanvasComponent extends HTMLElement {
             }
 
             this.isActionTalk = false;
-            this.updateGameState(state);
+            await this.updateGameState(state);
         }
         else {
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias);
@@ -510,19 +534,19 @@ export class CanvasComponent extends HTMLElement {
             }
 
             this.isActionTalk = false;
-            this.updateGameState(state);
+            await this.updateGameState(state);
         }
 
         // Gives buttons if the action is talk
         if (action.alias.includes("talk")) {
             this.isActionTalk = true;
-            this.render();
+            await this.render();
             this.isActionTalk = false;
         }
 
         // Renders room if the talk action is finished
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
-            this.render();
+            await this.render();
         }
     }
 
@@ -586,7 +610,7 @@ export class CanvasComponent extends HTMLElement {
         }
 
         // Otherwise, update the game state.
-        this.updateGameState(state);
+        await this.updateGameState(state);
 
         // Set action buttons
         setTimeout(() => {

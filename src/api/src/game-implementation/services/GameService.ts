@@ -8,7 +8,7 @@ import { LivingRoom } from "../rooms/LivingRoom";
 import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
 import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
-import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
+import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
 import { BathroomItem } from "../items/BathroomItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
@@ -19,8 +19,8 @@ import { MirrorCharacter } from "../characters/MirrorCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { SafeItem } from "../items/SafeItem";
 import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
-import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingRoomItem";
-import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
+import { DoorFrontDoorLivingRoomItem } from "../items/Doors/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/Doors/DoorFrontDoorOutside";
 import { DoorStorageHallwayItem } from "../items/doors/DoorStorageHallwayItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
 import { WorkRoom } from "../rooms/WorkRoom";
@@ -52,6 +52,8 @@ import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PressAction } from "../actions/PressAction";
 import { WinScreenRoom } from "../rooms/WinScreenRoom";
 import { StairsDownStairsItem } from "../items/Doors/StairsDownstairsItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/Doors/ToStartupItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -107,6 +109,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(StopHidingItem);
         this.registerGameObject(FreezerItem);
         this.registerGameObject(LightSwitchItem);
+        this.registerGameObject(ToStartupItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -122,6 +125,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(PressAction);
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
+        this.registerAction(GoToStartupAction);
     }
 
     /**
