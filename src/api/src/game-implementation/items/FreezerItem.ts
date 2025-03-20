@@ -21,6 +21,8 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
     }
 
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.walkedToFreezer = false;
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);
@@ -36,7 +38,12 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
 
     public open(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (!playerSession.openedFreezer) {
+        if (!playerSession.walkedToFreezer) {
+            return new TextActionResult([
+                "I need to walk to the freezer to open it",
+            ]);
+        }
+        else if (!playerSession.openedFreezer) {
             playerSession.openedFreezer = true;
             return new TextActionResult([
                 "You open the freezer and see a skeleton inside it.\nBy the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
