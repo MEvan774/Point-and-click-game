@@ -3,12 +3,19 @@ import { TalkActionResult } from "../../game-base/actionResults/TalkActionResult
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Talk, TalkChoice } from "../../game-base/actions/TalkAction";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Character } from "../../game-base/gameObjects/Character";
 import { gameService } from "../../global";
 import { GoTo } from "../actions/GoToAction";
+import { PlayerSession } from "../types";
 
 export class EyeCharacter extends Character implements Examine, Talk, GoTo {
     public static readonly Alias: string = "eyeCharacter";
+
+    public _position: Vector2 = { x: -318, y: 100 };
+    public _size: Vector2 = { x: 350, y: 450 };
+    public _isDebugHitboxVisible: boolean = true;
+    public _action: ActionTypes = ActionTypes.Examine;
 
     // Create a new instance of EyeCharacter.
     public constructor() {
@@ -27,14 +34,14 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "It is looking at you, obviously.",
+            "Uhhh... it's just an eye with a key around it's neck. What's so special about that?",
         ]);
     }
 
     // A goto action for the EyeCharacter.
     public goto(): ActionResult | undefined {
         return new TextActionResult([
-            "Really? You want to go there?",
+            "...",
         ]);
     }
 
@@ -50,7 +57,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                 return new TalkActionResult(
                     this,
                     [
-                        "...",
+                        "Really now? You're talking to an eye?",
                     ],
                     [
                         new TalkChoice(1, "Hello?"),
@@ -59,19 +66,17 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                 );
             }
             case 1:
-                gameService.getPlayerSession().pickedUpKey = false;
-                gameService.getPlayerSession().isPickingUpkey = false;
-                {
-                    return new TalkActionResult(
-                        this,
-                        [
-                            "Did you really think eyes could talk?",
-                        ],
-                        [
-                            new TalkChoice(3, "Snatch the key off of his neck."),
-                        ]
-                    );
-                }
+            {
+                return new TalkActionResult(
+                    this,
+                    [
+                        "Did you really think eyes could talk?",
+                    ],
+                    [
+                        new TalkChoice(3, "Snatch the key off of his neck."),
+                    ]
+                );
+            }
             case 2:
             {
                 return new TextActionResult([
@@ -80,12 +85,20 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
             }
             case 3:
             {
-                gameService.getPlayerSession().isPickingUpkey = true;
-                gameService.getPlayerSession().pickedUpKey = true;
-                gameService.getPlayerSession().inventory.push("KeyItem");
-                return new TextActionResult([
-                    "You snatched the key and ran away...",
-                ]);
+                const playerSession: PlayerSession = gameService.getPlayerSession();
+                if (!playerSession.pickedUpKey) {
+                    playerSession.inventory.push("KeyItem");
+                    playerSession.pickedUpKey = true;
+                    playerSession.walkedToBathtub = false;
+                    return new TextActionResult([
+                        "You snatched the key and ran away...",
+                    ]);
+                }
+                else {
+                    return new TextActionResult([
+                        "You already snatched the key, so instead you stab him in the eye and run away.",
+                    ]);
+                }
             }
         }
         return undefined;

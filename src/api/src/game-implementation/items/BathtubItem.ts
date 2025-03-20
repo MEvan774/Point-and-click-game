@@ -2,12 +2,9 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { Item } from "../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { gameService } from "../../global";
-import { PlayerSession } from "../types";
-import { PickUp } from "../actions/PickUpAction";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
-export class BathtubItem extends Item implements Examine, PickUp {
+export class BathtubItem extends Item implements Examine {
     public static readonly Alias: string = "key_in_bathtub";
     /**
      * @_action determines which action will be executed when clicked on.
@@ -32,27 +29,9 @@ export class BathtubItem extends Item implements Examine, PickUp {
     }
 
     public examine(): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.isPickingUpkey = false;
-        playerSession.pickedUpKey = false;
         return new TextActionResult([
-            "There seems to be a key in the bathtub.",
-            "This may be the key needed to unlock the door in the bedroom.",
+            "Well someone is staring at you from the bathtub.",
+            "Talk about having no manners.",
         ]);
-    }
-
-    public pickup(): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.isPickingUpkey = true;
-
-        if (!playerSession.pickedUpKey) {
-            playerSession.inventory.push("KeyItem");
-            playerSession.pickedUpKey = true;
-            return new TextActionResult(["You have picked up the key"]);
-        }
-        else {
-            playerSession.isPickingUpkey = false;
-            return new TextActionResult(["You have already picked up the key."]);
-        }
     }
 }

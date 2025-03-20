@@ -96,9 +96,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
         if (choiceId === 4) {
             playerSession.walkedToMirror = false;
             return new TextActionResult([
-                "...",
-                "That's a stupid question.",
-                "You walk away from the mirror.",
+                "You have no idea what to ask...",
+                "You should look around the room first.",
+                "Maybe there's something in the bookshelf?",
             ]);
         }
 

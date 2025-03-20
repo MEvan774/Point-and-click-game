@@ -28,7 +28,6 @@ import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
 import { ClosetItem } from "../items/Closetitem";
 import { HideAction } from "../actions/HideAction";
-import { DeskItem } from "../items/DeskItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
 import { DoorLivingRoomKitchenItem } from "../items/doors/DoorLivingRoomKitchenItem";
@@ -46,6 +45,12 @@ import { FirstAidItem } from "../items/FirstAidItem";
 import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
+import { GameOverRoom } from "../rooms/GameOverRoom";
+import { ShedRoom } from "../rooms/ShedRoom";
+import { FreezerItem } from "../items/FreezerItem";
+import { CorpseCharacter } from "../characters/CorpseCharacter";
+import { LightSwitchItem } from "../items/LightSwitchItem";
+import { PressAction } from "../actions/PressAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -68,6 +73,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(BedroomRoom);
         this.registerGameObject(BathroomRoom);
         this.registerGameObject(HiddenRoom);
+        this.registerGameObject(GameOverRoom);
+        this.registerGameObject(ShedRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
@@ -85,7 +92,6 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorOfficeHallwayItem);
         this.registerGameObject(DiaryItem);
         this.registerGameObject(ClosetItem);
-        this.registerGameObject(DeskItem);
         this.registerGameObject(CenterStorageLeftItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(DoorBedroomBathroomItem);
@@ -97,17 +103,21 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
         this.registerGameObject(StopHidingItem);
+        this.registerGameObject(FreezerItem);
+        this.registerGameObject(LightSwitchItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
         this.registerGameObject(GhostCharacter);
         this.registerGameObject(EyeCharacter);
+        this.registerGameObject(CorpseCharacter);
 
         // Actions
         this.registerAction(OpenAction);
         this.registerAction(GoToAction);
         this.registerAction(TalkAction);
         this.registerAction(HideAction);
+        this.registerAction(PressAction);
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
     }
@@ -134,6 +144,10 @@ export class GameService extends BaseGameService<PlayerSession> {
             pickedUpFirstAid: false,
             planksGone: false,
             outsideKeyUsed: false,
+            clickedHelp: false,
+            clickedDiary: false,
+            clickedLight: false,
+            pressedLight: false,
         };
     }
 
