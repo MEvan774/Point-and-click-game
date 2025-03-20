@@ -8,7 +8,8 @@ import { PlayerSession } from "../../types";
 import { gameService } from "../../../global";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { Open } from "../../actions/OpenAction";
-import { StartupRoom } from "../../rooms/StartupRoom";
+import { WinScreenRoom } from "../../rooms/WinScreenRoom";
+import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
 
 /**
  * The item that is used to go to the OutsideRoom from the FrontDoorRoom
@@ -94,7 +95,8 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If the door is opened, go to the OutsideRoom
         if (playerSession.planksGone && playerSession.outsideKeyUsed) {
-            const room: Room = new StartupRoom();
+            gameService.getPlayerSession().lastRoom = FrontDoorRoom.Alias;
+            const room: Room = new WinScreenRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
             return room.examine();

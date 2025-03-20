@@ -67,7 +67,7 @@ export class WinScreenRoom extends Room implements Simple {
         }
 
         if (alias === "new-game") {
-            localStorage.clear();
+            gameService.resetPlayerSession();
             const room: Room = new BedroomRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
