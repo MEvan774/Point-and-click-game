@@ -18,8 +18,8 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
      * @param validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -96, y: 112 };
-    public _size: Vector2 = { x: 205, y: 275 };
+    public _position: Vector2 = { x: -96, y: 162 };
+    public _size: Vector2 = { x: 204, y: 275 };
     public _isDebugHitboxVisible: boolean = true;
 
     public static readonly validActions: string[] = [ActionTypes.GoTo];

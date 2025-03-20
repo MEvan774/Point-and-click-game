@@ -40,4 +40,8 @@ export type PlayerSession = {
     outsideKeyUsed: boolean;
     // True when clicked on help
     clickedHelp: boolean;
+    // Turns the lights on when true
+    pressedLight: boolean;
+    // True when clicked on Light
+    clickedLight: boolean;
 };

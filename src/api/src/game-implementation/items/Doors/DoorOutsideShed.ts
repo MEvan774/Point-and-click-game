@@ -10,7 +10,7 @@ export class DoorOutsideShed extends Item implements Examine {
     public static readonly Alias: string = "Outside Shed room";
 
     public constructor() {
-        super(DoorOutsideShed.Alias);
+        super(DoorOutsideShed.Alias, ["examine"]);
     }
 
     public name(): string {

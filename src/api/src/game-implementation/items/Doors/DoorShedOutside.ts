@@ -11,7 +11,7 @@ export class DoorOutsideShed extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Shed Outside room";
 
     public constructor() {
-        super(DoorOutsideShed.Alias);
+        super(DoorOutsideShed.Alias, ["examine", "goto"]);
     }
 
     public name(): string {
