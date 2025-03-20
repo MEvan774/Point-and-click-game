@@ -5,6 +5,10 @@ import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
+<<<<<<< Updated upstream
+=======
+import { WinScreenRoom } from "./WinScreenRoom";
+>>>>>>> Stashed changes
 
 /**
  * Implemention of the startup room
@@ -71,8 +75,13 @@ export class StartupRoom extends Room implements Simple {
      * @inheritdoc
      */
     public simple(alias: string): ActionResult | undefined {
+<<<<<<< Updated upstream
         if (alias === "new-game") {
             const room: Room = new BedroomRoom();
+=======
+        if (alias === "start-game") {
+            const room: Room = new WinScreenRoom();
+>>>>>>> Stashed changes
 
             gameService.getPlayerSession().currentRoom = room.alias;
 

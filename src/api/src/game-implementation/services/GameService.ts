@@ -45,12 +45,16 @@ import { FirstAidItem } from "../items/FirstAidItem";
 import { HiddenRoom } from "../rooms/HiddenRoom";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
+<<<<<<< Updated upstream
 import { GameOverRoom } from "../rooms/GameOverRoom";
 import { ShedRoom } from "../rooms/ShedRoom";
 import { FreezerItem } from "../items/FreezerItem";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PressAction } from "../actions/PressAction";
+=======
+import { WinScreenRoom } from "../rooms/WinScreenRoom";
+>>>>>>> Stashed changes
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -73,8 +77,12 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(BedroomRoom);
         this.registerGameObject(BathroomRoom);
         this.registerGameObject(HiddenRoom);
+<<<<<<< Updated upstream
         this.registerGameObject(GameOverRoom);
         this.registerGameObject(ShedRoom);
+=======
+        this.registerGameObject(WinScreenRoom);
+>>>>>>> Stashed changes
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
