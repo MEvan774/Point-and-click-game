@@ -94,6 +94,7 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If the door is opened, go to the OutsideRoom
         if (playerSession.planksGone && playerSession.outsideKeyUsed) {
+            gameService.getPlayerSession().lastRoom = FrontDoorRoom.Alias;
             const room: Room = new OutsideRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;

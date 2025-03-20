@@ -8,7 +8,7 @@ import { LivingRoom } from "../rooms/LivingRoom";
 import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
 import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
-import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
+import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
 import { BathroomItem } from "../items/BathroomItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
@@ -54,6 +54,10 @@ import { FreezerItem } from "../items/FreezerItem";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PressAction } from "../actions/PressAction";
+import { WinScreenRoom } from "../rooms/WinScreenRoom";
+import { StairsDownStairsItem } from "../items/Doors/StairsDownstairsItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/Doors/ToStartupItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -78,6 +82,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(HiddenRoom);
         this.registerGameObject(GameOverRoom);
         this.registerGameObject(ShedRoom);
+        this.registerGameObject(WinScreenRoom);
         this.registerGameObject(OutsideRoom);
 
         // Items
@@ -111,6 +116,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(StopHidingItem);
         this.registerGameObject(FreezerItem);
         this.registerGameObject(LightSwitchItem);
+        this.registerGameObject(ToStartupItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -126,6 +132,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(PressAction);
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
+        this.registerAction(GoToStartupAction);
     }
 
     /**
@@ -135,6 +142,7 @@ export class GameService extends BaseGameService<PlayerSession> {
     public createNewPlayerSession(): PlayerSession {
         return {
             currentRoom: StartupRoom.Alias,
+            lastRoom: "",
             inventory: ["OutsideKeyItem", "CrowbarItem"],
             selectedItem: "",
             hiddenIn: "",
