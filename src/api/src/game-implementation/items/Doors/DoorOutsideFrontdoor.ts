@@ -3,9 +3,9 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { gameService } from "../../../global";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
 export class DoorOutsideFrontdoor extends Item implements Examine, GoTo {

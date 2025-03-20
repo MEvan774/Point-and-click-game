@@ -2,12 +2,13 @@ import { ActionResult } from "../../../game-base/actionResults/ActionResult";
 import { Examine } from "../../../game-base/actions/ExamineAction";
 import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
 import { ShedRoom } from "../../rooms/ShedRoom";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { gameService } from "../../../global";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
-export class DoorOutsideShed extends Item implements Examine {
+export class DoorOutsideShed extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Outside Shed room";
     /**
              * @param _action determines which action will be executed when clicked on.
@@ -23,7 +24,7 @@ export class DoorOutsideShed extends Item implements Examine {
     public static readonly validActions: string[] = ["go to"];
 
     public constructor() {
-        super(DoorOutsideShed.Alias, ["examine"]);
+        super(DoorOutsideShed.Alias, DoorOutsideShed.validActions);
     }
 
     public name(): string {
@@ -31,7 +32,7 @@ export class DoorOutsideShed extends Item implements Examine {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["The door leads to the shed that's half open."]);
+        return new TextActionResult(["The door leads you inside the shed."]);
     }
 
     public goto(): ActionResult | undefined {
