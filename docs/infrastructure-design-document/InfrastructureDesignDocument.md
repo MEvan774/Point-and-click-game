@@ -63,9 +63,26 @@ De infrastructuur voor dit project wordt volledig gehost op de HBO-ICT.Cloud, be
 
 Teamgegevens:
 
-Frontend URL: 
-Backend URL: 
+Frontend URL: https://taamookeekee60-pb3sef2425.hbo-ict.cloud
+Backend URL: https://taamookeekee60-pb3sef2425.hbo-ict.cloud/api/
 Poorten: 3366
+
+## Communicatie en sequence diagram
+
+**Stap 5: Beschrijf de communicatie tussen de systemen**
+
+Maak een sequence diagram voor een van fetch verzoeken van frontend naar backend en terug, waarin de communicatie tussen frontend, backend, en database wordt uitgelegd. Zorg ervoor dat je per communicatielijn duidelijk beschrijft:
+
+-   De agents: gebruiker, frontend, backend en database.
+
+-   Protocollen: HTTPS
+
+-   Wat de inhoud van de berichten is:
+
+    -   HTTP-requests: Methode, headers, adres, eventuele body-inhoud.
+
+Opdracht: Onderzoek de datastroom in jouw applicatie en gebruik deze inzichten om het diagram aan te vullen met gedetailleerde informatie.
+
 
 # Stap 10: 
 ### Backend configureren
