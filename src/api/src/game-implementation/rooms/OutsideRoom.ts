@@ -33,9 +33,9 @@ export class OutsideRoom extends Room {
     /**
      * @inheritdoc
      */
-    //    public images(): string[] {
-    //        return ["outsideRoom"];
-    //    }
+    public images(): string[] {
+        return ["Outside"];
+    }
 
     public actions(): Action[] {
         return [

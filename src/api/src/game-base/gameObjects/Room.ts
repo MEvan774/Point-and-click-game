@@ -17,7 +17,7 @@ export abstract class Room extends GameObject implements Examine {
      * @param validActions Valid actions for the room
      */
     protected constructor(alias: string) {
-        super(alias, ["examine"]);
+        super(alias, ["examine", "gotostartup"]);
     }
 
     /**

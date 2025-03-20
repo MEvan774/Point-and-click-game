@@ -6,6 +6,8 @@
 export type PlayerSession = {
     // Alias of the room the player is in
     currentRoom: string;
+    // Alias of last room before going to the main screen
+    lastRoom: string;
     // Current inventory of the player
     inventory: string[];
     // Currently selected item in the inventory

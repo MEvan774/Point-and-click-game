@@ -8,7 +8,7 @@ import { LivingRoom } from "../rooms/LivingRoom";
 import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
 import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
-import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
+import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
 import { BathroomItem } from "../items/BathroomItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
@@ -21,9 +21,12 @@ import { SafeItem } from "../items/SafeItem";
 import { FrontDoorRoom } from "../rooms/FrontDoorRoom";
 import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingRoomItem";
 import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
+import { DoorOutsideFrontdoor } from "../items/doors/DoorOutsideFrontdoor";
+import { DoorOutsideShed } from "../items/doors/DoorOutsideShed";
 import { StairsDownStairsItem } from "../items/doors/StairsDownstairsItem";
 import { DoorStorageHallwayItem } from "../items/doors/DoorStorageHallwayItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
+import { OutsideRoom } from "../rooms/OutsideRoom";
 import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
 import { ClosetItem } from "../items/Closetitem";
@@ -51,6 +54,10 @@ import { FreezerItem } from "../items/FreezerItem";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PressAction } from "../actions/PressAction";
+import { WinScreenRoom } from "../rooms/WinScreenRoom";
+import { StairsDownStairsItem } from "../items/Doors/StairsDownstairsItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/Doors/ToStartupItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -75,6 +82,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(HiddenRoom);
         this.registerGameObject(GameOverRoom);
         this.registerGameObject(ShedRoom);
+        this.registerGameObject(WinScreenRoom);
+        this.registerGameObject(OutsideRoom);
 
         // Items
         this.registerGameObject(HallwayFrontDoorItem);
@@ -100,11 +109,14 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorHallwayOfficeItem);
         this.registerGameObject(DoorHallwayBedroomItem);
         this.registerGameObject(DoorLivingRoomFrontDoorItem);
+        this.registerGameObject(DoorOutsideShed);
+        this.registerGameObject(DoorOutsideFrontdoor);
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
         this.registerGameObject(StopHidingItem);
         this.registerGameObject(FreezerItem);
         this.registerGameObject(LightSwitchItem);
+        this.registerGameObject(ToStartupItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -120,6 +132,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(PressAction);
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
+        this.registerAction(GoToStartupAction);
     }
 
     /**
@@ -129,6 +142,7 @@ export class GameService extends BaseGameService<PlayerSession> {
     public createNewPlayerSession(): PlayerSession {
         return {
             currentRoom: StartupRoom.Alias,
+            lastRoom: "",
             inventory: ["OutsideKeyItem", "CrowbarItem"],
             selectedItem: "",
             hiddenIn: "",

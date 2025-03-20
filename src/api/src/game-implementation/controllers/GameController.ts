@@ -62,6 +62,7 @@ export class GameController {
      * @remarks Response is a 200 with a `GameState` on success, otherwise a 500.
      */
     public async handleActionRequest(req: Request, res: Response): Promise<void> {
+        console.log("Controller");
         // Extract the data from the request body
         const executeActionRequest: ExecuteActionRequest = req.body as ExecuteActionRequest;
 
@@ -106,6 +107,7 @@ export class GameController {
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
     private async executeAction(actionAlias: string, gameObjectAliases?: string[]): Promise<GameState | undefined> {
+        console.log("controller");
         // If no game object aliases are defined, use the current room instead.
         if (!gameObjectAliases || gameObjectAliases.length === 0) {
             gameObjectAliases = [gameService.getPlayerSession().currentRoom];
@@ -165,7 +167,7 @@ export class GameController {
             text = ["You get the " + selectedItem + " from your inventory."];
         }
         else {
-            text = ["You put the item back."];
+            text = ["You put the item back"];
         }
 
         // Determine the actions to show to the player
