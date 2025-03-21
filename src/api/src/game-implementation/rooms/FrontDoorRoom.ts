@@ -8,10 +8,10 @@ import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { OpenAction } from "../actions/OpenAction";
-import { DoorFrontDoorLivingRoomItem } from "../items/Doors/DoorFrontDoorLivingRoomItem";
-import { DoorFrontDoorOutsideItem } from "../items/Doors/DoorFrontDoorOutside";
-import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
-import { ToStartupItem } from "../items/Doors/ToStartupItem";
+import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
+import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { PlayerSession } from "../types";
 
 /**
