@@ -16,7 +16,6 @@ router.get("/", (_, res) => {
 // NOTE: All endpoints after this line require a player session!
 router.use(gameService.createPlayerSessionMiddleware());
 
-console.log("routes");
 router.get("/state", (req, res) => gameController.handleStateRequest(req, res));
 router.post("/action", (req, res) => gameController.handleActionRequest(req, res));
 router.post("/state", (req, res) => gameController.handleInventoryRequest(req, res));
