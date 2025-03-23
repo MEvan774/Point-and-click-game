@@ -6,6 +6,8 @@
 export type PlayerSession = {
     // Alias of the room the player is in
     currentRoom: string;
+    // Alias of last room before going to the main screen
+    lastRoom: string;
     // Current inventory of the player
     inventory: string[];
     // Currently selected item in the inventory
@@ -26,6 +28,8 @@ export type PlayerSession = {
     solvedRiddle: boolean;
     // True when the player opened the SafeItem
     safeOpened: boolean;
+    // True when player clicked on DiaryItem
+    clickedDiary: boolean;
     // True when player picked up the DiaryItem
     pickedUpDiary: boolean;
     // True when player clicked on the FirstAidItem
@@ -36,4 +40,14 @@ export type PlayerSession = {
     planksGone: boolean;
     // True when the OutsideKeyItem is used on the FrontDoorItem
     outsideKeyUsed: boolean;
+    // True when clicked on help
+    clickedHelp: boolean;
+    // Turns the lights on when true
+    pressedLight: boolean;
+    // True when clicked on Light
+    clickedLight: boolean;
+    // True when freezer is opened
+    openedFreezer: boolean;
+    // True when walked to freezer
+    walkedToFreezer: boolean;
 };

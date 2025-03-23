@@ -4,6 +4,7 @@ import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
+import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -25,6 +26,7 @@ const styles: string = css`
         text-align: center;
         margin-top: 10px;
         overflow: auto;
+        z-index: 10;
     }
 
     .header {
@@ -52,7 +54,7 @@ const styles: string = css`
         margin-top: 200px;
         bottom: 0;
         padding: 0 10px;
-        z-index: 1;
+        z-index: 10;
         background-color: #211e20;
         height: 110px;
         width: 833px;
@@ -63,10 +65,12 @@ const styles: string = css`
 
     .content p {
         margin: 0 0 10px 0;
+        z-index: 10;
     }
 
     .content p:last-of-type {
         margin: 0;
+        z-index: 10;
     }
 
     .footer {
@@ -76,6 +80,7 @@ const styles: string = css`
         border-radius: 10px 10px 0 0;
         bottom: 0;
         width: 857px;
+        z-index: 10;
     }
     .footer img {
         image-rendering: pixelated; /* Keeps the pixelated look */
@@ -85,10 +90,11 @@ const styles: string = css`
     margin-top: -103px; /* Adjust as needed */
     z-index: 1;
     pointer-events: none;
+    z-index: 10;
     }
 
     .footer .buttons {
-        z-index: 2;
+        z-index: 2000;
         display: flex;
         flex-direction: column;
         overflow: auto;
@@ -96,7 +102,7 @@ const styles: string = css`
     }
 
     .footer .button {
-        z-index: 1;
+        z-index: 2000;
         background-color: #e9efec;
         color: #211e20;
         padding: 5px 10px;
@@ -129,6 +135,19 @@ const styles: string = css`
         border-radius: 20px;
         filter: brightness(1.2);
     }
+
+    .button-Startup {
+        z-index: 1;
+        background-color: #e9efec;
+        color: #211e20;
+        padding: 20px 20px;
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+        font-size: 40px;
+    }
 `;
 
 /**
@@ -151,6 +170,7 @@ export class CanvasComponent extends HTMLElement {
 
     private hitBoxes: HitBox[] = [];
     private isActionTalk: boolean = false;
+    private _lights: FlashLightUseItem[] = [];
 
     /**
      * The "constructor" of a Web Component
@@ -167,7 +187,7 @@ export class CanvasComponent extends HTMLElement {
     private async refreshGameState(): Promise<void> {
         const state: GameState = await this._gameRouteService.getGameState();
 
-        this.updateGameState(state);
+        await this.updateGameState(state);
     }
 
     /**
@@ -175,7 +195,7 @@ export class CanvasComponent extends HTMLElement {
      *
      * @param state Game state to update the canvas to
      */
-    private updateGameState(state: GameState): void {
+    private async updateGameState(state: GameState): Promise<void> {
         // Handle switching pages, if requested.
         if (state.type === "switch-page") {
             this._gameEventService.switchPage(state.page as Page);
@@ -190,13 +210,17 @@ export class CanvasComponent extends HTMLElement {
         this._selectedGameObjectButtons.clear();
 
         // Refresh the web component
-        this.render();
+        await this.render();
     }
 
     /**
      * Render the contents of this page
      */
-    private render(): void {
+    private async render(): Promise<void> {
+        if (!sessionStorage.getItem("visited")) {
+            await this.goToStartup();
+        }
+
         this.RemoveHitBoxes();
         if (!this.shadowRoot) {
             return;
@@ -220,6 +244,26 @@ export class CanvasComponent extends HTMLElement {
         this.shadowRoot.append(...elements);
 
         this.attachInventoryButtonListeners();
+    }
+
+    private async goToStartup(): Promise<void> {
+        sessionStorage.setItem("visited", "true");
+
+        if (!this._currentGameState) {
+            console.error("No gamestate");
+            return undefined;
+        }
+
+        const actions: ActionReference[] = this._currentGameState.actions;
+        const objects: GameObjectReference[] = this._currentGameState.objects;
+
+        for (let x: number = 0; x < actions.length; x++) {
+            for (let y: number = 0; y < objects.length; y++) {
+                if (actions[x].alias === "go to startup" && objects[y].alias === "to startup") {
+                    await this.handleClickAction(actions[x], objects[y]);
+                }
+            }
+        }
     }
 
     /**
@@ -271,8 +315,8 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
-            this.updateGameState(state);
-            this.render();
+            await this.updateGameState(state);
+            await this.render();
         }
         else {
             this._selectedInventoryItem = itemId;
@@ -283,8 +327,8 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
-            this.updateGameState(state);
-            this.render();
+            await this.updateGameState(state);
+            await this.render();
         }
     }
 
@@ -294,6 +338,12 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the title element. Can be empty.
      */
     private renderTitle(): string {
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            return "";
+        }
+
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
 
@@ -334,12 +384,42 @@ export class CanvasComponent extends HTMLElement {
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
         setTimeout(() => this.addHitboxes(), 10);
+        this.DisableFlashLight();
+
+        const roomName: string | undefined = this._currentGameState?.roomName;
         if (roomImages && roomImages.length > 0) {
-            return `
+            if (this._currentGameState?.roomAlias === "startup" ||
+              this._currentGameState?.roomAlias === "game-over" ||
+              this._currentGameState?.roomAlias === "win") {
+                return `
+                    <div class="header">
+                        ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                        ${this._currentGameState.text.map(text => `<p>${text}</p>`).join("") || ""}
+                    </div>
+                `;
+            }
+            if (roomName === "Living room" && this._selectedInventoryItem === "FlashlightItem") {
+                this.FlashLight(true);
+                return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
+            }
+
+            else if (roomName === "Living room" && this._selectedInventoryItem !== "FlashlightItem") {
+                this.FlashLight(false);
+                return `
                 <div class="header">
-                    ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
                 </div>
             `;
+            }
+            return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
         }
 
         return "";
@@ -351,6 +431,12 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the content element
      */
     private renderContent(): string {
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            return `
+            `;
+        }
         return `
             <div class="content">
                 ${this._currentGameState?.text.map(text => `<p>${text}</p>`).join("") || ""}
@@ -364,18 +450,33 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        if (this._currentGameState?.roomAlias === "startup" || this.isActionTalk) {
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
             return html`
             <div class="footer">
-                <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
                     <div class="actionButtons">
-                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                        ${this._currentGameState.actions.map(button => this.renderActionButton(button))}
                     </div>
                 </div>
             </div>
         `;
         }
+
+        if (this.isActionTalk) {
+            return html`
+                <div class="footer">
+                    <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
+                    <div class="buttons">
+                        <div class="actionButtons">
+                            ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
@@ -406,11 +507,23 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the action button
      */
     private renderActionButton(action: ActionReference, object?: GameObjectReference): HTMLElement {
-        const element: HTMLElement = html`
+        let element: HTMLElement;
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            element = html`
+            <a class="button-Startup ${this._selectedActionButton === action ? "active" : ""}">
+                ${action.name}
+            </a>
+        `;
+        }
+        else {
+            element = html`
             <a class="button ${this._selectedActionButton === action ? "active" : ""}">
                 ${action.name}
             </a>
         `;
+        }
 
         if (object) {
             element.addEventListener("click", () => this.handleClickAction(action, object));
@@ -438,7 +551,7 @@ export class CanvasComponent extends HTMLElement {
             }
 
             this.isActionTalk = false;
-            this.updateGameState(state);
+            await this.updateGameState(state);
         }
         else {
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias);
@@ -448,19 +561,19 @@ export class CanvasComponent extends HTMLElement {
             }
 
             this.isActionTalk = false;
-            this.updateGameState(state);
+            await this.updateGameState(state);
         }
 
         // Gives buttons if the action is talk
         if (action.alias.includes("talk")) {
             this.isActionTalk = true;
-            this.render();
+            await this.render();
             this.isActionTalk = false;
         }
 
         // Renders room if the talk action is finished
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
-            this.render();
+            await this.render();
         }
     }
 
@@ -524,7 +637,7 @@ export class CanvasComponent extends HTMLElement {
         }
 
         // Otherwise, update the game state.
-        this.updateGameState(state);
+        await this.updateGameState(state);
 
         // Set action buttons
         setTimeout(() => {
@@ -544,6 +657,19 @@ export class CanvasComponent extends HTMLElement {
     private RemoveHitBoxes(): void {
         for (let i: number = 0; i < this.hitBoxes.length; i++) {
             this.hitBoxes[i].removeHitBox();
+        }
+        this.hitBoxes = [];
+    }
+
+    /** Enables flashlight and pushes it to the array */
+    private FlashLight(isActive: boolean): void {
+        this._lights.push(new FlashLightUseItem(isActive, this));
+    }
+
+    /** Removes flashlight from the array and html */
+    private DisableFlashLight(): void {
+        for (let i: number = 0; i < this._lights.length; i++) {
+            this._lights[i].DisableFlashLight();
         }
         this.hitBoxes = [];
     }

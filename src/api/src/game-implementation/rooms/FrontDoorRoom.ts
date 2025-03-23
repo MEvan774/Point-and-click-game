@@ -6,10 +6,12 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { OpenAction } from "../actions/OpenAction";
-import { DoorFrontDoorLivingRoomItem } from "../items/DoorFrontDoorLivingRoomItem";
-import { DoorFrontDoorOutsideItem } from "../items/DoorFrontDoorOutside";
-import { FrontDoorHallwayItem } from "../items/FrontDoorHallwayItem";
+import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingRoomItem";
+import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
+import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { PlayerSession } from "../types";
 
 /**
@@ -55,6 +57,7 @@ export class FrontDoorRoom extends Room {
      */
     public objects(): GameObject[] {
         const objects: GameObject[] = [
+            new ToStartupItem(),
             new DoorFrontDoorLivingRoomItem(),
             new DoorFrontDoorOutsideItem(),
             new FrontDoorHallwayItem(),
@@ -71,6 +74,7 @@ export class FrontDoorRoom extends Room {
     public actions(): Action[] {
         return [
             new ExamineAction(),
+            new GoToStartupAction(),
             new GoToAction(),
             new OpenAction(),
         ];

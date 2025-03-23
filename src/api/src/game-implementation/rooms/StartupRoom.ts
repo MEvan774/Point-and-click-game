@@ -5,7 +5,7 @@ import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
-import { FrontDoorRoom } from "./FrontDoorRoom";
+import { ShedRoom } from "./ShedRoom";
 
 /**
  * Implemention of the startup room
@@ -41,28 +41,69 @@ export class StartupRoom extends Room implements Simple {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [
-            new SimpleAction("start-game", "Start Game"),
+        const actions: Action[] = [
+            new SimpleAction("new-game", "New Game"),
+            new SimpleAction("continue", "Continue"),
         ];
+        if (!gameService.getPlayerSession().clickedHelp) {
+            actions.push(new SimpleAction("help", "Instructions"));
+        }
+        else {
+            actions.push(new SimpleAction("help", "Close instructions"));
+        }
+        return actions;
     }
 
     /**
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["This is an example."]);
+        if (gameService.getPlayerSession().clickedHelp) {
+            return new TextActionResult([
+                "Click on objects to examine them and see the possible actions.",
+                "Click on the action that you want to execute.",
+                "If you want to execute an action you need an object for,",
+                "Click on the object in your inventory,",
+                "and then on the object and action you want to use it on.",
+                "You win when you escape.",
+            ]);
+        }
+        return new TextActionResult([""]);
     }
 
     /**
      * @inheritdoc
      */
     public simple(alias: string): ActionResult | undefined {
-        if (alias === "start-game") {
+        if (alias === "new-game") {
+            gameService.resetPlayerSession();
             const room: Room = new BedroomRoom();
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            return room.examine();
+        }
+        if (alias === "shed-room") {
+            const room: Room = new ShedRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
 
             return room.examine();
+        }
+        if (alias === "continue") {
+            const lastRoom: string = gameService.getPlayerSession().lastRoom;
+
+            gameService.getPlayerSession().currentRoom = lastRoom;
+            return new TextActionResult(["Welcome back!"]);
+        }
+        if (alias === "help" && !gameService.getPlayerSession().clickedHelp) {
+            gameService.getPlayerSession().clickedHelp = true;
+
+            return this.examine();
+        }
+        if (alias === "help") {
+            gameService.getPlayerSession().clickedHelp = false;
+
+            return this.examine();
         }
 
         return undefined;

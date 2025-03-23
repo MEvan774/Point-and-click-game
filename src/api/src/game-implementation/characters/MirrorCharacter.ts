@@ -26,7 +26,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
      */
     public _position: Vector2 = { x: -270, y: 100 };
     public _size: Vector2 = { x: 530, y: 530 };
-    public _isDebugHitboxVisible: boolean = false;
+    public _isDebugHitboxVisible: boolean = true;
     public _action: ActionTypes = ActionTypes.Examine;
 
     // Create a new instance of this item
@@ -96,9 +96,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
         if (choiceId === 4) {
             playerSession.walkedToMirror = false;
             return new TextActionResult([
-                "...",
-                "That's a stupid question.",
-                "You walk away from the mirror.",
+                "You have no idea what to ask...",
+                "You should look around the room first.",
+                "Maybe there's something in the bookshelf?",
             ]);
         }
 

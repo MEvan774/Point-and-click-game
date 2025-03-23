@@ -1,14 +1,14 @@
-import { Item } from "../../game-base/gameObjects/Item";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { GoTo } from "../actions/GoToAction";
-import { ActionTypes } from "../../game-base/enums/ActionAlias";
-import { PlayerSession } from "../types";
-import { gameService } from "../../global";
-import { Room } from "../../game-base/gameObjects/Room";
-import { Open } from "../actions/OpenAction";
-import { StartupRoom } from "../rooms/StartupRoom";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
+import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { PlayerSession } from "../../types";
+import { gameService } from "../../../global";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { Open } from "../../actions/OpenAction";
+import { OutsideRoom } from "../../rooms/OutsideRoom";
 
 /**
  * The item that is used to go to the OutsideRoom from the FrontDoorRoom
@@ -94,7 +94,8 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If the door is opened, go to the OutsideRoom
         if (playerSession.planksGone && playerSession.outsideKeyUsed) {
-            const room: Room = new StartupRoom();
+            gameService.getPlayerSession().lastRoom = FrontDoorRoom.Alias;
+            const room: Room = new OutsideRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
             return room.examine();
@@ -129,7 +130,8 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         // If the key is selected, the planks are gone and the key is not used yet
-        if (playerSession.selectedItem === "OutsideKeyItem" && playerSession.planksGone && !playerSession.outsideKeyUsed) {
+        if (playerSession.selectedItem === "OutsideKeyItem" &&
+          playerSession.planksGone && !playerSession.outsideKeyUsed) {
             playerSession.outsideKeyUsed = true;
 
             return new TextActionResult([

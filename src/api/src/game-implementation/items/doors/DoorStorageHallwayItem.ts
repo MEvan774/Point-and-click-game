@@ -1,21 +1,21 @@
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
-import { Examine } from "../../game-base/actions/ExamineAction";
-import { ActionTypes } from "../../game-base/enums/ActionAlias";
-import { Item } from "../../game-base/gameObjects/Item";
-import { Room } from "../../game-base/gameObjects/Room";
-import { gameService } from "../../global";
-import { GoTo } from "../actions/GoToAction";
-import { HallwayRoom } from "../rooms/HallwayRoom";
+import { Item } from "../../../game-base/gameObjects/Item";
+import { Examine } from "../../../game-base/actions/ExamineAction";
+import { ActionResult } from "../../../game-base/actionResults/ActionResult";
+import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
+import { GoTo } from "../../actions/GoToAction";
+import { gameService } from "../../../global";
+import { Room } from "../../../game-base/gameObjects/Room";
+import { HallwayRoom } from "../../rooms/HallwayRoom";
+import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 
 /**
- * The item that is used to go to the HallwayRoom from the FrontDoorRoom
+ * The item that is used to go to the HallwayRoom from the StorageRoom
  *
  * @remarks Implements the Examine and the GoTo action
  */
-export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
+export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
     // Alias of the item used to find the item
-    public static readonly Alias: string = "FrontDoorToStair";
+    public static readonly Alias: string = "DoorStorageHallwayItem";
 
     /**
      * _position: Position of the item's hitbox
@@ -24,20 +24,20 @@ export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: -510, y: 520 };
-    public _size: Vector2 = { x: 350, y: 100 };
+    public _position: Vector2 = { x: -480, y: 200 };
+    public _size: Vector2 = { x: 140, y: 350 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["go to"];
 
     // Create a new instance of this item
     public constructor() {
-        super(FrontDoorHallwayItem.Alias, FrontDoorHallwayItem.validActions);
+        super(DoorStorageHallwayItem.Alias, DoorStorageHallwayItem.validActions);
     }
 
     // Name of the item, shows up on the buttons for example
-    public name(): SyncOrAsync<string> {
-        return "Upstairs";
+    public name(): string {
+        return "Hallway";
     }
 
     /**
@@ -46,7 +46,7 @@ export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
      * @returns TextActionResult with information about the item
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["I can go upstairs from here."]);
+        return new TextActionResult(["This door leads back to the hallway."]);
     }
 
     /**
