@@ -4,6 +4,7 @@ import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
+import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -25,6 +26,7 @@ const styles: string = css`
         text-align: center;
         margin-top: 10px;
         overflow: auto;
+        z-index: 10;
     }
 
     .header {
@@ -52,7 +54,7 @@ const styles: string = css`
         margin-top: 200px;
         bottom: 0;
         padding: 0 10px;
-        z-index: 1;
+        z-index: 10;
         background-color: #211e20;
         height: 110px;
         width: 833px;
@@ -63,10 +65,12 @@ const styles: string = css`
 
     .content p {
         margin: 0 0 10px 0;
+        z-index: 10;
     }
 
     .content p:last-of-type {
         margin: 0;
+        z-index: 10;
     }
 
     .footer {
@@ -76,6 +80,7 @@ const styles: string = css`
         border-radius: 10px 10px 0 0;
         bottom: 0;
         width: 857px;
+        z-index: 10;
     }
     .footer img {
         image-rendering: pixelated; /* Keeps the pixelated look */
@@ -85,6 +90,7 @@ const styles: string = css`
     margin-top: -103px; /* Adjust as needed */
     z-index: 1;
     pointer-events: none;
+    z-index: 10;
     }
 
     .footer .buttons {
@@ -164,6 +170,7 @@ export class CanvasComponent extends HTMLElement {
 
     private hitBoxes: HitBox[] = [];
     private isActionTalk: boolean = false;
+    private _lights: FlashLightUseItem[] = [];
 
     /**
      * The "constructor" of a Web Component
@@ -351,6 +358,9 @@ export class CanvasComponent extends HTMLElement {
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
         setTimeout(() => this.addHitboxes(), 10);
+        this.DisableFlashLight();
+
+        const roomName: string | undefined = this._currentGameState?.roomName;
         if (roomImages && roomImages.length > 0) {
             if (this._currentGameState?.roomAlias === "startup" || this._currentGameState?.roomAlias === "game-over") {
                 return `
@@ -360,11 +370,28 @@ export class CanvasComponent extends HTMLElement {
                     </div>
                 `;
             }
-            return `
+            if (roomName === "Living room" && this._selectedInventoryItem === "FlashlightItem") {
+                this.FlashLight(true);
+                return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
+            }
+
+            else if (roomName === "Living room" && this._selectedInventoryItem !== "FlashlightItem") {
+                this.FlashLight(false);
+                return `
                 <div class="header">
-                    ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
                 </div>
             `;
+            }
+            return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
         }
 
         return "";
@@ -596,6 +623,19 @@ export class CanvasComponent extends HTMLElement {
     private RemoveHitBoxes(): void {
         for (let i: number = 0; i < this.hitBoxes.length; i++) {
             this.hitBoxes[i].removeHitBox();
+        }
+        this.hitBoxes = [];
+    }
+
+    /** Enables flashlight and pushes it to the array */
+    private FlashLight(isActive: boolean): void {
+        this._lights.push(new FlashLightUseItem(isActive, this));
+    }
+
+    /** Removes flashlight from the array and html */
+    private DisableFlashLight(): void {
+        for (let i: number = 0; i < this._lights.length; i++) {
+            this._lights[i].DisableFlashLight();
         }
         this.hitBoxes = [];
     }
