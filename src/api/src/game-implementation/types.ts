@@ -52,4 +52,6 @@ export type PlayerSession = {
     walkedToFreezer: boolean;
     // True when picked up saw
     pickedUpSaw: boolean;
+    // Game Options
+    gameOptions: string[];
 };

@@ -136,6 +136,33 @@ const styles: string = css`
         filter: brightness(1.2);
     }
 
+        .options {
+        float: right;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 15%;
+        height: 15%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: flex;
+        justifyContent: center;
+        alignItems: center;
+    }
+
+    .overlayOptions {
+        backgroundColor = "#fff";
+        padding = "20px";
+        borderRadius = "8px";
+        textAlign = "center";
+    }
+
     .button-Startup {
         z-index: 1;
         background-color: #e9efec;
@@ -359,16 +386,18 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
-
+                title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
+                title += "<div class='overlayDiv'></div>";
                 title += "</div>";
 
                 return title;
             }
             const title: string = `<div class="title">${roomName}<br>
-            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+            <img src='/assets/img/Items/black.png' height='50px'/>
+            </div>`;
 
             return title;
         }
