@@ -5,7 +5,8 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorOutsideFrontdoor } from "../items/DoorOutsideFrontdoor";
+import { DoorOutsideFrontdoor } from "../items/doors/DoorOutsideFrontdoor";
+import { DoorOutsideShed } from "../items/doors/DoorOutsideShed";
 
 /**
  * Implemention of the bedroom room
@@ -32,9 +33,9 @@ export class OutsideRoom extends Room {
     /**
      * @inheritdoc
      */
-    //    public images(): string[] {
-    //        return ["outsideRoom"];
-    //    }
+    public images(): string[] {
+        return ["Outside"];
+    }
 
     public actions(): Action[] {
         return [
@@ -46,6 +47,7 @@ export class OutsideRoom extends Room {
     public objects(): GameObject[] {
         return [
             new DoorOutsideFrontdoor(),
+            new DoorOutsideShed(),
         ];
     }
 

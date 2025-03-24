@@ -4,6 +4,7 @@ import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
+import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -25,6 +26,7 @@ const styles: string = css`
         text-align: center;
         margin-top: 10px;
         overflow: auto;
+        z-index: 10;
     }
 
     .header {
@@ -52,7 +54,7 @@ const styles: string = css`
         margin-top: 200px;
         bottom: 0;
         padding: 0 10px;
-        z-index: 1;
+        z-index: 10;
         background-color: #211e20;
         height: 110px;
         width: 833px;
@@ -63,10 +65,12 @@ const styles: string = css`
 
     .content p {
         margin: 0 0 10px 0;
+        z-index: 10;
     }
 
     .content p:last-of-type {
         margin: 0;
+        z-index: 10;
     }
 
     .footer {
@@ -76,6 +80,7 @@ const styles: string = css`
         border-radius: 10px 10px 0 0;
         bottom: 0;
         width: 857px;
+        z-index: 10;
     }
     .footer img {
         image-rendering: pixelated; /* Keeps the pixelated look */
@@ -85,10 +90,11 @@ const styles: string = css`
     margin-top: -103px; /* Adjust as needed */
     z-index: 1;
     pointer-events: none;
+    z-index: 10;
     }
 
     .footer .buttons {
-        z-index: 2;
+        z-index: 2000;
         display: flex;
         flex-direction: column;
         overflow: auto;
@@ -96,7 +102,7 @@ const styles: string = css`
     }
 
     .footer .button {
-        z-index: 1;
+        z-index: 2000;
         background-color: #e9efec;
         color: #211e20;
         padding: 5px 10px;
@@ -123,7 +129,7 @@ const styles: string = css`
         outline: inherit;
     }
 
-    .buttonImage.active {
+    .active-item {
         background-color: gray;
         border: 2px solid white;
         border-radius: 20px;
@@ -155,6 +161,17 @@ const styles: string = css`
         padding = "20px";
         borderRadius = "8px";
         textAlign = "center";
+    .button-Startup {
+        z-index: 1;
+        background-color: #e9efec;
+        color: #211e20;
+        padding: 20px 20px;
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+        font-size: 40px;
     }
 `;
 
@@ -177,6 +194,8 @@ export class CanvasComponent extends HTMLElement {
     private _selectedInventoryItem?: string;
 
     private hitBoxes: HitBox[] = [];
+    private isActionTalk: boolean = false;
+    private _lights: FlashLightUseItem[] = [];
 
     /**
      * The "constructor" of a Web Component
@@ -193,7 +212,7 @@ export class CanvasComponent extends HTMLElement {
     private async refreshGameState(): Promise<void> {
         const state: GameState = await this._gameRouteService.getGameState();
 
-        this.updateGameState(state);
+        await this.updateGameState(state);
     }
 
     /**
@@ -201,7 +220,7 @@ export class CanvasComponent extends HTMLElement {
      *
      * @param state Game state to update the canvas to
      */
-    private updateGameState(state: GameState): void {
+    private async updateGameState(state: GameState): Promise<void> {
         // Handle switching pages, if requested.
         if (state.type === "switch-page") {
             this._gameEventService.switchPage(state.page as Page);
@@ -216,13 +235,17 @@ export class CanvasComponent extends HTMLElement {
         this._selectedGameObjectButtons.clear();
 
         // Refresh the web component
-        this.render();
+        await this.render();
     }
 
     /**
      * Render the contents of this page
      */
-    private render(): void {
+    private async render(): Promise<void> {
+        if (!sessionStorage.getItem("visited")) {
+            await this.goToStartup();
+        }
+
         this.RemoveHitBoxes();
         if (!this.shadowRoot) {
             return;
@@ -250,6 +273,26 @@ export class CanvasComponent extends HTMLElement {
         this.attachOptionsCloseButtonListener();
     }
 
+    private async goToStartup(): Promise<void> {
+        sessionStorage.setItem("visited", "true");
+
+        if (!this._currentGameState) {
+            console.error("No gamestate");
+            return undefined;
+        }
+
+        const actions: ActionReference[] = this._currentGameState.actions;
+        const objects: GameObjectReference[] = this._currentGameState.objects;
+
+        for (let x: number = 0; x < actions.length; x++) {
+            for (let y: number = 0; y < objects.length; y++) {
+                if (actions[x].alias === "go to startup" && objects[y].alias === "to startup") {
+                    await this.handleClickAction(actions[x], objects[y]);
+                }
+            }
+        }
+    }
+
     /**
      * Makes buttons for the items in the inventory
      *
@@ -267,6 +310,21 @@ export class CanvasComponent extends HTMLElement {
                 await this.handleInventoryButtonClick(button.id);
             });
         });
+
+        if (this._currentGameState) {
+            const inventory: string[] = this._currentGameState.inventory;
+
+            for (let x: number = 0; x < inventory.length; x++) {
+                if (inventory[x] === this._currentGameState.selectedItem) {
+                    const selectedItem: Element | null = this.shadowRoot.querySelector("#" + this._currentGameState.selectedItem);
+
+                    if (selectedItem instanceof HTMLElement) {
+                        selectedItem.classList.add("active-item");
+                        this._selectedInventoryItem = this._currentGameState.selectedItem;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -277,11 +335,18 @@ export class CanvasComponent extends HTMLElement {
     private async handleInventoryButtonClick(itemId: string): Promise<void> {
         if (this._selectedInventoryItem === itemId) {
             this._selectedInventoryItem = undefined;
+
+            const state: GameState | undefined = await this._gameRouteService.inventoryAction("");
+
+            if (state === undefined) {
+                return;
+            }
+
+            await this.updateGameState(state);
+            await this.render();
         }
         else {
             this._selectedInventoryItem = itemId;
-
-            this.render();
 
             const state: GameState | undefined = await this._gameRouteService.inventoryAction(itemId);
 
@@ -289,7 +354,8 @@ export class CanvasComponent extends HTMLElement {
                 return;
             }
 
-            this.updateGameState(state);
+            await this.updateGameState(state);
+            await this.render();
         }
     }
 
@@ -362,6 +428,12 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the title element. Can be empty.
      */
     private renderTitle(): string {
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            return "";
+        }
+
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
         if (roomName && inventory) {
@@ -385,10 +457,14 @@ export class CanvasComponent extends HTMLElement {
 
                 return title;
             }
-            return `<div class="title">${roomName}<br>
-            <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
-            <div class='overlayDiv'></div>
-            </div>`;
+            // return `<div class="title">${roomName}<br>
+            // <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
+            // <div class='overlayDiv'></div>
+            // </div>`;
+            const title: string = `<div class="title">${roomName}<br>
+            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+
+            return title;
         }
         return "";
     }
@@ -401,12 +477,42 @@ export class CanvasComponent extends HTMLElement {
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
         setTimeout(() => this.addHitboxes(), 10);
+        this.DisableFlashLight();
+
+        const roomName: string | undefined = this._currentGameState?.roomName;
         if (roomImages && roomImages.length > 0) {
-            return `
+            if (this._currentGameState?.roomAlias === "startup" ||
+              this._currentGameState?.roomAlias === "game-over" ||
+              this._currentGameState?.roomAlias === "win") {
+                return `
+                    <div class="header">
+                        ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                        ${this._currentGameState.text.map(text => `<p>${text}</p>`).join("") || ""}
+                    </div>
+                `;
+            }
+            if (roomName === "Living room" && this._selectedInventoryItem === "FlashlightItem") {
+                this.FlashLight(true);
+                return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
+            }
+
+            else if (roomName === "Living room" && this._selectedInventoryItem !== "FlashlightItem") {
+                this.FlashLight(false);
+                return `
                 <div class="header">
-                    ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
                 </div>
             `;
+            }
+            return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
         }
 
         return "";
@@ -418,6 +524,12 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the content element
      */
     private renderContent(): string {
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            return `
+            `;
+        }
         return `
             <div class="content">
                 ${this._currentGameState?.text.map(text => `<p>${text}</p>`).join("") || ""}
@@ -431,21 +543,38 @@ export class CanvasComponent extends HTMLElement {
      * @returns HTML element of the footer
      */
     private renderFooter(): HTMLElement {
-        console.log(this._currentGameState?.actions);
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            return html`
+            <div class="footer">
+                <div class="buttons">
+                    <div class="actionButtons">
+                        ${this._currentGameState.actions.map(button => this.renderActionButton(button))}
+                    </div>
+                </div>
+            </div>
+        `;
+        }
+
+        if (this.isActionTalk) {
+            return html`
+                <div class="footer">
+                    <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
+                    <div class="buttons">
+                        <div class="actionButtons">
+                            ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         return html`
             <div class="footer">
                 <img src="assets/img/ui/GameUI.gif" alt="Pixel Art" class="pixel-art">
                 <div class="buttons">
-                    <div>
-                        ${this._currentGameState?.actions.map(button => this.renderActionButton(button))}
-                    </div>
-                    <div>
-                        ${this._selectedActionButton
-                            ? this._currentGameState?.objects
-                                .filter(object => this.isObjectValidForAction(object, this._selectedActionButton))
-                                .map(button => this.renderGameObjectButton(button)) || ""
-                            : ""
-                        }
+                    <div class="actionButtons">
                     </div>
                 </div>
             </div>
@@ -470,103 +599,82 @@ export class CanvasComponent extends HTMLElement {
      *
      * @returns HTML element of the action button
      */
-    private renderActionButton(button: ActionReference): HTMLElement {
-        const element: HTMLElement = html`
-            <a class="button ${this._selectedActionButton === button ? "active" : ""}">
-                ${button.name}
+    private renderActionButton(action: ActionReference, object?: GameObjectReference): HTMLElement {
+        let element: HTMLElement;
+        if (this._currentGameState?.roomAlias === "startup" ||
+          this._currentGameState?.roomAlias === "game-over" ||
+          this._currentGameState?.roomAlias === "win") {
+            element = html`
+            <a class="button-Startup ${this._selectedActionButton === action ? "active" : ""}">
+                ${action.name}
             </a>
         `;
+        }
+        else {
+            element = html`
+            <a class="button ${this._selectedActionButton === action ? "active" : ""}">
+                ${action.name}
+            </a>
+        `;
+        }
 
-        element.addEventListener("click", () => this.handleClickAction(button));
+        if (object) {
+            element.addEventListener("click", () => this.handleClickAction(action, object));
+        }
+        else {
+            element.addEventListener("click", () => this.handleClickAction(action));
+        }
 
         return element;
     }
 
     /**
-     * Render a game object button for a given game object reference
+     * Handle the click on an action button, checkt of object er is en of action talk is
      *
-     * @returns HTML element of the game object button
+     * @param action Action button that was clicked
+     * @param object Object that was clicked
      */
-    private renderGameObjectButton(button: GameObjectReference): HTMLElement {
-        const element: HTMLElement = html`
-            <a class="button ${this._selectedGameObjectButtons.has(button) ? "active" : ""}">
-                ${button.name}
-            </a>
-        `;
+    private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
+        // Execute the action and update the game state.
+        if (object) {
+            const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
-        element.addEventListener("click", () => this.handleClickGameObject(button));
+            if (state === undefined) {
+                return;
+            }
 
-        return element;
+            this.isActionTalk = false;
+            await this.updateGameState(state);
+        }
+        else {
+            const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias);
+
+            if (state === undefined) {
+                return;
+            }
+
+            this.isActionTalk = false;
+            await this.updateGameState(state);
+        }
+
+        // Gives buttons if the action is talk
+        if (action.alias.includes("talk")) {
+            this.isActionTalk = true;
+            await this.render();
+            this.isActionTalk = false;
+        }
+
+        // Renders room if the talk action is finished
+        if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
+            await this.render();
+        }
     }
 
-    /**
-     * Handle the click on an action button
-     *
-     * @param button Action button that was clicked
-     */
-    private async handleClickAction(button: ActionReference): Promise<void> {
-        // If this actions needs a game object, show the available game objects.
-        if (button.needsObject) {
-            this._selectedActionButton = button;
-            this._selectedGameObjectButtons.clear();
-
-            this.render();
-
-            return;
-        }
-
-        // Otherwise, execute the action and update the game state.
-        const state: GameState | undefined = await this._gameRouteService.executeAction(button.alias);
-
-        if (state === undefined) {
-            return;
-        }
-
-        this.updateGameState(state);
-    }
-
-    /**
-     * Handle the click on a game object button
-     *
-     * @param button Game object button that was clicked
-     */
-    private async handleClickGameObject(button: GameObjectReference): Promise<void> {
-        // If no action button was clicked, do not try to handle this click.
-        if (!this._selectedActionButton) {
-            return;
-        }
-
-        // Add the game object to list of selected game objects
-        this._selectedGameObjectButtons.add(button);
-
-        // Try to execute the action with all game objects on the list
-        const state: GameState | undefined = await this._gameRouteService.executeAction(
-            this._selectedActionButton.alias,
-            [...this._selectedGameObjectButtons].map(e => e.alias)
-        );
-
-        // If 2 more game objects where on the list, clear it.
-        if (this._selectedGameObjectButtons.size >= 2) {
-            this._selectedActionButton = undefined;
-            this._selectedGameObjectButtons.clear();
-        }
-
-        // Refresh the web component
-        this.render();
-
-        // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
-        if (state === undefined) {
-            return;
-        }
-
-        // Otherwise, update the game state.
-        this.updateGameState(state);
-    }
-
+    // Creates all hitboxes for the room
     private addHitboxes(): void {
         if (this._currentGameState) {
+            // Gets all gameObject references and assign them to their hitboxes
             const objRef: GameObjectReference[] = this._currentGameState.objects;
-
             for (let i: number = 0; i < this._currentGameState.objects.length; i++) {
                 this.hitBoxes.push(new HitBox(objRef[i].position, objRef[i].size,
                     objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
@@ -574,9 +682,36 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
+    /**
+     * Sets actions when clicking on hitboxes
+     *
+     * @param actionAlias alias of the clicked action
+     * @param objectAlias alias of the clicked object
+     */
     public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        // Get selected object
+        const objectRef: GameObjectReference[] | undefined = this._currentGameState?.objects;
+        if (!objectRef) return;
+
+        const currentObject: GameObjectReference | undefined = objectRef.find(obj => obj.alias === objectAlias);
+        if (!currentObject) return;
+
+        // Get possible actions
+        const allActions: ActionReference[] | undefined = this._currentGameState?.actions;
+        const actions: ActionReference[] = [];
+
+        if (!allActions) return;
+
+        for (let x: number = 0; x < allActions.length; x++) {
+            if (this.isObjectValidForAction(currentObject, allActions[x])) {
+                actions.push(allActions[x]);
+            }
+        }
+
+        // Makes a tempory object array so its valid for the executeAction function
         const tempObjects: string[] = [];
         tempObjects.push(objectAlias);
+
         // Try to execute the action with all game objects on the list
         const state: GameState | undefined = await this._gameRouteService.executeAction(
             actionAlias,
@@ -589,21 +724,45 @@ export class CanvasComponent extends HTMLElement {
             this._selectedGameObjectButtons.clear();
         }
 
-        // Refresh the web component
-        this.render();
-
         // If no state was returned, exit silently. This can happen when an action needs more than 1 game object.
         if (state === undefined) {
             return;
         }
 
         // Otherwise, update the game state.
-        this.updateGameState(state);
+        await this.updateGameState(state);
+
+        // Set action buttons
+        setTimeout(() => {
+            const buttonsHTML: HTMLDivElement | null | undefined = this.shadowRoot?.querySelector(".actionButtons");
+
+            if (buttonsHTML) {
+                buttonsHTML.innerHTML = "";
+                for (let x: number = 0; x < actions.length; x++) {
+                    const actionButton: HTMLElement = this.renderActionButton(actions[x], currentObject);
+                    buttonsHTML.appendChild(actionButton);
+                }
+            }
+        }, 0);
     }
 
+    /** Removes all hiboxes from the canvas making place for new hitboxes */
     private RemoveHitBoxes(): void {
         for (let i: number = 0; i < this.hitBoxes.length; i++) {
             this.hitBoxes[i].removeHitBox();
+        }
+        this.hitBoxes = [];
+    }
+
+    /** Enables flashlight and pushes it to the array */
+    private FlashLight(isActive: boolean): void {
+        this._lights.push(new FlashLightUseItem(isActive, this));
+    }
+
+    /** Removes flashlight from the array and html */
+    private DisableFlashLight(): void {
+        for (let i: number = 0; i < this._lights.length; i++) {
+            this._lights[i].DisableFlashLight();
         }
         this.hitBoxes = [];
     }

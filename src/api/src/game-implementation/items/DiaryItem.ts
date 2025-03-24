@@ -12,11 +12,18 @@ import { PlayerSession } from "../types";
  */
 export class DiaryItem extends Item implements Examine, PickUp {
     public static readonly Alias: string = "Diary";
+    /**
+     * @param _action determines which action will be executed when clicked on.
+     * @param _position determines where the hitbox will be located.
+     * @param _size determines the size of the hibox
+     * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @param validActions the options that will show up when clicked on.
+     */
     public static readonly validActions: string[] = ["pick up", "read"];
     public _position: Vector2 = { x: -55, y: 340 };
     public _size: Vector2 = { x: 100, y: 80 };
     public _isDebugHitboxVisible: boolean = false;
-    public _action: ActionTypes = ActionTypes.PickUp;
+    public _action: ActionTypes = ActionTypes.Examine;
 
     public constructor() {
         super(DiaryItem.Alias, DiaryItem.validActions);
@@ -35,9 +42,31 @@ export class DiaryItem extends Item implements Examine, PickUp {
      * @returns a text based reaction to the action
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult ([
-            "This looks like a diary, maybe I need to pick it up.",
-        ]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (!playerSession.clickedDiary) {
+            playerSession.clickedDiary = true;
+            if (!playerSession.pickedUpDiary) {
+                return new TextActionResult ([
+                    "This looks like a diary, maybe I need to pick it up.",
+                ]);
+            }
+            else {
+                return new TextActionResult ([
+                    "This diary looks old.",
+                    "I should read this diary.",
+                    "Maybe, I will find out who did this to me",
+                ]);
+            }
+        }
+        else if (!playerSession.pickedUpDiary) {
+            return this.pickup();
+        }
+        else {
+            playerSession.clickedDiary = false;
+            return new TextActionResult([
+                "You have already picked up the diary.",
+            ]);
+        }
     }
 
     /**
@@ -46,14 +75,8 @@ export class DiaryItem extends Item implements Examine, PickUp {
      */
     public pickup(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-
-        if (!playerSession.pickedUpDiary) {
-            playerSession.inventory.push("DiaryItem");
-            playerSession.pickedUpDiary = true;
-            return new TextActionResult(["You have picked up the diary"]);
-        }
-        else {
-            return new TextActionResult(["You have already picked up the diary."]);
-        }
+        playerSession.pickedUpDiary = true;
+        playerSession.inventory.push("DiaryItem");
+        return new TextActionResult(["You have picked up the diary"]);
     }
 }

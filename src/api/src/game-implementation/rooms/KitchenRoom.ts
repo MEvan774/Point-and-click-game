@@ -8,7 +8,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GhostCharacter } from "../characters/GhostCharacter";
-import { DoorKitchenLivingRoomItem } from "../items/DoorKitchenLivingRoomItem";
+import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomItem";
 import { LivingRoom } from "./LivingRoom";
 
 /**
@@ -28,6 +28,7 @@ export class KitchenRoom extends Room {
     }
 
     /**
+     * name of the room
      * @inheritdoc
      */
     public name(): string {
@@ -35,12 +36,16 @@ export class KitchenRoom extends Room {
     }
 
     /**
+     * Image of the room
      * @inheritdoc
      */
     public images(): string[] {
         return ["KitchenRoom"];
     }
 
+    /**
+     * @returns Objects in the room
+     */
     public objects(): GameObject[] {
         return [
             new DoorKitchenLivingRoomItem(), new GhostCharacter(),
@@ -48,6 +53,7 @@ export class KitchenRoom extends Room {
     }
 
     /**
+     * all the available actions in the room
      * @inheritdoc
      */
     public actions(): Action[] {
@@ -55,6 +61,7 @@ export class KitchenRoom extends Room {
     }
 
     /**
+     * Describes the room when player enters it
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
