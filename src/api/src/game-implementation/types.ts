@@ -50,4 +50,6 @@ export type PlayerSession = {
     openedFreezer: boolean;
     // True when walked to freezer
     walkedToFreezer: boolean;
+    // True when picked up saw
+    pickedUpSaw: boolean;
 };
