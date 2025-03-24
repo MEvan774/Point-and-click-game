@@ -2,7 +2,6 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
-import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { BedroomRoom } from "./BedroomRoom";
@@ -89,6 +88,7 @@ export class StartupRoom extends Room implements Simple {
             gameService.getPlayerSession().currentRoom = room.alias;
 
             return room.examine();
+        }
         if (alias === "continue") {
             const lastRoom: string = gameService.getPlayerSession().lastRoom;
 

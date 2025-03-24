@@ -9,6 +9,7 @@ import { gameService } from "../../../global";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { Open } from "../../actions/OpenAction";
 import { OutsideRoom } from "../../rooms/OutsideRoom";
+import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
 
 /**
  * The item that is used to go to the OutsideRoom from the FrontDoorRoom

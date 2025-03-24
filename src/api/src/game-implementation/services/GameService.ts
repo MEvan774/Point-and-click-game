@@ -8,7 +8,7 @@ import { LivingRoom } from "../rooms/LivingRoom";
 import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
 import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
 import { GoToAction } from "../actions/GoToAction";
-import { FrontDoorHallwayItem } from "../items/Doors/FrontDoorHallwayItem";
+import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
 import { BathroomItem } from "../items/BathroomItem";
 import { BedroomRoom } from "../rooms/BedroomRoom";
 import { BathroomRoom } from "../rooms/Bathroomroom";
@@ -55,9 +55,8 @@ import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PressAction } from "../actions/PressAction";
 import { WinScreenRoom } from "../rooms/WinScreenRoom";
-import { StairsDownStairsItem } from "../items/Doors/StairsDownstairsItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
-import { ToStartupItem } from "../items/Doors/ToStartupItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 
 /**
  * Implementation of the game service used to operate the game engine
