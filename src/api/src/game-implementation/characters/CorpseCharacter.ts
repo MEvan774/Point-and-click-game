@@ -75,11 +75,11 @@ export class CorpseCharacter extends Character implements Examine, Talk, GoTo {
                         "Yes, I am dead. Somehow my spirit lingers in this freezer and is unable to depart.",
                     ],
                     [
-                        new TalkChoice(5, "I am sorry this happened to you"),
+                        new TalkChoice(4, "I am sorry this happened to you"),
                     ]
                 );
             }
-            case 5: {
+            case 4: {
                 return new TalkActionResult(
                     this,
                     [
