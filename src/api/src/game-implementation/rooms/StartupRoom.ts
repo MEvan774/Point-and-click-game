@@ -44,6 +44,7 @@ export class StartupRoom extends Room implements Simple {
         const actions: Action[] = [
             new SimpleAction("new-game", "New Game"),
             new SimpleAction("continue", "Continue"),
+            new SimpleAction("shed-room", "Shed Room"),
         ];
         if (!gameService.getPlayerSession().clickedHelp) {
             actions.push(new SimpleAction("help", "Instructions"));

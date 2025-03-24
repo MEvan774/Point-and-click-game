@@ -57,6 +57,7 @@ import { PressAction } from "../actions/PressAction";
 import { WinScreenRoom } from "../rooms/WinScreenRoom";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -109,6 +110,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorHallwayBedroomItem);
         this.registerGameObject(DoorLivingRoomFrontDoorItem);
         this.registerGameObject(DoorOutsideShed);
+        this.registerGameObject(DoorShedOutside);
         this.registerGameObject(DoorOutsideFrontdoor);
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
@@ -163,6 +165,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
+            pickedUpSaw: false,
         };
     }
 

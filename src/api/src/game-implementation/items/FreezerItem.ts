@@ -3,12 +3,11 @@ import { Item } from "../../game-base/gameObjects/Item";
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Examine } from "../../game-base/actions/ExamineAction";
-import { GoTo } from "../actions/GoToAction";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
 import { gameService } from "../../global";
 
-export class FreezerItem extends Item implements Examine, GoTo, Open {
+export class FreezerItem extends Item implements Examine, Open {
     /**
      * _position: Position of the item's hitbox
      * _size: Size of the item's hitbox
@@ -21,7 +20,7 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
     public _size: Vector2 = { x: 200, y: 170 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
-    public static readonly validActions: string[] = ["go to", "open"];
+    public static readonly validActions: string[] = ["open"];
 
     public constructor() {
         super(FreezerItem.Alias, FreezerItem.validActions);
@@ -34,28 +33,15 @@ export class FreezerItem extends Item implements Examine, GoTo, Open {
      */
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.walkedToFreezer = false;
+        playerSession.openedFreezer = false;
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);
     }
 
-    public goto(): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.walkedToFreezer = true;
-        return new TextActionResult([
-            "You walk up to the freezer, not knowing what you'll find",
-        ]);
-    }
-
     public open(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (!playerSession.walkedToFreezer) {
-            return new TextActionResult([
-                "I need to walk to the freezer to open it",
-            ]);
-        }
-        else if (!playerSession.openedFreezer) {
+        if (!playerSession.openedFreezer) {
             playerSession.openedFreezer = true;
             return new TextActionResult([
                 "You open the freezer and see a skeleton inside it.\nBy the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
