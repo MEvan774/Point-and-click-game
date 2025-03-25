@@ -65,7 +65,8 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["I smell a strong rotting smell... I feel sick.",
+        return new TextActionResult(["You smell a strong rotting smell...",
+            "You begin to feel sick.",
         ]);
     }
 
