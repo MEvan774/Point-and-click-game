@@ -202,6 +202,7 @@ export class GameController {
 
         // Get Inventory
         const inventory: string[] = gameService.getPlayerSession().inventory;
+        const gameOptions: string[] = ["sound", "restart"];
 
         // Combine all data into a game state
         return {
@@ -214,6 +215,7 @@ export class GameController {
             objects: objects,
             inventory: inventory,
             selectedItem: selectedItem,
+            gameOptions,
         };
     }
 

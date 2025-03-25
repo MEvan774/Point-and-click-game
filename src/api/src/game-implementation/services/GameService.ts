@@ -59,6 +59,7 @@ import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { EyesItem } from "../items/EyesItem";
 import { TongueItem } from "../items/TongueItem";
+import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -111,6 +112,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorHallwayBedroomItem);
         this.registerGameObject(DoorLivingRoomFrontDoorItem);
         this.registerGameObject(DoorOutsideShed);
+        this.registerGameObject(DoorShedOutside);
         this.registerGameObject(DoorOutsideFrontdoor);
         this.registerGameObject(CenterStorageRightItem);
         this.registerGameObject(FirstAidItem);
@@ -167,8 +169,12 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
+<<<<<<< src/api/src/game-implementation/services/GameService.ts
             givenEyes: false,
             givenTongue: false,
+=======
+            pickedUpSaw: false,
+>>>>>>> src/api/src/game-implementation/services/GameService.ts
         };
     }
 

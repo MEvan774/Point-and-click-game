@@ -54,4 +54,8 @@ export type PlayerSession = {
     // variables for ghostChar
     givenEyes: boolean;
     givenTongue: boolean;
+    // True when picked up saw
+    pickedUpSaw: boolean;
+    // Game Options
+    gameOptions: string[];
 };
