@@ -30,23 +30,26 @@ const styles: string = css`
     }
 
     .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        margin-top: 10px;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+}
 
-    .header img {
-        width: 1022px; /* Scale up while maintaining aspect ratio */
-        height: auto; /* Keeps aspect ratio */
-        image-rendering: pixelated;
-        bottom: 0;
-    }
+.header img {
+    width: 1022px; /* Keeps aspect ratio */
+    height: auto;
+    image-rendering: pixelated;
+    position: absolute;  /* Ensure all images layer */
+    top: 0;  /* Align from top */
+    left: 0; /* Align from left */
+}
 
-    .header img:nth-child(n + 2) {
-        position: absolute;
-    }
+.header img:first-child {
+    position: relative; /* Keeps first image as base */
+    // z-index: 1; /* Ensures it's below others */
+}
 
     .content {
         flex-grow: 1;

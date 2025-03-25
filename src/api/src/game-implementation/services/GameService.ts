@@ -57,6 +57,8 @@ import { PressAction } from "../actions/PressAction";
 import { WinScreenRoom } from "../rooms/WinScreenRoom";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { EyesItem } from "../items/EyesItem";
+import { TongueItem } from "../items/TongueItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -116,6 +118,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(FreezerItem);
         this.registerGameObject(LightSwitchItem);
         this.registerGameObject(ToStartupItem);
+        this.registerGameObject(EyesItem);
+        this.registerGameObject(TongueItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -142,7 +146,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             lastRoom: "",
-            inventory: ["OutsideKeyItem", "CrowbarItem"],
+            inventory: ["OutsideKeyItem"],
             selectedItem: "",
             hiddenIn: "",
             walkedToBathtub: false,
@@ -163,6 +167,8 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
+            givenEyes: false,
+            givenTongue: false,
         };
     }
 
