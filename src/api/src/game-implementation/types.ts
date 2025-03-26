@@ -56,4 +56,8 @@ export type PlayerSession = {
     givenTongue: boolean;
     // variable for checking if player does a minigame
     startedMinigame: boolean;
+    // True when picked up saw
+    pickedUpSaw: boolean;
+    // Game Options
+    gameOptions: string[];
 };
