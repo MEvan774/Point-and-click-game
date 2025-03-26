@@ -5,6 +5,7 @@ import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
+import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -171,9 +172,12 @@ export class CanvasComponent extends HTMLElement {
     /** Current selected inventory item */
     private _selectedInventoryItem?: string;
 
+    /** clickable hitboxes that are present on screen */
     private hitBoxes: HitBox[] = [];
     private isActionTalk: boolean = false;
+    /** All the flashlights active in the room, primairly used for disabling the flashlight */
     private _lights: FlashLightUseItem[] = [];
+    private _vomitMinigame: VomitMinigame | undefined;
 
     /**
      * The "constructor" of a Web Component
@@ -578,6 +582,10 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
             await this.render();
         }
+
+        if (action.alias === "taste") {
+            this._vomitMinigame = new VomitMinigame(this);
+        }
     }
 
     // Creates all hitboxes for the room
@@ -675,5 +683,12 @@ export class CanvasComponent extends HTMLElement {
             this._lights[i].DisableFlashLight();
         }
         this.hitBoxes = [];
+    }
+
+    /** Removes flashlight from the array and html */
+    public DisableMinigame(): void {
+        this._vomitMinigame = undefined;
+        // Removes the warning message: this._vomitMinigame is declared but never read.
+        console.log(this._vomitMinigame);
     }
 }
