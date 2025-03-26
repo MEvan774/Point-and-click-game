@@ -173,12 +173,9 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
-<<<<<<< src/api/src/game-implementation/services/GameService.ts
             givenEyes: false,
             givenTongue: false,
-=======
             pickedUpSaw: false,
->>>>>>> src/api/src/game-implementation/services/GameService.ts
             startedMinigame: false,
         };
     }
