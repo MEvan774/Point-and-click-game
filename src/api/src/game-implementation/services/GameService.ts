@@ -60,6 +60,8 @@ import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { EyesItem } from "../items/EyesItem";
 import { TongueItem } from "../items/TongueItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
+import { PanItem } from "../items/PanItem";
+import { TasteAction } from "../actions/TasteAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -122,6 +124,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(ToStartupItem);
         this.registerGameObject(EyesItem);
         this.registerGameObject(TongueItem);
+        this.registerGameObject(PanItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -138,6 +141,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
         this.registerAction(GoToStartupAction);
+        this.registerAction(TasteAction);
     }
 
     /**
@@ -169,12 +173,11 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
-<<<<<<< src/api/src/game-implementation/services/GameService.ts
             givenEyes: false,
             givenTongue: false,
-=======
             pickedUpSaw: false,
->>>>>>> src/api/src/game-implementation/services/GameService.ts
+            startedMinigame: false,
+            gameOptions: [],
         };
     }
 

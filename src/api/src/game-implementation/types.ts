@@ -51,9 +51,11 @@ export type PlayerSession = {
     openedFreezer: boolean;
     // True when walked to freezer
     walkedToFreezer: boolean;
-    // variables for ghostChar
+    // variables for ghostChar's ingredients given
     givenEyes: boolean;
     givenTongue: boolean;
+    // variable for checking if player does a minigame
+    startedMinigame: boolean;
     // True when picked up saw
     pickedUpSaw: boolean;
     // Game Options

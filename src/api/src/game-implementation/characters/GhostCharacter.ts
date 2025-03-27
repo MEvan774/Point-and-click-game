@@ -19,8 +19,8 @@ export class GhostCharacter extends Character implements Examine, Talk {
      * @validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -200, y: 100 };
-    public _size: Vector2 = { x: 400, y: 400 };
+    public _position: Vector2 = { x: -100, y: 100 };
+    public _size: Vector2 = { x: 165, y: 400 };
     // public static readonly validActions: string[] = [ActionTypes.Talk, ActionTypes.GoTo];
     public _isDebugHitboxVisible: boolean = false;
 
@@ -100,6 +100,9 @@ export class GhostCharacter extends Character implements Examine, Talk {
      */
     public talk(choiceId?: number): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("CrowbarItem"))
+            return this.talkIfRecievedCrowbar(choiceId);
 
         if (playerSession.givenEyes && playerSession.givenTongue)
             return this.talkIfGivenIngredients(choiceId);
@@ -234,5 +237,43 @@ export class GhostCharacter extends Character implements Examine, Talk {
             }
         }
         return undefined;
+    }
+
+    private talkIfRecievedCrowbar(choiceId?: number): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        switch (choiceId) {
+            case undefined: {
+                return new TalkActionResult(
+                    this,
+                    [
+                        "Still here? What... more?",
+                        "You should taste it.",
+                    ],
+                    [
+                        new TalkChoice(1, "(Accept)"),
+                        new TalkChoice(2, "(Refuse)"),
+                    ]
+                );
+            }
+            case 1: {
+                playerSession.startedMinigame = true;
+                return new TalkActionResult(
+                    this,
+                    [
+                        "Brave. Foolish. Open wide, then.",
+                    ],
+                    [
+                    ]
+                );
+            }
+        }
+        return new TalkActionResult(
+            this,
+            [
+                "You turn away from a gift... but soon, you’ll crave it.",
+            ],
+            [
+            ]
+        );
     }
 }
