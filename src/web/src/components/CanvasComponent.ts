@@ -186,7 +186,7 @@ export class CanvasComponent extends HTMLElement {
     private _lights: FlashLightUseItem[] = [];
     private _vomitMinigame: VomitMinigame | undefined;
     /** Initiates the audio */
-    private ambianceSound: HTMLAudioElement;
+    private ambianceSound!: HTMLAudioElement;
 
     /**
      * The "constructor" of a Web Component
@@ -236,12 +236,11 @@ export class CanvasComponent extends HTMLElement {
         if (!sessionStorage.getItem("visited")) {
             await this.goToStartup();
         }
-    
+
         this.RemoveHitBoxes();
         if (!this.shadowRoot) {
             return;
         }
-    
         const elements: HTMLElement[] = htmlArray`
             <style>
                 ${styles}
@@ -252,13 +251,10 @@ export class CanvasComponent extends HTMLElement {
             ${this.renderContent()}
             ${this.renderFooter()}
         `;
-    
         while (this.shadowRoot.firstChild) {
             this.shadowRoot.firstChild.remove();
         }
-    
         this.shadowRoot.append(...elements);
-    
         this.attachInventoryButtonListeners();
         this.attachOptionsButtonListener();
         this.playSounds();
@@ -275,26 +271,20 @@ export class CanvasComponent extends HTMLElement {
             });
         }
     }
-    
+
     private openOverlay(): void {
-        const overlay = new OverlayComponent(() => {
+        const overlay: OverlayComponent = new OverlayComponent(() => {
             console.log("Overlay closed");
         });
-    
-        // Opties voor de overlay
-        const optionsList = [
+        const optionsList: string[] = [
             "Restart game",
-            "Sound"
+            "Sound",
         ];
-    
-        // Dynamisch de knoppen genereren voor de opties
-        let optionsHtml = "<h1>Options:</h1>";
+        let optionsHtml: string = "<h1>Options:</h1>";
         optionsList.forEach(option => {
             optionsHtml += `<button class="option-btn">${option}</button>`;
         });
-    
-        // Voeg de CSS toe voor de knoppen
-        const style = document.createElement("style");
+        const style: HTMLStyleElement = document.createElement("style");
         style.textContent = `
             .option-btn {
                 background-color: black;
@@ -315,41 +305,29 @@ export class CanvasComponent extends HTMLElement {
                 color: rgb(160, 160, 139);
             }
         `;
-        
-        // Voeg de styling toe aan de body of overlay
         document.head.appendChild(style);
-    
-        // Overlay tonen met de opties en audio controle
         overlay.show(optionsHtml);
-    
-        // Event listener voor de verschillende opties
         const optionButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn");
-    
-        optionButtons.forEach((button) => {
-            button.addEventListener("click", (e) => {
-                const optionText = (e.target as HTMLButtonElement).textContent;
-    
-                // Als de optie "Sound" is, toon de geluidsoverlay
+        optionButtons.forEach(button => {
+            button.addEventListener("click", e => {
+                const optionText: string | null = (e.target as HTMLButtonElement).textContent;
                 if (optionText === "Sound") {
-                    this.showSoundOptions(overlay);  // Toon de Sound instellingen
+                    this.showSoundOptions(overlay);
                 }
-                // Andere opties doen niets (overlay niet sluiten)
             });
         });
     }
-    
+
     private showSoundOptions(overlay: OverlayComponent): void {
         // Dit is de "Sound" instellingen-overlay
-        let soundHtml = `
+        const soundHtml: string = `
             <h2>Geluidinstellingen</h2>
             <label for="volume">Volume:</label>
             <input type="range" id="volume" min="0" max="1" step="0.01" value="${this.ambianceSound.volume}">
             <button id="mute-btn" class="option-btn">${this.ambianceSound.muted ? "Unmute" : "Mute"}</button>
             <button id="back-btn" class="option-btn">Return to options</button>
         `;
-    
-        // Voeg de styling toe voor de geluidselementen
-        const style = document.createElement("style");
+        const style: HTMLStyleElement = document.createElement("style");
         style.textContent = `
             .option-btn {
                 background-color: black;
@@ -370,52 +348,42 @@ export class CanvasComponent extends HTMLElement {
                 color: rgb(160, 160, 139);
             }
         `;
-    
-        // Voeg de styling toe aan de body of overlay
         document.head.appendChild(style);
-    
-        // Toon de geluidsoverlay
         overlay.show(soundHtml);
-    
-        // Voeg de event listeners toe voor volume slider en mute knop
         const volumeSlider: HTMLInputElement | null = document.querySelector("#volume");
         const muteButton: HTMLButtonElement | null = document.querySelector("#mute-btn");
         const backButton: HTMLButtonElement | null = document.querySelector("#back-btn");
-    
         // Verander het volume op basis van de slider
         if (volumeSlider) {
-            volumeSlider.addEventListener("input", (event) => {
-                const volume = (event.target as HTMLInputElement).value;
+            volumeSlider.addEventListener("input", event => {
+                const volume: string = (event.target as HTMLInputElement).value;
                 this.ambianceSound.volume = parseFloat(volume);
             });
         }
-    
-        // Mute/unmute functie
         if (muteButton) {
             muteButton.addEventListener("click", () => {
                 this.ambianceSound.muted = !this.ambianceSound.muted;
                 muteButton.textContent = this.ambianceSound.muted ? "Unmute" : "Mute";
             });
         }
-    
-        // Terug naar de normale opties (bij klikken op de terugknop)
         if (backButton) {
             backButton.addEventListener("click", () => {
-                this.openOverlay(); // Terug naar de originele opties
+                this.openOverlay();
             });
         }
     }
 
     private playSounds(): void {
-        // Controleer of de audio al bestaat
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!this.ambianceSound) {
             this.ambianceSound = new Audio("public/audio/ambiancesound.wav");
-            this.ambianceSound.volume = 0.5; // Stel het volume in op 50%
-            this.ambianceSound.loop = true; // Zorg ervoor dat het geluid herhaalt
+            this.ambianceSound.volume = 0.5;
+            this.ambianceSound.loop = true;
             this.ambianceSound.play().catch((error: unknown) => {
                 if (error instanceof Error) {
                     console.error("Audio kon niet worden afgespeeld:", error.message);
-                } else {
+                }
+                else {
                     console.error("Onbekende fout bij het afspelen van audio.");
                 }
             });

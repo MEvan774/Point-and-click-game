@@ -3,7 +3,7 @@ export class OverlayComponent {
     private container: HTMLDivElement;
     private onClose: () => void;
 
-    constructor(onClose: () => void) {
+    public constructor(onClose: () => void) {
         this.onClose = onClose;
 
         // Overlay instellen
@@ -20,7 +20,7 @@ export class OverlayComponent {
         this.overlay.style.zIndex = "9999";
 
         // Event listener voor de overlay
-        this.overlay.addEventListener("click", (event) => {
+        this.overlay.addEventListener("click", event => {
             // Controleer of de klik buiten de container was (dus niet op de inhoud)
             if (event.target === this.overlay) {
                 this.closeOverlay(); // Sluit de overlay als je buiten de inhoud klikt
@@ -38,7 +38,7 @@ export class OverlayComponent {
         this.container.style.zIndex = "10000";
 
         // Sluitknop
-        const closeButton = document.createElement("button");
+        const closeButton: HTMLButtonElement = document.createElement("button");
         closeButton.textContent = "✖";
         closeButton.style.position = "absolute";
         closeButton.style.top = "15px";
@@ -50,7 +50,7 @@ export class OverlayComponent {
         closeButton.style.cursor = "pointer";
         closeButton.style.fontSize = "18px";
         closeButton.style.borderRadius = "50%";
-        closeButton.addEventListener("click", (event) => {
+        closeButton.addEventListener("click", event => {
             event.stopPropagation(); // Voorkomt dat de overlay sluit bij klikken op de knop
             this.closeOverlay();
         });
@@ -62,7 +62,8 @@ export class OverlayComponent {
     public show(content: HTMLElement | string): void {
         if (typeof content === "string") {
             this.container.innerHTML = content;
-        } else {
+        }
+        else {
             this.container.innerHTML = "";
             this.container.appendChild(content);
         }
