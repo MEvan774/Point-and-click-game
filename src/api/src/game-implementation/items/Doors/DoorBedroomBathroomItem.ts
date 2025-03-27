@@ -20,7 +20,7 @@ export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: 323, y: 174 };
     public _size: Vector2 = { x: 100, y: 307 };
-    public static readonly validActions: string[] = ["examine", "go to"];
+    public static readonly validActions: string[] = ["go to"];
     public _isDebugHitboxVisible: boolean = false;
 
     public constructor() {

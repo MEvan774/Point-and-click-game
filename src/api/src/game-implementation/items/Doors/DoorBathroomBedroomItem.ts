@@ -20,8 +20,8 @@ export class DoorBathroomBedroomItem extends Item implements Examine, GoTo {
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: 315, y: 150 };
     public _size: Vector2 = { x: 108, y: 325 };
-    public static readonly validActions: string[] = ["examine", "go to"];
-    public _isDebugHitboxVisible: boolean = !gameService.getPlayerSession().walkedToBathtub;
+    public static readonly validActions: string[] = ["go to"];
+    public _isDebugHitboxVisible: boolean = false;
 
     public constructor() {
         super(DoorBathroomBedroomItem.Alias, DoorBathroomBedroomItem.validActions);
