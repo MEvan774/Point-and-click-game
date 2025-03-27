@@ -17,6 +17,6 @@ Devan – "De inventory ziet er goed en overzichtelijk uit. Je kunt eenvoudig tu
 Birhat – "Het is niet altijd even duidelijk wanneer je op een item klikt, wat soms tot verwarring kan leiden."
 Ryan – "De inventory is duidelijk zichtbaar, zit niet in de weg en is niet te groot of te klein. Het enige dat verandert kan worden is de witte achtergrond van sommige items. Ik raad aan om de witte achtergrond weg te halen om de inventory aantrekkelijker te maken. Dat kan met behulp van [remove.bg](https://remove.bg/)"
 
-[Resultaat foto](/docs/User%20tests/inventory.png)
+![Resultaat foto](/docs/User%20tests/inventory.png)
 
 ## TMC Cyclus - UI
