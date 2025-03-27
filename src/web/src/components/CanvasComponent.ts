@@ -9,148 +9,152 @@ import { VomitMinigame } from "../../../api/src/game-implementation/minigames/Vo
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
+
+
     :host {
         font-family: "DungeonFont";
-        width: "100%";
-        max-width: "1024px";
-        height: "100%";
-        display: "grid";
-        grid-template-columns: "1fr";
-        grid-template-rows: "auto calc(35vh + 10px) minmax(calc(35vh + 10px), 1fr) auto";
-        grid-column-gap: "0px";
-        grid-row-gap: "0px";
+        width: 100%;
+        max-width: 1024px;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto calc(35vh + 10px) minmax(calc(35vh + 10px), 1fr) auto;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
     }
 
     .title {
-        text-align: "center";
-        margin-top: "10px";
-        overflow: "auto";
-        z-index: "10";
+        text-align: center;
+        margin-top: 10px;
+        overflow: auto;
+        z-index: 10;
     }
 
     .header {
-        display: "flex";
-        flex-direction: "column";
-        align-items: "center";
-        position: "relative";
-        margin-top: "10px";
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+}
 
-    .header img {
-        width: "1022px";
-        height: "auto";
-        image-rendering: "pixelated";
-        position: "absolute";
-        top: "0";
-        left: "0";
-    }
+.header img {
+    width: 1022px; /* Keeps aspect ratio */
+    height: auto;
+    image-rendering: pixelated;
+    position: absolute;  /* Ensure all images layer */
+    top: 0;  /* Align from top */
+    left: 0; /* Align from left */
+}
 
-    .header img:first-child {
-        position: "relative";
-    }
+.header img:first-child {
+    position: relative; /* Keeps first image as base */
+}
 
     .content {
-        flex-grow: "1";
-        overflow: "auto";
-        margin-top: "200px";
-        bottom: "0";
-        padding: "0 10px";
-        z-index: "10";
-        background-color: "#211e20";
-        height: "110px";
-        width: "833px";
-        box-shadow: "0px 0px 85px #211e20";
+        flex-grow: 1;
+        overflow: auto;
+        margin-top: 200px;
+        bottom: 0;
+        padding: 0 10px;
+        z-index: 10;
+        background-color: #211e20;
+        height: 110px;
+        width: 833px;
+        box-shadow: 85px 85px 0px 85px #211e20;
+        -webkit-box-shadow: 85px 85px 0px 85px #211e20;
+        -moz-box-shadow: 85px 85px 0px 85px #211e20;
     }
 
     .content p {
-        margin: "0 0 10px 0";
-        z-index: "10";
+        margin: 0 0 10px 0;
+        z-index: 10;
     }
 
     .content p:last-of-type {
-        margin: "0";
-        z-index: "10";
+        margin: 0;
+        z-index: 10;
     }
 
     .footer {
-        margin-top: "10px";
-        display: "flex";
-        height: "105px";
-        border-radius: "10px 10px 0 0";
-        bottom: "0";
-        width: "857px";
-        z-index: "10";
+        margin-top: 10px;
+        display: flex;
+        height: 105px;
+        border-radius: 10px 10px 0 0;
+        bottom: 0;
+        width: 857px;
+        z-index: 10;
     }
-
     .footer img {
-        image-rendering: "pixelated";
-        width: "1022px";
-        height: "auto";
-        position: "absolute";
-        margin-top: "-103px";
-        z-index: "10";
-        pointer-events: "none";
+        image-rendering: pixelated;
+        width: 1022px; /* Scale up while maintaining aspect ratio */
+        height: auto; /* Keeps aspect ratio */
+        position: absolute;
+        margin-top: -103px;
+        z-index: 1;
+        pointer-events: none;
+        z-index: 10;
     }
 
     .footer .buttons {
-        z-index: "2000";
-        display: "flex";
-        flex-direction: "column";
-        overflow: "auto";
-        padding: "10px 10px 0 10px";
+        z-index: 2000;
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        padding: 10px 10px 0 10px;
     }
 
     .footer .button {
-        z-index: "2000";
-        background-color: "#e9efec";
-        color: "#211e20";
-        padding: "5px 10px";
-        margin: "0 0 10px 10px";
-        font-weight: "bold";
-        cursor: "pointer";
-        display: "inline-block";
-        user-select: "none";
+        z-index: 2000;
+        background-color: #e9efec;
+        color: #211e20;
+        padding: 5px 10px;
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
     }
 
     .footer .button.active,
     .footer .button:hover {
-        background-color: "#a0a08b";
+        background-color: #a0a08b;
     }
 
     .buttonImage {
-        image-rendering: "pixelated";
-        background: "none";
-        color: "inherit";
-        border: "none";
-        padding: "0";
-        font: "inherit";
-        cursor: "pointer";
-        outline: "inherit";
+        image-rendering: pixelated;
+        background: none;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
     }
 
     .active-item {
-        background-color: "gray";
-        border: "2px solid white";
-        border-radius: "20px";
-        filter: "brightness(1.2)";
+        background-color: gray;
+        border: 2px solid white;
+        border-radius: 20px;
+        filter: brightness(1.2);
     }
 
-    .options {
-        float: "right";
-        background-color: "transparent";
-        border: "none";
-        cursor: "pointer";
+        .options {
+        float: right;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
     }
 
     .overlay {
-        position: "fixed";
-        top: "0";
-        left: "0";
-        width: "15%";
-        height: "15%";
-        background-color: "rgba(0, 0, 0, 0.5)";
-        z-index: "999";
-        display: "flex";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 15%;
+        height: 15%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: flex;
         justify-content: "center";
         align-items: "center";
     }
@@ -163,16 +167,16 @@ const styles: string = css`
     }
 
     .button-Startup {
-        z-index: "1";
-        background-color: "#e9efec";
-        color: "#211e20";
-        padding: "20px 20px";
-        margin: "0 0 10px 10px";
-        font-weight: "bold";
-        cursor: "pointer";
-        display: "inline-block";
-        user-select: "none";
-        font-size: "40px";
+        z-index: 1;
+        background-color: #e9efec;
+        color: #211e20;
+        padding: 20px 20px;
+        margin: 0 0 10px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+        font-size: 40px;
     }
 `;
 
