@@ -277,6 +277,8 @@ export class CanvasComponent extends HTMLElement {
         this.shadowRoot.append(...elements);
 
         this.attachInventoryButtonListeners();
+
+        console.log(this._currentGameState?.actions);
     }
 
     private async goToStartup(): Promise<void> {
