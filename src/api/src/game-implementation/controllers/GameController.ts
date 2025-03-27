@@ -212,8 +212,6 @@ export class GameController {
         const inventory: string[] = gameService.getPlayerSession().inventory;
         const gameOptions: string[] = ["sound", "restart"];
 
-        const gameOptions: string[] = ["sound", "restart"];
-
         // Combine all data into a game state
         return {
             type: "default",
