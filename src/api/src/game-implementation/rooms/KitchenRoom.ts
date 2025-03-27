@@ -7,8 +7,11 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { TasteAction } from "../actions/TasteAction";
 import { GhostCharacter } from "../characters/GhostCharacter";
 import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomItem";
+import { PanItem } from "../items/PanItem";
+import { PlayerSession } from "../types";
 import { LivingRoom } from "./LivingRoom";
 
 /**
@@ -40,16 +43,27 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["KitchenRoom"];
+        const roomStates: string[] = [];
+        roomStates.push("KitchenRoom");
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("CrowbarItem"))
+            roomStates.push("PanItem");
+        return roomStates;
     }
 
     /**
      * @returns Objects in the room
      */
     public objects(): GameObject[] {
-        return [
-            new DoorKitchenLivingRoomItem(), new GhostCharacter(),
-        ];
+        const gameObjects: GameObject[] = [];
+        gameObjects.push(new DoorKitchenLivingRoomItem(), new GhostCharacter());
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("CrowbarItem"))
+            gameObjects.push(new PanItem());
+
+        return gameObjects;
     }
 
     /**
@@ -57,7 +71,7 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction(), new TalkAction()];
+        return [new ExamineAction(), new GoToAction(), new TalkAction(), new TasteAction()];
     }
 
     /**
@@ -65,7 +79,8 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["I smell a strong rotting smell... I feel sick.",
+        return new TextActionResult(["You smell a strong rotting smell...",
+            "You begin to feel sick.",
         ]);
     }
 

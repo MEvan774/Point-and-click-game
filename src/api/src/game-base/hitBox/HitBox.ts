@@ -32,7 +32,7 @@ export class HitBox {
         if (isDebugHitboxVisible)
             this._hitboxDiv.style.backgroundColor = "pink";
 
-        this._hitboxDiv.style.zIndex = "100";
+        this._hitboxDiv.style.zIndex = "0";
         this._hitboxDiv.style.position = "absolute";
         this._hitboxDiv.style.width = `${size.x}px`;
         this._hitboxDiv.style.height = `${size.y}px`;
