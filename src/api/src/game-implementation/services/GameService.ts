@@ -177,6 +177,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             givenTongue: false,
             pickedUpSaw: false,
             startedMinigame: false,
+            gameOptions: [],
         };
     }
 
