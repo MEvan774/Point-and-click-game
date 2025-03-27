@@ -63,6 +63,7 @@ import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { PanItem } from "../items/PanItem";
 import { TasteAction } from "../actions/TasteAction";
 import { GateKeyItem } from "../items/GateKeyItem";
+import { LightItem } from "../items/LightItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -127,6 +128,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(TongueItem);
         this.registerGameObject(PanItem);
         this.registerGameObject(GateKeyItem);
+        this.registerGameObject(LightItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);

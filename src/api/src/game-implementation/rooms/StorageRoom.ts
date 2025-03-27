@@ -19,6 +19,7 @@ import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
 import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
 import { LightItem } from "../items/LightItem";
 import { GateKeyItem } from "../items/GateKeyItem";
+import { PickUpAction } from "../actions/PickUpAction";
 
 /**
  * Implemention of the StorageRoom
@@ -118,6 +119,7 @@ export class StorageRoom extends Room {
             new TalkAction(),
             new OpenAction(),
             new HideAction(),
+            new PickUpAction(),
         ];
 
         return actions;

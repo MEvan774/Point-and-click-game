@@ -5,6 +5,7 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { PickUp } from "../actions/PickUpAction";
 import { gameService } from "../../global";
+import { PlayerSession } from "../types";
 
 /**
  * A closet the player can hide inside
@@ -22,9 +23,9 @@ export class GateKeyItem extends Item implements Examine, PickUp {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 220, y: 150 };
-    public _size: Vector2 = { x: 250, y: 430 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _position: Vector2 = { x: 100, y: 185 };
+    public _size: Vector2 = { x: 95, y: 90 };
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["pick up"];
 
@@ -57,7 +58,16 @@ export class GateKeyItem extends Item implements Examine, PickUp {
      * @returns TextActionResult with the examine
      */
     public pickup(): ActionResult | undefined {
-        gameService.getPlayerSession().inventory.push("GateKeyItem");
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("GateKeyItem")) {
+            return new TextActionResult([
+                "You already picked up the key here,",
+                "There is nothing interesting left.",
+            ]);
+        }
+
+        playerSession.inventory.push("GateKeyItem");
 
         return new TextActionResult([
             "You pick up the key.",
