@@ -65,8 +65,10 @@ export class BathroomRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         // Object that are always present in the room.
-        objects.push(new BathroomItem());
-        objects.push(new DoorBathroomBedroomItem());
+        if (!playerSession.walkedToBathtub) {
+            objects.push(new BathroomItem());
+            objects.push(new DoorBathroomBedroomItem());
+        }
 
         // If the player has walked to the bathtub and not picked up the key.
         if (playerSession.walkedToBathtub && !playerSession.pickedUpKey) {

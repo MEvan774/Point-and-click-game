@@ -394,6 +394,7 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
+                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
                     "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
