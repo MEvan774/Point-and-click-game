@@ -45,6 +45,14 @@ export class GateKeyItem extends Item implements Examine, PickUp {
      * @returns TextActionResult with the examine
      */
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("GateKeyItem")) {
+            return new TextActionResult([
+                "There is nothing interesting here left",
+            ]);
+        }
+
         return new TextActionResult([
             "There is a key here!",
             "It's so big, it doesn't look like it would fit a door,",
