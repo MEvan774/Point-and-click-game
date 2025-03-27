@@ -4,143 +4,175 @@ import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
+import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
+import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
-
-
     :host {
         font-family: "DungeonFont";
-        width: 100%;
-        max-width: 1024px;
-        height: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto calc(35vh + 10px) minmax(calc(35vh + 10px), 1fr) auto;
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
+        width: "100%";
+        max-width: "1024px";
+        height: "100%";
+        display: "grid";
+        grid-template-columns: "1fr";
+        grid-template-rows: "auto calc(35vh + 10px) minmax(calc(35vh + 10px), 1fr) auto";
+        grid-column-gap: "0px";
+        grid-row-gap: "0px";
     }
 
     .title {
-        text-align: center;
-        margin-top: 10px;
-        overflow: auto;
+        text-align: "center";
+        margin-top: "10px";
+        overflow: "auto";
+        z-index: "10";
     }
 
     .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        margin-top: 10px;
+        display: "flex";
+        flex-direction: "column";
+        align-items: "center";
+        position: "relative";
+        margin-top: "10px";
     }
 
     .header img {
-        width: 1022px; /* Scale up while maintaining aspect ratio */
-        height: auto; /* Keeps aspect ratio */
-        image-rendering: pixelated;
-        bottom: 0;
+        width: "1022px";
+        height: "auto";
+        image-rendering: "pixelated";
+        position: "absolute";
+        top: "0";
+        left: "0";
     }
 
-    .header img:nth-child(n + 2) {
-        position: absolute;
+    .header img:first-child {
+        position: "relative";
     }
 
     .content {
-        flex-grow: 1;
-        overflow: auto;
-        margin-top: 200px;
-        bottom: 0;
-        padding: 0 10px;
-        z-index: 1;
-        background-color: #211e20;
-        height: 110px;
-        width: 833px;
-        box-shadow: 85px 85px 0px 85px #211e20;
-        -webkit-box-shadow: 85px 85px 0px 85px #211e20;
-        -moz-box-shadow: 85px 85px 0px 85px #211e20;
+        flex-grow: "1";
+        overflow: "auto";
+        margin-top: "200px";
+        bottom: "0";
+        padding: "0 10px";
+        z-index: "10";
+        background-color: "#211e20";
+        height: "110px";
+        width: "833px";
+        box-shadow: "0px 0px 85px #211e20";
     }
 
     .content p {
-        margin: 0 0 10px 0;
+        margin: "0 0 10px 0";
+        z-index: "10";
     }
 
     .content p:last-of-type {
-        margin: 0;
+        margin: "0";
+        z-index: "10";
     }
 
     .footer {
-        margin-top: 10px;
-        display: flex;
-        height: 105px;
-        border-radius: 10px 10px 0 0;
-        bottom: 0;
-        width: 857px;
+        margin-top: "10px";
+        display: "flex";
+        height: "105px";
+        border-radius: "10px 10px 0 0";
+        bottom: "0";
+        width: "857px";
+        z-index: "10";
     }
+
     .footer img {
-        image-rendering: pixelated; /* Keeps the pixelated look */
-    width: 1022px; /* Scale up while maintaining aspect ratio */
-    height: auto; /* Keeps aspect ratio */
-    position: absolute;
-    margin-top: -103px; /* Adjust as needed */
-    z-index: 1;
-    pointer-events: none;
+        image-rendering: "pixelated";
+        width: "1022px";
+        height: "auto";
+        position: "absolute";
+        margin-top: "-103px";
+        z-index: "10";
+        pointer-events: "none";
     }
 
     .footer .buttons {
-        z-index: 2000;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        padding: 10px 10px 0 10px;
+        z-index: "2000";
+        display: "flex";
+        flex-direction: "column";
+        overflow: "auto";
+        padding: "10px 10px 0 10px";
     }
 
     .footer .button {
-        z-index: 2000;
-        background-color: #e9efec;
-        color: #211e20;
-        padding: 5px 10px;
-        margin: 0 0 10px 10px;
-        font-weight: bold;
-        cursor: pointer;
-        display: inline-block;
-        user-select: none;
+        z-index: "2000";
+        background-color: "#e9efec";
+        color: "#211e20";
+        padding: "5px 10px";
+        margin: "0 0 10px 10px";
+        font-weight: "bold";
+        cursor: "pointer";
+        display: "inline-block";
+        user-select: "none";
     }
 
     .footer .button.active,
     .footer .button:hover {
-        background-color: #a0a08b;
+        background-color: "#a0a08b";
     }
 
     .buttonImage {
-        image-rendering: pixelated;
-        background: none;
-        color: inherit;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
+        image-rendering: "pixelated";
+        background: "none";
+        color: "inherit";
+        border: "none";
+        padding: "0";
+        font: "inherit";
+        cursor: "pointer";
+        outline: "inherit";
     }
 
     .active-item {
-        background-color: gray;
-        border: 2px solid white;
-        border-radius: 20px;
-        filter: brightness(1.2);
+        background-color: "gray";
+        border: "2px solid white";
+        border-radius: "20px";
+        filter: "brightness(1.2)";
+    }
+
+    .options {
+        float: "right";
+        background-color: "transparent";
+        border: "none";
+        cursor: "pointer";
+    }
+
+    .overlay {
+        position: "fixed";
+        top: "0";
+        left: "0";
+        width: "15%";
+        height: "15%";
+        background-color: "rgba(0, 0, 0, 0.5)";
+        z-index: "999";
+        display: "flex";
+        justify-content: "center";
+        align-items: "center";
+    }
+
+    .overlayOptions {
+        background-color: "#fff";
+        padding: "20px";
+        border-radius: "8px";
+        text-align: "center";
     }
 
     .button-Startup {
-        z-index: 1;
-        background-color: #e9efec;
-        color: #211e20;
-        padding: 20px 20px;
-        margin: 0 0 10px 10px;
-        font-weight: bold;
-        cursor: pointer;
-        display: inline-block;
-        user-select: none;
-        font-size: 40px;
+        z-index: "1";
+        background-color: "#e9efec";
+        color: "#211e20";
+        padding: "20px 20px";
+        margin: "0 0 10px 10px";
+        font-weight: "bold";
+        cursor: "pointer";
+        display: "inline-block";
+        user-select: "none";
+        font-size: "40px";
     }
 `;
 
@@ -162,8 +194,12 @@ export class CanvasComponent extends HTMLElement {
     /** Current selected inventory item */
     private _selectedInventoryItem?: string;
 
+    /** clickable hitboxes that are present on screen */
     private hitBoxes: HitBox[] = [];
     private isActionTalk: boolean = false;
+    /** All the flashlights active in the room, primairly used for disabling the flashlight */
+    private _lights: FlashLightUseItem[] = [];
+    private _vomitMinigame: VomitMinigame | undefined;
 
     /**
      * The "constructor" of a Web Component
@@ -352,16 +388,18 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
-
+                title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
+                title += "<div class='overlayDiv'></div>";
                 title += "</div>";
 
                 return title;
             }
             const title: string = `<div class="title">${roomName}<br>
-            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+            <img src='/assets/img/Items/black.png' height='50px'/>
+            </div>`;
 
             return title;
         }
@@ -377,6 +415,9 @@ export class CanvasComponent extends HTMLElement {
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
         setTimeout(() => this.addHitboxes(), 10);
+        this.DisableFlashLight();
+
+        const roomName: string | undefined = this._currentGameState?.roomName;
         if (roomImages && roomImages.length > 0) {
             if (this._currentGameState?.roomAlias === "startup" ||
               this._currentGameState?.roomAlias === "game-over" ||
@@ -388,11 +429,28 @@ export class CanvasComponent extends HTMLElement {
                     </div>
                 `;
             }
-            return `
+            if (roomName === "Living room" && this._selectedInventoryItem === "FlashlightItem") {
+                this.FlashLight(true);
+                return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
+            }
+
+            else if (roomName === "Living room" && this._selectedInventoryItem !== "FlashlightItem") {
+                this.FlashLight(false);
+                return `
                 <div class="header">
-                    ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
                 </div>
             `;
+            }
+            return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
         }
 
         return "";
@@ -548,6 +606,10 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
             await this.render();
         }
+
+        if (action.alias === "taste") {
+            this._vomitMinigame = new VomitMinigame(this);
+        }
     }
 
     // Creates all hitboxes for the room
@@ -632,5 +694,25 @@ export class CanvasComponent extends HTMLElement {
             this.hitBoxes[i].removeHitBox();
         }
         this.hitBoxes = [];
+    }
+
+    /** Enables flashlight and pushes it to the array */
+    private FlashLight(isActive: boolean): void {
+        this._lights.push(new FlashLightUseItem(isActive, this));
+    }
+
+    /** Removes flashlight from the array and html */
+    private DisableFlashLight(): void {
+        for (let i: number = 0; i < this._lights.length; i++) {
+            this._lights[i].DisableFlashLight();
+        }
+        this.hitBoxes = [];
+    }
+
+    /** Removes flashlight from the array and html */
+    public DisableMinigame(): void {
+        this._vomitMinigame = undefined;
+        // Removes the warning message: this._vomitMinigame is declared but never read.
+        console.log(this._vomitMinigame);
     }
 }

@@ -6,10 +6,14 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorLivingRoomFrontDoorItem } from "../items/Doors/DoorLivingRoomFrontDoorItem";
-import { DoorLivingRoomKitchenItem } from "../items/Doors/DoorLivingRoomKitchenItem";
+import { DoorLivingRoomFrontDoorItem } from "../items/doors/DoorLivingRoomFrontDoorItem";
+import { DoorLivingRoomKitchenItem } from "../items/doors/DoorLivingRoomKitchenItem";
+import { EyesItem } from "../items/EyesItem";
 import { HallwayRoom } from "./HallwayRoom";
 import { KitchenRoom } from "./KitchenRoom";
+import { TongueItem } from "../items/TongueItem";
+import { PlayerSession } from "../types";
+import { PickUpAction } from "../actions/PickUpAction";
 
 /**
  * Implemention of the startup room
@@ -38,20 +42,38 @@ export class LivingRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["LivingRoomLight"];
+        const roomStates: string[] = [];
+        roomStates.push("LivingRoomLight");
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (!playerSession.inventory.includes("Eyes") && !playerSession.givenEyes)
+            roomStates.push("EyesItem");
+
+        if (!playerSession.inventory.includes("Tongue") && !playerSession.givenTongue)
+            roomStates.push("TongueItem");
+
+        return roomStates;
     }
 
     public objects(): GameObject[] {
-        return [
-            new DoorLivingRoomFrontDoorItem(), new DoorLivingRoomKitchenItem(),
-        ];
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        const objects: GameObject[] = [];
+        objects.push(new DoorLivingRoomFrontDoorItem());
+        objects.push(new DoorLivingRoomKitchenItem());
+
+        if (!playerSession.inventory.includes("Eyes") && !playerSession.givenEyes)
+            objects.push(new EyesItem());
+
+        if (!playerSession.inventory.includes("Tongue") && !playerSession.givenTongue)
+            objects.push(new TongueItem());
+        return objects;
     }
 
     /**
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction()];
+        return [new ExamineAction(), new GoToAction(), new PickUpAction()];
     }
 
     /**
