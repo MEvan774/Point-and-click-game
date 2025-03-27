@@ -171,6 +171,8 @@ export class CanvasComponent extends HTMLElement {
     public connectedCallback(): void {
         this.attachShadow({ mode: "open" });
 
+        this.Timer(200000);
+
         void this.refreshGameState();
     }
 
@@ -560,6 +562,12 @@ export class CanvasComponent extends HTMLElement {
                     objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
             }
         }
+    }
+
+    private Timer(interval: number): void {
+        setInterval(() => {
+            location.reload(); // This will refresh the page
+        }, interval);
     }
 
     /**
