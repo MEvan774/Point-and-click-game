@@ -60,4 +60,6 @@ export type PlayerSession = {
     pickedUpSaw: boolean;
     // Game Options
     gameOptions: string[];
+    // True when opened first time
+    keyFallen: boolean;
 };

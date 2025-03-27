@@ -156,7 +156,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             lastRoom: "",
-            inventory: ["OutsideKeyItem"],
+            inventory: [],
             selectedItem: "",
             hiddenIn: "",
             walkedToBathtub: false,
@@ -182,6 +182,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             pickedUpSaw: false,
             startedMinigame: false,
             gameOptions: [],
+            keyFallen: false,
         };
     }
 
