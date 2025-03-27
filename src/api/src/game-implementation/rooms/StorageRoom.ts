@@ -18,6 +18,7 @@ import { ClosetItem } from "../items/Closetitem";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
 import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
 import { LightItem } from "../items/LightItem";
+import { GateKeyItem } from "../items/GateKeyItem";
 
 /**
  * Implemention of the StorageRoom
@@ -99,6 +100,7 @@ export class StorageRoom extends Room {
             objects.push(new ClosetItem());
             objects.push(new MirrorItem());
             objects.push(new LightItem());
+            objects.push(new GateKeyItem());
         }
 
         return objects;
