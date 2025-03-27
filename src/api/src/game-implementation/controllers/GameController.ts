@@ -10,6 +10,7 @@ import { gameService } from "../../global";
 import { SwitchPageActionResult } from "../actionResults/SwitchPageActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { TalkChoice } from "../../game-base/actions/TalkAction";
+import { PlayerSession } from "../types";
 
 /**
  * Controller to handle all game related requests
@@ -138,6 +139,7 @@ export class GameController {
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
     private async convertActionResultToGameState(actionResult?: ActionResult, selectedItem?: string): Promise<GameState | undefined> {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         // If the client application has to switch pages, handle it now.
         if (actionResult instanceof SwitchPageActionResult) {
             return {
@@ -162,6 +164,12 @@ export class GameController {
 
         if (actionResult instanceof TextActionResult && !selectedItem) {
             text = actionResult.text;
+        }
+        else if (selectedItem === "DiaryItem" && !playerSession.keyFallen) {
+           text = [
+                "As you flip the pages of the diary, a rusty key falls out",
+                "I should keep this safe for now. I might need it",
+            ];
         }
         else if (selectedItem) {
             text = ["You get the " + selectedItem + " from your inventory."];
@@ -202,6 +210,7 @@ export class GameController {
 
         // Get Inventory
         const inventory: string[] = gameService.getPlayerSession().inventory;
+        const gameOptions: string[] = ["sound", "restart"];
 
         const gameOptions: string[] = ["sound", "restart"];
 

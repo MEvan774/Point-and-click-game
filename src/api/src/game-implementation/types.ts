@@ -3,6 +3,7 @@
  *
  * @remarks Can only contain JSON data types
  */
+
 export type PlayerSession = {
     // Alias of the room the player is in
     currentRoom: string;
@@ -51,6 +52,15 @@ export type PlayerSession = {
     openedFreezer: boolean;
     // True when walked to freezer
     walkedToFreezer: boolean;
+    // variables for ghostChar's ingredients given
+    givenEyes: boolean;
+    givenTongue: boolean;
+    // variable for checking if player does a minigame
+    startedMinigame: boolean;
     // True when picked up saw
     pickedUpSaw: boolean;
+    // Game Options
+    gameOptions: string[];
+    // True when opened first time
+    keyFallen: boolean;
 };

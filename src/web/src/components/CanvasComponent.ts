@@ -5,6 +5,7 @@ import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
+import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -30,23 +31,25 @@ const styles: string = css`
     }
 
     .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        margin-top: 10px;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+}
 
-    .header img {
-        width: 1022px; /* Scale up while maintaining aspect ratio */
-        height: auto; /* Keeps aspect ratio */
-        image-rendering: pixelated;
-        bottom: 0;
-    }
+.header img {
+    width: 1022px; /* Keeps aspect ratio */
+    height: auto;
+    image-rendering: pixelated;
+    position: absolute;  /* Ensure all images layer */
+    top: 0;  /* Align from top */
+    left: 0; /* Align from left */
+}
 
-    .header img:nth-child(n + 2) {
-        position: absolute;
-    }
+.header img:first-child {
+    position: relative; /* Keeps first image as base */
+}
 
     .content {
         flex-grow: 1;
@@ -83,14 +86,14 @@ const styles: string = css`
         z-index: 10;
     }
     .footer img {
-        image-rendering: pixelated; /* Keeps the pixelated look */
-    width: 1022px; /* Scale up while maintaining aspect ratio */
-    height: auto; /* Keeps aspect ratio */
-    position: absolute;
-    margin-top: -103px; /* Adjust as needed */
-    z-index: 1;
-    pointer-events: none;
-    z-index: 10;
+        image-rendering: pixelated;
+        width: 1022px; /* Scale up while maintaining aspect ratio */
+        height: auto; /* Keeps aspect ratio */
+        position: absolute;
+        margin-top: -103px;
+        z-index: 1;
+        pointer-events: none;
+        z-index: 10;
     }
 
     .footer .buttons {
@@ -136,7 +139,7 @@ const styles: string = css`
         filter: brightness(1.2);
     }
 
-    .options {
+        .options {
         float: right;
         background-color: transparent;
         border: none;
@@ -152,15 +155,17 @@ const styles: string = css`
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 999;
         display: flex;
-        justifyContent: center;
-        alignItems: center;
+        justify-content: "center";
+        align-items: "center";
     }
 
     .overlayOptions {
-        backgroundColor = "#fff";
-        padding = "20px";
-        borderRadius = "8px";
-        textAlign = "center";
+        background-color: "#fff";
+        padding: "20px";
+        border-radius: "8px";
+        text-align: "center";
+    }
+
     .button-Startup {
         z-index: 1;
         background-color: #e9efec;
@@ -193,9 +198,12 @@ export class CanvasComponent extends HTMLElement {
     /** Current selected inventory item */
     private _selectedInventoryItem?: string;
 
+    /** clickable hitboxes that are present on screen */
     private hitBoxes: HitBox[] = [];
     private isActionTalk: boolean = false;
+    /** All the flashlights active in the room, primairly used for disabling the flashlight */
     private _lights: FlashLightUseItem[] = [];
+    private _vomitMinigame: VomitMinigame | undefined;
 
     /**
      * The "constructor" of a Web Component
@@ -462,7 +470,8 @@ export class CanvasComponent extends HTMLElement {
             // <div class='overlayDiv'></div>
             // </div>`;
             const title: string = `<div class="title">${roomName}<br>
-            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+            <img src='/assets/img/Items/black.png' height='50px'/>
+            </div>`;
 
             return title;
         }
@@ -668,6 +677,10 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
             await this.render();
         }
+
+        if (action.alias === "taste") {
+            this._vomitMinigame = new VomitMinigame(this);
+        }
     }
 
     // Creates all hitboxes for the room
@@ -765,5 +778,12 @@ export class CanvasComponent extends HTMLElement {
             this._lights[i].DisableFlashLight();
         }
         this.hitBoxes = [];
+    }
+
+    /** Removes flashlight from the array and html */
+    public DisableMinigame(): void {
+        this._vomitMinigame = undefined;
+        // Removes the warning message: this._vomitMinigame is declared but never read.
+        console.log(this._vomitMinigame);
     }
 }

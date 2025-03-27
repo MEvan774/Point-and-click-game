@@ -57,7 +57,11 @@ import { PressAction } from "../actions/PressAction";
 import { WinScreenRoom } from "../rooms/WinScreenRoom";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { EyesItem } from "../items/EyesItem";
+import { TongueItem } from "../items/TongueItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
+import { PanItem } from "../items/PanItem";
+import { TasteAction } from "../actions/TasteAction";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -118,6 +122,9 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(FreezerItem);
         this.registerGameObject(LightSwitchItem);
         this.registerGameObject(ToStartupItem);
+        this.registerGameObject(EyesItem);
+        this.registerGameObject(TongueItem);
+        this.registerGameObject(PanItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -134,6 +141,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(PickUpAction);
         this.registerAction(StopHidingAction);
         this.registerAction(GoToStartupAction);
+        this.registerAction(TasteAction);
     }
 
     /**
@@ -144,7 +152,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         return {
             currentRoom: StartupRoom.Alias,
             lastRoom: "",
-            inventory: ["OutsideKeyItem", "CrowbarItem"],
+            inventory: [],
             selectedItem: "",
             hiddenIn: "",
             walkedToBathtub: false,
@@ -165,7 +173,12 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
+            givenEyes: false,
+            givenTongue: false,
             pickedUpSaw: false,
+            startedMinigame: false,
+            gameOptions: [],
+            keyFallen: false,
         };
     }
 
