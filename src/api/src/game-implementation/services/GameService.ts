@@ -59,11 +59,11 @@ import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { EyesItem } from "../items/EyesItem";
 import { TongueItem } from "../items/TongueItem";
-import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { PanItem } from "../items/PanItem";
 import { TasteAction } from "../actions/TasteAction";
 import { GateKeyItem } from "../items/GateKeyItem";
 import { LightItem } from "../items/LightItem";
+import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 
 /**
  * Implementation of the game service used to operate the game engine

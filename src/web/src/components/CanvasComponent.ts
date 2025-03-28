@@ -125,8 +125,9 @@ const styles: string = css`
         image-rendering: pixelated;
         background: none;
         color: inherit;
-        border: none;
-        padding: 0;
+        border: 2px solid white;
+        border-radius: 20px;
+        padding: 4px;
         font: inherit;
         cursor: pointer;
         outline: inherit;
@@ -177,6 +178,10 @@ const styles: string = css`
         display: inline-block;
         user-select: none;
         font-size: 40px;
+    }
+
+    .redText {
+        color: red;
     }
 `;
 
@@ -404,7 +409,8 @@ export class CanvasComponent extends HTMLElement {
                 return title;
             }
             const title: string = `<div class="title">${roomName}<br>
-            <img src='/assets/img/Items/black.png' height='50px'/>
+            <img src='/public/assets/img/Items/black.png' height='50px'/>
+            <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
             </div>`;
 
             return title;
@@ -468,15 +474,20 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the content element
      */
     private renderContent(): string {
+        // Return an empty string if on the startup, game-over or winscreen
         if (this._currentGameState?.roomAlias === "startup" ||
           this._currentGameState?.roomAlias === "game-over" ||
           this._currentGameState?.roomAlias === "win") {
-            return `
-            `;
+            return "";
         }
+
+        // Else return the text and make the text getting an item red
         return `
             <div class="content">
-                ${this._currentGameState?.text.map(text => `<p>${text}</p>`).join("") || ""}
+            ${this._currentGameState?.text
+            .map(text =>
+                `<p class="${text.includes("+") ? "redText" : ""}">${text}</p>`
+            ).join("") || ""}
             </div>
         `;
     }
