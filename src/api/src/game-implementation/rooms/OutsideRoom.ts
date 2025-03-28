@@ -5,8 +5,12 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { OpenAction } from "../actions/OpenAction";
 import { DoorOutsideFrontdoor } from "../items/doors/DoorOutsideFrontdoor";
 import { DoorOutsideShed } from "../items/doors/DoorOutsideShed";
+import { GateItem } from "../items/doors/GateItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 
 /**
  * Implemention of the bedroom room
@@ -33,14 +37,16 @@ export class OutsideRoom extends Room {
     /**
      * @inheritdoc
      */
-    //    public images(): string[] {
-    //        return ["outsideRoom"];
-    //    }
+    public images(): string[] {
+        return ["Outside"];
+    }
 
     public actions(): Action[] {
         return [
             new ExamineAction(),
             new GoToAction(),
+            new OpenAction(),
+            new GoToStartupAction(),
         ];
     }
 
@@ -48,6 +54,8 @@ export class OutsideRoom extends Room {
         return [
             new DoorOutsideFrontdoor(),
             new DoorOutsideShed(),
+            new GateItem(),
+            new ToStartupItem(),
         ];
     }
 

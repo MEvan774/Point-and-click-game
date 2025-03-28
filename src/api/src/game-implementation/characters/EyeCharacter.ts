@@ -14,7 +14,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
 
     public _position: Vector2 = { x: -318, y: 100 };
     public _size: Vector2 = { x: 350, y: 450 };
-    public _isDebugHitboxVisible: boolean = true;
+    public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
 
     // Create a new instance of EyeCharacter.
@@ -92,6 +92,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                     playerSession.walkedToBathtub = false;
                     return new TextActionResult([
                         "You snatched the key and ran away...",
+                        "+1 KeyItem",
                     ]);
                 }
                 else {

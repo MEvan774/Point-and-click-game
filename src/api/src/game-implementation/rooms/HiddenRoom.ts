@@ -7,6 +7,8 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { StopHidingItem } from "../items/StopHidingItem";
 import { StopHidingAction } from "../actions/StopHidingAction";
 import { gameService } from "../../global";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 
 /**
  * Implemention of the storage room
@@ -39,6 +41,7 @@ export class HiddenRoom extends Room {
         const objects: GameObject[] = [];
 
         objects.push(new StopHidingItem());
+        objects.push(new ToStartupItem());
 
         return objects;
     }
@@ -52,6 +55,7 @@ export class HiddenRoom extends Room {
         const actions: Action[] = [
             new ExamineAction(),
             new StopHidingAction(),
+            new GoToStartupAction(),
         ];
 
         return actions;
@@ -71,10 +75,18 @@ export class HiddenRoom extends Room {
                 "You are hidden in the closet",
             ]);
         }
+        else {
+            // Checks if the player is hidden in the Bedroom
+            if (room === "bedroom") {
+                return new TextActionResult([
+                    "You are hidden under the bed",
+                ]);
+            }
 
-        // If no room is found
-        return new TextActionResult([
-            "You are hidden",
-        ]);
+            // If no room is found
+            return new TextActionResult([
+                "You are hidden",
+            ]);
+        }
     }
 }
