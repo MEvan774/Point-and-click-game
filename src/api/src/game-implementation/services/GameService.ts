@@ -66,6 +66,7 @@ import { GateKeyItem } from "../items/GateKeyItem";
 import { LightItem } from "../items/LightItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { FuelItem } from "../items/FuelItem";
+import { GateItem } from "../items/doors/GateItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -133,6 +134,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(GateKeyItem);
         this.registerGameObject(LightItem);
         this.registerGameObject(FuelItem);
+        this.registerGameObject(GateItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -187,6 +189,8 @@ export class GameService extends BaseGameService<PlayerSession> {
             startedMinigame: false,
             gameOptions: [],
             keyFallen: false,
+            gateItemsUsed: 0,
+            gateOpen: false,
         };
     }
 

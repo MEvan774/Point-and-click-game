@@ -6,8 +6,10 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FirstAidItem } from "../items/FirstAidItem";
 import { PlayerSession } from "../types";
 
@@ -62,6 +64,7 @@ export class WorkRoom extends Room implements Examine {
             new FirstAidItem(),
             new DiaryItem(),
             new DoorOfficeHallwayItem(),
+            new ToStartupItem(),
         ];
         return objects;
     }
@@ -74,6 +77,7 @@ export class WorkRoom extends Room implements Examine {
         const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
+            new GoToStartupAction(),
         ];
         return actions;
     }

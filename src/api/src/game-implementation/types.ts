@@ -62,4 +62,8 @@ export type PlayerSession = {
     gameOptions: string[];
     // True when opened first time
     keyFallen: boolean;
+    // Items used on gate
+    gateItemsUsed: number;
+    // Is gate open
+    gateOpen: boolean;
 };
