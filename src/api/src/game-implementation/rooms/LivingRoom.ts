@@ -14,6 +14,8 @@ import { KitchenRoom } from "./KitchenRoom";
 import { TongueItem } from "../items/TongueItem";
 import { PlayerSession } from "../types";
 import { PickUpAction } from "../actions/PickUpAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 
 /**
  * Implemention of the startup room
@@ -60,6 +62,7 @@ export class LivingRoom extends Room {
         const objects: GameObject[] = [];
         objects.push(new DoorLivingRoomFrontDoorItem());
         objects.push(new DoorLivingRoomKitchenItem());
+        objects.push(new ToStartupItem());
 
         if (!playerSession.inventory.includes("Eyes") && !playerSession.givenEyes)
             objects.push(new EyesItem());
@@ -73,7 +76,7 @@ export class LivingRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction(), new PickUpAction()];
+        return [new ExamineAction(), new GoToAction(), new PickUpAction(), new GoToStartupAction()];
     }
 
     /**

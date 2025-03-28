@@ -148,7 +148,12 @@ export class GameController {
 
         // The room can have changed after executing an action, so we have to retrieve the player session again!
         const room: Room | undefined = gameService
-            .getGameObjectByAlias(gameService.getPlayerSession().currentRoom) as Room | undefined;
+            .getGameObjectByAlias(playerSession.currentRoom) as Room | undefined;
+
+        if (playerSession.currentRoom !== "startup" && playerSession.currentRoom !== "win" &&
+          playerSession.currentRoom !== "game-over") {
+            playerSession.lastRoom = playerSession.currentRoom;
+        }
 
         // If no current room is found, this request is invalid.
         if (!room) {

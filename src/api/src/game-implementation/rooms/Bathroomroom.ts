@@ -11,6 +11,8 @@ import { BathroomItem } from "../items/BathroomItem";
 import { PlayerSession } from "../types";
 import { EyeCharacter } from "../characters/EyeCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 
 /**
  * Implementation of the bathroom room
@@ -60,7 +62,7 @@ export class BathroomRoom extends Room implements Examine {
      * @returns Objects in the room.
      */
     public objects(): GameObject[] {
-        const objects: GameObject[] = [];
+        const objects: GameObject[] = [new ToStartupItem()];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
@@ -86,6 +88,7 @@ export class BathroomRoom extends Room implements Examine {
         const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
+            new GoToStartupAction(),
         ];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
