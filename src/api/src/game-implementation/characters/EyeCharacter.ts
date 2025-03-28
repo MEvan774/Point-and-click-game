@@ -92,6 +92,7 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                     playerSession.walkedToBathtub = false;
                     return new TextActionResult([
                         "You snatched the key and ran away...",
+                        "+1 KeyItem",
                     ]);
                 }
                 else {

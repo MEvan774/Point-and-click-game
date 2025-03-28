@@ -90,7 +90,10 @@ export class CorpseCharacter extends Character implements Examine, Talk {
                     playerSession.openedFreezer = false;
                     playerSession.pickedUpSaw = true;
                     playerSession.inventory.push("MetalSawItem");
-                    return new TextActionResult(["You grab the saw from the corpse as gently as you can so you don't disturb it further"]);
+                    return new TextActionResult([
+                        "You grab the saw from the corpse as gently as you can so you don't disturb it further",
+                        "+1 MetalSawItem",
+                    ]);
                 }
                 else {
                     playerSession.openedFreezer = false;
