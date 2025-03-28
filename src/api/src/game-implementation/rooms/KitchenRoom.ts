@@ -7,9 +7,11 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { PickUpAction } from "../actions/PickUpAction";
 import { TasteAction } from "../actions/TasteAction";
 import { GhostCharacter } from "../characters/GhostCharacter";
 import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomItem";
+import { FuelItem } from "../items/FuelItem";
 import { PanItem } from "../items/PanItem";
 import { PlayerSession } from "../types";
 import { LivingRoom } from "./LivingRoom";
@@ -60,8 +62,10 @@ export class KitchenRoom extends Room {
         gameObjects.push(new DoorKitchenLivingRoomItem(), new GhostCharacter());
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
-        if (playerSession.inventory.includes("CrowbarItem"))
+        if (playerSession.inventory.includes("CrowbarItem")) {
             gameObjects.push(new PanItem());
+            gameObjects.push(new FuelItem());
+        }
 
         return gameObjects;
     }
@@ -71,7 +75,7 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction(), new TalkAction(), new TasteAction()];
+        return [new ExamineAction(), new GoToAction(), new TalkAction(), new TasteAction(), new PickUpAction()];
     }
 
     /**

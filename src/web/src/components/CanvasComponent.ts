@@ -282,8 +282,6 @@ export class CanvasComponent extends HTMLElement {
         this.shadowRoot.append(...elements);
 
         this.attachInventoryButtonListeners();
-
-        console.log(this._currentGameState?.actions);
     }
 
     private async goToStartup(): Promise<void> {
@@ -399,6 +397,7 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
+                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
                     "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
@@ -625,7 +624,8 @@ export class CanvasComponent extends HTMLElement {
         }
 
         if (action.alias === "taste") {
-            this._vomitMinigame = new VomitMinigame(this);
+            const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
+            this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
         }
     }
 
@@ -703,6 +703,10 @@ export class CanvasComponent extends HTMLElement {
                 }
             }
         }, 0);
+    }
+
+    public async setEndMinigameAction(actionAlias: string, objectAlias: string): Promise<void> {
+        await this.setHitboxAction(actionAlias, objectAlias);
     }
 
     /** Removes all hiboxes from the canvas making place for new hitboxes */

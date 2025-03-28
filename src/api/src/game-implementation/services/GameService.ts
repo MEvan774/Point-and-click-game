@@ -30,6 +30,7 @@ import { OutsideRoom } from "../rooms/OutsideRoom";
 import { WorkRoom } from "../rooms/WorkRoom";
 import { DiaryItem } from "../items/DiaryItem";
 import { ClosetItem } from "../items/Closetitem";
+import { BedItem } from "../items/BedItem";
 import { HideAction } from "../actions/HideAction";
 import { PickUpAction } from "../actions/PickUpAction";
 import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
@@ -64,6 +65,7 @@ import { TasteAction } from "../actions/TasteAction";
 import { GateKeyItem } from "../items/GateKeyItem";
 import { LightItem } from "../items/LightItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
+import { FuelItem } from "../items/FuelItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -107,6 +109,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(DoorOfficeHallwayItem);
         this.registerGameObject(DiaryItem);
         this.registerGameObject(ClosetItem);
+        this.registerGameObject(BedItem);
         this.registerGameObject(CenterStorageLeftItem);
         this.registerGameObject(DoorBedroomItem);
         this.registerGameObject(DoorBedroomBathroomItem);
@@ -129,6 +132,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(PanItem);
         this.registerGameObject(GateKeyItem);
         this.registerGameObject(LightItem);
+        this.registerGameObject(FuelItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);

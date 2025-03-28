@@ -1,32 +1,39 @@
 import { CanvasComponent } from "../../../../web/src/components/CanvasComponent";
+import { ActionTypes } from "../../game-base/enums/ActionAlias";
 
 /**
  * @author Milan
  * This object makes an overlay for the vomitMinigame and makes it playable in any room its instantiated
  */
 export class VomitMinigame {
+    private mashSound: HTMLAudioElement;
     private container: HTMLElement;
     private progressBar: HTMLElement;
     private progressFill: HTMLElement;
-    private message: HTMLElement;
-    private mashButton: HTMLButtonElement;
-    private readyButton: HTMLButtonElement;
+    public message: HTMLElement;
+    private readyText: HTMLElement;
     private overlay: HTMLElement;
     private progress = 0;
     private timeHeld = 0;
     private fillRate = 2;
     private interval: ReturnType<typeof setInterval> | undefined;
     private gameRunning = false;
-    private isGameFinished = false;
+    private isgameFinnished = false;
     private _canvas: CanvasComponent;
     private intervalTime = 500;
+    private _isFuelInInventory: boolean;
 
     /**
      * Instantiates html elements for the minigame
      * @param canvas Used to remove the reference to self in the canvasComponent
      */
-    public constructor(canvas: CanvasComponent) {
+    public constructor(canvas: CanvasComponent, mashSound: HTMLAudioElement, isFuelInInventory: boolean) {
         this._canvas = canvas;
+        this._isFuelInInventory = isFuelInInventory;
+        console.log(this._isFuelInInventory);
+        document.addEventListener("keydown", event => this.handleKeyPress(event));
+        this.mashSound = mashSound;
+        this.mashSound.volume = 0.5;
         this.overlay = document.createElement("div");
         this.overlay.style.position = "fixed";
         this.overlay.style.top = "0";
@@ -38,7 +45,6 @@ export class VomitMinigame {
         this.overlay.style.alignItems = "center";
         this.overlay.style.justifyContent = "center";
         this.overlay.style.zIndex = "5";
-        this.overlay.addEventListener("click", () => this.exitMinigame());
 
         this.container = document.createElement("div");
         this.container.style.textAlign = "center";
@@ -48,18 +54,17 @@ export class VomitMinigame {
         this.container.style.padding = "20px";
         this.container.style.zIndex = "20";
 
-        this.readyButton = document.createElement("button");
-        this.readyButton.textContent = "I'm Ready";
-        this.readyButton.style.padding = "10px 20px";
-        this.readyButton.style.fontSize = "32px";
-        this.readyButton.style.cursor = "pointer";
-        this.readyButton.style.background = "#e9efec";
-        this.readyButton.style.fontFamily = "DungeonFont";
-        this.readyButton.style.zIndex = "100";
-        this.readyButton.style.background = "#e9efec";
-        this.readyButton.addEventListener("click", () => this.startGame());
+        this.readyText = document.createElement("div");
+        this.readyText.textContent = "Mash space to start!";
+        this.readyText.style.fontSize = "32px";
+        this.readyText.style.fontFamily = "DungeonFont";
+        this.readyText.style.zIndex = "100";
 
-        this.container.appendChild(this.readyButton);
+        const progressWrapper: HTMLDivElement = document.createElement("div");
+        progressWrapper.style.display = "inline-block"; // Prevents affecting other elements
+        progressWrapper.style.transition = "transform 0.1s ease-in-out"; // Smooth shrinking effect
+
+        this.container.appendChild(this.readyText);
 
         const gameUI: HTMLDivElement = document.createElement("div");
         gameUI.style.display = "none";
@@ -90,20 +95,13 @@ export class VomitMinigame {
         this.progressFill.style.transition = "width 0.1s";
         this.progressBar.appendChild(this.progressFill);
 
-        this.mashButton = document.createElement("button");
-        this.mashButton.textContent = "Mash to Hold It In!";
-        this.mashButton.style.padding = "10px 20px";
-        this.mashButton.style.fontSize = "1.5em";
-        this.mashButton.style.cursor = "pointer";
-        this.mashButton.style.background = "#e9efec";
-        this.mashButton.style.fontFamily = "DungeonFont";
-        this.mashButton.style.zIndex = "100";
-        this.mashButton.addEventListener("click", () => this.mashButtonHandler());
-        gameUI.appendChild(this.mashButton);
+        progressWrapper.appendChild(this.progressBar);
+        gameUI.appendChild(progressWrapper);
 
         this.message = document.createElement("div");
         this.message.style.fontFamily = "DungeonFont";
         this.message.style.fontSize = "32px";
+        this.message.style.marginTop = "20px";
         this.message.style.marginTop = "20px";
         gameUI.appendChild(this.message);
 
@@ -114,35 +112,21 @@ export class VomitMinigame {
         const style: HTMLStyleElement = document.createElement("style");
         style.innerHTML = `
 @keyframes shake {
-    0% { transform: translateY(0); }
-    25% { transform: translateY(-2px); }
-    50% { transform: translateY(2px); }
-    75% { transform: translateY(-2px); }
-    100% { transform: translateY(0); }
+    0% { transform: scale(1) translateY(0); }
+    25% { transform: scale(1) translateY(-2px); }
+    50% { transform: scale(1) translateY(2px); }
+    75% { transform: scale(1) translateY(-2px); }
+    100% { transform: scale(1) translateY(0); }
 }
     @keyframes shake-intense {
-    0% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-6px) rotate(-0.1deg); }
-    50% { transform: translateY(6px) rotate(0.1deg); }
-    75% { transform: translateY(-6px) rotate(-0.1deg); }
-    100% { transform: translateY(0) rotate(0deg); }
+    0% { transform: scale(1) translateY(0) rotate(0deg); }
+    25% { transform: scale(1) translateY(-6px) rotate(-0.1deg); }
+    50% { transform: scale(1) translateY(6px) rotate(0.1deg); }
+    75% { transform: scale(1) translateY(-6px) rotate(-0.1deg); }
+    100% { transform: scale(1) translateY(0) rotate(0deg); }
 }
 `;
         document.head.appendChild(style);
-
-        const buttonStyle: HTMLStyleElement = document.createElement("style");
-        buttonStyle.innerHTML = `
-button {
-    transition: transform 0.05s ease-in-out;
-}
-button:hover {
-    transform: scale(1.05); /* Slightly bigger */
-}
-button:active {
-    transform: scale(0.95); /* Shrinks when clicked */
-}
-`;
-        document.head.appendChild(buttonStyle);
     }
 
     /**
@@ -155,12 +139,22 @@ button:active {
         this.gameRunning = true;
 
         this.progressFill.style.width = "0%";
-        this.message.innerText = "";
+        this.message.innerText = "Keep mashing!";
 
         this.overlay.style.visibility = "visible";
         (this.container.children[1] as HTMLElement).style.display = "block";
-        this.readyButton.style.display = "none";
+        this.readyText.style.display = "none";
         this.interval = setInterval(() => this.updateGame(), this.intervalTime);
+    }
+
+    private handleKeyPress(event: KeyboardEvent): void {
+        if (!this.gameRunning && !this.isgameFinnished)
+            this.startGame();
+        else if (!this.isgameFinnished)
+            this.mashButtonHandler();
+
+        // Prevent default spacebar scrolling
+        event.preventDefault();
     }
 
     private updateGame(): void {
@@ -173,33 +167,37 @@ button:active {
         this.progress += this.fillRate;
         this.progressFill.style.width = `${this.progress}%`;
 
-        if (this.progress >= 50) {
+        if (this.progress >= 50)
             this.progressBar.style.animation = "shake-intense 0.1s infinite";
-        }
-        else if (this.progress >= 10) {
+        else if (this.progress >= 10)
             this.progressBar.style.animation = "shake 0.1s infinite";
-        }
-        else {
+        else
             this.progressBar.style.animation = "none"; // Stop shaking at low levels
-        }
 
         if (this.progress >= 100) {
             this.progress = 100;
+            this.isgameFinnished = true;
             this.progressBar.style.animation = "none";
             clearInterval(this.interval);
             this.message.innerText = "You vomited... The ghost is displeased.";
             this.gameRunning = false;
-            setTimeout(() => this.isGameFinished = true, 1400);
+            setTimeout(() => this.exitMinigame(), 2000);
         }
 
         this.timeHeld += 0.5;
-        if (this.timeHeld >= 25) {
+        if (this.timeHeld >= 24) {
+            this.isgameFinnished = true;
             this.progressBar.style.animation = "none";
             this.progressFill.style.background = "#a0a08b";
+            if (!this._isFuelInInventory) {
+                this.message.innerText = "Congrats, you recieved Feul!";
+                void this._canvas.setEndMinigameAction(ActionTypes.PickUp, "fuel");
+            }
+            else
+                this.message.innerText = "Congrats retard, you recieved food poisoning!";
             clearInterval(this.interval);
-            this.message.innerText = "You swallowed it... barely.";
             this.gameRunning = false;
-            setTimeout(() => this.isGameFinished = true, 1400);
+            setTimeout(() => this.exitMinigame(), 6000);
         }
 
         if (this.timeHeld % 2 === 0 && this.intervalTime > 100) {
@@ -211,20 +209,38 @@ button:active {
         }
     }
 
+    private shrinkProgressWrapper(): void {
+        this.progressBar.parentElement!.style.transform = "scale(0.90)"; // Shrinks the wrapper
+        this.progressFill.style.background = "#e9efec";
+        setTimeout(() => {
+            this.progressBar.parentElement!.style.transform = "scale(1)";
+            if (!this.isgameFinnished)
+                this.progressFill.style.background = "#ff0014";
+            else
+                this.progressFill.style.background = "#a0a08b";
+        }, 50);
+    }
+
     // Handles the mashButton and removes progress from the bar
     private mashButtonHandler(): void {
-        if (this.gameRunning && this.progress > 0) {
+        if (!this.gameRunning)
+            return;
+
+        if (this.progress > 0) {
             this.progress -= 10;
             if (this.progress < 0) this.progress = 0;
             this.progressFill.style.width = `${this.progress}%`;
+        }
+        this.shrinkProgressWrapper();
+        if (this.mashSound.paused) {
+            this.mashSound.currentTime = 0;
+            void this.mashSound.play();
         }
     }
 
     // removes itself from the document and from the canvas component
     private exitMinigame(): void {
-        if (this.isGameFinished) {
-            this._canvas.DisableMinigame();
-            document.body.removeChild(this.overlay);
-        }
+        this._canvas.DisableMinigame();
+        document.body.removeChild(this.overlay);
     }
 }
