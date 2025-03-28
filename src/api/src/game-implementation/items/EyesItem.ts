@@ -34,6 +34,7 @@ export class EyesItem extends Item implements Examine, PickUp {
         playerSession.inventory.push("Eyes");
         return new TextActionResult([
             "You pick up the eyes.",
+            "+1 Eyes",
         ]);
     }
 }

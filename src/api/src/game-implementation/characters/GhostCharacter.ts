@@ -230,6 +230,7 @@ export class GhostCharacter extends Character implements Examine, Talk {
                     this,
                     [
                         "You left with the crowbar, eager to break open the door.",
+                        "+1 CrowbarItem",
                     ],
                     [
                     ]

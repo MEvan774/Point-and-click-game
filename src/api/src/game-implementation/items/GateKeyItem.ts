@@ -79,6 +79,7 @@ export class GateKeyItem extends Item implements Examine, PickUp {
 
         return new TextActionResult([
             "You pick up the key.",
+            "+1 GateKeyItem",
         ]);
     }
 }

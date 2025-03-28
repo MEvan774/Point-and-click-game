@@ -34,6 +34,7 @@ export class TongueItem extends Item implements Examine, PickUp {
         playerSession.inventory.push("Tongue");
         return new TextActionResult([
             "You ripped the tongue off the wall.",
+            "+1 Tongue",
         ]);
     }
 }

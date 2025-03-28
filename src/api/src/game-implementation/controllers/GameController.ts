@@ -164,9 +164,10 @@ export class GameController {
             text = actionResult.text;
         }
         else if (selectedItem === "DiaryItem" && !playerSession.keyFallen) {
-           text = [
+            text = [
                 "As you flip the pages of the diary, a rusty key falls out",
                 "I should keep this safe for now. I might need it",
+                "+1 OutsideKeyItem",
             ];
         }
         else if (selectedItem) {
