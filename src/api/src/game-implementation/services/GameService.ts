@@ -65,6 +65,7 @@ import { PanItem } from "../items/PanItem";
 import { TasteAction } from "../actions/TasteAction";
 import { GateKeyItem } from "../items/GateKeyItem";
 import { LightItem } from "../items/LightItem";
+import { FuelItem } from "../items/FuelItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -131,6 +132,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(PanItem);
         this.registerGameObject(GateKeyItem);
         this.registerGameObject(LightItem);
+        this.registerGameObject(FuelItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
