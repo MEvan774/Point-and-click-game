@@ -37,6 +37,7 @@ export type PlayerSession = {
     clickedFirstAid: boolean;
     // True when player picked up the FirstAidItem
     pickedUpFirstAid: boolean;
+    gameOptions: string[];
     // True when the CrowbarItem is used on the FrontDoorItem
     planksGone: boolean;
     // True when the OutsideKeyItem is used on the FrontDoorItem
