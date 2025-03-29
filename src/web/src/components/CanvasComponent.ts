@@ -108,8 +108,10 @@ const styles: string = css`
         z-index: 2000;
         background-color: #e9efec;
         color: #211e20;
+        border: 3px solid black;
+        border-radius: 5px;
         padding: 5px 10px;
-        margin: 0 0 10px 10px;
+        margin: 10px 10px 10px 10px;
         font-weight: bold;
         cursor: pointer;
         display: inline-block;
@@ -118,6 +120,9 @@ const styles: string = css`
 
     .footer .button.active,
     .footer .button:hover {
+        // transform: scale(105%);
+        padding: 10px 15px;
+        margin: 5px 0px 10px 10px;
         background-color: #a0a08b;
     }
 
@@ -397,8 +402,7 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
-                    "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'><img src='public/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
                 title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
