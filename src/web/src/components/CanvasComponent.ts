@@ -6,6 +6,7 @@ import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
+import { OverlayComponent } from "./OverlayComponent";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -124,6 +125,7 @@ const styles: string = css`
         padding: 10px 15px;
         margin: 5px 0px 10px 10px;
         background-color: #a0a08b;
+        background-color:rgb(160, 160, 139);
     }
 
     .buttonImage {
@@ -145,31 +147,11 @@ const styles: string = css`
         filter: brightness(1.2);
     }
 
-        .options {
+    .options {
         float: right;
         background-color: transparent;
         border: none;
         cursor: pointer;
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 15%;
-        height: 15%;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 999;
-        display: flex;
-        justify-content: "center";
-        align-items: "center";
-    }
-
-    .overlayOptions {
-        background-color: "#fff";
-        padding: "20px";
-        border-radius: "8px";
-        text-align: "center";
     }
 
     .button-Startup {
@@ -214,6 +196,8 @@ export class CanvasComponent extends HTMLElement {
     /** All the flashlights active in the room, primairly used for disabling the flashlight */
     private _lights: FlashLightUseItem[] = [];
     private _vomitMinigame: VomitMinigame | undefined;
+    /** Initiates the audio */
+    private ambianceSound!: HTMLAudioElement;
 
     /**
      * The "constructor" of a Web Component
@@ -268,25 +252,178 @@ export class CanvasComponent extends HTMLElement {
         if (!this.shadowRoot) {
             return;
         }
-
         const elements: HTMLElement[] = htmlArray`
             <style>
                 ${styles}
             </style>
-
+    
             ${this.renderTitle()}
             ${this.renderHeader()}
             ${this.renderContent()}
             ${this.renderFooter()}
         `;
-
         while (this.shadowRoot.firstChild) {
             this.shadowRoot.firstChild.remove();
         }
-
         this.shadowRoot.append(...elements);
-
         this.attachInventoryButtonListeners();
+        this.attachOptionsButtonListener();
+        this.enableAudioOnInteraction();
+    }
+
+    private attachOptionsButtonListener(): void {
+        if (!this.shadowRoot) return;
+        const optionsButton: HTMLButtonElement | null = this.shadowRoot.querySelector("#optionsBtn");
+
+        if (optionsButton) {
+            optionsButton.addEventListener("click", () => {
+                console.log("Opties-knop geklikt!");
+                this.openOverlay();
+            });
+        }
+    }
+
+    private openOverlay(): void {
+        const overlay: OverlayComponent = new OverlayComponent(() => {
+            console.log("Overlay closed");
+        });
+        const optionsList: string[] = [
+            "Restart game",
+            "Sound",
+        ];
+        let optionsHtml: string = "<h1>Options:</h1>";
+        optionsList.forEach(option => {
+            optionsHtml += `<button class="option-btn">${option}</button>`;
+        });
+        const style: HTMLStyleElement = document.createElement("style");
+        style.textContent = `
+            .option-btn {
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: rgb(160, 160, 139);
+                padding: 8px;
+                text-align: center;
+                font-weight: bolder;
+                width: 300px;
+                height: 50px;
+                border: solid 2px rgb(85, 85, 104);
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            label {
+                color: rgb(160, 160, 139);
+            }
+        `;
+        document.head.appendChild(style);
+        overlay.show(optionsHtml);
+        const optionButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn");
+        optionButtons.forEach(button => {
+            button.addEventListener("click", async e => {
+                const optionText: string | null = (e.target as HTMLButtonElement).textContent;
+                if (optionText === "Sound") {
+                    this.showSoundOptions(overlay);
+                }
+                if (optionText === "Restart game") {
+                    await this.restartGame(overlay);
+                }
+            });
+        });
+    }
+
+    private async restartGame(overlay?: OverlayComponent): Promise<void> {
+        if (overlay) {
+            overlay.closeOverlay();
+        }
+
+        localStorage.clear();
+
+        await this.goToStartup();
+
+        await this.refreshGameState();
+    }
+
+    private showSoundOptions(overlay: OverlayComponent): void {
+        // Dit is de "Sound" instellingen-overlay
+        const soundHtml: string = `
+            <h2>Geluidinstellingen</h2>
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.01" value="${this.ambianceSound.volume}">
+            <button id="mute-btn" class="option-btn">${this.ambianceSound.muted ? "Unmute" : "Mute"}</button>
+            <button id="back-btn" class="option-btn">Return to options</button>
+        `;
+        const style: HTMLStyleElement = document.createElement("style");
+        style.textContent = `
+            .option-btn {
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: rgb(160, 160, 139);
+                padding: 8px;
+                text-align: center;
+                font-weight: bolder;
+                width: 300px;
+                height: 50px;
+                border: solid 2px rgb(85, 85, 104);
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            label {
+                color: rgb(160, 160, 139);
+            }
+        `;
+        document.head.appendChild(style);
+        overlay.show(soundHtml);
+        const volumeSlider: HTMLInputElement | null = document.querySelector("#volume");
+        const muteButton: HTMLButtonElement | null = document.querySelector("#mute-btn");
+        const backButton: HTMLButtonElement | null = document.querySelector("#back-btn");
+        // Verander het volume op basis van de slider
+        if (volumeSlider) {
+            volumeSlider.addEventListener("input", event => {
+                const volume: string = (event.target as HTMLInputElement).value;
+                this.ambianceSound.volume = parseFloat(volume);
+            });
+        }
+        if (muteButton) {
+            muteButton.addEventListener("click", () => {
+                this.ambianceSound.muted = !this.ambianceSound.muted;
+                muteButton.textContent = this.ambianceSound.muted ? "Unmute" : "Mute";
+            });
+        }
+        if (backButton) {
+            backButton.addEventListener("click", () => {
+                this.openOverlay();
+            });
+        }
+    }
+
+    private enableAudioOnInteraction(): void {
+        const startBttn: HTMLButtonElement | null | undefined = this.shadowRoot?.querySelector(".button-Startup");
+        if (startBttn) {
+            startBttn.addEventListener("click", () => {
+                this.playSounds();
+            }, { once: true });
+        }
+    }
+
+    private playSounds(): void {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (!this.ambianceSound) {
+            this.ambianceSound = new Audio("public/audio/ambiancesound.wav");
+            this.ambianceSound.volume = 0.5;
+            this.ambianceSound.loop = true;
+
+            this.ambianceSound.play().catch((error: unknown) => {
+                if (error instanceof Error) {
+                    console.error("Audio kon niet worden afgespeeld:", error.message);
+                }
+                else {
+                    console.error("Onbekende fout bij het afspelen van audio.");
+                }
+            });
+        }
     }
 
     private async goToStartup(): Promise<void> {
@@ -389,7 +526,6 @@ export class CanvasComponent extends HTMLElement {
 
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
-
         if (roomName && inventory) {
             if (inventory.length > 0) {
                 let title: string = `<div class="title">${roomName}<br>`;
@@ -411,6 +547,10 @@ export class CanvasComponent extends HTMLElement {
 
                 return title;
             }
+            // return `<div class="title">${roomName}<br>
+            // <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
+            // <div class='overlayDiv'></div>
+            // </div>`;
             const title: string = `<div class="title">${roomName}<br>
             <img src='/public/assets/img/Items/black.png' height='50px'/>
             <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
@@ -418,7 +558,6 @@ export class CanvasComponent extends HTMLElement {
 
             return title;
         }
-
         return "";
     }
 

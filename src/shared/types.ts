@@ -27,7 +27,7 @@ export type DefaultGameState = {
     inventory: string[];
     /** Selected item */
     selectedItem: string;
-    // Game options
+    /** Game options */
     gameOptions: string[];
 };
 
