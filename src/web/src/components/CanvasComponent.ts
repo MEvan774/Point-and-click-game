@@ -257,7 +257,7 @@ export class CanvasComponent extends HTMLElement {
         this.shadowRoot.append(...elements);
         this.attachInventoryButtonListeners();
         this.attachOptionsButtonListener();
-        this.playSounds();
+        this.enableAudioOnInteraction();
     }
 
     private attachOptionsButtonListener(): void {
@@ -373,12 +373,22 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
+    private enableAudioOnInteraction(): void {
+        const startBttn: HTMLButtonElement | null | undefined = this.shadowRoot?.querySelector(".button-Startup");
+        if (startBttn) {
+            startBttn.addEventListener("click", () => {
+                this.playSounds();
+            }, { once: true }); // Zorgt ervoor dat het maar één keer wordt uitgevoerd
+        }
+    }
+
     private playSounds(): void {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!this.ambianceSound) {
             this.ambianceSound = new Audio("public/audio/ambiancesound.wav");
             this.ambianceSound.volume = 0.5;
             this.ambianceSound.loop = true;
+
             this.ambianceSound.play().catch((error: unknown) => {
                 if (error instanceof Error) {
                     console.error("Audio kon niet worden afgespeeld:", error.message);
