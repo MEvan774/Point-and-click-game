@@ -314,6 +314,9 @@ export class CanvasComponent extends HTMLElement {
                 if (optionText === "Sound") {
                     this.showSoundOptions(overlay);
                 }
+                if (optionText === "Restart game") {
+                    // this.restartGame();
+                }
             });
         });
     }
@@ -378,7 +381,7 @@ export class CanvasComponent extends HTMLElement {
         if (startBttn) {
             startBttn.addEventListener("click", () => {
                 this.playSounds();
-            }, { once: true }); // Zorgt ervoor dat het maar één keer wordt uitgevoerd
+            }, { once: true });
         }
     }
 
