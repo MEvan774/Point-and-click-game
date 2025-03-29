@@ -48,6 +48,13 @@ export class GateItem extends Item implements Examine, GoTo, Open {
      * @returns TextActionResult with the state of the gate (open/closed)
      */
     public examine(): ActionResult | undefined {
+        if (gameService.getPlayerSession().gateOpen) {
+            return new TextActionResult([
+                "You have opened the gate.",
+                "Quick, escape before they find you!",
+            ]);
+        }
+
         return new TextActionResult([
             "This gate is between you and your freedom...",
             "There must be a way to open it.",

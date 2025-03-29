@@ -4,6 +4,7 @@ import { Action } from "../../game-base/actions/Action";
 import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
+import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { OpenAction } from "../actions/OpenAction";
@@ -38,6 +39,10 @@ export class OutsideRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
+        if (gameService.getPlayerSession().gateOpen) {
+            return ["OutsideGateOpen"];
+        }
+
         return ["Outside"];
     }
 
