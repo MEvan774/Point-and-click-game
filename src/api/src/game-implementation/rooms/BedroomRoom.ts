@@ -9,6 +9,8 @@ import { HideAction } from "../actions/HideAction";
 import { DoorBedroomBathroomItem } from "../items/doors/DoorBedroomBathroomItem";
 import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
 import { BedItem } from "../items/BedItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 
 /**
  * Implemention of the bedroom room
@@ -50,6 +52,7 @@ export class BedroomRoom extends Room {
             new ExamineAction(),
             new GoToAction(),
             new HideAction(),
+            new GoToStartupAction(),
         ];
     }
 
@@ -61,6 +64,7 @@ export class BedroomRoom extends Room {
             new DoorBedroomItem(),
             new DoorBedroomBathroomItem(),
             new BedItem(),
+            new ToStartupItem(),
         ];
     }
 

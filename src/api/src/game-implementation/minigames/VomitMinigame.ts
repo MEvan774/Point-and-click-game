@@ -185,7 +185,7 @@ export class VomitMinigame {
         }
 
         this.timeHeld += 0.5;
-        if (this.timeHeld >= 24) {
+        if (this.timeHeld >= 23) {
             this.isgameFinnished = true;
             this.progressBar.style.animation = "none";
             this.progressFill.style.background = "#a0a08b";
