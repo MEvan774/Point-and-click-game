@@ -309,16 +309,28 @@ export class CanvasComponent extends HTMLElement {
         overlay.show(optionsHtml);
         const optionButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn");
         optionButtons.forEach(button => {
-            button.addEventListener("click", e => {
+            button.addEventListener("click", async e => {
                 const optionText: string | null = (e.target as HTMLButtonElement).textContent;
                 if (optionText === "Sound") {
                     this.showSoundOptions(overlay);
                 }
                 if (optionText === "Restart game") {
-                    // this.restartGame();
+                    await this.restartGame(overlay);
                 }
             });
         });
+    }
+
+    private async restartGame(overlay?: OverlayComponent): Promise<void> {
+        if (overlay) {
+            overlay.closeOverlay();
+        }
+
+        localStorage.clear();
+
+        await this.goToStartup();
+
+        await this.refreshGameState();
     }
 
     private showSoundOptions(overlay: OverlayComponent): void {

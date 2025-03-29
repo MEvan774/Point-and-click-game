@@ -70,7 +70,7 @@ export class OverlayComponent {
         document.body.appendChild(this.overlay);
     }
 
-    private closeOverlay(): void {
+    public closeOverlay(): void {
         document.body.removeChild(this.overlay);
         this.onClose();
     }
