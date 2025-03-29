@@ -734,6 +734,17 @@ export class CanvasComponent extends HTMLElement {
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
         if (object) {
+            // Play footsteps sound
+            if (action.alias === "go to") {
+                this.playFootstepsSound(object.alias);
+
+                if (object.alias.includes("Door") || object.alias.includes("door") || object.alias.includes("Shed")) {
+                    if (!object.alias.includes("Stair")) {
+                        this.playDoorSound();
+                    }
+                }
+            }
+
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
             if (state === undefined) {
@@ -769,6 +780,55 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias === "taste") {
             const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
+        }
+    }
+
+    private playFootstepsSound(object?: string): void {
+        let footstepsSound: HTMLAudioElement;
+
+        if (object === "StairToFrontDoor" || object === "FrontDoorToStair") {
+            footstepsSound = new Audio("public/audio/soundEffects/footstepsStairs.mp3");
+            footstepsSound.volume = 0.3;
+        }
+        else if (object === "Outside Shed room" || object === "Shed Outside room" ||
+          object === "Outside Frontdoor room" || object === "DoorFrontDoorOutsideItem") {
+            footstepsSound = new Audio("public/audio/soundEffects/footstepsOutside.mp3");
+            footstepsSound.volume = 0.3;
+        }
+        else if (object === "GateItem") {
+            return;
+        }
+        else {
+            footstepsSound = new Audio("public/audio/soundEffects/footsteps.mp3");
+            footstepsSound.volume = 0.8;
+            footstepsSound.playbackRate = 1.5;
+        }
+
+        if (footstepsSound.paused) {
+            footstepsSound.play().catch((error: unknown) => {
+                if (error instanceof Error) {
+                    console.error("Audio kon niet worden afgespeeld:", error.message);
+                }
+                else {
+                    console.error("Onbekende fout bij het afspelen van audio.");
+                }
+            });
+        }
+    }
+
+    private playDoorSound(): void {
+        const doorSound: HTMLAudioElement = new Audio("public/audio/soundEffects/door.mp3");
+        doorSound.volume = 0.2;
+
+        if (doorSound.paused) {
+            doorSound.play().catch((error: unknown) => {
+                if (error instanceof Error) {
+                    console.error("Audio kon niet worden afgespeeld:", error.message);
+                }
+                else {
+                    console.error("Onbekende fout bij het afspelen van audio.");
+                }
+            });
         }
     }
 
