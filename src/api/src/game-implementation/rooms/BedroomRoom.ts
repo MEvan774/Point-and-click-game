@@ -5,8 +5,12 @@ import { ExamineAction } from "../../game-base/actions/ExamineAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorBedroomBathroomItem } from "../items/DoorBedroomBathroomItem";
-import { DoorBedroomItem } from "../items/DoorBedroomItem";
+import { HideAction } from "../actions/HideAction";
+import { DoorBedroomBathroomItem } from "../items/doors/DoorBedroomBathroomItem";
+import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
+import { BedItem } from "../items/BedItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 
 /**
  * Implemention of the bedroom room
@@ -24,6 +28,7 @@ export class BedroomRoom extends Room {
     }
 
     /**
+     * Shows the name of the room.
      * @inheritdoc
      */
     public name(): string {
@@ -31,27 +36,40 @@ export class BedroomRoom extends Room {
     }
 
     /**
+     * Shows the image of the room.
      * @inheritdoc
      */
     public images(): string[] {
         return ["bedroomRoom"];
     }
 
+    /**
+     * Shows all the available actions in the room
+     * @inheritdoc
+     */
     public actions(): Action[] {
         return [
             new ExamineAction(),
             new GoToAction(),
-        ];
-    }
-
-    public objects(): GameObject[] {
-        return [
-            new DoorBedroomItem(),
-            new DoorBedroomBathroomItem(),
+            new HideAction(),
+            new GoToStartupAction(),
         ];
     }
 
     /**
+     * @returns Objects in the room
+     */
+    public objects(): GameObject[] {
+        return [
+            new DoorBedroomItem(),
+            new DoorBedroomBathroomItem(),
+            new BedItem(),
+            new ToStartupItem(),
+        ];
+    }
+
+    /**
+     * Shows the description of the room.
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {

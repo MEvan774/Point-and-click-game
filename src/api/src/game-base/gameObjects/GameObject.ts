@@ -7,15 +7,17 @@ import { ActionTypes } from "../enums/ActionAlias";
 export abstract class GameObject {
     /** Alias of this game object */
 
-    /** Sets what kind of action this object will excecute.
-     * If new actions are added, the ActionAlias.ts has to be edited in the enums folder
-     * by adding the new action alias from the action class.
+    /**
+     * @param _action determines which action will be executed when clicked on.
+     * @param _position determines where the hitbox will be located.
+     * @param _size determines the size of the hibox
+     * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
+     * @param _validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.GoTo;
     private _alias: string;
     public _position: Vector2 = { x: 0, y: 0 };
     public _size: Vector2 = { x: 0, y: 0 };
-    /** Makes the hitbox visible for debugging */
     public _isDebugHitboxVisible: boolean = false;
     private _validActions: string[];
 

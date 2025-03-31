@@ -6,10 +6,12 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DoorHallwayBedroomItem } from "../items/DoorHallwayBedroomroomItem";
-import { DoorHallwayOfficeItem } from "../items/DoorHallwayOfficeItem";
-import { DoorHallwayStorageRoomItem } from "../items/DoorHallwayStorageRoomItem";
-import { HallwayFrontDoorItem } from "../items/HallwayFrontDoorItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { DoorHallwayBedroomItem } from "../items/doors/DoorHallwayBedroomroomItem";
+import { DoorHallwayOfficeItem } from "../items/doors/DoorHallwayOfficeItem";
+import { DoorHallwayStorageRoomItem } from "../items/doors/DoorHallwayStorageRoomItem";
+import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { LivingRoom } from "./LivingRoom";
 
 /**
@@ -48,6 +50,7 @@ export class HallwayRoom extends Room {
             new DoorHallwayStorageRoomItem(),
             new DoorHallwayOfficeItem(),
             new DoorHallwayBedroomItem(),
+            new ToStartupItem(),
         ];
     }
 
@@ -55,7 +58,7 @@ export class HallwayRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction()];
+        return [new ExamineAction(), new GoToAction(), new GoToStartupAction()];
     }
 
     /**

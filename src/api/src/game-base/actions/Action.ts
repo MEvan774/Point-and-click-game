@@ -49,5 +49,5 @@ export abstract class Action {
      *
      * @returns Result of the action or `undefined` if unhandled
      */
-    public abstract execute(alias: string, gameObjects: GameObject[]): ActionResult | undefined;
+    public abstract execute(alias: string, gameObjects?: GameObject[]): ActionResult | undefined;
 }

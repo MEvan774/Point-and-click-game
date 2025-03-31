@@ -49,6 +49,7 @@ export class FirstAidItem extends Item implements Examine, PickUp {
         playerSession.inventory.push("FirstAidItem");
         return new TextActionResult([
             "You pick up the First Aid kit",
+            "+1 FirstAidItem",
         ]);
     }
 }

@@ -6,9 +6,10 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
-import { DeskItem } from "../items/DeskItem";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { DiaryItem } from "../items/DiaryItem";
-import { DoorOfficeHallwayItem } from "../items/DoorOfficeHallwayItem";
+import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FirstAidItem } from "../items/FirstAidItem";
 import { PlayerSession } from "../types";
 
@@ -42,6 +43,10 @@ export class WorkRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
         if (playerSession.selectedItem === "DiaryItem") {
+            if (!playerSession.keyFallen) {
+                playerSession.keyFallen = true;
+                playerSession.inventory.push("OutsideKeyItem");
+            }
             result.push("diaryContent");
         }
         else {
@@ -56,10 +61,10 @@ export class WorkRoom extends Room implements Examine {
      */
     public objects(): GameObject[] {
         const objects: GameObject[] = [
-            new DeskItem(),
             new FirstAidItem(),
             new DiaryItem(),
             new DoorOfficeHallwayItem(),
+            new ToStartupItem(),
         ];
         return objects;
     }
@@ -72,6 +77,7 @@ export class WorkRoom extends Room implements Examine {
         const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
+            new GoToStartupAction(),
         ];
         return actions;
     }

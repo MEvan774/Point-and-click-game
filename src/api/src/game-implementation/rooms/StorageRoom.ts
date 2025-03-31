@@ -12,33 +12,37 @@ import { SafeItem } from "../items/SafeItem";
 import { OpenAction } from "../actions/OpenAction";
 import { gameService } from "../../global";
 import { PlayerSession } from "../types";
-import { DoorStorageHallwayItem } from "../items/DoorStorageHallwayItem";
+import { DoorStorageHallwayItem } from "../items/doors/DoorStorageHallwayItem";
 import { HideAction } from "../actions/HideAction";
 import { ClosetItem } from "../items/Closetitem";
-import { CenterStorageItem } from "../items/CenterStorageItem";
+import { CenterStorageLeftItem } from "../items/CenterStorageLeftItem";
+import { CenterStorageRightItem } from "../items/CenterStorageRightItem";
+import { LightItem } from "../items/LightItem";
+import { GateKeyItem } from "../items/GateKeyItem";
+import { PickUpAction } from "../actions/PickUpAction";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 
 /**
- * Implemention of the storage room
+ * Implemention of the StorageRoom
  */
 export class StorageRoom extends Room {
-    /** Alias of this room */
+    // Alias of this room
     public static readonly Alias: string = "StorageRoom";
 
-    /**
-     * Create a new instance of this room
-     */
+    // Create a new instance of this room
     public constructor() {
         super(StorageRoom.Alias);
     }
 
-    /**
-     * @inheritdoc
-     */
+    // Name of the room, used for buttons for example
     public name(): string {
         return "Storage Room";
     }
 
     /**
+     * Images for the room, changes when the player is near the MirrorItem or the riddle is solved
+     *
      * @inheritdoc
      */
     public images(): string[] {
@@ -46,69 +50,104 @@ export class StorageRoom extends Room {
 
         const result: string[] = [];
 
+        // If the riddle has not been solved and the player is near the MirrorItem
         if (!playerSession.solvedRiddle && playerSession.walkedToMirror) {
             result.push("darkMirror");
         }
-        else if (!playerSession.walkedToMirror && !playerSession.solvedRiddle) {
+
+        // If the riddle has not been solved and the player is not near the MirrorItem
+        if (!playerSession.solvedRiddle && !playerSession.walkedToMirror) {
             result.push("StorageRoomDark");
         }
-        else if (!playerSession.walkedToMirror && playerSession.solvedRiddle) {
+
+        // If the riddle has been solved and the player is not near the MirrorItem
+        if (playerSession.solvedRiddle && !playerSession.walkedToMirror) {
             result.push("StorageRoomLight");
         }
-        else {
+
+        // If the riddle has been solved and the player is near the MirrorItem
+        if (playerSession.solvedRiddle && playerSession.walkedToMirror) {
             result.push("lightMirror");
         }
 
         return result;
     }
 
+    /**
+     * The objects in the Room, changes wether the riddle has been solved and the player is near the
+     * MirrorItem
+     *
+     * @returns Array of the GameObjects in the Room
+     */
     public objects(): GameObject[] {
         const objects: GameObject[] = [];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
+        objects.push(new ToStartupItem());
+
+        // If the player is near the MirrorItem and hasn't solved the riddle, pushes the MirrorCharacter
         if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
             objects.push(new MirrorCharacter());
         }
 
+        // If the player is near the MirrorItem, pushes the left and right of the center of the StorageRoom
         if (playerSession.walkedToMirror) {
-            objects.push(new CenterStorageItem());
+            objects.push(new CenterStorageLeftItem());
+            objects.push(new CenterStorageRightItem());
         }
 
+        // If the player is not near the MirrorItem, pushes the SafeItem, DoorStorageHallwayItem, ClosetItem
+        // And the MirrorItem
         if (!playerSession.walkedToMirror) {
             objects.push(new SafeItem());
             objects.push(new DoorStorageHallwayItem());
             objects.push(new ClosetItem());
             objects.push(new MirrorItem());
+            objects.push(new LightItem());
+            objects.push(new GateKeyItem());
         }
 
         return objects;
     }
 
+    /**
+     * The actions in the Room
+     *
+     * @returns Array of the Actions in the Room
+     */
     public actions(): Action[] {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
         const actions: Action[] = [
             new ExamineAction(),
             new GoToAction(),
+            new TalkAction(),
+            new OpenAction(),
+            new HideAction(),
+            new PickUpAction(),
+            new GoToStartupAction(),
         ];
-
-        if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {
-            actions.push(new TalkAction());
-        }
-        if (!playerSession.walkedToMirror) {
-            actions.push(new OpenAction());
-            actions.push(new HideAction());
-        }
 
         return actions;
     }
 
     /**
+     * Tells about the state of the Room, changes if the riddle has been solved
+     *
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
         gameService.getPlayerSession().walkedToMirror = false;
 
+        // Checks if the riddle has been solved
+        if (gameService.getPlayerSession().solvedRiddle) {
+            return new TextActionResult([
+                "Now that the light is on, you can see everything more clearly.",
+                "The smell of blood is still hanging in the air",
+                "At least the mirror is back to normal.",
+            ]);
+        }
+
+        // If the riddle has not been solved
         return new TextActionResult([
             "The room is dark, and there is a strong smell of blood.",
             "You can see something in the mirror",
