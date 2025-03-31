@@ -849,7 +849,7 @@ export class CanvasComponent extends HTMLElement {
     private Timer(): void {
         setInterval(() => {
             location.reload(); // This will refresh the page
-        }, 1000000); // in 40 seconds
+        }, 80000); // in 50 seconds
     }
 
     /**
