@@ -52,7 +52,7 @@ export class LivingroomItem extends Item implements Examine, Hide {
     }
 
     /**
-     * Brings the player to the HiddenRoom and saves the StorageRoom in the PlayerSession
+     * Brings the player to the HiddenRoom and saves the livingroom in the PlayerSession
      *
      * @returns room.examine() of the HiddenRoom
      */
