@@ -67,4 +67,6 @@ export type PlayerSession = {
     gateItemsUsed: number;
     // Is gate open
     gateOpen: boolean;
+    // True when fueled up
+    carFueled: boolean;
 };

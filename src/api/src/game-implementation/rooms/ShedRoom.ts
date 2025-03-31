@@ -6,11 +6,13 @@ import { TalkAction } from "../../game-base/actions/TalkAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { FuelAction } from "../actions/FuelAction";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { OpenAction } from "../actions/OpenAction";
 import { PressAction } from "../actions/PressAction";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
+import { CarItem } from "../items/CarItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FreezerItem } from "../items/FreezerItem";
@@ -50,6 +52,7 @@ export class ShedRoom extends Room implements Examine {
             new FreezerItem(),
             new DoorShedOutside(),
             new ToStartupItem(),
+            new CarItem(),
         ];
         const playerSession: PlayerSession = gameService.getPlayerSession();
         if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
@@ -69,6 +72,7 @@ export class ShedRoom extends Room implements Examine {
             actions.push(new OpenAction());
         }
         actions.push(new GoToStartupAction());
+        actions.push(new FuelAction());
 
         return actions;
     }

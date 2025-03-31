@@ -6,6 +6,7 @@ import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
+import { FuelFillingMinigame } from "../../../api/src/game-implementation/minigames/FuelMinigame";
 import { OverlayComponent } from "./OverlayComponent";
 
 /** CSS affecting the {@link CanvasComponent} */
@@ -196,6 +197,8 @@ export class CanvasComponent extends HTMLElement {
     /** All the flashlights active in the room, primairly used for disabling the flashlight */
     private _lights: FlashLightUseItem[] = [];
     private _vomitMinigame: VomitMinigame | undefined;
+    private _fuelMinigame: FuelFillingMinigame | undefined;
+
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
 
@@ -780,6 +783,10 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias === "taste") {
             const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
+        }
+        if (action.alias === "fuel") {
+            const fuelSound: HTMLAudioElement = new Audio("public/audio/soundEffects/fuel-fill.mp3");
+            this._fuelMinigame = new FuelFillingMinigame(this, fuelSound);
         }
     }
 
