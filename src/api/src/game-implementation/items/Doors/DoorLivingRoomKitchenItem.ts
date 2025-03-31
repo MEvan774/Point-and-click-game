@@ -7,6 +7,7 @@ import { Room } from "../../../game-base/gameObjects/Room";
 import { gameService } from "../../../global";
 import { KitchenRoom } from "../../rooms/KitchenRoom";
 import { GoTo } from "../../actions/GoToAction";
+import { Timer } from "../../../game-base/timer/Timer";
 
 /**
  * Base class used to represent an item
@@ -50,9 +51,15 @@ export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
      * @returns room.examine() for the KitchenRoom
      */
     public goto(): ActionResult | undefined {
+        new Timer();
+
         const livingRoom: Room = new KitchenRoom();
 
         gameService.getPlayerSession().currentRoom = livingRoom.alias;
         return livingRoom.examine();
+    }
+
+    public startTimer(): void {
+        new Timer(); // This will instantiate Timer
     }
 }

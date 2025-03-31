@@ -7,7 +7,7 @@ export class Timer {
     public static readonly Alias: string = "timer";
 
     // Constructor initializes the timer
-    public constructor(private timeoutDuration: number = 2000) {
+    public constructor(private timeoutDuration: number = 9000) {
         this.startTimer(); // Start the timer immediately when Timer is created
     }
 
