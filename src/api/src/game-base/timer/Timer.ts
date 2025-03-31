@@ -17,7 +17,7 @@ export class Timer {
         setInterval(() => {
             const playerSession: PlayerSession = gameService.getPlayerSession();
 
-            if (!playerSession.walkedToBathtub || !playerSession.walkedToMirror) {
+            if (!playerSession.walkedToBathtub || !playerSession.walkedToMirror || !playerSession.walkedToFreezer) {
                 this.transitionToGameOverRoom();
             }
         }, this.timeoutDuration); // Timeout duration, e.g., every 2 seconds
