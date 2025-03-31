@@ -34,6 +34,11 @@ export class WinScreenRoom extends Room implements Simple {
      * @inheritdoc
      */
     public images(): string[] {
+        // Check if escaped with car
+        if (gameService.getPlayerSession().lastRoom === "Shed") {
+            return [""];
+        }
+
         return ["WinScreen"];
     }
 
