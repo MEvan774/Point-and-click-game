@@ -23,8 +23,6 @@ export class FuelFillingMinigame {
     private interval: ReturnType<typeof setInterval> | undefined;
     private fillRate = 2.2;
     private maxFuel = 100;
-    private carFueled: boolean;
-    
 
     public constructor(canvas: CanvasComponent, fuelSound: HTMLAudioElement) {
         this._canvas = canvas;
@@ -32,7 +30,7 @@ export class FuelFillingMinigame {
         this.fuelSound.volume = 1.0;
         this.completeSound = new Audio("public/audio/soundEffects/task-complete.mp3");
         this.completeSound.volume = 1.0;
-        this.carFueled = false;
+    
         document.addEventListener("keydown", event => this.handleKeyDown(event));
         document.addEventListener("keyup", event => this.handleKeyUp(event));
 
