@@ -10,6 +10,7 @@ import { gameService } from "../../global";
 import { SwitchPageActionResult } from "../actionResults/SwitchPageActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { TalkChoice } from "../../game-base/actions/TalkAction";
+import { PlayerSession } from "../types";
 
 /**
  * Controller to handle all game related requests
@@ -62,7 +63,6 @@ export class GameController {
      * @remarks Response is a 200 with a `GameState` on success, otherwise a 500.
      */
     public async handleActionRequest(req: Request, res: Response): Promise<void> {
-        console.log("Controller");
         // Extract the data from the request body
         const executeActionRequest: ExecuteActionRequest = req.body as ExecuteActionRequest;
 
@@ -107,7 +107,6 @@ export class GameController {
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
     private async executeAction(actionAlias: string, gameObjectAliases?: string[]): Promise<GameState | undefined> {
-        console.log("controller");
         // If no game object aliases are defined, use the current room instead.
         if (!gameObjectAliases || gameObjectAliases.length === 0) {
             gameObjectAliases = [gameService.getPlayerSession().currentRoom];
@@ -138,6 +137,7 @@ export class GameController {
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
     private async convertActionResultToGameState(actionResult?: ActionResult, selectedItem?: string): Promise<GameState | undefined> {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         // If the client application has to switch pages, handle it now.
         if (actionResult instanceof SwitchPageActionResult) {
             return {
@@ -148,7 +148,12 @@ export class GameController {
 
         // The room can have changed after executing an action, so we have to retrieve the player session again!
         const room: Room | undefined = gameService
-            .getGameObjectByAlias(gameService.getPlayerSession().currentRoom) as Room | undefined;
+            .getGameObjectByAlias(playerSession.currentRoom) as Room | undefined;
+
+        if (playerSession.currentRoom !== "startup" && playerSession.currentRoom !== "win" &&
+          playerSession.currentRoom !== "game-over") {
+            playerSession.lastRoom = playerSession.currentRoom;
+        }
 
         // If no current room is found, this request is invalid.
         if (!room) {
@@ -162,6 +167,13 @@ export class GameController {
 
         if (actionResult instanceof TextActionResult && !selectedItem) {
             text = actionResult.text;
+        }
+        else if (selectedItem === "DiaryItem" && !playerSession.keyFallen) {
+            text = [
+                "As you flip the pages of the diary, a rusty key falls out",
+                "I should keep this safe for now. I might need it",
+                "+1 OutsideKeyItem",
+            ];
         }
         else if (selectedItem) {
             text = ["You get the " + selectedItem + " from your inventory."];
@@ -202,6 +214,7 @@ export class GameController {
 
         // Get Inventory
         const inventory: string[] = gameService.getPlayerSession().inventory;
+        const gameOptions: string[] = ["sound", "restart"];
 
         // Combine all data into a game state
         return {
@@ -214,6 +227,7 @@ export class GameController {
             objects: objects,
             inventory: inventory,
             selectedItem: selectedItem,
+            gameOptions,
         };
     }
 

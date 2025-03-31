@@ -7,8 +7,15 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { PickUpAction } from "../actions/PickUpAction";
+import { TasteAction } from "../actions/TasteAction";
 import { GhostCharacter } from "../characters/GhostCharacter";
 import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomItem";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { FuelItem } from "../items/FuelItem";
+import { PanItem } from "../items/PanItem";
+import { PlayerSession } from "../types";
 import { LivingRoom } from "./LivingRoom";
 
 /**
@@ -40,16 +47,29 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["KitchenRoom"];
+        const roomStates: string[] = [];
+        roomStates.push("KitchenRoom");
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("CrowbarItem"))
+            roomStates.push("PanItem");
+        return roomStates;
     }
 
     /**
      * @returns Objects in the room
      */
     public objects(): GameObject[] {
-        return [
-            new DoorKitchenLivingRoomItem(), new GhostCharacter(),
-        ];
+        const gameObjects: GameObject[] = [];
+        gameObjects.push(new DoorKitchenLivingRoomItem(), new GhostCharacter(), new ToStartupItem());
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("CrowbarItem")) {
+            gameObjects.push(new PanItem());
+            gameObjects.push(new FuelItem());
+        }
+
+        return gameObjects;
     }
 
     /**
@@ -57,7 +77,8 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction(), new TalkAction()];
+        return [new ExamineAction(), new GoToAction(), new TalkAction(), new TasteAction(),
+            new PickUpAction(), new GoToStartupAction()];
     }
 
     /**
@@ -65,7 +86,8 @@ export class KitchenRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["I smell a strong rotting smell... I feel sick.",
+        return new TextActionResult(["You smell a strong rotting smell...",
+            "You begin to feel sick.",
         ]);
     }
 

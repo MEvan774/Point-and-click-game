@@ -86,6 +86,7 @@ export class SafeItem extends Item implements Examine, Open {
                 "You put the code you found into the safe.",
                 "...",
                 "It works! You found the flashlight.",
+                "+1 FlashlightItem",
             ]);
         }
 

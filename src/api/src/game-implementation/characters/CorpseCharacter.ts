@@ -60,31 +60,45 @@ export class CorpseCharacter extends Character implements Examine, Talk {
                     this,
                     ["The corpse looks like it has been here for quite a while."],
                     [
-                        new TalkChoice(2, "Am I really talking to a corpse?"),
-                        new TalkChoice(4, "Walk away."),
-                    ]
-                );
-            case 2:
-                return new TalkActionResult(
-                    this,
-                    ["Yes, I am dead. Somehow my spirit lingers in this freezer and is unable to depart."],
-                    [
-                        new TalkChoice(3, "I am sorry this happened to you"),
+                        new TalkChoice(3, "Am I really talking to a corpse?"),
                         new TalkChoice(4, "Walk away."),
                     ]
                 );
             case 3:
                 return new TalkActionResult(
                     this,
-                    ["The presence of the spirit seems to wander off, maybe you set it free."],
+                    ["Yes, I am dead. Somehow my spirit lingers in this freezer and is unable to depart."],
                     [
-                        new TalkChoice(2, "Take metalsaw"),
+                        new TalkChoice(5, "I am sorry this happened to you"),
                         new TalkChoice(4, "Walk away."),
                     ]
                 );
             case 4:
-                playerSession.walkedToFreezer = false;
-                return new TextActionResult(["You walk away from the freezer."]);
+                playerSession.openedFreezer = false;
+                return new TextActionResult(["You close the freezer and walk away."]);
+            case 5:
+                return new TalkActionResult(
+                    this,
+                    ["The presence of the spirit seems to wander off, maybe you set it free."],
+                    [
+                        new TalkChoice(6, "Take metalsaw"),
+                        new TalkChoice(4, "Walk away."),
+                    ]
+                );
+            case 6:
+                if (!playerSession.pickedUpSaw) {
+                    playerSession.openedFreezer = false;
+                    playerSession.pickedUpSaw = true;
+                    playerSession.inventory.push("MetalSawItem");
+                    return new TextActionResult([
+                        "You grab the saw from the corpse as gently as you can so you don't disturb it further",
+                        "+1 MetalSawItem",
+                    ]);
+                }
+                else {
+                    playerSession.openedFreezer = false;
+                    return new TextActionResult(["You already grabbed the saw.\nThis spot makes a good hiding place, however you try to respect the dead."]);
+                }
         }
         return undefined;
     }

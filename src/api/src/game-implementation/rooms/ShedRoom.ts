@@ -7,9 +7,12 @@ import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { OpenAction } from "../actions/OpenAction";
 import { PressAction } from "../actions/PressAction";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
+import { DoorShedOutside } from "../items/doors/DoorShedOutside";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FreezerItem } from "../items/FreezerItem";
 import { LightSwitchItem } from "../items/LightSwitchItem";
 import { PlayerSession } from "../types";
@@ -28,17 +31,15 @@ export class ShedRoom extends Room implements Examine {
     public images(): string[] {
         const result: string[] = [];
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (playerSession.pressedLight && !playerSession.walkedToFreezer) {
+        if (playerSession.pressedLight && !playerSession.openedFreezer) {
             result.push("ShedroomLight");
         }
-        else if (!playerSession.pressedLight && !playerSession.walkedToFreezer) {
-            result.push("ShedroomDark");
-        }
-
-        if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
+        if (playerSession.openedFreezer) {
             result.push("Freezer");
         }
-
+        else if (!playerSession.pressedLight) {
+            result.push("ShedroomDark");
+        }
         return result;
     }
 
@@ -46,9 +47,11 @@ export class ShedRoom extends Room implements Examine {
         const objects: GameObject[] = [
             new LightSwitchItem(),
             new FreezerItem(),
+            new DoorShedOutside(),
+            new ToStartupItem(),
         ];
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
+        if (playerSession.openedFreezer) {
             objects.push(new CorpseCharacter());
         }
         return objects;
@@ -61,6 +64,7 @@ export class ShedRoom extends Room implements Examine {
         actions.push(new TalkAction());
         actions.push(new PressAction());
         actions.push(new OpenAction());
+        actions.push(new GoToStartupAction());
 
         return actions;
     }
@@ -68,7 +72,7 @@ export class ShedRoom extends Room implements Examine {
     public examine(): ActionResult | undefined {
         return new TextActionResult([
             "This seems to be a shed, but it is very dark.",
-            "Maybe I should find the light switch, or use my flashlight",
+            "Maybe I should find the light switch.",
         ]);
     }
 }

@@ -19,7 +19,7 @@ export class BathroomItem extends Item implements Examine, GoTo {
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: -152, y: 337 };
     public _size: Vector2 = { x: 288, y: 100 };
-    public _isDebugHitboxVisible: boolean = !gameService.getPlayerSession().walkedToBathtub;
+    public _isDebugHitboxVisible: boolean = false;
 
     public static readonly validActions: string[] = [ActionTypes.GoTo];
 

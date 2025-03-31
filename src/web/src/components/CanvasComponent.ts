@@ -4,6 +4,9 @@ import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
+import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
+import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
+import { OverlayComponent } from "./OverlayComponent";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -25,26 +28,29 @@ const styles: string = css`
         text-align: center;
         margin-top: 10px;
         overflow: auto;
+        z-index: 10;
     }
 
     .header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: relative;
-        margin-top: 10px;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+}
 
-    .header img {
-        width: 1022px; /* Scale up while maintaining aspect ratio */
-        height: auto; /* Keeps aspect ratio */
-        image-rendering: pixelated;
-        bottom: 0;
-    }
+.header img {
+    width: 1022px; /* Keeps aspect ratio */
+    height: auto;
+    image-rendering: pixelated;
+    position: absolute;  /* Ensure all images layer */
+    top: 0;  /* Align from top */
+    left: 0; /* Align from left */
+}
 
-    .header img:nth-child(n + 2) {
-        position: absolute;
-    }
+.header img:first-child {
+    position: relative; /* Keeps first image as base */
+}
 
     .content {
         flex-grow: 1;
@@ -52,7 +58,7 @@ const styles: string = css`
         margin-top: 200px;
         bottom: 0;
         padding: 0 10px;
-        z-index: 1;
+        z-index: 10;
         background-color: #211e20;
         height: 110px;
         width: 833px;
@@ -63,10 +69,12 @@ const styles: string = css`
 
     .content p {
         margin: 0 0 10px 0;
+        z-index: 10;
     }
 
     .content p:last-of-type {
         margin: 0;
+        z-index: 10;
     }
 
     .footer {
@@ -76,15 +84,17 @@ const styles: string = css`
         border-radius: 10px 10px 0 0;
         bottom: 0;
         width: 857px;
+        z-index: 10;
     }
     .footer img {
-        image-rendering: pixelated; /* Keeps the pixelated look */
-    width: 1022px; /* Scale up while maintaining aspect ratio */
-    height: auto; /* Keeps aspect ratio */
-    position: absolute;
-    margin-top: -103px; /* Adjust as needed */
-    z-index: 1;
-    pointer-events: none;
+        image-rendering: pixelated;
+        width: 1022px; /* Scale up while maintaining aspect ratio */
+        height: auto; /* Keeps aspect ratio */
+        position: absolute;
+        margin-top: -103px;
+        z-index: 1;
+        pointer-events: none;
+        z-index: 10;
     }
 
     .footer .buttons {
@@ -99,8 +109,10 @@ const styles: string = css`
         z-index: 2000;
         background-color: #e9efec;
         color: #211e20;
+        border: 3px solid black;
+        border-radius: 5px;
         padding: 5px 10px;
-        margin: 0 0 10px 10px;
+        margin: 10px 10px 10px 10px;
         font-weight: bold;
         cursor: pointer;
         display: inline-block;
@@ -109,15 +121,20 @@ const styles: string = css`
 
     .footer .button.active,
     .footer .button:hover {
+        // transform: scale(105%);
+        padding: 10px 15px;
+        margin: 5px 0px 10px 10px;
         background-color: #a0a08b;
+        background-color:rgb(160, 160, 139);
     }
 
     .buttonImage {
         image-rendering: pixelated;
         background: none;
         color: inherit;
-        border: none;
-        padding: 0;
+        border: 2px solid white;
+        border-radius: 20px;
+        padding: 4px;
         font: inherit;
         cursor: pointer;
         outline: inherit;
@@ -128,6 +145,13 @@ const styles: string = css`
         border: 2px solid white;
         border-radius: 20px;
         filter: brightness(1.2);
+    }
+
+    .options {
+        float: right;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
     }
 
     .button-Startup {
@@ -141,6 +165,10 @@ const styles: string = css`
         display: inline-block;
         user-select: none;
         font-size: 40px;
+    }
+
+    .redText {
+        color: red;
     }
 `;
 
@@ -162,8 +190,14 @@ export class CanvasComponent extends HTMLElement {
     /** Current selected inventory item */
     private _selectedInventoryItem?: string;
 
+    /** clickable hitboxes that are present on screen */
     private hitBoxes: HitBox[] = [];
     private isActionTalk: boolean = false;
+    /** All the flashlights active in the room, primairly used for disabling the flashlight */
+    private _lights: FlashLightUseItem[] = [];
+    private _vomitMinigame: VomitMinigame | undefined;
+    /** Initiates the audio */
+    private ambianceSound!: HTMLAudioElement;
 
     /**
      * The "constructor" of a Web Component
@@ -220,25 +254,178 @@ export class CanvasComponent extends HTMLElement {
         if (!this.shadowRoot) {
             return;
         }
-
         const elements: HTMLElement[] = htmlArray`
             <style>
                 ${styles}
             </style>
-
+    
             ${this.renderTitle()}
             ${this.renderHeader()}
             ${this.renderContent()}
             ${this.renderFooter()}
         `;
-
         while (this.shadowRoot.firstChild) {
             this.shadowRoot.firstChild.remove();
         }
-
         this.shadowRoot.append(...elements);
-
         this.attachInventoryButtonListeners();
+        this.attachOptionsButtonListener();
+        this.enableAudioOnInteraction();
+    }
+
+    private attachOptionsButtonListener(): void {
+        if (!this.shadowRoot) return;
+        const optionsButton: HTMLButtonElement | null = this.shadowRoot.querySelector("#optionsBtn");
+
+        if (optionsButton) {
+            optionsButton.addEventListener("click", () => {
+                console.log("Opties-knop geklikt!");
+                this.openOverlay();
+            });
+        }
+    }
+
+    private openOverlay(): void {
+        const overlay: OverlayComponent = new OverlayComponent(() => {
+            console.log("Overlay closed");
+        });
+        const optionsList: string[] = [
+            "Restart game",
+            "Sound",
+        ];
+        let optionsHtml: string = "<h1>Options:</h1>";
+        optionsList.forEach(option => {
+            optionsHtml += `<button class="option-btn">${option}</button>`;
+        });
+        const style: HTMLStyleElement = document.createElement("style");
+        style.textContent = `
+            .option-btn {
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: rgb(160, 160, 139);
+                padding: 8px;
+                text-align: center;
+                font-weight: bolder;
+                width: 300px;
+                height: 50px;
+                border: solid 2px rgb(85, 85, 104);
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            label {
+                color: rgb(160, 160, 139);
+            }
+        `;
+        document.head.appendChild(style);
+        overlay.show(optionsHtml);
+        const optionButtons: NodeListOf<HTMLButtonElement> = document.querySelectorAll(".option-btn");
+        optionButtons.forEach(button => {
+            button.addEventListener("click", async e => {
+                const optionText: string | null = (e.target as HTMLButtonElement).textContent;
+                if (optionText === "Sound") {
+                    this.showSoundOptions(overlay);
+                }
+                if (optionText === "Restart game") {
+                    await this.restartGame(overlay);
+                }
+            });
+        });
+    }
+
+    private async restartGame(overlay?: OverlayComponent): Promise<void> {
+        if (overlay) {
+            overlay.closeOverlay();
+        }
+
+        localStorage.clear();
+
+        await this.goToStartup();
+
+        await this.refreshGameState();
+    }
+
+    private showSoundOptions(overlay: OverlayComponent): void {
+        // Dit is de "Sound" instellingen-overlay
+        const soundHtml: string = `
+            <h2>Geluidinstellingen</h2>
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.01" value="${this.ambianceSound.volume}">
+            <button id="mute-btn" class="option-btn">${this.ambianceSound.muted ? "Unmute" : "Mute"}</button>
+            <button id="back-btn" class="option-btn">Return to options</button>
+        `;
+        const style: HTMLStyleElement = document.createElement("style");
+        style.textContent = `
+            .option-btn {
+                background-color: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: rgb(160, 160, 139);
+                padding: 8px;
+                text-align: center;
+                font-weight: bolder;
+                width: 300px;
+                height: 50px;
+                border: solid 2px rgb(85, 85, 104);
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+            label {
+                color: rgb(160, 160, 139);
+            }
+        `;
+        document.head.appendChild(style);
+        overlay.show(soundHtml);
+        const volumeSlider: HTMLInputElement | null = document.querySelector("#volume");
+        const muteButton: HTMLButtonElement | null = document.querySelector("#mute-btn");
+        const backButton: HTMLButtonElement | null = document.querySelector("#back-btn");
+        // Verander het volume op basis van de slider
+        if (volumeSlider) {
+            volumeSlider.addEventListener("input", event => {
+                const volume: string = (event.target as HTMLInputElement).value;
+                this.ambianceSound.volume = parseFloat(volume);
+            });
+        }
+        if (muteButton) {
+            muteButton.addEventListener("click", () => {
+                this.ambianceSound.muted = !this.ambianceSound.muted;
+                muteButton.textContent = this.ambianceSound.muted ? "Unmute" : "Mute";
+            });
+        }
+        if (backButton) {
+            backButton.addEventListener("click", () => {
+                this.openOverlay();
+            });
+        }
+    }
+
+    private enableAudioOnInteraction(): void {
+        const startBttn: HTMLButtonElement | null | undefined = this.shadowRoot?.querySelector(".button-Startup");
+        if (startBttn) {
+            startBttn.addEventListener("click", () => {
+                this.playSounds();
+            }, { once: true });
+        }
+    }
+
+    private playSounds(): void {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        if (!this.ambianceSound) {
+            this.ambianceSound = new Audio("public/audio/ambiancesound.wav");
+            this.ambianceSound.volume = 0.5;
+            this.ambianceSound.loop = true;
+
+            this.ambianceSound.play().catch((error: unknown) => {
+                if (error instanceof Error) {
+                    console.error("Audio kon niet worden afgespeeld:", error.message);
+                }
+                else {
+                    console.error("Onbekende fout bij het afspelen van audio.");
+                }
+            });
+        }
     }
 
     private async goToStartup(): Promise<void> {
@@ -341,7 +528,6 @@ export class CanvasComponent extends HTMLElement {
 
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
-
         if (roomName && inventory) {
             if (inventory.length > 0) {
                 let title: string = `<div class="title">${roomName}<br>`;
@@ -354,20 +540,26 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'}><img src='public/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'><img src='public/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
-
+                title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
+                title += "<div class='overlayDiv'></div>";
                 title += "</div>";
 
                 return title;
             }
+            // return `<div class="title">${roomName}<br>
+            // <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
+            // <div class='overlayDiv'></div>
+            // </div>`;
             const title: string = `<div class="title">${roomName}<br>
-            <img src='/assets/img/Items/black.png' height='50px'/></div>`;
+            <img src='/public/assets/img/Items/black.png' height='50px'/>
+            <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
+            </div>`;
 
             return title;
         }
-
         return "";
     }
 
@@ -379,6 +571,9 @@ export class CanvasComponent extends HTMLElement {
     private renderHeader(): string {
         const roomImages: string[] | undefined = this._currentGameState?.roomImages;
         setTimeout(() => this.addHitboxes(), 10);
+        this.DisableFlashLight();
+
+        const roomName: string | undefined = this._currentGameState?.roomName;
         if (roomImages && roomImages.length > 0) {
             if (this._currentGameState?.roomAlias === "startup" ||
               this._currentGameState?.roomAlias === "game-over" ||
@@ -390,11 +585,28 @@ export class CanvasComponent extends HTMLElement {
                     </div>
                 `;
             }
-            return `
+            if (roomName === "Living room" && this._selectedInventoryItem === "FlashlightItem") {
+                this.FlashLight(true);
+                return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
+            }
+
+            else if (roomName === "Living room" && this._selectedInventoryItem !== "FlashlightItem") {
+                this.FlashLight(false);
+                return `
                 <div class="header">
-                    ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
                 </div>
             `;
+            }
+            return `
+            <div class="header">
+                ${roomImages.map(url => `<img src="/assets/img/rooms/${url}.png" />`).join("")}
+            </div>
+        `;
         }
 
         return "";
@@ -406,15 +618,20 @@ export class CanvasComponent extends HTMLElement {
      * @returns String with raw HTML for the content element
      */
     private renderContent(): string {
+        // Return an empty string if on the startup, game-over or winscreen
         if (this._currentGameState?.roomAlias === "startup" ||
           this._currentGameState?.roomAlias === "game-over" ||
           this._currentGameState?.roomAlias === "win") {
-            return `
-            `;
+            return "";
         }
+
+        // Else return the text and make the text getting an item red
         return `
             <div class="content">
-                ${this._currentGameState?.text.map(text => `<p>${text}</p>`).join("") || ""}
+            ${this._currentGameState?.text
+            .map(text =>
+                `<p class="${text.includes("+") ? "redText" : ""}">${text}</p>`
+            ).join("") || ""}
             </div>
         `;
     }
@@ -519,6 +736,17 @@ export class CanvasComponent extends HTMLElement {
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
         if (object) {
+            // Play footsteps sound
+            if (action.alias === "go to") {
+                this.playFootstepsSound(object.alias);
+
+                if (object.alias.includes("Door") || object.alias.includes("door") || object.alias.includes("Shed")) {
+                    if (!object.alias.includes("Stair")) {
+                        this.playDoorSound();
+                    }
+                }
+            }
+
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
             if (state === undefined) {
@@ -549,6 +777,60 @@ export class CanvasComponent extends HTMLElement {
         // Renders room if the talk action is finished
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
             await this.render();
+        }
+
+        if (action.alias === "taste") {
+            const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
+            this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
+        }
+    }
+
+    private playFootstepsSound(object?: string): void {
+        let footstepsSound: HTMLAudioElement;
+
+        if (object === "StairToFrontDoor" || object === "FrontDoorToStair") {
+            footstepsSound = new Audio("public/audio/soundEffects/footstepsStairs.mp3");
+            footstepsSound.volume = 0.3;
+        }
+        else if (object === "Outside Shed room" || object === "Shed Outside room" ||
+          object === "Outside Frontdoor room" || object === "DoorFrontDoorOutsideItem") {
+            footstepsSound = new Audio("public/audio/soundEffects/footstepsOutside.mp3");
+            footstepsSound.volume = 0.3;
+        }
+        else if (object === "GateItem") {
+            return;
+        }
+        else {
+            footstepsSound = new Audio("public/audio/soundEffects/footsteps.mp3");
+            footstepsSound.volume = 0.8;
+            footstepsSound.playbackRate = 1.5;
+        }
+
+        if (footstepsSound.paused) {
+            footstepsSound.play().catch((error: unknown) => {
+                if (error instanceof Error) {
+                    console.error("Audio kon niet worden afgespeeld:", error.message);
+                }
+                else {
+                    console.error("Onbekende fout bij het afspelen van audio.");
+                }
+            });
+        }
+    }
+
+    private playDoorSound(): void {
+        const doorSound: HTMLAudioElement = new Audio("public/audio/soundEffects/door.mp3");
+        doorSound.volume = 0.2;
+
+        if (doorSound.paused) {
+            doorSound.play().catch((error: unknown) => {
+                if (error instanceof Error) {
+                    console.error("Audio kon niet worden afgespeeld:", error.message);
+                }
+                else {
+                    console.error("Onbekende fout bij het afspelen van audio.");
+                }
+            });
         }
     }
 
@@ -634,11 +916,35 @@ export class CanvasComponent extends HTMLElement {
         }, 0);
     }
 
+    public async setEndMinigameAction(actionAlias: string, objectAlias: string): Promise<void> {
+        await this.setHitboxAction(actionAlias, objectAlias);
+    }
+
     /** Removes all hiboxes from the canvas making place for new hitboxes */
     private RemoveHitBoxes(): void {
         for (let i: number = 0; i < this.hitBoxes.length; i++) {
             this.hitBoxes[i].removeHitBox();
         }
         this.hitBoxes = [];
+    }
+
+    /** Enables flashlight and pushes it to the array */
+    private FlashLight(isActive: boolean): void {
+        this._lights.push(new FlashLightUseItem(isActive, this));
+    }
+
+    /** Removes flashlight from the array and html */
+    private DisableFlashLight(): void {
+        for (let i: number = 0; i < this._lights.length; i++) {
+            this._lights[i].DisableFlashLight();
+        }
+        this.hitBoxes = [];
+    }
+
+    /** Removes flashlight from the array and html */
+    public DisableMinigame(): void {
+        this._vomitMinigame = undefined;
+        // Removes the warning message: this._vomitMinigame is declared but never read.
+        console.log(this._vomitMinigame);
     }
 }
