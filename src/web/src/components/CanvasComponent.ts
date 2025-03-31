@@ -4,6 +4,7 @@ import { GameEventService } from "../services/GameEventService";
 import { GameRouteService } from "../services/GameRouteService";
 import { Page } from "../enums/Page";
 import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
+import { Timer } from "../../../api/src/game-base/timer/Timer";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -171,7 +172,7 @@ export class CanvasComponent extends HTMLElement {
     public connectedCallback(): void {
         this.attachShadow({ mode: "open" });
 
-        this.Timer();
+        new Timer(2000);
 
         void this.refreshGameState();
     }
@@ -562,12 +563,6 @@ export class CanvasComponent extends HTMLElement {
                     objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
             }
         }
-    }
-
-    private Timer(): void {
-        setInterval(() => {
-            location.reload(); // This will refresh the page
-        }, 3000000); // in 40 seconds
     }
 
     /**

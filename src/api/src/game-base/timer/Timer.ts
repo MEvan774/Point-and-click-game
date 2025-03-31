@@ -17,9 +17,7 @@ export class Timer {
         setInterval(() => {
             const playerSession: PlayerSession = gameService.getPlayerSession();
 
-            // Check if the player has walked to the bathtub
-            if (!playerSession.walkedToBathtub) {
-                // If player has not walked to the bathtub, move to the GameOverRoom
+            if (!playerSession.walkedToBathtub || !playerSession.walkedToMirror) {
                 this.transitionToGameOverRoom();
             }
         }, this.timeoutDuration); // Timeout duration, e.g., every 2 seconds
