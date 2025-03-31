@@ -26,6 +26,7 @@ export class FreezerItem extends Item implements Examine, Open, GoTo {
     public constructor() {
         super(FreezerItem.Alias, FreezerItem.validActions);
     }
+
     public WalkAway(): ActionResult | undefined {
         throw new Error("Method not implemented.");
     }

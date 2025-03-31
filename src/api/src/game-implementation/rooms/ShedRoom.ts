@@ -45,7 +45,6 @@ export class ShedRoom extends Room implements Examine {
         return result;
     }
 
-
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new LightSwitchItem(),
@@ -68,7 +67,7 @@ export class ShedRoom extends Room implements Examine {
         actions.push(new TalkAction());
         actions.push(new PressAction());
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (playerSession.walkedToFreezer) { 
+        if (playerSession.walkedToFreezer) {
             actions.push(new OpenAction());
         }
         actions.push(new GoToStartupAction());

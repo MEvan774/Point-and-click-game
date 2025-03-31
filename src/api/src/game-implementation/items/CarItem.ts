@@ -61,21 +61,21 @@ export class CarItem extends Item implements Examine, Fuel, GoTo {
     public fuel(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         if (playerSession.inventory.includes("fuelItem")) {
-            playerSession.startedMinigame = true;
+            playerSession.carFueled = true;
+            this.validActions.push("drive");
             return new TextActionResult([
-                "You start to fuel the car.",
+                "You successfully fueled the car! It's ready to drive.",
             ]);
         }
         else {
             return new TextActionResult([
-                "You need to find fuel to start this car.",
+                "You need to find fuel before you can drive this car.",
             ]);
         }
     }
 
     public goto(): ActionResult | undefined {
         const room: Room = new WinScreenRoom();
-    
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
     }

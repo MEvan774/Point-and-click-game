@@ -1,12 +1,5 @@
 import { CanvasComponent } from "../../../../web/src/components/CanvasComponent";
-import { ActionResult } from "../../game-base/actionResults/ActionResult";
-import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
-import { Room } from "../../game-base/gameObjects/Room";
-import { gameService } from "../../global";
-import { CarItem } from "../items/CarItem";
-import { WinScreenRoom } from "../rooms/WinScreenRoom";
-import { PlayerSession } from "../types";
 
 export class FuelFillingMinigame {
     private fuelSound: HTMLAudioElement;
@@ -30,7 +23,7 @@ export class FuelFillingMinigame {
         this.fuelSound.volume = 1.0;
         this.completeSound = new Audio("public/audio/soundEffects/task-complete.mp3");
         this.completeSound.volume = 1.0;
-    
+
         document.addEventListener("keydown", event => this.handleKeyDown(event));
         document.addEventListener("keyup", event => this.handleKeyUp(event));
 
@@ -53,7 +46,7 @@ export class FuelFillingMinigame {
         this.container.style.fontFamily = "DungeonFont";
         this.container.style.padding = "20px";
 
-        const title = document.createElement("h1");
+        const title: HTMLHeadingElement = document.createElement("h1");
         title.textContent = "Fill the Tank!";
         this.container.appendChild(title);
 
@@ -81,39 +74,39 @@ export class FuelFillingMinigame {
         document.body.appendChild(this.overlay);
     }
 
-    private handleKeyDown(event: KeyboardEvent): void {
+    private async handleKeyDown(event: KeyboardEvent): Promise<void> {
         if (event.code === "Space" && !this.isGameFinished) {
             if (!this.gameRunning) {
-                this.startGame();
+                await this.startGame();
             }
         }
         event.preventDefault();
     }
 
-    private handleKeyUp(event: KeyboardEvent): void {
+    private async handleKeyUp(event: KeyboardEvent): Promise<void> {
         if (event.code === "Space" && this.gameRunning) {
-            this.stopFilling();
+            await this.stopFilling();
         }
     }
 
-    private startGame(): void {
+    private async startGame(): Promise<void> {
         this.gameRunning = true;
-        this.fuelSound.play();
+        await this.fuelSound.play();
         this.interval = setInterval(() => this.updateGame(), 100);
     }
 
-    private updateGame(): void {
+    private async updateGame(): Promise<void> {
         if (!this.gameRunning) return;
-        
+
         this.progress += this.fillRate;
         if (this.progress >= this.maxFuel) {
             this.progress = this.maxFuel;
             this.isGameFinished = true;
-            this.stopFilling();
-            this.completeSound.play(); // Speel het voltooide geluid af
+            await this.stopFilling();
+            await this.completeSound.play(); // Speel het voltooide geluid af
             this.message.textContent = "Tank is full! You did it!";
             setTimeout(() => this.exitMinigame(), 2000);
-        }        
+        }
         this.progressFill.style.width = `${this.progress}%`;
     }
 
@@ -122,17 +115,16 @@ export class FuelFillingMinigame {
         clearInterval(this.interval);
         this.fuelSound.pause();
         this.fuelSound.currentTime = 0;
-    
         if (this.progress < this.maxFuel - 10) {
             this.message.textContent = "You stopped too soon! Try again.";
             setTimeout(() => this.exitMinigame(), 1000);
-        } else {
-            this.completeSound.play();
+        }
+        else {
+            await this.completeSound.play();
             this.message.textContent = "The car has been fueled up! Let's get out of here.";
-            setTimeout(async () => await this._canvas.setEndMinigameAction(ActionTypes.GoTo, "car"), 1000);
+            setTimeout(async () => await this._canvas.setEndMinigameAction(ActionTypes.GoTo, "car"), 2500);
         }
     }
-    
 
     private exitMinigame(): void {
         this._canvas.DisableMinigame();
