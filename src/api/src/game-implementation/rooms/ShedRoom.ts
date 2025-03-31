@@ -6,6 +6,7 @@ import { TalkAction } from "../../game-base/actions/TalkAction";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { DriveAction } from "../actions/DriveAction";
 import { FuelAction } from "../actions/FuelAction";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
@@ -13,6 +14,7 @@ import { OpenAction } from "../actions/OpenAction";
 import { PressAction } from "../actions/PressAction";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
 import { CarItem } from "../items/CarItem";
+import { CarKeyItem } from "../items/CarKeyItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FreezerItem } from "../items/FreezerItem";
@@ -57,6 +59,9 @@ export class ShedRoom extends Room implements Examine {
         if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
             objects.push(new CorpseCharacter());
         }
+        if (playerSession.inventory.includes("FuelItem")) {
+            objects.push(new CarKeyItem());
+        }
         return objects;
     }
 
@@ -71,7 +76,12 @@ export class ShedRoom extends Room implements Examine {
             actions.push(new OpenAction());
         }
         actions.push(new GoToStartupAction());
-        actions.push(new FuelAction());
+        if (playerSession.selectedItem === "FuelItem") {
+            actions.push(new FuelAction());
+        }
+        if (playerSession.selectedItem === "CarKeyItem") {
+            actions.push(new DriveAction());
+        }
 
         return actions;
     }

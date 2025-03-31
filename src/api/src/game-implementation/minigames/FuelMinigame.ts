@@ -16,13 +16,15 @@ export class FuelFillingMinigame {
     private interval: ReturnType<typeof setInterval> | undefined;
     private fillRate = 2.2;
     private maxFuel = 100;
+    private _isKeyInInventory: boolean;
 
-    public constructor(canvas: CanvasComponent, fuelSound: HTMLAudioElement) {
+    public constructor(canvas: CanvasComponent, fuelSound: HTMLAudioElement, isKeyInInventory: boolean) {
         this._canvas = canvas;
         this.fuelSound = fuelSound;
         this.fuelSound.volume = 1.0;
         this.completeSound = new Audio("public/audio/soundEffects/task-complete.mp3");
         this.completeSound.volume = 1.0;
+        this._isKeyInInventory = isKeyInInventory;
 
         document.addEventListener("keydown", event => this.handleKeyDown(event));
         document.addEventListener("keyup", event => this.handleKeyUp(event));
@@ -119,10 +121,16 @@ export class FuelFillingMinigame {
             this.message.textContent = "You stopped too soon! Try again.";
             setTimeout(() => this.exitMinigame(), 1000);
         }
-        else {
+        if (!this._isKeyInInventory) {
             await this.completeSound.play();
             this.message.textContent = "The car has been fueled up! Let's get out of here.";
-            setTimeout(async () => await this._canvas.setEndMinigameAction(ActionTypes.GoTo, "car"), 2500);
+            void this._canvas.setEndMinigameAction(ActionTypes.PickUp, "carKey");
+        }
+        else {
+            this.message.textContent = "You can start the car!";
+            clearInterval(this.interval);
+            this.gameRunning = false;
+            setTimeout(() => this.exitMinigame(), 2000);
         }
     }
 

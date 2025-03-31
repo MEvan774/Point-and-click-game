@@ -38,6 +38,7 @@ export class FuelItem extends Item implements Examine, PickUp {
 
         return new TextActionResult([
             "You somehow managed to put the fuel in your inventory.",
+            "+1 Fuel",
         ]);
     }
 
