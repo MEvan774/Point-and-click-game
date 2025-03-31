@@ -6,8 +6,9 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
 import { gameService } from "../../global";
+import { GoTo } from "../actions/GoToAction";
 
-export class FreezerItem extends Item implements Examine, Open {
+export class FreezerItem extends Item implements Examine, Open, GoTo {
     /**
      * _position: Position of the item's hitbox
      * _size: Size of the item's hitbox
@@ -25,6 +26,9 @@ export class FreezerItem extends Item implements Examine, Open {
     public constructor() {
         super(FreezerItem.Alias, FreezerItem.validActions);
     }
+    public WalkAway(): ActionResult | undefined {
+        throw new Error("Method not implemented.");
+    }
 
     /**
      * Tells about the item
@@ -34,6 +38,9 @@ export class FreezerItem extends Item implements Examine, Open {
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         playerSession.openedFreezer = false;
+        if (!playerSession.walkedToFreezer) {
+            FreezerItem.validActions.push("go to");
+        }
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);
@@ -51,6 +58,37 @@ export class FreezerItem extends Item implements Examine, Open {
         else {
             return new TextActionResult([
                 "The freezer is open",
+            ]);
+        }
+    }
+
+    public goto(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (!playerSession.walkedToFreezer) {
+            playerSession.walkedToFreezer = true;
+            return new TextActionResult([
+                "You walk up to the freezer",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "You are already at the freezer",
+            ]);
+        }
+    }
+
+    public walkaway(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer) {
+            playerSession.walkedToFreezer = false;
+            FreezerItem.validActions.splice(1);
+            return new TextActionResult([
+                "You walk away from the freezer.",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "You aren't at the freezer.",
             ]);
         }
     }
