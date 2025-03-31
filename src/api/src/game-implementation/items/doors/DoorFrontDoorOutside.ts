@@ -184,7 +184,7 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If the crowbar is selected but already used
         if (playerSession.selectedItem === "CrowbarItem" && playerSession.planksGone) {
-            return new TextActionResult(["You have already got rid of the planks."]);
+            return new TextActionResult(["You have already gotten rid of the planks."]);
         }
 
         // If the wrong key is used

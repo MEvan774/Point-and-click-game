@@ -6,8 +6,11 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
 import { gameService } from "../../global";
+import { Room } from "../../game-base/gameObjects/Room";
+import { Hide } from "../actions/HideAction";
+import { HiddenRoom } from "../rooms/HiddenRoom";
 
-export class FreezerItem extends Item implements Examine, Open {
+export class FreezerItem extends Item implements Examine, Open, Hide {
     /**
      * _position: Position of the item's hitbox
      * _size: Size of the item's hitbox
@@ -20,7 +23,7 @@ export class FreezerItem extends Item implements Examine, Open {
     public _size: Vector2 = { x: 200, y: 170 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
-    public static readonly validActions: string[] = ["open"];
+    public static readonly validActions: string[] = ["open", "hide"];
 
     public constructor() {
         super(FreezerItem.Alias, FreezerItem.validActions);
@@ -53,6 +56,19 @@ export class FreezerItem extends Item implements Examine, Open {
                 "The freezer is open",
             ]);
         }
+    }
+
+    /**
+     * Brings the player to the HiddenRoom and saves the StorageRoom in the PlayerSession
+     *
+     * @returns room.examine() of the HiddenRoom
+     */
+    public hide(): ActionResult | undefined {
+        gameService.getPlayerSession().hiddenIn = "ShedRoom";
+        const room: Room = new HiddenRoom();
+
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 
     // Name of the item, shows up on the buttons for example
