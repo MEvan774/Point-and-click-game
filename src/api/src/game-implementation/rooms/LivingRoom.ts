@@ -16,6 +16,8 @@ import { PlayerSession } from "../types";
 import { PickUpAction } from "../actions/PickUpAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { HideAction } from "../actions/HideAction";
+import { LivingroomItem } from "../items/LivingroomItem";
 
 /**
  * Implemention of the startup room
@@ -63,6 +65,7 @@ export class LivingRoom extends Room {
         objects.push(new DoorLivingRoomFrontDoorItem());
         objects.push(new DoorLivingRoomKitchenItem());
         objects.push(new ToStartupItem());
+        objects.push(new LivingroomItem());
 
         if (!playerSession.inventory.includes("Eyes") && !playerSession.givenEyes)
             objects.push(new EyesItem());
@@ -76,7 +79,7 @@ export class LivingRoom extends Room {
      * @inheritdoc
      */
     public actions(): Action[] {
-        return [new ExamineAction(), new GoToAction(), new PickUpAction(), new GoToStartupAction()];
+        return [new ExamineAction(), new GoToAction(), new PickUpAction(), new GoToStartupAction(), new HideAction()];
     }
 
     /**
