@@ -6,11 +6,11 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
 import { gameService } from "../../global";
-import { GoTo } from "../actions/GoToAction";
-import { HiddenRoom } from "../rooms/HiddenRoom";
 import { Room } from "../../game-base/gameObjects/Room";
+import { Hide } from "../actions/HideAction";
+import { HiddenRoom } from "../rooms/HiddenRoom";
 
-export class FreezerItem extends Item implements Examine, Open, GoTo {
+export class FreezerItem extends Item implements Examine, Open, Hide {
     /**
      * _position: Position of the item's hitbox
      * _size: Size of the item's hitbox
@@ -29,10 +29,6 @@ export class FreezerItem extends Item implements Examine, Open, GoTo {
         super(FreezerItem.Alias, FreezerItem.validActions);
     }
 
-    public WalkAway(): ActionResult | undefined {
-        throw new Error("Method not implemented.");
-    }
-
     /**
      * Tells about the item
      *
@@ -41,9 +37,6 @@ export class FreezerItem extends Item implements Examine, Open, GoTo {
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         playerSession.openedFreezer = false;
-        if (!playerSession.walkedToFreezer) {
-            FreezerItem.validActions.push("go to");
-        }
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);

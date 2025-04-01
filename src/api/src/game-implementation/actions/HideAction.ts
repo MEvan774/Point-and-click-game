@@ -1,6 +1,8 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
+import { gameService } from "../../global";
+import { PlayerSession } from "../types";
 
 @Interface
 export abstract class Hide {
@@ -32,6 +34,8 @@ export class HideAction extends Action {
      * @returns gameObject.hide()
      */
     public execute(_alias: string, gameObjects: GameObject[]): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.playerIsHiding = true;
         const gameObject: GameObject = gameObjects[0];
 
         if (gameObject.instanceOf(Hide)) {

@@ -13,7 +13,7 @@ export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     /**
      * @param _action determines which action will be executed when clicked on.
      * @param _position determines where the hitbox will be located.
-     * @param _size determines the size of the hibox
+     * @param _size determines the size of the hitbox
      * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
      * @param validActions the options that will show up when clicked on.
      */
@@ -36,8 +36,9 @@ export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new BathroomRoom();
+        // Start the timer
 
+        const room: Room = new BathroomRoom();
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
     }

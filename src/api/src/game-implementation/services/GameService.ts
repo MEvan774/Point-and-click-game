@@ -191,6 +191,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
+            playerIsHiding: false,
             givenEyes: false,
             givenTongue: false,
             pickedUpSaw: false,
