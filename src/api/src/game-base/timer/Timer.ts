@@ -30,7 +30,9 @@ export class Timer {
             const playerSession: PlayerSession = gameService.getPlayerSession();
 
             if (!playerSession.walkedToBathtub || !playerSession.walkedToMirror || !playerSession.walkedToFreezer || !playerSession.playerIsHiding) {
-                this.transitionToGameOverRoom();
+                if (playerSession.currentRoom !== "game-over") {
+                    this.transitionToGameOverRoom();
+                }
             }
         }, this.timeoutDuration); // Timeout duration, now randomized
     }
