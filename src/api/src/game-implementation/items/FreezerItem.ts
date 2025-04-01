@@ -28,9 +28,6 @@ export class FreezerItem extends Item implements Examine, Open, Hide {
     public constructor() {
         super(FreezerItem.Alias, FreezerItem.validActions);
     }
-    public WalkAway(): ActionResult | undefined {
-        throw new Error("Method not implemented.");
-    }
 
     /**
      * Tells about the item
@@ -40,9 +37,6 @@ export class FreezerItem extends Item implements Examine, Open, Hide {
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         playerSession.openedFreezer = false;
-        if (!playerSession.walkedToFreezer) {
-            FreezerItem.validActions.push("go to");
-        }
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);

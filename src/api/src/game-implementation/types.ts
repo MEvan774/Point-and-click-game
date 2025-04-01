@@ -37,7 +37,6 @@ export type PlayerSession = {
     clickedFirstAid: boolean;
     // True when player picked up the FirstAidItem
     pickedUpFirstAid: boolean;
-    gameOptions: string[];
     // True when the CrowbarItem is used on the FrontDoorItem
     planksGone: boolean;
     // True when the OutsideKeyItem is used on the FrontDoorItem
@@ -52,6 +51,8 @@ export type PlayerSession = {
     openedFreezer: boolean;
     // True when walked to freezer
     walkedToFreezer: boolean;
+    // When the player is hiding
+    playerIsHiding: boolean;
     // variables for ghostChar's ingredients given
     givenEyes: boolean;
     givenTongue: boolean;

@@ -7,6 +7,7 @@ import { gameService } from "../../../global";
 import { HallwayRoom } from "../../rooms/HallwayRoom";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { Timer } from "../../../game-base/timer/Timer";
 
 export class DoorBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-door";
@@ -46,6 +47,8 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
      * @returns room.examine() for the HallwayRoom
      */
     public goto(): ActionResult | undefined {
+        new Timer();
+
         if (!gameService.getPlayerSession().inventory.includes("KeyItem")) {
             return new TextActionResult(["The door is locked, maybe there is a key nearby."]);
         }
@@ -57,5 +60,9 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
             gameService.getPlayerSession().currentRoom = room.alias;
             return room.examine();
         }
+    }
+
+    public startTimer(): void {
+        new Timer(); // This will instantiate Timer
     }
 }
