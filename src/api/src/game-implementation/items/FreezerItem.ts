@@ -6,9 +6,6 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
 import { gameService } from "../../global";
-import { GoTo } from "../actions/GoToAction";
-
-export class FreezerItem extends Item implements Examine, Open, GoTo {
 import { Room } from "../../game-base/gameObjects/Room";
 import { Hide } from "../actions/HideAction";
 import { HiddenRoom } from "../rooms/HiddenRoom";
@@ -96,6 +93,8 @@ export class FreezerItem extends Item implements Examine, Open, Hide {
                 "You aren't at the freezer.",
             ]);
         }
+    }
+
     /**
      * Brings the player to the HiddenRoom and saves the StorageRoom in the PlayerSession
      *
