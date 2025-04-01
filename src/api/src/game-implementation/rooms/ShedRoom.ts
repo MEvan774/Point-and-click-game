@@ -8,6 +8,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { HideAction } from "../actions/HideAction";
 import { OpenAction } from "../actions/OpenAction";
 import { PressAction } from "../actions/PressAction";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
@@ -69,6 +70,7 @@ export class ShedRoom extends Room implements Examine {
             actions.push(new OpenAction());
         }
         actions.push(new GoToStartupAction());
+        actions.push(new HideAction());
 
         return actions;
     }

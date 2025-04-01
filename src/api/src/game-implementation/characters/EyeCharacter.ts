@@ -73,17 +73,18 @@ export class EyeCharacter extends Character implements Examine, Talk, GoTo {
                         "Did you really think eyes could talk?",
                     ],
                     [
-                        new TalkChoice(3, "Snatch the key off of his neck."),
+                        new TalkChoice(4, "Snatch the key off of his neck."),
                     ]
                 );
             }
             case 2:
             {
+                gameService.getPlayerSession().walkedToBathtub = false;
                 return new TextActionResult([
                     "You ran away like a coward...",
                 ]);
             }
-            case 3:
+            case 4:
             {
                 const playerSession: PlayerSession = gameService.getPlayerSession();
                 if (!playerSession.pickedUpKey) {
