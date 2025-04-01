@@ -7,7 +7,6 @@ import { gameService } from "../../../global";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { BedroomRoom } from "../../rooms/BedroomRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
 
 export class DoorBathroomBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "bathroom bedroom door";
@@ -37,17 +36,9 @@ export class DoorBathroomBedroomItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        // Start the timer logic to transition rooms after a delay
-        new Timer(); // This will handle the transition logic (BathroomRoom to GameOverRoom)
         const room: Room = new BedroomRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
-    }
-
-    // You can call Timer directly when needed:
-    public startTimer(): void {
-        // Here you can call Timer logic if you need it to work with the item
-        new Timer(); // This will instantiate Timer and start the internal timer logic
     }
 }

@@ -4,7 +4,6 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 import { Item } from "../../../game-base/gameObjects/Item";
 import { Room } from "../../../game-base/gameObjects/Room";
-import { Timer } from "../../../game-base/timer/Timer";
 import { gameService } from "../../../global";
 import { GoTo } from "../../actions/GoToAction";
 import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
@@ -44,14 +43,9 @@ export class HallwayFrontDoorItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
         const room: Room = new FrontDoorRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
     }
 }

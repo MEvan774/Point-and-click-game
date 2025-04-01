@@ -11,6 +11,8 @@ import { SwitchPageActionResult } from "../actionResults/SwitchPageActionResult"
 import { Action } from "../../game-base/actions/Action";
 import { TalkChoice } from "../../game-base/actions/TalkAction";
 import { PlayerSession } from "../types";
+import { TeleportActionResult } from "../../game-base/actionResults/TeleportActionResult";
+import { Timer } from "../../game-base/timer/Timer";
 
 /**
  * Controller to handle all game related requests
@@ -136,7 +138,7 @@ export class GameController {
      *
      * @returns A type of `GameState` representing the result of the action or `undefined` when something went wrong.
      */
-    private async convertActionResultToGameState(actionResult?: ActionResult, selectedItem?: string): Promise<GameState | undefined> {
+    public async convertActionResultToGameState(actionResult?: ActionResult, selectedItem?: string): Promise<GameState | undefined> {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         // If the client application has to switch pages, handle it now.
         if (actionResult instanceof SwitchPageActionResult) {
@@ -144,6 +146,11 @@ export class GameController {
                 type: "switch-page",
                 page: actionResult.page,
             };
+        }
+        if (actionResult instanceof TeleportActionResult) {
+            gameService.getPlayerSession().currentRoom = actionResult.room.alias;
+            Timer.Instance.startTimer();
+            return this.convertActionResultToGameState(actionResult.room.examine());
         }
 
         // The room can have changed after executing an action, so we have to retrieve the player session again!

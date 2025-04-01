@@ -7,7 +7,6 @@ import { gameService } from "../../../global";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { WorkRoom } from "../../rooms/WorkRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
 
 export class DoorHallwayOfficeItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-office-door";
@@ -37,15 +36,9 @@ export class DoorHallwayOfficeItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
-
         const room: Room = new WorkRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
     }
 }
