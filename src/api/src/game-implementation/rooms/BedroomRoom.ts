@@ -13,7 +13,7 @@ import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 
 /**
- * Implemention of the bedroom room
+ * Implementation of the bedroom room
  *
  * @remarks Used as the first room for new player sessions.
  */

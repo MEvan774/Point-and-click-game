@@ -2,30 +2,44 @@ import { PlayerSession } from "../../game-implementation/types";
 import { gameService } from "../../global";
 import { GameOverRoom } from "../../game-implementation/rooms/GameOverRoom";
 import { Room } from "../gameObjects/Room";
+import { GameController } from "../../game-implementation/controllers/GameController";
+import { TeleportActionResult } from "../actionResults/TeleportActionResult";
+import { GameState } from "@shared/types";
 
 export class Timer {
     public static readonly Alias: string = "timer";
+    public static readonly Instance: Timer = new Timer(); // Singleton instance of Timer
 
-    // Constructor initializes the timer with a randomized timeout duration
-    public constructor(private timeoutDuration: number = Timer.getRandomTimeout()) {
-        this.startTimer(); // Start the timer immediately when Timer is created
-    }
+    private constructor() {}
 
-    // Method to generate a random timeout between 40,000 and 70,000
+    private intervalId: NodeJS.Timeout | null = null; // Property to store interval ID
+
+    // Method to generate a random timeout number between 40,000 and 70,000
     private static getRandomTimeout(): number {
         return Math.floor(Math.random() * (70000 - 40000 + 1)) + 40000;
     }
 
     // Method to start the timer, continuously running and checking the condition
-    private startTimer(): void {
+    public startTimer(): void {
+        console.log("START");
+        // Clear the previous interval if it exists
+        if (this.intervalId !== null) {
+            clearInterval(this.intervalId);
+        }
+
         // Run the timer infinitely in intervals
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
+            console.log("stop");
             const playerSession: PlayerSession = gameService.getPlayerSession();
 
             if (!playerSession.walkedToBathtub || !playerSession.walkedToMirror || !playerSession.walkedToFreezer || !playerSession.playerIsHiding) {
-                this.transitionToGameOverRoom();
+                if (playerSession.currentRoom !== GameOverRoom.Alias) {
+                    const gameState: GameState | undefined = new GameController().convertActionResultToGameState(
+                        new TeleportActionResult(new GameOverRoom())
+                    );
+                }
             }
-        }, this.timeoutDuration); // Timeout duration, now randomized
+        }, Timer.getRandomTimeout()); // Timeout duration, now randomized
     }
 
     // Method to transition the player to the GameOverRoom

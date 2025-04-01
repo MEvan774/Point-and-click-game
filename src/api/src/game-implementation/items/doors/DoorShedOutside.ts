@@ -6,7 +6,6 @@ import { GoTo } from "../../actions/GoToAction";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { OutsideRoom } from "../../rooms/OutsideRoom";
 import { gameService } from "../../../global";
-import { Timer } from "../../../game-base/timer/Timer";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 import { PlayerSession } from "../../types";
 
@@ -48,15 +47,9 @@ export class DoorShedOutside extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
-
         const room: Room = new OutsideRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
         return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
     }
 }
