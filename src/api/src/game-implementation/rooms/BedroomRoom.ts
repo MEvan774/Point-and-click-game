@@ -11,20 +11,24 @@ import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
 import { BedItem } from "../items/BedItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { Timer } from "../../game-base/timer/Timer";
 
 /**
- * Implemention of the bedroom room
+ * Implementation of the bedroom room
  *
  * @remarks Used as the first room for new player sessions.
  */
 export class BedroomRoom extends Room {
     public static readonly Alias: string = "bedroom";
 
+    private timer: Timer; // Add a Timer instance to the room
+
     /**
      * Create a new instance of this room
      */
     public constructor() {
         super(BedroomRoom.Alias);
+        this.timer = new Timer(); // Initialize the timer
     }
 
     /**
@@ -77,5 +81,9 @@ export class BedroomRoom extends Room {
             "This is a bedroom.",
             "There are 2 doors.",
         ]);
+    }
+
+    public Timer(): void {
+        this.timer.restartTimer();
     }
 }

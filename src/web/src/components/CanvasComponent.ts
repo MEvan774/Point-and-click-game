@@ -344,6 +344,9 @@ export class CanvasComponent extends HTMLElement {
         await this.goToStartup();
 
         await this.refreshGameState();
+
+        this.Timer.restartTimer();
+        this.Timer = new this.Timer();
     }
 
     private showSoundOptions(overlay: OverlayComponent): void {

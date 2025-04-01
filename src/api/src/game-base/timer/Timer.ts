@@ -6,6 +6,8 @@ import { Room } from "../gameObjects/Room";
 export class Timer {
     public static readonly Alias: string = "timer";
 
+    private intervalId: NodeJS.Timeout | null = null; // Property to store interval ID
+
     // Constructor initializes the timer with a randomized timeout duration
     public constructor(private timeoutDuration: number = Timer.getRandomTimeout()) {
         this.startTimer(); // Start the timer immediately when Timer is created
@@ -18,8 +20,13 @@ export class Timer {
 
     // Method to start the timer, continuously running and checking the condition
     private startTimer(): void {
+        // Clear the previous interval if it exists
+        if (this.intervalId !== null) {
+            clearInterval(this.intervalId);
+        }
+
         // Run the timer infinitely in intervals
-        setInterval(() => {
+        this.intervalId = setInterval(() => {
             const playerSession: PlayerSession = gameService.getPlayerSession();
 
             if (!playerSession.walkedToBathtub || !playerSession.walkedToMirror || !playerSession.walkedToFreezer || !playerSession.playerIsHiding) {
@@ -35,5 +42,11 @@ export class Timer {
         room.examine(); // Optionally examine the new room (for displaying descriptions or handling actions)
 
         console.log("Player has been sent to the GameOverRoom.");
+    }
+
+    // Method to restart the timer
+    public restartTimer(): void {
+        this.timeoutDuration = Timer.getRandomTimeout();
+        this.startTimer();
     }
 }
