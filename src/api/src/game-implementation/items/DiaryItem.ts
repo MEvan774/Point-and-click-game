@@ -43,23 +43,12 @@ export class DiaryItem extends Item implements Examine, PickUp {
      */
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (!playerSession.clickedDiary) {
-            playerSession.clickedDiary = true;
-            if (!playerSession.pickedUpDiary) {
-                return new TextActionResult ([
-                    "This looks like a diary, maybe I need to pick it up.",
-                ]);
-            }
-            else {
-                return new TextActionResult ([
-                    "This diary looks old.",
-                    "I should read this diary.",
-                    "Maybe, I will find out who did this to me",
-                ]);
-            }
-        }
-        else if (!playerSession.pickedUpDiary) {
-            return this.pickup();
+        if (!playerSession.pickedUpDiary) {
+            return new TextActionResult ([
+                "This diary looks old.",
+                "I should read this diary.",
+                "Maybe, I will find out who did this to me",
+            ]);
         }
         else {
             playerSession.clickedDiary = false;

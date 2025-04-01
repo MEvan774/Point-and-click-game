@@ -44,6 +44,7 @@ export class ShedRoom extends Room implements Examine {
         return result;
     }
 
+
     public objects(): GameObject[] {
         const objects: GameObject[] = [
             new LightSwitchItem(),
@@ -52,7 +53,7 @@ export class ShedRoom extends Room implements Examine {
             new ToStartupItem(),
         ];
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (playerSession.openedFreezer) {
+        if (playerSession.walkedToFreezer && playerSession.openedFreezer) {
             objects.push(new CorpseCharacter());
         }
         return objects;
@@ -64,7 +65,10 @@ export class ShedRoom extends Room implements Examine {
         actions.push(new GoToAction());
         actions.push(new TalkAction());
         actions.push(new PressAction());
-        actions.push(new OpenAction());
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer) { 
+            actions.push(new OpenAction());
+        }
         actions.push(new GoToStartupAction());
         actions.push(new HideAction());
 
@@ -72,6 +76,9 @@ export class ShedRoom extends Room implements Examine {
     }
 
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.walkedToFreezer = false;
+        playerSession.openedFreezer = false;
         return new TextActionResult([
             "This seems to be a shed, but it is very dark.",
             "Maybe I should find the light switch.",
