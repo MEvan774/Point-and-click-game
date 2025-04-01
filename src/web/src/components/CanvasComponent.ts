@@ -198,6 +198,7 @@ export class CanvasComponent extends HTMLElement {
     private _vomitMinigame: VomitMinigame | undefined;
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
+    private isMuted: boolean = false;
 
     /**
      * The "constructor" of a Web Component
@@ -351,7 +352,7 @@ export class CanvasComponent extends HTMLElement {
         // Dit is de "Sound" instellingen-overlay
         const soundHtml: string = `
             <h2>Geluidinstellingen</h2>
-            <label for="volume">Volume:</label>
+            <label for="volume">Background music:</label>
             <input type="range" id="volume" min="0" max="1" step="0.01" value="${this.ambianceSound.volume}">
             <button id="mute-btn" class="option-btn">${this.ambianceSound.muted ? "Unmute" : "Mute"}</button>
             <button id="back-btn" class="option-btn">Return to options</button>
@@ -393,6 +394,12 @@ export class CanvasComponent extends HTMLElement {
             muteButton.addEventListener("click", () => {
                 this.ambianceSound.muted = !this.ambianceSound.muted;
                 muteButton.textContent = this.ambianceSound.muted ? "Unmute" : "Mute";
+                if (!this.isMuted) {
+                    this.isMuted = true;
+                }
+                else {
+                    this.isMuted = false;
+                }
             });
         }
         if (backButton) {
@@ -738,7 +745,7 @@ export class CanvasComponent extends HTMLElement {
         // Execute the action and update the game state.
         if (object) {
             // Play footsteps sound
-            if (action.alias === "go to") {
+            if (action.alias === "go to" && !this.isMuted) {
                 this.playFootstepsSound(object.alias);
 
                 if (object.alias.includes("Door") || object.alias.includes("door") || object.alias.includes("Shed")) {

@@ -58,6 +58,37 @@ export class FreezerItem extends Item implements Examine, Open, Hide {
         }
     }
 
+    public goto(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (!playerSession.walkedToFreezer) {
+            playerSession.walkedToFreezer = true;
+            return new TextActionResult([
+                "You walk up to the freezer",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "You are already at the freezer",
+            ]);
+        }
+    }
+
+    public walkaway(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer) {
+            playerSession.walkedToFreezer = false;
+            FreezerItem.validActions.splice(1);
+            return new TextActionResult([
+                "You walk away from the freezer.",
+            ]);
+        }
+        else {
+            return new TextActionResult([
+                "You aren't at the freezer.",
+            ]);
+        }
+    }
+
     /**
      * Brings the player to the HiddenRoom and saves the StorageRoom in the PlayerSession
      *
