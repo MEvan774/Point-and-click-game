@@ -76,7 +76,7 @@ export class ShedRoom extends Room implements Examine {
             actions.push(new OpenAction());
         }
         actions.push(new GoToStartupAction());
-        if (playerSession.selectedItem === "FuelItem") {
+        if (playerSession.selectedItem === "FuelItem" && !playerSession.inventory.includes("CarKeyItem")) {
             actions.push(new FuelAction());
         }
         if (playerSession.selectedItem === "CarKeyItem") {

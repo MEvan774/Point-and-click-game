@@ -748,6 +748,14 @@ export class CanvasComponent extends HTMLElement {
                 }
             }
 
+            if (action.alias === "drive") {
+                this.playEngineSound();
+            }
+
+            if (action.alias === "Press") {
+                this.playLightSound();
+            }
+
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
             if (state === undefined) {
@@ -786,7 +794,7 @@ export class CanvasComponent extends HTMLElement {
         }
         if (action.alias === "fuel") {
             const fuelSound: HTMLAudioElement = new Audio("public/audio/soundEffects/fuel-fill.mp3");
-            this._fuelMinigame = new FuelFillingMinigame(this, fuelSound);
+            this._fuelMinigame = new FuelFillingMinigame(this, fuelSound, true);
         }
     }
 
@@ -837,6 +845,28 @@ export class CanvasComponent extends HTMLElement {
                 }
             });
         }
+    }
+
+    private playEngineSound(): void {
+        const engineStartSound: HTMLAudioElement = new Audio("public/audio/soundEffects/car-start-drive-away.mp3");
+        engineStartSound.volume = 0.2;
+        engineStartSound.play();
+    
+        setTimeout(() => {
+            engineStartSound.pause();
+            engineStartSound.currentTime = 27;
+            engineStartSound.play();
+            setTimeout(() => {
+                engineStartSound.pause();
+                engineStartSound.currentTime = 0;
+            }, 5000);
+        }, 3000);
+    }
+
+    private playLightSound(): void {
+        const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
+        lightSwitchSound.volume = 0.5;
+        lightSwitchSound.play();
     }
 
     // Creates all hitboxes for the room
@@ -945,5 +975,6 @@ export class CanvasComponent extends HTMLElement {
         this._vomitMinigame = undefined;
         // Removes the warning message: this._vomitMinigame is declared but never read.
         console.log(this._vomitMinigame);
+        console.log(this._fuelMinigame);
     }
 }

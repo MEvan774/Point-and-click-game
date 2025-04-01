@@ -3,14 +3,17 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { Examine } from "../../game-base/actions/ExamineAction";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { Item } from "../../game-base/gameObjects/Item";
+import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { Drive } from "../actions/DriveAction";
 import { Fuel } from "../actions/FuelAction";
+import { WinScreenRoom } from "../rooms/WinScreenRoom";
 import { PlayerSession } from "../types";
 
 /**
  * The class for DiaryItem, inherts Item properties and uses actions Examine, PickUp.
  */
-export class CarItem extends Item implements Examine, Fuel {
+export class CarItem extends Item implements Examine, Fuel, Drive {
     public static readonly Alias: string = "car";
     /**
      * @param _action determines which action will be executed when clicked on.
@@ -19,7 +22,7 @@ export class CarItem extends Item implements Examine, Fuel {
      * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
      * @param validActions the options that will show up when clicked on.
      */
-    public static readonly validActions: string[] = ["fuel"];
+    public static readonly validActions: string[] = ["fuel", "drive"];
     public _position: Vector2 = { x: -430, y: 380 };
     public _size: Vector2 = { x: 305, y: 230 };
     public _isDebugHitboxVisible: boolean = false;
@@ -69,5 +72,25 @@ export class CarItem extends Item implements Examine, Fuel {
                 "You need to find fuel before you can drive this car.",
             ]);
         }
+    }
+
+    /**
+     * Function to pick up an item
+     * @returns a text result based on the action / conditions
+     */
+    public async drive(): Promise<ActionResult | undefined> {
+        const room: Room = new WinScreenRoom();
+        gameService.getPlayerSession().currentRoom = room.alias;
+
+        // Wait 8.5 seconds
+        await this.delay(8500);
+
+        // Go to new room
+        return room.examine();
+    }
+
+    // Hulpfunctie om de vertraging te realiseren
+    private delay(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

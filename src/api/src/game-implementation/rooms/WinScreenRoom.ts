@@ -51,7 +51,10 @@ export class WinScreenRoom extends Room implements Simple {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult([""]);
+        return new TextActionResult([
+            "You put the key in the igniter and twist it.",
+            "The car turns on, you are able to escape!",
+        ]);
     }
 
     /**
