@@ -10,6 +10,7 @@ import { DriveAction } from "../actions/DriveAction";
 import { FuelAction } from "../actions/FuelAction";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { HideAction } from "../actions/HideAction";
 import { OpenAction } from "../actions/OpenAction";
 import { PressAction } from "../actions/PressAction";
 import { CorpseCharacter } from "../characters/CorpseCharacter";
@@ -82,6 +83,7 @@ export class ShedRoom extends Room implements Examine {
         if (playerSession.selectedItem === "CarKeyItem") {
             actions.push(new DriveAction());
         }
+        actions.push(new HideAction());
 
         return actions;
     }

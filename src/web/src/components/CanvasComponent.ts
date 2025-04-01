@@ -348,6 +348,7 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private showSoundOptions(overlay: OverlayComponent): void {
+        this.playSounds();
         // Dit is de "Sound" instellingen-overlay
         const soundHtml: string = `
             <h2>Geluidinstellingen</h2>

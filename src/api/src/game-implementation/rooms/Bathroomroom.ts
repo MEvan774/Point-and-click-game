@@ -68,7 +68,9 @@ export class BathroomRoom extends Room implements Examine {
 
         // Object that are always present in the room.
         if (!playerSession.walkedToBathtub) {
-            objects.push(new BathroomItem());
+            if (!playerSession.pickedUpKey) {
+                objects.push(new BathroomItem());
+            }
             objects.push(new DoorBathroomBedroomItem());
         }
 

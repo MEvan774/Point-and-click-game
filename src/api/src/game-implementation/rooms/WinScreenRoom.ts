@@ -37,7 +37,7 @@ export class WinScreenRoom extends Room implements Simple {
     public images(): string[] {
         const result: string[] = [];
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (playerSession.escapedByCar) {
+        if (playerSession.escapedByCar || gameService.getPlayerSession().lastRoom === "Shed") {
             result.push("CarEnding");
         }
         else {
