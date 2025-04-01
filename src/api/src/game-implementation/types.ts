@@ -51,6 +51,8 @@ export type PlayerSession = {
     openedFreezer: boolean;
     // True when walked to freezer
     walkedToFreezer: boolean;
+    // When the player is hiding
+    playerIsHiding: boolean;
     // variables for ghostChar's ingredients given
     givenEyes: boolean;
     givenTongue: boolean;
