@@ -79,14 +79,17 @@ export class CarItem extends Item implements Examine, Fuel, Drive {
      * @returns a text result based on the action / conditions
      */
     public async drive(): Promise<ActionResult | undefined> {
-        const room: Room = new WinScreenRoom();
-        gameService.getPlayerSession().currentRoom = room.alias;
+        if (!gameService.getPlayerSession().escapedByCar) {
+            const room: Room = new WinScreenRoom();
+            gameService.getPlayerSession().currentRoom = room.alias;
+            gameService.getPlayerSession().escapedByCar = true;
+            // Wait 8.5 seconds
+            await this.delay(8500);
 
-        // Wait 8.5 seconds
-        await this.delay(8500);
-
-        // Go to new room
-        return room.examine();
+            // Go to new room
+            return room.examine();
+        }
+        return;
     }
 
     // Hulpfunctie om de vertraging te realiseren

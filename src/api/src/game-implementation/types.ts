@@ -68,4 +68,6 @@ export type PlayerSession = {
     gateOpen: boolean;
     // True when fueled up
     carFueled: boolean;
+    // True when car used to escape
+    escapedByCar: boolean;
 };

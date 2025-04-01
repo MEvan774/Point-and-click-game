@@ -4,6 +4,7 @@ import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { PlayerSession } from "../types";
 import { BedroomRoom } from "./BedroomRoom";
 import { StartupRoom } from "./StartupRoom";
 
@@ -34,7 +35,15 @@ export class WinScreenRoom extends Room implements Simple {
      * @inheritdoc
      */
     public images(): string[] {
-        return ["WinScreen"];
+        const result: string[] = [];
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.escapedByCar) {
+            result.push("CarEnding");
+        }
+        else {
+            result.push("WinScreen");
+        }
+        return result;
     }
 
     /**
@@ -51,10 +60,18 @@ export class WinScreenRoom extends Room implements Simple {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
-        return new TextActionResult([
-            "You put the key in the igniter and twist it.",
-            "The car turns on, you are able to escape!",
-        ]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.escapedByCar) {
+            return new TextActionResult([
+                "You put the key in the igniter and twist it.",
+                "The car turns on, you are able to escape!",
+            ]);
+        }
+        else {
+            return new TextActionResult ([
+                "Congratulations, you made it out of the castle!",
+            ]);
+        }
     }
 
     /**

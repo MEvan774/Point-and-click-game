@@ -794,7 +794,7 @@ export class CanvasComponent extends HTMLElement {
         }
         if (action.alias === "fuel") {
             const fuelSound: HTMLAudioElement = new Audio("public/audio/soundEffects/fuel-fill.mp3");
-            this._fuelMinigame = new FuelFillingMinigame(this, fuelSound, true);
+            this._fuelMinigame = new FuelFillingMinigame(this, fuelSound, false);
         }
     }
 

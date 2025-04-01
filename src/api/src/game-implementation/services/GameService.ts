@@ -200,6 +200,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             gateItemsUsed: 0,
             gateOpen: false,
             carFueled: false,
+            escapedByCar: false,
         };
     }
 
