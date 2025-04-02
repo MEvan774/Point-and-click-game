@@ -434,8 +434,8 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private async goToStartup(): Promise<void> {
-        this._timer!.stop();
-        this._timer!.reset();
+        this._timer?.stop();
+        this._timer?.reset();
         sessionStorage.setItem("visited", "true");
 
         if (!this._currentGameState) {
