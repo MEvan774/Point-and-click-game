@@ -22,7 +22,7 @@ export class FuelFillingMinigame {
         this._canvas = canvas;
         this.fuelSound = fuelSound;
         this.fuelSound.volume = 1.0;
-        this.completeSound = new Audio("public/audio/soundEffects/task-complete.mp3");
+        this.completeSound = new Audio("/audio/soundEffects/task-complete.mp3");
         this.completeSound.volume = 1.0;
         this._isKeyInInventory = isKeyInInventory;
 

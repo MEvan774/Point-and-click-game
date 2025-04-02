@@ -551,7 +551,7 @@ export class CanvasComponent extends HTMLElement {
                     const isActive: string = this._selectedInventoryItem === inventory[x] ? "active" : "";
 
                     title += "<button id='" + inventory[x] +
-                    "' class='buttonImage " + isActive + "'><img src='public/assets/img/items/" +
+                    "' class='buttonImage " + isActive + "'><img src='/assets/img/items/" +
                     inventory[x] + ".png' height='50px'/></button>";
                 }
                 title += "<button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>";
@@ -819,7 +819,7 @@ export class CanvasComponent extends HTMLElement {
 
         if (action.alias === "fuel") {
             this._timer?.pause();
-            const fuelSound: HTMLAudioElement = new Audio("public/audio/soundEffects/fuel-fill.mp3");
+            const fuelSound: HTMLAudioElement = new Audio("/audio/soundEffects/fuel-fill.mp3");
             this._fuelMinigame = new FuelFillingMinigame(this, fuelSound, false);
         }
 
@@ -877,7 +877,7 @@ export class CanvasComponent extends HTMLElement {
             return;
         }
         else {
-            footstepsSound = new Audio("public/audio/soundEffects/footsteps.mp3");
+            footstepsSound = new Audio("/audio/soundEffects/footsteps.mp3");
             footstepsSound.volume = 0.8;
             footstepsSound.playbackRate = 1.5;
         }
