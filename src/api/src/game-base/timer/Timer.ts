@@ -48,24 +48,23 @@ export class Timer {
         return Math.floor(Math.random() * (90000 - 30000 + 1)) + 30000;
     }
 
-    // Start or resume the timer
+    private static getRandomTimeout(): number {
+        return Math.floor(Math.random() * (100));
+    }
+
     public start(): void {
-        if (this.intervalId) return; // Prevent multiple intervals
-        // return;
+        if (this.intervalId) return;
         console.log("Timer started.");
         this.intervalId = setInterval(() => {
             if (this.currentTime > 0) {
-                this.currentTime -= 1000; // Decrease by 1 second
-            }
-            else {
+                this.currentTime -= 1000;
+            } else {
                 this.switchTimers();
             }
-
             console.log(`Time left: ${this.currentTime / 1000} seconds`);
         }, 1000);
     }
 
-    // Pause the timer
     public pause(): void {
         if (this.intervalId) {
             clearInterval(this.intervalId);
@@ -74,7 +73,6 @@ export class Timer {
         }
     }
 
-    // Reset the timer to its original countdown
     public reset(): void {
         this.stop();
         this.currentTimer = 1; // Ensure it resets to the first countdown
@@ -85,20 +83,17 @@ export class Timer {
         this.start(); // Restart timer with new countdown
     }
 
-    // Stop the timer completely
     public stop(): void {
         this.pause();
         this.currentTime = 0;
         console.log("Timer stopped.");
     }
 
-    // sets timer to the second countdown
     public alarm(): void {
         this.currentTimer = 1;
         this.switchTimers();
     }
 
-    // Switch between the two timers
     private switchTimers(): void {
         if (this.currentTimer === 1) {
             console.log("Switching to second countdown.");
@@ -106,47 +101,67 @@ export class Timer {
             this.countdown2 = Timer.getRandomTimeout(); // Generate new second countdown
             this.currentTime = this.countdown2;
             void this._chaseSound.play();
-        }
-        else {
+            this.showPopupMessage("You are being hunted, hide!", "red");
+        } else {
             if (!this.isHiding) {
                 this.stop();
                 this.jumpscare();
-            }
-            else {
+            } else {
                 this.reset();
             }
         }
     }
 
-    // Transition player to GameOverRoom if conditions are not met
     private async transitionToGameOverRoom(): Promise<void> {
         await this._canvas.setEndMinigameAction(ActionTypes.GoTo, "gameOver");
         console.log("Player has been sent to the GameOverRoom.");
         this.stop();
     }
 
-    // Get the remaining time in seconds
     public getTimeLeft(): number {
         return this.currentTime / 1000;
     }
 
     private jumpscare(): void {
         void this._jumpscareSound.play();
-
-        this.spriteElement.style.display = "block"; // Show sprite
+        this.spriteElement.style.display = "block";
         let currentFrame: number = 0;
         const animate: NodeJS.Timeout = setInterval(() => {
             if (currentFrame >= this.frameCount) {
                 clearInterval(animate);
-                void this.transitionToGameOverRoom(); // End game after second timer
-                document.body.removeChild(this.spriteElement); // Remove after animation
+                void this.transitionToGameOverRoom();
+                document.body.removeChild(this.spriteElement);
                 return;
             }
-
-            // Move only horizontally (X-axis)
             this.spriteElement.style.backgroundPosition = `-${currentFrame * this.frameWidth * this.scaleX}px 0px`;
-
             currentFrame++;
         }, this.frameDuration);
+    }
+
+    private showPopupMessage(message: string, textColor: string): void {
+        const popup: HTMLDivElement = document.createElement("div");
+        popup.textContent = message;
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.padding = "20px";
+        popup.style.fontFamily = "DungeonFont";
+        popup.style.fontSize = "32px";
+        popup.style.fontStyle = "bold";
+        popup.style.color = textColor;
+        popup.style.backgroundColor = "black";
+        popup.style.borderRadius = "0px";
+        popup.style.zIndex = "10000";
+        popup.style.textAlign = "center";
+        popup.style.opacity = "1";
+        popup.style.transition = "opacity 1s ease-out";
+
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            popup.style.opacity = "0";
+            setTimeout(() => document.body.removeChild(popup), 1000);
+        }, 3000);
     }
 }
