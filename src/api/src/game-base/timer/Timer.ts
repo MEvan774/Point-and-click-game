@@ -45,13 +45,13 @@ export class Timer {
 
     // Generate a random timeout between 40,000 and 70,000 ms
     private static getRandomTimeout(): number {
-        return Math.floor(Math.random() * (1000));
+        return Math.floor(Math.random() * (10000000));
     }
 
     // Start or resume the timer
     public start(): void {
         if (this.intervalId) return; // Prevent multiple intervals
-return;
+// return;
         console.log("Timer started.");
         this.intervalId = setInterval(() => {
             if (this.currentTime > 0) {

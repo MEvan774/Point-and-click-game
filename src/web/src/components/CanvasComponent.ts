@@ -706,6 +706,7 @@ export class CanvasComponent extends HTMLElement {
         if (this._currentGameState?.roomAlias === "startup" ||
           this._currentGameState?.roomAlias === "game-over" ||
           this._currentGameState?.roomAlias === "win") {
+            this._timer?.stop();
             element = html`
             <a class="button-Startup ${this._selectedActionButton === action ? "active" : ""}">
                 ${action.name}
@@ -817,6 +818,7 @@ export class CanvasComponent extends HTMLElement {
 
         if (action.alias === "drive") {
             // this.playEngineSound();
+            this._timer?.stop();
             await this.playEngineSound();
         }
 
