@@ -20,7 +20,7 @@ export class GhostCharacter extends Character implements Examine, Talk {
      */
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: -100, y: 100 };
-    public _size: Vector2 = { x: 165, y: 400 };
+    public _size: Vector2 = { x: 165, y: 300 };
     // public static readonly validActions: string[] = [ActionTypes.Talk, ActionTypes.GoTo];
     public _isDebugHitboxVisible: boolean = false;
 

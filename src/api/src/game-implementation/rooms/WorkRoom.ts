@@ -54,6 +54,13 @@ export class WorkRoom extends Room implements Examine {
         else {
             result.push("OfficeRoom");
         }
+
+        if (!playerSession.inventory.includes("DiaryItem"))
+            result.push("DiaryItem");
+
+        if (!playerSession.inventory.includes("FirstAidItem"))
+            result.push("FirstAidItem");
+
         return result;
     }
 
@@ -62,13 +69,19 @@ export class WorkRoom extends Room implements Examine {
      * @returns the objecs for in the room
      */
     public objects(): GameObject[] {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         const objects: GameObject[] = [
-            new FirstAidItem(),
-            new DiaryItem(),
             new DoorOfficeHallwayItem(),
             new ToStartupItem(),
             new ToGameOverScreenItem(),
         ];
+
+        if (!playerSession.inventory.includes("DiaryItem"))
+            objects.push(new DiaryItem());
+
+        if (!playerSession.inventory.includes("FirstAidItem"))
+            objects.push(new FirstAidItem());
+
         return objects;
     }
 

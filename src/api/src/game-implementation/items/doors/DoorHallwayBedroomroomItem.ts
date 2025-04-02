@@ -18,7 +18,7 @@ export class DoorHallwayBedroomItem extends Item implements Examine, GoTo {
      */
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: -500, y: 500 };
-    public _size: Vector2 = { x: 1000, y: 200 };
+    public _size: Vector2 = { x: 1000, y: 190 };
     public _isDebugHitboxVisible: boolean = false;
     public static readonly validActions: string[] = [ActionTypes.GoTo];
 
