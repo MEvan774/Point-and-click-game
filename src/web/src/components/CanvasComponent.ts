@@ -565,7 +565,7 @@ export class CanvasComponent extends HTMLElement {
             // <div class='overlayDiv'></div>
             // </div>`;
             const title: string = `<div class="title">${roomName}<br>
-            <img src='/public/assets/img/Items/black.png' height='50px'/>
+            <img src='/assets/img/Items/black.png' height='50px'/>
             <button class='options' id='optionsBtn'><img src='assets/img/options/options.png' height='50px'></button>
             </div>`;
 
