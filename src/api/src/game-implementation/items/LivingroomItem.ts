@@ -13,9 +13,9 @@ import { HiddenRoom } from "../rooms/HiddenRoom";
  *
  * @remarks Implements the Examine and Hide action
  */
-export class BedItem extends Item implements Examine, Hide {
+export class LivingroomItem extends Item implements Examine, Hide {
     // Alias of the item used to find the item
-    public static readonly Alias: string = "Bed";
+    public static readonly Alias: string = "drawer";
 
     /**
      * _position: Position of the item's hitbox
@@ -24,20 +24,20 @@ export class BedItem extends Item implements Examine, Hide {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: -300, y: 300 };
-    public _size: Vector2 = { x: 200, y: 250 };
+    public _position: Vector2 = { x: 235, y: 375 };
+    public _size: Vector2 = { x: 175, y: 225 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["hide"];
 
     // Create a new instance of this item
     public constructor() {
-        super(BedItem.Alias, BedItem.validActions);
+        super(LivingroomItem.Alias, LivingroomItem.validActions);
     }
 
     // Name of the item, shows up on the buttons for example
     public name(): string {
-        return "Bed";
+        return "Drawer";
     }
 
     /**
@@ -47,19 +47,17 @@ export class BedItem extends Item implements Examine, Hide {
      */
     public examine(): ActionResult | undefined {
         return new TextActionResult([
-            "The bed is high enough off the ground to hide under.",
-            "Should I hide?",
-            "Ofcourse I should hide, I don't want to get caught.",
+            "The drawer looks big enough to hide inside it.",
         ]);
     }
 
     /**
-     * Brings the player to the HiddenRoom and saves the bedroom in the PlayerSession
+     * Brings the player to the HiddenRoom and saves the livingroom in the PlayerSession
      *
      * @returns room.examine() of the HiddenRoom
      */
     public hide(): ActionResult | undefined {
-        gameService.getPlayerSession().hiddenIn = "bedroom";
+        gameService.getPlayerSession().hiddenIn = "livingRoom";
         const room: Room = new HiddenRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;

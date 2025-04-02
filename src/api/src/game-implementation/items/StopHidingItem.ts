@@ -8,6 +8,7 @@ import { StorageRoom } from "../rooms/StorageRoom";
 import { gameService } from "../../global";
 import { StopHiding } from "../actions/StopHidingAction";
 import { BedroomRoom } from "../rooms/BedroomRoom";
+import { LivingRoom } from "../rooms/LivingRoom";
 import { ShedRoom } from "../rooms/ShedRoom";
 
 /**
@@ -66,6 +67,9 @@ export class StopHidingItem extends Item implements Examine, StopHiding {
         }
         else if (gameService.getPlayerSession().hiddenIn === "bedroom") {
             room = new BedroomRoom();
+        }
+        else if (gameService.getPlayerSession().hiddenIn === "livingRoom") {
+            room = new LivingRoom();
         }
         else if (gameService.getPlayerSession().hiddenIn === "ShedRoom") {
             room = new ShedRoom();

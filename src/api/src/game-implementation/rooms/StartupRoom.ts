@@ -64,6 +64,8 @@ export class StartupRoom extends Room implements Simple {
                 "If you want to execute an action you need an object for,",
                 "Click on the object in your inventory,",
                 "and then on the object and action you want to use it on.",
+                "Search for places to hide, because the kidnapper is coming for you.",
+                "Some places you are able to hide are: under a bed, in a closet or inside a cupboard.",
                 "You win when you escape.",
             ]);
         }
