@@ -6,7 +6,7 @@ export class Timer {
 
     private intervalId: NodeJS.Timeout | null = null;
     private countdown1: number = Timer.getRandomTimeout(); // First countdown duration
-    private countdown2: number = Timer.getRandomTimeout(); // Second countdown duration
+    private countdown2: number = Timer.getRandomTimeout2(); // Second countdown duration
     private currentTime: number = this.countdown1; // Track remaining time
     private currentTimer: number = 1; // 1 = first timer, 2 = second timer
 

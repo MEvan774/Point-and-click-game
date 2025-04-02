@@ -56,12 +56,11 @@ export class WinScreenRoom extends Room implements Simple {
         return [
             new SimpleAction("startup", "Go to main menu"),
             new SimpleAction("new-game", "New Game"),
-            new GoToStartupAction(),
         ];
     }
 
     public items(): Item[] {
-        return [new ToStartupItem()];
+        return [];
     }
 
     /**
