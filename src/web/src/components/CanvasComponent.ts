@@ -826,6 +826,7 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias === "hide") {
             this._timer!.pause();
             setTimeout(() => {
+                this._timer!.showPopupMessage("You hear him leaving", "green");
                 this.playFootstepsSound();
                 this._timer!.isHiding = true;
             }, 5000);

@@ -41,15 +41,11 @@ export class Timer {
         document.body.appendChild(this.spriteElement);
 
         this.start();
-    } // Private constructor to enforce singleton pattern
+    }
 
     // Generate a random timeout between 40,000 and 70,000 ms
     private static getRandomTimeout(): number {
         return Math.floor(Math.random() * (90000 - 30000 + 1)) + 30000;
-    }
-
-    private static getRandomTimeout2(): number {
-        return Math.floor(Math.random() * (20000 - 10000 + 1)) + 10000;
     }
 
     public start(): void {
@@ -94,6 +90,7 @@ export class Timer {
     private switchTimers(): void {
         if (this.currentTimer === 1) {
             this.currentTimer = 2;
+            this.countdown2 = Timer.getRandomTimeout(); // Generate new second countdown
             this.countdown2 = Timer.getRandomTimeout2(); // Generate new second countdown
             this.currentTime = this.countdown2;
             void this._chaseSound.play();
@@ -134,7 +131,7 @@ export class Timer {
         }, this.frameDuration);
     }
 
-    private showPopupMessage(message: string, textColor: string): void {
+    public showPopupMessage(message: string, textColor: string): void {
         const popup: HTMLDivElement = document.createElement("div");
         popup.textContent = message;
         popup.style.position = "fixed";
