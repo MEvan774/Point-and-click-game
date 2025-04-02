@@ -45,14 +45,13 @@ export class GameOverRoom extends Room implements Simple {
     public actions(): Action[] {
         const actions: Action[] = [
             new SimpleAction("quit-game", "Go back"),
-            new GoToStartupAction(),
         ];
 
         return actions;
     }
 
     public items(): Item[] {
-        return [new ToStartupItem()];
+        return [];
     }
 
     /**

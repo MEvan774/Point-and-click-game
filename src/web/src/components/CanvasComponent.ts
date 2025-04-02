@@ -202,7 +202,6 @@ export class CanvasComponent extends HTMLElement {
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
     private _timer: Timer | undefined;
-
     /**
      * The "constructor" of a Web Component
      */
@@ -744,6 +743,12 @@ export class CanvasComponent extends HTMLElement {
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
         if (object) {
+            if (action.alias === "go to" && object.alias === "hallway-door") {
+                if (this._timer?.getTimeLeft() === 0) {
+                    this._timer.reset();
+                    this._timer.start();
+                }
+            }
             // Play footsteps sound
             if (action.alias === "go to") {
                 this.playFootstepsSound(object.alias);
@@ -784,12 +789,6 @@ export class CanvasComponent extends HTMLElement {
 
         if (this._currentGameState?.roomAlias === "game-over") {
             this._timer!.stop();
-        }
-
-        if (action.alias === "go to" && object?.alias === "gameOver") {
-            if (this._currentGameState?.roomAlias === "bedroom") {
-                this._timer?.stop();
-            }
         }
 
         // Renders room if the talk action is finished
