@@ -59,7 +59,8 @@ export class Timer {
         this.intervalId = setInterval(() => {
             if (this.currentTime > 0) {
                 this.currentTime -= 1000;
-            } else {
+            }
+            else {
                 this.switchTimers();
             }
             console.log(`Time left: ${this.currentTime / 1000} seconds`);
@@ -103,11 +104,13 @@ export class Timer {
             this.currentTime = this.countdown2;
             void this._chaseSound.play();
             this.showPopupMessage("You are being hunted, hide!", "red");
-        } else {
+        }
+        else {
             if (!this.isHiding) {
                 this.stop();
                 this.jumpscare();
-            } else {
+            }
+            else {
                 this.reset();
             }
         }
