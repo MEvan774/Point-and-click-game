@@ -204,7 +204,6 @@ export class CanvasComponent extends HTMLElement {
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
     private _timer: Timer | undefined;
-
     /**
      * The "constructor" of a Web Component
      */
@@ -290,7 +289,9 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private openOverlay(): void {
+        this._timer!.pause();
         const overlay: OverlayComponent = new OverlayComponent(() => {
+            this._timer!.start();
             console.log("Overlay closed");
         });
         const optionsList: string[] = [
@@ -438,6 +439,7 @@ export class CanvasComponent extends HTMLElement {
     private async goToStartup(): Promise<void> {
         this._timer?.stop();
         this._timer?.reset();
+
         sessionStorage.setItem("visited", "true");
 
         if (!this._currentGameState) {
@@ -746,6 +748,12 @@ export class CanvasComponent extends HTMLElement {
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
         if (object) {
+            if (action.alias === "go to" && object.alias === "hallway-door") {
+                if (this._timer?.getTimeLeft() === 0) {
+                    this._timer.reset();
+                    this._timer.start();
+                }
+            }
             // Play footsteps sound
             if (action.alias === "go to") {
                 this.playFootstepsSound(object.alias);
@@ -782,6 +790,10 @@ export class CanvasComponent extends HTMLElement {
             this.isActionTalk = true;
             await this.render();
             this.isActionTalk = false;
+        }
+
+        if (this._currentGameState?.roomAlias === "game-over") {
+            this._timer!.stop();
         }
 
         // Renders room if the talk action is finished
