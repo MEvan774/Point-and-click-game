@@ -789,7 +789,11 @@ export class CanvasComponent extends HTMLElement {
             await this.render();
         }
 
-        if (action.alias === "taste") {
+        if (action.alias.includes(":555")) {
+            void this.refreshGameState();
+        }
+
+        if (action.alias === "taste" || action.alias.includes(":777")) {
             this._timer?.pause();
             const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
@@ -817,13 +821,11 @@ export class CanvasComponent extends HTMLElement {
         }
 
         if (action.alias === "drive") {
-            // this.playEngineSound();
             this._timer?.stop();
             await this.playEngineSound();
         }
 
         if (action.alias === "Press") {
-            // this.playLightSound();
             if (object?.alias.includes("LightSwitch")) {
                 await this.playLightSound();
             }
