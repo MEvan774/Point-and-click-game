@@ -55,7 +55,6 @@ export class Timer {
     public start(): void {
         if (this.intervalId) return;
 
-        console.log("Timer started.");
         this.intervalId = setInterval(() => {
             if (this.currentTime > 0) {
                 this.currentTime -= 1000;
@@ -63,7 +62,6 @@ export class Timer {
             else {
                 this.switchTimers();
             }
-            console.log(`Time left: ${this.currentTime / 1000} seconds`);
         }, 1000);
     }
 
@@ -71,7 +69,6 @@ export class Timer {
         if (this.intervalId) {
             clearInterval(this.intervalId);
             this.intervalId = null;
-            console.log("Timer paused.");
         }
     }
 
@@ -80,7 +77,6 @@ export class Timer {
         this.currentTimer = 1; // Ensure it resets to the first countdown
         this.countdown1 = Timer.getRandomTimeout();
         this.currentTime = this.countdown1;
-        console.log("Timer reset to first countdown.");
 
         this.start(); // Restart timer with new countdown
     }
@@ -88,7 +84,6 @@ export class Timer {
     public stop(): void {
         this.pause();
         this.currentTime = 0;
-        console.log("Timer stopped.");
     }
 
     public alarm(): void {
@@ -98,7 +93,6 @@ export class Timer {
 
     private switchTimers(): void {
         if (this.currentTimer === 1) {
-            console.log("Switching to second countdown.");
             this.currentTimer = 2;
             this.countdown2 = Timer.getRandomTimeout2(); // Generate new second countdown
             this.currentTime = this.countdown2;
