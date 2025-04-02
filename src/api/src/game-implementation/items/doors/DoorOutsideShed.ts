@@ -4,9 +4,8 @@ import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
 import { ShedRoom } from "../../rooms/ShedRoom";
-import { Room } from "../../../game-base/gameObjects/Room";
-import { gameService } from "../../../global";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorOutsideShed extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Outside Shed room";
@@ -36,9 +35,6 @@ export class DoorOutsideShed extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new ShedRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        return new TeleportActionResult(new ShedRoom());
     }
 }

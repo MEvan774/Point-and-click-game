@@ -3,10 +3,9 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { WorkRoom } from "../../rooms/WorkRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorHallwayOfficeItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-office-door";
@@ -36,9 +35,6 @@ export class DoorHallwayOfficeItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new WorkRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        return new TeleportActionResult(new WorkRoom());
     }
 }

@@ -3,10 +3,9 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { LivingRoom } from "../../rooms/LivingRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 /**
  * The item that is used to go to the LivingRoom from the FrontDoorRoom
@@ -55,9 +54,6 @@ export class DoorFrontDoorLivingRoomItem extends Item implements Examine, GoTo {
      * @returns room.examine() for the LivingRoom
      */
     public goto(): ActionResult | undefined {
-        const room: Room = new LivingRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        return new TeleportActionResult(new LivingRoom());
     }
 }
