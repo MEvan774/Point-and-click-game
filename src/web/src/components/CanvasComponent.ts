@@ -745,6 +745,7 @@ export class CanvasComponent extends HTMLElement {
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
         if (object) {
+            console.log(action.alias + object.alias);
             // Play footsteps sound
             if (action.alias === "go to" && !this.isMuted) {
                 this.playFootstepsSound(object.alias);
