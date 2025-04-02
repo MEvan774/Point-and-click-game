@@ -190,7 +190,7 @@ export class VomitMinigame {
             this.progressBar.style.animation = "none";
             this.progressFill.style.background = "#a0a08b";
             if (!this._isFuelInInventory) {
-                this.message.innerText = "Congrats, you recieved Feul!";
+                this.message.innerText = "Congrats, you recieved Fuel!";
                 void this._canvas.setEndMinigameAction(ActionTypes.PickUp, "fuel");
             }
             else

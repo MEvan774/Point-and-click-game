@@ -61,6 +61,7 @@ export class GameOverRoom extends Room implements Simple {
      */
     public simple(alias: string): ActionResult | undefined {
         if (alias === "new-game") {
+            gameService.resetPlayerSession();
             const room: Room = new BedroomRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;
@@ -68,6 +69,7 @@ export class GameOverRoom extends Room implements Simple {
             return room.examine();
         }
         if (alias === "quit-game") {
+            gameService.resetPlayerSession();
             const room: Room = new StartupRoom();
 
             gameService.getPlayerSession().currentRoom = room.alias;

@@ -154,6 +154,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(StopHidingAction);
         this.registerAction(GoToStartupAction);
         this.registerAction(TasteAction);
+        this.registerAction(FuelAction);
+        this.registerAction(DriveAction);
     }
 
     /**
@@ -194,6 +196,8 @@ export class GameService extends BaseGameService<PlayerSession> {
             keyFallen: false,
             gateItemsUsed: 0,
             gateOpen: false,
+            carFueled: false,
+            escapedByCar: false,
         };
     }
 
