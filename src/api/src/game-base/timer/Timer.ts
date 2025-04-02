@@ -51,7 +51,7 @@ export class Timer {
     // Start or resume the timer
     public start(): void {
         if (this.intervalId) return; // Prevent multiple intervals
-
+return;
         console.log("Timer started.");
         this.intervalId = setInterval(() => {
             if (this.currentTime > 0) {

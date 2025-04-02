@@ -8,6 +8,8 @@ import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/F
 import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 import { OverlayComponent } from "./OverlayComponent";
 import { Timer } from "../../../api/src/game-base/timer/Timer";
+import { FuelFillingMinigame } from "../../../api/src/game-implementation/minigames/FuelMinigame";
+
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
  
@@ -196,6 +198,7 @@ export class CanvasComponent extends HTMLElement {
     /** All the flashlights active in the room, primairly used for disabling the flashlight */
     private _lights: FlashLightUseItem[] = [];
     private _vomitMinigame: VomitMinigame | undefined;
+    private _fuelMinigame: FuelFillingMinigame | undefined;
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
     private _timer: Timer | undefined;
@@ -791,6 +794,12 @@ export class CanvasComponent extends HTMLElement {
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
         }
 
+        if (action.alias === "fuel") {
+            this._timer?.pause();
+            const fuelSound: HTMLAudioElement = new Audio("public/audio/soundEffects/fuel-fill.mp3");
+            this._fuelMinigame = new FuelFillingMinigame(this, fuelSound, false);
+        }
+
         if (action.alias === "hide") {
             this._timer!.isHiding = true;
         }
@@ -804,6 +813,18 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias === "new-game") {
             this._timer?.reset();
             this._timer!.start();
+        }
+
+        if (action.alias === "drive") {
+            // this.playEngineSound();
+            await this.playEngineSound();
+        }
+
+        if (action.alias === "Press") {
+            // this.playLightSound();
+            if (object?.alias.includes("LightSwitch")) {
+                await this.playLightSound();
+            }
         }
     }
 
@@ -853,6 +874,29 @@ export class CanvasComponent extends HTMLElement {
                     console.error("Onbekende fout bij het afspelen van audio.");
                 }
             });
+        }
+    }
+
+    private async playEngineSound(): Promise<void> {
+        const engineStartSound: HTMLAudioElement = new Audio("public/audio/soundEffects/car-start-drive-away.mp3");
+        engineStartSound.volume = 0.2;
+        await engineStartSound.play();
+        setTimeout(async () => {
+            engineStartSound.pause();
+            engineStartSound.currentTime = 27;
+            await engineStartSound.play();
+            setTimeout(() => {
+                engineStartSound.pause();
+                engineStartSound.currentTime = 0;
+            }, 5000);
+        }, 3000);
+    }
+
+    private async playLightSound(object?: string): Promise<void> {
+        if (object === "LightSwitch") {
+            const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
+            lightSwitchSound.volume = 0.5;
+            await lightSwitchSound.play();
         }
     }
 
@@ -964,6 +1008,7 @@ export class CanvasComponent extends HTMLElement {
         this._vomitMinigame = undefined;
         // Removes the warning message: this._vomitMinigame is declared but never read.
         console.log(this._vomitMinigame);
+        console.log(this._fuelMinigame);
     }
 
     private StartTimer(): void {
