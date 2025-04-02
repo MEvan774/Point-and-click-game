@@ -761,6 +761,10 @@ export class CanvasComponent extends HTMLElement {
                 await this.playEngineSound();
             }
 
+            if (object.alias.includes("LightSwitch")) {
+                await this.playLightSound();
+            }
+
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
 
             if (state === undefined) {
