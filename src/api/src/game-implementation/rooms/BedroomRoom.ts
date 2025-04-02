@@ -12,6 +12,7 @@ import { BedItem } from "../items/BedItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
+import { gameService } from "../../global";
 
 /**
  * Implementation of the bedroom room
@@ -75,6 +76,12 @@ export class BedroomRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
+        if (gameService.getPlayerSession().usedFirstAid) {
+            return new TextActionResult([
+                "You survived, but used up the First aid kit!",
+                "Next time, you won't be so lucky...",
+            ]);
+        }
         return new TextActionResult([
             "This is a bedroom.",
             "There are 2 doors.",

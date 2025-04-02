@@ -288,7 +288,9 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private openOverlay(): void {
+        this._timer!.pause();
         const overlay: OverlayComponent = new OverlayComponent(() => {
+            this._timer!.start();
             console.log("Overlay closed");
         });
         const optionsList: string[] = [
@@ -434,8 +436,6 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private async goToStartup(): Promise<void> {
-        this._timer!.stop();
-        this._timer!.reset();
         sessionStorage.setItem("visited", "true");
 
         if (!this._currentGameState) {
@@ -782,6 +782,16 @@ export class CanvasComponent extends HTMLElement {
             this.isActionTalk = false;
         }
 
+        if (this._currentGameState?.roomAlias === "game-over") {
+            this._timer!.stop();
+        }
+
+        if (action.alias === "go to" && object?.alias === "gameOver") {
+            if (this._currentGameState?.roomAlias === "bedroom") {
+                this._timer?.stop();
+            }
+        }
+
         // Renders room if the talk action is finished
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
             this._timer!.start();
@@ -837,7 +847,6 @@ export class CanvasComponent extends HTMLElement {
         }
 
         if (action.alias === "Press") {
-            // this.playLightSound();
             if (object?.alias.includes("LightSwitch")) {
                 await this.playLightSound();
             }

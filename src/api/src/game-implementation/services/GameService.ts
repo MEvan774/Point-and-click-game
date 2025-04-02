@@ -204,6 +204,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             gateOpen: false,
             carFueled: false,
             escapedByCar: false,
+            usedFirstAid: false,
         };
     }
 
