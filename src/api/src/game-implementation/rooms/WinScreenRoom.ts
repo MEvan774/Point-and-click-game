@@ -5,8 +5,6 @@ import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
 import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
-import { GoToStartupAction } from "../actions/GoToStartupAction";
-import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { PlayerSession } from "../types";
 import { BedroomRoom } from "./BedroomRoom";
 import { StartupRoom } from "./StartupRoom";
