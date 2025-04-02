@@ -335,6 +335,8 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private async restartGame(overlay?: OverlayComponent): Promise<void> {
+        this._timer!.stop();
+
         if (overlay) {
             overlay.closeOverlay();
         }
@@ -430,6 +432,8 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private async goToStartup(): Promise<void> {
+        this._timer!.stop();
+        this._timer!.reset();
         sessionStorage.setItem("visited", "true");
 
         if (!this._currentGameState) {
@@ -793,9 +797,19 @@ export class CanvasComponent extends HTMLElement {
         }
 
         if (action.alias === "hide") {
-            this._timer!.isHiding = true;
+            this._timer!.pause();
+            setTimeout(() => {
+                this.playFootstepsSound();
+                this._timer!.isHiding = true;
+            }, 5000);
         }
         if (action.alias === "stop hiding") {
+            if (this._timer!.isHiding) {
+                this._timer!.isHiding = false;
+                this._timer!.reset();
+                this._timer!.start();
+            }
+
             this._timer!.isHiding = false;
         }
         if (action.alias === "talk") {
@@ -968,8 +982,9 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private StartTimer(): void {
-        if (!this._timer)
+        if (!this._timer) {
             this._timer = new Timer(new Audio("public/audio/soundEffects/soundWarningKidnapper.mp3"),
                 new Audio("public/audio/soundEffects/JumpScare.mp3"), this);
+        }
     }
 }

@@ -45,7 +45,7 @@ export class Timer {
 
     // Generate a random timeout between 40,000 and 70,000 ms
     private static getRandomTimeout(): number {
-        return Math.floor(Math.random() * (1000));
+        return Math.floor(Math.random() * (90000 - 30000 + 1)) + 30000;
     }
 
     // Start or resume the timer
@@ -76,8 +76,13 @@ export class Timer {
 
     // Reset the timer to its original countdown
     public reset(): void {
-        this.currentTime = this.currentTimer === 1 ? this.countdown1 : this.countdown2;
-        console.log("Timer reset.");
+        this.stop();
+        this.currentTimer = 1; // Ensure it resets to the first countdown
+        this.countdown1 = Timer.getRandomTimeout();
+        this.currentTime = this.countdown1;
+        console.log("Timer reset to first countdown.");
+
+        this.start(); // Restart timer with new countdown
     }
 
     // Stop the timer completely
@@ -98,6 +103,7 @@ export class Timer {
         if (this.currentTimer === 1) {
             console.log("Switching to second countdown.");
             this.currentTimer = 2;
+            this.countdown2 = Timer.getRandomTimeout(); // Generate new second countdown
             this.currentTime = this.countdown2;
             void this._chaseSound.play();
         }
