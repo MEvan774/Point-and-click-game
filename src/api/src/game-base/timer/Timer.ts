@@ -48,6 +48,10 @@ export class Timer {
         return Math.floor(Math.random() * (90000 - 30000 + 1)) + 30000;
     }
 
+    private static getRandomTimeout2(): number {
+        return Math.floor(Math.random() * (20000 - 10000 + 1)) + 10000;
+    }
+
     public start(): void {
         if (this.intervalId) return;
 
@@ -90,7 +94,6 @@ export class Timer {
     private switchTimers(): void {
         if (this.currentTimer === 1) {
             this.currentTimer = 2;
-            this.countdown2 = Timer.getRandomTimeout(); // Generate new second countdown
             this.countdown2 = Timer.getRandomTimeout2(); // Generate new second countdown
             this.currentTime = this.countdown2;
             void this._chaseSound.play();
