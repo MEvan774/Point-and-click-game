@@ -11,6 +11,7 @@ import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
 import { BedItem } from "../items/BedItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 
 /**
  * Implementation of the bedroom room
@@ -65,6 +66,7 @@ export class BedroomRoom extends Room {
             new DoorBedroomBathroomItem(),
             new BedItem(),
             new ToStartupItem(),
+            new ToGameOverScreenItem(),
         ];
     }
 

@@ -22,6 +22,7 @@ import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FreezerItem } from "../items/FreezerItem";
 import { LightSwitchItem } from "../items/LightSwitchItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { PlayerSession } from "../types";
 
 export class ShedRoom extends Room implements Examine {
@@ -51,8 +52,13 @@ export class ShedRoom extends Room implements Examine {
     }
 
     public objects(): GameObject[] {
-        const objects: GameObject[] = [new ToStartupItem()];
-
+        const objects: GameObject[] = [
+            new LightSwitchItem(),
+            new FreezerItem(),
+            new DoorShedOutside(),
+            new ToStartupItem(),
+            new ToGameOverScreenItem(),
+        ];
         const playerSession: PlayerSession = gameService.getPlayerSession();
         if (playerSession.openedFreezer) {
             objects.push(
