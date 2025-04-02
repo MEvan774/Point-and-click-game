@@ -43,7 +43,10 @@ export class ShedRoom extends Room implements Examine {
             result.push("ShedroomLight");
         }
         if (playerSession.openedFreezer) {
-            result.push("Freezer");
+            if (!playerSession.inventory.includes("MetalSawItem"))
+                result.push("FreezerSaw");
+            else
+                result.push("Freezer");
         }
         else if (!playerSession.pressedLight) {
             result.push("ShedroomDark");

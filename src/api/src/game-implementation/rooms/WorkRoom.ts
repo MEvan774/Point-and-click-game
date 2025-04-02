@@ -53,13 +53,13 @@ export class WorkRoom extends Room implements Examine {
         }
         else {
             result.push("OfficeRoom");
+
+            if (!playerSession.inventory.includes("DiaryItem"))
+                result.push("DiaryItem");
+
+            if (!playerSession.inventory.includes("FirstAidItem"))
+                result.push("FirstAidItem");
         }
-
-        if (!playerSession.inventory.includes("DiaryItem"))
-            result.push("DiaryItem");
-
-        if (!playerSession.inventory.includes("FirstAidItem"))
-            result.push("FirstAidItem");
 
         return result;
     }
