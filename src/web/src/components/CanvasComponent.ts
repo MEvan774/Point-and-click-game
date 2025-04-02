@@ -7,7 +7,7 @@ import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 import { OverlayComponent } from "./OverlayComponent";
-
+import { Timer } from "../../../api/src/game-base/timer/Timer";
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
 
@@ -198,6 +198,7 @@ export class CanvasComponent extends HTMLElement {
     private _vomitMinigame: VomitMinigame | undefined;
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
+    private _timer: Timer | undefined;
 
     /**
      * The "constructor" of a Web Component
@@ -523,7 +524,7 @@ export class CanvasComponent extends HTMLElement {
           this._currentGameState?.roomAlias === "win") {
             return "";
         }
-
+        this.StartTimer();
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
         if (roomName && inventory) {
@@ -774,12 +775,29 @@ export class CanvasComponent extends HTMLElement {
 
         // Renders room if the talk action is finished
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
+            this._timer!.start();
+            await this.render();
+        }
+        // Alarm of the mirror character when given wrong answer
+        if (action.alias.includes(":666")) {
+            this._timer!.alarm();
             await this.render();
         }
 
         if (action.alias === "taste") {
+            this._timer?.pause();
             const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
+        }
+
+        if (action.alias === "hide") {
+            this._timer!.isHiding = true;
+        }
+        if (action.alias === "stop hiding") {
+            this._timer!.isHiding = false;
+        }
+        if (action.alias === "talk") {
+            this._timer!.pause();
         }
     }
 
@@ -935,8 +953,15 @@ export class CanvasComponent extends HTMLElement {
 
     /** Removes flashlight from the array and html */
     public DisableMinigame(): void {
+        this._timer?.start();
         this._vomitMinigame = undefined;
         // Removes the warning message: this._vomitMinigame is declared but never read.
         console.log(this._vomitMinigame);
+    }
+
+    private StartTimer(): void {
+        if (!this._timer)
+            this._timer = new Timer(new Audio("public/audio/soundEffects/soundWarningKidnapper.mp3"),
+                new Audio("public/audio/soundEffects/JumpScare.mp3"), this);
     }
 }

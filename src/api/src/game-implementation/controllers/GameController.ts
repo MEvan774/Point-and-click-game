@@ -12,7 +12,7 @@ import { Action } from "../../game-base/actions/Action";
 import { TalkChoice } from "../../game-base/actions/TalkAction";
 import { PlayerSession } from "../types";
 import { TeleportActionResult } from "../../game-base/actionResults/TeleportActionResult";
-import { Timer } from "../../game-base/timer/Timer";
+// import { Timer } from "../../game-base/timer/Timer";
 
 /**
  * Controller to handle all game related requests
@@ -149,7 +149,7 @@ export class GameController {
         }
         if (actionResult instanceof TeleportActionResult) {
             gameService.getPlayerSession().currentRoom = actionResult.room.alias;
-            Timer.Instance.startTimer();
+            // Timer.Instance.start();
             return this.convertActionResultToGameState(actionResult.room.examine());
         }
 

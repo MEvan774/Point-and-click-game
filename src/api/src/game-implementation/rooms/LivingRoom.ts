@@ -16,6 +16,7 @@ import { PlayerSession } from "../types";
 import { PickUpAction } from "../actions/PickUpAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 
 /**
  * Implemention of the startup room
@@ -63,6 +64,7 @@ export class LivingRoom extends Room {
         objects.push(new DoorLivingRoomFrontDoorItem());
         objects.push(new DoorLivingRoomKitchenItem());
         objects.push(new ToStartupItem());
+        objects.push(new ToGameOverScreenItem());
 
         if (!playerSession.inventory.includes("Eyes") && !playerSession.givenEyes)
             objects.push(new EyesItem());

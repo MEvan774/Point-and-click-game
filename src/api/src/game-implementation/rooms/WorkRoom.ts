@@ -11,6 +11,7 @@ import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FirstAidItem } from "../items/FirstAidItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { PlayerSession } from "../types";
 
 /**
@@ -65,6 +66,7 @@ export class WorkRoom extends Room implements Examine {
             new DiaryItem(),
             new DoorOfficeHallwayItem(),
             new ToStartupItem(),
+            new ToGameOverScreenItem(),
         ];
         return objects;
     }

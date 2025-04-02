@@ -113,16 +113,16 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     "Consuming all hope with its merciless sheen?",
                 ],
                 [
-                    new TalkChoice(6, "Blood"),
+                    new TalkChoice(666, "Blood"),
                     new TalkChoice(7, "Despair"),
-                    new TalkChoice(6, "Silence"),
-                    new TalkChoice(6, "Pain"),
+                    new TalkChoice(666, "Silence"),
+                    new TalkChoice(666, "Pain"),
                 ]
             );
         }
 
         // When a wrong answer is chosen
-        if (choiceId === 6) {
+        if (choiceId === 666) {
             playerSession.walkedToMirror = false;
             return new TextActionResult([
                 "The moment you say the answer, you hear an alarm go off.",
@@ -141,9 +141,9 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     "What force can destroy without leaving a trace?",
                 ],
                 [
-                    new TalkChoice(6, "Time"),
-                    new TalkChoice(6, "Illness"),
-                    new TalkChoice(6, "Curse"),
+                    new TalkChoice(666, "Time"),
+                    new TalkChoice(666, "Illness"),
+                    new TalkChoice(666, "Curse"),
                     new TalkChoice(8, "Guilt"),
                 ]
             );
@@ -160,10 +160,10 @@ export class MirrorCharacter extends Character implements Examine, Talk {
                     "What am I that haunts this castle's night?",
                 ],
                 [
-                    new TalkChoice(6, "The owner's curse"),
-                    new TalkChoice(6, "A bloodstain"),
+                    new TalkChoice(666, "The owner's curse"),
+                    new TalkChoice(666, "A bloodstain"),
                     new TalkChoice(9, "The anger of the dead"),
-                    new TalkChoice(6, "Darkness"),
+                    new TalkChoice(666, "Darkness"),
                 ]
             );
         }
