@@ -745,6 +745,7 @@ export class CanvasComponent extends HTMLElement {
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
         // Execute the action and update the game state.
         if (object) {
+            console.log(action.alias + object.alias);
             // Play footsteps sound
             if (action.alias === "go to" && !this.isMuted) {
                 this.playFootstepsSound(object.alias);
@@ -859,6 +860,7 @@ export class CanvasComponent extends HTMLElement {
         const engineStartSound: HTMLAudioElement = new Audio("public/audio/soundEffects/car-start-drive-away.mp3");
         engineStartSound.volume = 0.2;
         await engineStartSound.play();
+
         setTimeout(async () => {
             engineStartSound.pause();
             engineStartSound.currentTime = 27;
@@ -870,12 +872,10 @@ export class CanvasComponent extends HTMLElement {
         }, 3000);
     }
 
-    private async playLightSound(object?: string): Promise<void> {
-        if (object === "LightSwitch") {
-            const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
-            lightSwitchSound.volume = 0.5;
-            await lightSwitchSound.play();
-        }
+    private async playLightSound(): Promise<void> {
+        const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
+        lightSwitchSound.volume = 0.2;
+        await lightSwitchSound.play();
     }
 
     // Creates all hitboxes for the room
@@ -897,6 +897,10 @@ export class CanvasComponent extends HTMLElement {
      * @param objectAlias alias of the clicked object
      */
     public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        if (actionAlias === "Press" && !this.isMuted) {
+            await this.playLightSound();
+        }
+
         // Get selected object
         const objectRef: GameObjectReference[] | undefined = this._currentGameState?.objects;
         if (!objectRef) return;

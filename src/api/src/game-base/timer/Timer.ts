@@ -6,6 +6,7 @@ import { GameController } from "../../game-implementation/controllers/GameContro
 import { TeleportActionResult } from "../actionResults/TeleportActionResult";
 import { GameState } from "@shared/types";
 
+/**
 export class Timer {
     public static readonly Alias: string = "timer";
     public static readonly Instance: Timer = new Timer(); // Singleton instance of Timer
@@ -51,3 +52,4 @@ export class Timer {
         console.log("Player has been sent to the GameOverRoom.");
     }
 }
+*/
