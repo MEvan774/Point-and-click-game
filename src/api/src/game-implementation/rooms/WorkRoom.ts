@@ -7,10 +7,12 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { PickUpAction } from "../actions/PickUpAction";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FirstAidItem } from "../items/FirstAidItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { PlayerSession } from "../types";
 
 /**
@@ -52,6 +54,13 @@ export class WorkRoom extends Room implements Examine {
         else {
             result.push("OfficeRoom");
         }
+
+        if (!playerSession.inventory.includes("DiaryItem"))
+            result.push("DiaryItem");
+
+        if (!playerSession.inventory.includes("FirstAidItem"))
+            result.push("FirstAidItem");
+
         return result;
     }
 
@@ -60,12 +69,19 @@ export class WorkRoom extends Room implements Examine {
      * @returns the objecs for in the room
      */
     public objects(): GameObject[] {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
         const objects: GameObject[] = [
-            new FirstAidItem(),
-            new DiaryItem(),
             new DoorOfficeHallwayItem(),
             new ToStartupItem(),
+            new ToGameOverScreenItem(),
         ];
+
+        if (!playerSession.inventory.includes("DiaryItem"))
+            objects.push(new DiaryItem());
+
+        if (!playerSession.inventory.includes("FirstAidItem"))
+            objects.push(new FirstAidItem());
+
         return objects;
     }
 
@@ -78,6 +94,7 @@ export class WorkRoom extends Room implements Examine {
             new ExamineAction(),
             new GoToAction(),
             new GoToStartupAction(),
+            new PickUpAction(),
         ];
         return actions;
     }

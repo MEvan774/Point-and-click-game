@@ -13,6 +13,7 @@ import { EyeCharacter } from "../characters/EyeCharacter";
 import { TalkAction } from "../../game-base/actions/TalkAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 
 /**
  * Implementation of the bathroom room
@@ -62,13 +63,15 @@ export class BathroomRoom extends Room implements Examine {
      * @returns Objects in the room.
      */
     public objects(): GameObject[] {
-        const objects: GameObject[] = [new ToStartupItem()];
+        const objects: GameObject[] = [new ToStartupItem(), new ToGameOverScreenItem()];
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         // Object that are always present in the room.
         if (!playerSession.walkedToBathtub) {
-            objects.push(new BathroomItem());
+            if (!playerSession.pickedUpKey) {
+                objects.push(new BathroomItem());
+            }
             objects.push(new DoorBathroomBedroomItem());
         }
 

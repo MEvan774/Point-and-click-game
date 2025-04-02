@@ -25,18 +25,13 @@ export class FirstAidItem extends Item implements Examine, PickUp {
 
     public examine(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (!playerSession.clickedFirstAid) {
-            playerSession.clickedFirstAid = true;
+        if (!playerSession.pickedUpFirstAid) {
             return new TextActionResult([
                 "This looks like a First Aid kit.",
                 "One can never go wrong with that.",
             ]);
         }
-        else if (!playerSession.pickedUpFirstAid) {
-            return this.pickup();
-        }
         else {
-            playerSession.clickedFirstAid = false;
             return new TextActionResult([
                 "I have already picked up the First Aid kit.",
             ]);

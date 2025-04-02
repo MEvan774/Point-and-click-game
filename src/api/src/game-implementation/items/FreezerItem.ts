@@ -6,8 +6,11 @@ import { Examine } from "../../game-base/actions/ExamineAction";
 import { Open } from "../actions/OpenAction";
 import { PlayerSession } from "../types";
 import { gameService } from "../../global";
+import { Room } from "../../game-base/gameObjects/Room";
+import { Hide } from "../actions/HideAction";
+import { HiddenRoom } from "../rooms/HiddenRoom";
 
-export class FreezerItem extends Item implements Examine, Open {
+export class FreezerItem extends Item implements Examine, Open, Hide {
     /**
      * _position: Position of the item's hitbox
      * _size: Size of the item's hitbox
@@ -20,10 +23,15 @@ export class FreezerItem extends Item implements Examine, Open {
     public _size: Vector2 = { x: 200, y: 170 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
-    public static readonly validActions: string[] = ["open"];
+    public static readonly validActions: string[] = ["open", "hide"];
 
     public constructor() {
         super(FreezerItem.Alias, FreezerItem.validActions);
+    }
+
+    // Name of the item, shows up on the buttons for example
+    public name(): string {
+        return "Freezer";
     }
 
     /**
@@ -32,8 +40,6 @@ export class FreezerItem extends Item implements Examine, Open {
      * @returns TextActionResult with the examine
      */
     public examine(): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.openedFreezer = false;
         return new TextActionResult([
             "This looks like a freezer, maybe something is in it",
         ]);
@@ -41,22 +47,24 @@ export class FreezerItem extends Item implements Examine, Open {
 
     public open(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (!playerSession.openedFreezer) {
-            playerSession.openedFreezer = true;
-            return new TextActionResult([
-                "You open the freezer and see a skeleton inside it.\nBy the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
-                "It appears to be holding a metal saw in it's hand.\nThis might come in handy to destroy the lock I saw on the gate",
-            ]);
-        }
-        else {
-            return new TextActionResult([
-                "The freezer is open",
-            ]);
-        }
+        playerSession.openedFreezer = true;
+
+        return new TextActionResult([
+            "You open the freezer and see a skeleton inside it.\nBy the looks of it, it was one of the previous victims, not worthy of escaping this castle.",
+            "It appears to be holding a metal saw in it's hand.\nThis might come in handy to destroy the lock I saw on the gate",
+        ]);
     }
 
-    // Name of the item, shows up on the buttons for example
-    public name(): string {
-        return "Freezer";
+    /**
+     * Brings the player to the HiddenRoom and saves the StorageRoom in the PlayerSession
+     *
+     * @returns room.examine() of the HiddenRoom
+     */
+    public hide(): ActionResult | undefined {
+        gameService.getPlayerSession().hiddenIn = "ShedRoom";
+        const room: Room = new HiddenRoom();
+
+        gameService.getPlayerSession().currentRoom = room.alias;
+        return room.examine();
     }
 }

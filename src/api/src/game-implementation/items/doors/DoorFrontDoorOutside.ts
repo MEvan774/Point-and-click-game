@@ -6,9 +6,9 @@ import { GoTo } from "../../actions/GoToAction";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 import { PlayerSession } from "../../types";
 import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { Open } from "../../actions/OpenAction";
 import { OutsideRoom } from "../../rooms/OutsideRoom";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 /**
  * The item that is used to go to the OutsideRoom from the FrontDoorRoom
@@ -94,10 +94,7 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If the door is opened, go to the OutsideRoom
         if (playerSession.planksGone && playerSession.outsideKeyUsed) {
-            const room: Room = new OutsideRoom();
-
-            gameService.getPlayerSession().currentRoom = room.alias;
-            return room.examine();
+            return new TeleportActionResult(new OutsideRoom());
         }
 
         // If the crowbar is used but the key is not
@@ -184,7 +181,7 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If the crowbar is selected but already used
         if (playerSession.selectedItem === "CrowbarItem" && playerSession.planksGone) {
-            return new TextActionResult(["You have already got rid of the planks."]);
+            return new TextActionResult(["You have already gotten rid of the planks."]);
         }
 
         // If the wrong key is used

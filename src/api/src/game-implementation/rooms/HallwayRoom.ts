@@ -12,6 +12,7 @@ import { DoorHallwayOfficeItem } from "../items/doors/DoorHallwayOfficeItem";
 import { DoorHallwayStorageRoomItem } from "../items/doors/DoorHallwayStorageRoomItem";
 import { HallwayFrontDoorItem } from "../items/doors/HallwayFrontDoorItem";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { LivingRoom } from "./LivingRoom";
 
 /**
@@ -51,6 +52,7 @@ export class HallwayRoom extends Room {
             new DoorHallwayOfficeItem(),
             new DoorHallwayBedroomItem(),
             new ToStartupItem(),
+            new ToGameOverScreenItem(),
         ];
     }
 

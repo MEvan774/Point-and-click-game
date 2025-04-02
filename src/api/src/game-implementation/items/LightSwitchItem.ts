@@ -15,12 +15,12 @@ export class LightSwitchItem extends Item implements Examine, Press {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public static readonly Alias: string = "Light Switch";
+    public static readonly Alias: string = "LightSwitch";
     public static readonly ValidActions: string[] = ["press"];
     public _position: Vector2 = { x: 195, y: 315 };
     public _size: Vector2 = { x: 60, y: 60 };
     public _isDebugHitboxVisible: boolean = false;
-    public _action: ActionTypes = ActionTypes.Examine;
+    public _action: ActionTypes = ActionTypes.Press;
 
     public constructor() {
         super(LightSwitchItem.Alias, LightSwitchItem.ValidActions);
@@ -31,30 +31,30 @@ export class LightSwitchItem extends Item implements Examine, Press {
     }
 
     public examine(): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
-        if (!playerSession.clickedLight) {
-            playerSession.clickedLight = true;
-            return new TextActionResult([
-                "This looks like it could turn on the light.",
-                "Let's try it.",
-            ]);
-        }
-        else if (!playerSession.pressedLight) {
-            return this.press();
-        }
-        else {
-            playerSession.pressedLight = false;
-            return new TextActionResult([
-                "You turn the light off.",
-            ]);
-        }
+        return new TextActionResult([
+            "This looks like it could turn on the light.",
+            "Let's try it.",
+        ]);
     }
 
     public press(): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
-        playerSession.pressedLight = true;
+
+        if (!playerSession.clickedLight) {
+            playerSession.clickedLight = true;
+            return this.examine();
+        }
+
+        if (!playerSession.pressedLight) {
+            playerSession.pressedLight = true;
+            return new TextActionResult([
+                "You press the light switch,",
+            ]);
+        }
+
+        playerSession.pressedLight = false;
         return new TextActionResult([
-            "You press the light switch,",
+            "You turn the light off.",
         ]);
     }
 }

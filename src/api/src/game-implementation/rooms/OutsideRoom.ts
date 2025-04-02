@@ -12,6 +12,7 @@ import { DoorOutsideFrontdoor } from "../items/doors/DoorOutsideFrontdoor";
 import { DoorOutsideShed } from "../items/doors/DoorOutsideShed";
 import { GateItem } from "../items/doors/GateItem";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 
 /**
  * Implemention of the bedroom room
@@ -61,6 +62,7 @@ export class OutsideRoom extends Room {
             new DoorOutsideShed(),
             new GateItem(),
             new ToStartupItem(),
+            new ToGameOverScreenItem(),
         ];
     }
 

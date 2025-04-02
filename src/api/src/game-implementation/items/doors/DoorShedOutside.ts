@@ -3,10 +3,11 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { OutsideRoom } from "../../rooms/OutsideRoom";
-import { gameService } from "../../../global";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { PlayerSession } from "../../types";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
+import { gameService } from "../../../global";
 
 export class DoorShedOutside extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Shed Outside room";
@@ -32,13 +33,20 @@ export class DoorShedOutside extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["The door leads you back outside."]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer) {
+            playerSession.walkedToFreezer = false;
+            playerSession.openedFreezer = false;
+            return new TextActionResult([
+                "You walk away from the freezer",
+            ]);
+        }
+        else {
+            return new TextActionResult(["The door leads you back outside."]);
+        }
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new OutsideRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        return new TeleportActionResult(new OutsideRoom());
     }
 }

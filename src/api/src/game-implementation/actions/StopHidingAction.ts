@@ -1,6 +1,8 @@
 import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { GameObject } from "../../game-base/gameObjects/GameObject";
+import { gameService } from "../../global";
+import { PlayerSession } from "../types";
 
 @Interface
 export abstract class StopHiding {
@@ -32,6 +34,8 @@ export class StopHidingAction extends Action {
      * @returns gameObject.stopHiding()
      */
     public execute(_alias: string, gameObjects: GameObject[]): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        playerSession.playerIsHiding = false;
         const gameObject: GameObject = gameObjects[0];
 
         if (gameObject.instanceOf(StopHiding)) {

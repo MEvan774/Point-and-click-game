@@ -2,9 +2,11 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
+import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
-import { BedroomRoom } from "./BedroomRoom";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { StartupRoom } from "./StartupRoom";
 
 /**
@@ -42,11 +44,14 @@ export class GameOverRoom extends Room implements Simple {
      */
     public actions(): Action[] {
         const actions: Action[] = [
-            new SimpleAction("new-game", "Restart"),
-            new SimpleAction("quit-game", "Quit game"),
+            new SimpleAction("quit-game", "Go back"),
         ];
 
         return actions;
+    }
+
+    public items(): Item[] {
+        return [];
     }
 
     /**
@@ -60,13 +65,6 @@ export class GameOverRoom extends Room implements Simple {
      * @inheritdoc
      */
     public simple(alias: string): ActionResult | undefined {
-        if (alias === "new-game") {
-            const room: Room = new BedroomRoom();
-
-            gameService.getPlayerSession().currentRoom = room.alias;
-
-            return room.examine();
-        }
         if (alias === "quit-game") {
             const room: Room = new StartupRoom();
 

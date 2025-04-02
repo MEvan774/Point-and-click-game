@@ -5,8 +5,8 @@ import { TextActionResult } from "../../../game-base/actionResults/TextActionRes
 import { GoTo } from "../../actions/GoToAction";
 import { gameService } from "../../../global";
 import { HallwayRoom } from "../../rooms/HallwayRoom";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-door";
@@ -53,9 +53,7 @@ export class DoorBedroomItem extends Item implements Examine, GoTo {
             return new TextActionResult(["I should use the key I found."]);
         }
         else {
-            const room: Room = new HallwayRoom();
-            gameService.getPlayerSession().currentRoom = room.alias;
-            return room.examine();
+            return new TeleportActionResult(new HallwayRoom());
         }
     }
 }

@@ -11,9 +11,11 @@ import { DoorBedroomItem } from "../items/doors/DoorBedroomItem";
 import { BedItem } from "../items/BedItem";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
+import { gameService } from "../../global";
 
 /**
- * Implemention of the bedroom room
+ * Implementation of the bedroom room
  *
  * @remarks Used as the first room for new player sessions.
  */
@@ -65,6 +67,7 @@ export class BedroomRoom extends Room {
             new DoorBedroomBathroomItem(),
             new BedItem(),
             new ToStartupItem(),
+            new ToGameOverScreenItem(),
         ];
     }
 
@@ -73,6 +76,12 @@ export class BedroomRoom extends Room {
      * @inheritdoc
      */
     public examine(): ActionResult | undefined {
+        if (gameService.getPlayerSession().usedFirstAid) {
+            return new TextActionResult([
+                "You survived, but used up the First aid kit!",
+                "Next time, you won't be so lucky...",
+            ]);
+        }
         return new TextActionResult([
             "This is a bedroom.",
             "There are 2 doors.",

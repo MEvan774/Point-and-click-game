@@ -5,6 +5,7 @@ import { TextActionResult } from "../../game-base/actionResults/TextActionResult
 import { GoTo } from "../actions/GoToAction";
 import { gameService } from "../../global";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
+import { PlayerSession } from "../types";
 
 export class CenterStorageRightItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Center Storage";
@@ -31,6 +32,14 @@ export class CenterStorageRightItem extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.currentRoom === "Shed") {
+            return new TextActionResult([
+                "The center of the room.",
+                "You can go back here of you're done with the freezer.",
+            ]);
+        }
+
         return new TextActionResult([
             "The center of the room.",
             "You can go back here of you're done with the mirror.",
@@ -38,7 +47,13 @@ export class CenterStorageRightItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        gameService.getPlayerSession().walkedToMirror = false;
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.currentRoom === "Shed") {
+            playerSession.openedFreezer = false;
+        }
+        else {
+            playerSession.walkedToMirror = false;
+        }
 
         return new TextActionResult(["You go back."]);
     }

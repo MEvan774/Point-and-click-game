@@ -3,17 +3,16 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { BathroomRoom } from "../../rooms/Bathroomroom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "bathroom-door";
     /**
      * @param _action determines which action will be executed when clicked on.
      * @param _position determines where the hitbox will be located.
-     * @param _size determines the size of the hibox
+     * @param _size determines the size of the hitbox
      * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
      * @param validActions the options that will show up when clicked on.
      */
@@ -36,9 +35,8 @@ export class DoorBedroomBathroomItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        const room: Room = new BathroomRoom();
+        // Start the timer
 
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
+        return new TeleportActionResult(new BathroomRoom());
     }
 }

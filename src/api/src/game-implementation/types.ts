@@ -51,6 +51,8 @@ export type PlayerSession = {
     openedFreezer: boolean;
     // True when walked to freezer
     walkedToFreezer: boolean;
+    // When the player is hiding
+    playerIsHiding: boolean;
     // variables for ghostChar's ingredients given
     givenEyes: boolean;
     givenTongue: boolean;
@@ -66,4 +68,10 @@ export type PlayerSession = {
     gateItemsUsed: number;
     // Is gate open
     gateOpen: boolean;
+    // True when fueled up
+    carFueled: boolean;
+    // True when car used to escape
+    escapedByCar: boolean;
+    // True when dying with first aid
+    usedFirstAid: boolean;
 };

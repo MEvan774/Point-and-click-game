@@ -3,10 +3,9 @@ import { TextActionResult } from "../../../game-base/actionResults/TextActionRes
 import { Examine } from "../../../game-base/actions/ExamineAction";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 import { Item } from "../../../game-base/gameObjects/Item";
-import { Room } from "../../../game-base/gameObjects/Room";
-import { gameService } from "../../../global";
 import { KitchenRoom } from "../../rooms/KitchenRoom";
 import { GoTo } from "../../actions/GoToAction";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 /**
  * Base class used to represent an item
@@ -17,7 +16,7 @@ export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: 40, y: 200 };
     public _size: Vector2 = { x: 150, y: 240 };
-    public static readonly validActions: string[] = [ActionTypes.Examine, ActionTypes.GoTo];
+    public static readonly validActions: string[] = [ActionTypes.GoTo];
     public _isDebugHitboxVisible: boolean = false;
 
     /**
@@ -50,9 +49,6 @@ export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
      * @returns room.examine() for the KitchenRoom
      */
     public goto(): ActionResult | undefined {
-        const livingRoom: Room = new KitchenRoom();
-
-        gameService.getPlayerSession().currentRoom = livingRoom.alias;
-        return livingRoom.examine();
+        return new TeleportActionResult(new KitchenRoom());
     }
 }

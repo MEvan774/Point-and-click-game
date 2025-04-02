@@ -12,6 +12,7 @@ import { DoorFrontDoorLivingRoomItem } from "../items/doors/DoorFrontDoorLivingR
 import { DoorFrontDoorOutsideItem } from "../items/doors/DoorFrontDoorOutside";
 import { FrontDoorHallwayItem } from "../items/doors/FrontDoorHallwayItem";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { PlayerSession } from "../types";
 
 /**
@@ -61,6 +62,7 @@ export class FrontDoorRoom extends Room {
             new DoorFrontDoorLivingRoomItem(),
             new DoorFrontDoorOutsideItem(),
             new FrontDoorHallwayItem(),
+            new ToGameOverScreenItem(),
         ];
 
         return objects;

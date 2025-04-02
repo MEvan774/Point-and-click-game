@@ -68,6 +68,11 @@ import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { FuelItem } from "../items/FuelItem";
 import { GateItem } from "../items/doors/GateItem";
 import { LivingroomItem } from "../items/LivingroomItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
+import { FuelAction } from "../actions/FuelAction";
+import { DriveAction } from "../actions/DriveAction";
+import { CarItem } from "../items/CarItem";
+import { CarKeyItem } from "../items/CarKeyItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -137,6 +142,9 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(FuelItem);
         this.registerGameObject(GateItem);
         this.registerGameObject(LivingroomItem);
+        this.registerGameObject(ToGameOverScreenItem);
+        this.registerGameObject(CarItem);
+        this.registerGameObject(CarKeyItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
@@ -154,6 +162,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerAction(StopHidingAction);
         this.registerAction(GoToStartupAction);
         this.registerAction(TasteAction);
+        this.registerAction(FuelAction);
+        this.registerAction(DriveAction);
     }
 
     /**
@@ -185,6 +195,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             pressedLight: false,
             openedFreezer: false,
             walkedToFreezer: false,
+            playerIsHiding: false,
             givenEyes: false,
             givenTongue: false,
             pickedUpSaw: false,
@@ -193,6 +204,9 @@ export class GameService extends BaseGameService<PlayerSession> {
             keyFallen: false,
             gateItemsUsed: 0,
             gateOpen: false,
+            carFueled: false,
+            escapedByCar: false,
+            usedFirstAid: false,
         };
     }
 
