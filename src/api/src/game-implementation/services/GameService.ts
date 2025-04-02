@@ -70,6 +70,8 @@ import { GateItem } from "../items/doors/GateItem";
 import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { FuelAction } from "../actions/FuelAction";
 import { DriveAction } from "../actions/DriveAction";
+import { CarItem } from "../items/CarItem";
+import { CarKeyItem } from "../items/CarKeyItem";
 
 /**
  * Implementation of the game service used to operate the game engine
@@ -139,6 +141,8 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(FuelItem);
         this.registerGameObject(GateItem);
         this.registerGameObject(ToGameOverScreenItem);
+        this.registerGameObject(CarItem);
+        this.registerGameObject(CarKeyItem);
 
         // Characters
         this.registerGameObject(MirrorCharacter);
