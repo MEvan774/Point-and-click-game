@@ -33,7 +33,7 @@ export class Timer {
         this.spriteElement.style.left = "0";
         this.spriteElement.style.width = "100vw";
         this.spriteElement.style.height = "100vh";
-        this.spriteElement.style.backgroundImage = "url(public/assets/img/spriteSheets/JumpScare.png)";
+        this.spriteElement.style.backgroundImage = "url(assets/img/spriteSheets/JumpScare.png)";
         this.spriteElement.style.imageRendering = "pixelated";
         this.spriteElement.style.backgroundSize = `${this.frameWidth * this.frameCount * this.scaleX}px auto`; // Scale for horizontal layout
         this.spriteElement.style.zIndex = "9999";

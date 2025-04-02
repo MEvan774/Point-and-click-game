@@ -24,7 +24,7 @@ export class FlashLightUseItem {
 
     /** Creates the flashlight effect */
     private createFlashlight(): void {
-        this.flashlightImage.src = "/public/assets/img/Items/FlashlightLight.png";
+        this.flashlightImage.src = "/assets/img/Items/FlashlightLight.png";
         this.flashlightImage.style.position = "absolute";
         this.flashlightImage.style.width = `${this._flashlightSize}px`;
         this.flashlightImage.style.height = `${this._flashlightSize}px`;

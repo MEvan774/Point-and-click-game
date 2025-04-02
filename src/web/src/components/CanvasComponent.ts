@@ -421,7 +421,7 @@ export class CanvasComponent extends HTMLElement {
     private playSounds(): void {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (!this.ambianceSound) {
-            this.ambianceSound = new Audio("public/audio/ambiancesound.wav");
+            this.ambianceSound = new Audio("/audio/ambiancesound.wav");
             this.ambianceSound.volume = 0.5;
             this.ambianceSound.loop = true;
 
@@ -813,7 +813,7 @@ export class CanvasComponent extends HTMLElement {
 
         if (action.alias === "taste" || action.alias.includes(":777")) {
             this._timer?.pause();
-            const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
+            const mashSound: HTMLAudioElement = new Audio("/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
         }
 
@@ -864,12 +864,12 @@ export class CanvasComponent extends HTMLElement {
         let footstepsSound: HTMLAudioElement;
 
         if (object === "StairToFrontDoor" || object === "FrontDoorToStair") {
-            footstepsSound = new Audio("public/audio/soundEffects/footstepsStairs.mp3");
+            footstepsSound = new Audio("/audio/soundEffects/footstepsStairs.mp3");
             footstepsSound.volume = 0.3;
         }
         else if (object === "Outside Shed room" || object === "Shed Outside room" ||
           object === "Outside Frontdoor room" || object === "DoorFrontDoorOutsideItem") {
-            footstepsSound = new Audio("public/audio/soundEffects/footstepsOutside.mp3");
+            footstepsSound = new Audio("/audio/soundEffects/footstepsOutside.mp3");
             footstepsSound.volume = 0.3;
         }
         else if (object === "GateItem") {
@@ -894,7 +894,7 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private playDoorSound(): void {
-        const doorSound: HTMLAudioElement = new Audio("public/audio/soundEffects/door.mp3");
+        const doorSound: HTMLAudioElement = new Audio("/audio/soundEffects/door.mp3");
         doorSound.volume = 0.2;
 
         if (doorSound.paused) {
@@ -910,7 +910,7 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private async playEngineSound(): Promise<void> {
-        const engineStartSound: HTMLAudioElement = new Audio("public/audio/soundEffects/car-start-drive-away.mp3");
+        const engineStartSound: HTMLAudioElement = new Audio("/audio/soundEffects/car-start-drive-away.mp3");
         engineStartSound.volume = 0.2;
         await engineStartSound.play();
         setTimeout(async () => {
@@ -926,7 +926,7 @@ export class CanvasComponent extends HTMLElement {
 
     private async playLightSound(object?: string): Promise<void> {
         if (object === "LightSwitch") {
-            const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
+            const lightSwitchSound: HTMLAudioElement = new Audio("/audio/soundEffects/light-switch.mp3");
             lightSwitchSound.volume = 0.5;
             await lightSwitchSound.play();
         }
@@ -1045,8 +1045,8 @@ export class CanvasComponent extends HTMLElement {
 
     private StartTimer(): void {
         if (!this._timer) {
-            this._timer = new Timer(new Audio("public/audio/soundEffects/soundWarningKidnapper.mp3"),
-                new Audio("public/audio/soundEffects/JumpScare.mp3"), this);
+            this._timer = new Timer(new Audio("/audio/soundEffects/soundWarningKidnapper.mp3"),
+                new Audio("/audio/soundEffects/JumpScare.mp3"), this);
         }
     }
 }
