@@ -67,11 +67,13 @@ const styles: string = css`
         box-shadow: 85px 85px 0px 85px #211e20;
         -webkit-box-shadow: 85px 85px 0px 85px #211e20;
         -moz-box-shadow: 85px 85px 0px 85px #211e20;
+        pointer-events: none;
     }
  
     .content p {
         margin: 0 0 10px 0;
         z-index: 10;
+        pointer-events: none;
     }
  
     .content p:last-of-type {
@@ -435,6 +437,9 @@ export class CanvasComponent extends HTMLElement {
     }
 
     private async goToStartup(): Promise<void> {
+        this._timer?.stop();
+        this._timer?.reset();
+
         sessionStorage.setItem("visited", "true");
 
         if (!this._currentGameState) {
@@ -802,7 +807,11 @@ export class CanvasComponent extends HTMLElement {
             await this.render();
         }
 
-        if (action.alias === "taste") {
+        if (action.alias.includes(":555")) {
+            void this.refreshGameState();
+        }
+
+        if (action.alias === "taste" || action.alias.includes(":777")) {
             this._timer?.pause();
             const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
@@ -840,7 +849,6 @@ export class CanvasComponent extends HTMLElement {
         }
 
         if (action.alias === "drive") {
-            // this.playEngineSound();
             this._timer?.stop();
             await this.playEngineSound();
         }

@@ -20,7 +20,7 @@ export class GhostCharacter extends Character implements Examine, Talk {
      */
     public _action: ActionTypes = ActionTypes.Examine;
     public _position: Vector2 = { x: -100, y: 100 };
-    public _size: Vector2 = { x: 165, y: 400 };
+    public _size: Vector2 = { x: 165, y: 300 };
     // public static readonly validActions: string[] = [ActionTypes.Talk, ActionTypes.GoTo];
     public _isDebugHitboxVisible: boolean = false;
 
@@ -186,7 +186,7 @@ export class GhostCharacter extends Character implements Examine, Talk {
                 return new TalkActionResult(
                     this,
                     [
-                        "You left, wondering if the ghost will keep its promise...",
+                        "You left.",
                     ],
                     [
                     ]
@@ -220,11 +220,11 @@ export class GhostCharacter extends Character implements Examine, Talk {
                         "(A crowbar—old, chipped, but heavy in your hands.)",
                     ],
                     [
-                        new TalkChoice(2, "Leave."),
+                        new TalkChoice(555, "Leave."),
                     ]
                 );
             }
-            case 2: {
+            case 555: {
                 playerSession.inventory.push("CrowbarItem");
                 return new TalkActionResult(
                     this,
@@ -241,7 +241,7 @@ export class GhostCharacter extends Character implements Examine, Talk {
     }
 
     private talkIfRecievedCrowbar(choiceId?: number): ActionResult | undefined {
-        const playerSession: PlayerSession = gameService.getPlayerSession();
+        // const playerSession: PlayerSession = gameService.getPlayerSession();
         switch (choiceId) {
             case undefined: {
                 return new TalkActionResult(
@@ -251,13 +251,13 @@ export class GhostCharacter extends Character implements Examine, Talk {
                         "You should taste it.",
                     ],
                     [
-                        new TalkChoice(1, "(Accept)"),
+                        new TalkChoice(777, "(Accept)"),
                         new TalkChoice(2, "(Refuse)"),
                     ]
                 );
             }
-            case 1: {
-                playerSession.startedMinigame = true;
+            case 777: {
+                // playerSession.startedMinigame = true;
                 return new TalkActionResult(
                     this,
                     [
