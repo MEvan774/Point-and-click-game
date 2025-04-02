@@ -7,6 +7,7 @@ import { OutsideRoom } from "../../rooms/OutsideRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 import { PlayerSession } from "../../types";
 import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
+import { gameService } from "../../../global";
 
 export class DoorShedOutside extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Shed Outside room";

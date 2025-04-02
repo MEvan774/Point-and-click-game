@@ -800,6 +800,11 @@ export class CanvasComponent extends HTMLElement {
         if (action.alias === "talk") {
             this._timer!.pause();
         }
+
+        if (action.alias === "new-game") {
+            this._timer?.reset();
+            this._timer!.start();
+        }
     }
 
     private playFootstepsSound(object?: string): void {
@@ -929,6 +934,7 @@ export class CanvasComponent extends HTMLElement {
 
     public async setEndMinigameAction(actionAlias: string, objectAlias: string): Promise<void> {
         await this.setHitboxAction(actionAlias, objectAlias);
+        void this.refreshGameState();
     }
 
     /** Removes all hiboxes from the canvas making place for new hitboxes */
