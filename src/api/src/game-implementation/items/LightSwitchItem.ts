@@ -15,7 +15,7 @@ export class LightSwitchItem extends Item implements Examine, Press {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public static readonly Alias: string = "Light Switch";
+    public static readonly Alias: string = "LightSwitch";
     public static readonly ValidActions: string[] = ["press"];
     public _position: Vector2 = { x: 195, y: 315 };
     public _size: Vector2 = { x: 60, y: 60 };

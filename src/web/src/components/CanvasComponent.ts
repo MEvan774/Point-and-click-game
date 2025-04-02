@@ -757,11 +757,11 @@ export class CanvasComponent extends HTMLElement {
             }
 
             if (action.alias === "drive") {
-                this.playEngineSound();
+                await this.playEngineSound();
             }
 
-            if (action.alias === "Press") {
-                this.playLightSound();
+            if (object.alias.includes("LightSwitch")) {
+                await this.playLightSound();
             }
 
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
@@ -855,15 +855,14 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
-    private playEngineSound(): void {
+    private async playEngineSound(): Promise<void> {
         const engineStartSound: HTMLAudioElement = new Audio("public/audio/soundEffects/car-start-drive-away.mp3");
         engineStartSound.volume = 0.2;
-        engineStartSound.play();
-    
-        setTimeout(() => {
+        await engineStartSound.play();
+        setTimeout(async () => {
             engineStartSound.pause();
             engineStartSound.currentTime = 27;
-            engineStartSound.play();
+            await engineStartSound.play();
             setTimeout(() => {
                 engineStartSound.pause();
                 engineStartSound.currentTime = 0;
@@ -871,10 +870,12 @@ export class CanvasComponent extends HTMLElement {
         }, 3000);
     }
 
-    private playLightSound(): void {
-        const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
-        lightSwitchSound.volume = 0.5;
-        lightSwitchSound.play();
+    private async playLightSound(object?: string): Promise<void> {
+        if (object === "LightSwitch") {
+            const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
+            lightSwitchSound.volume = 0.5;
+            await lightSwitchSound.play();
+        }
     }
 
     // Creates all hitboxes for the room
