@@ -70,6 +70,7 @@ export class StopHidingItem extends Item implements Examine, StopHiding {
         }
         else if (gameService.getPlayerSession().hiddenIn === "livingRoom") {
             room = new LivingRoom();
+        }
         else if (gameService.getPlayerSession().hiddenIn === "ShedRoom") {
             room = new ShedRoom();
         }
