@@ -3,7 +3,7 @@ import { ActionTypes } from "../enums/ActionAlias";
 
 export class FlashLightUseItem {
     // size of the flashight div
-    private _flashlightSize: number = 90;
+    private _flashlightSize: number = 130;
     private flashlightImage: HTMLImageElement = document.createElement("img");
 
     /** Reference of the canvas of the game */
@@ -24,7 +24,7 @@ export class FlashLightUseItem {
 
     /** Creates the flashlight effect */
     private createFlashlight(): void {
-        this.flashlightImage.src = "/public/assets/img/Items/FlashlightLight.png";
+        this.flashlightImage.src = "/assets/img/Items/FlashlightLight.png";
         this.flashlightImage.style.position = "absolute";
         this.flashlightImage.style.width = `${this._flashlightSize}px`;
         this.flashlightImage.style.height = `${this._flashlightSize}px`;

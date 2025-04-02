@@ -67,6 +67,7 @@ import { LightItem } from "../items/LightItem";
 import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { FuelItem } from "../items/FuelItem";
 import { GateItem } from "../items/doors/GateItem";
+import { LivingroomItem } from "../items/LivingroomItem";
 import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { FuelAction } from "../actions/FuelAction";
 import { DriveAction } from "../actions/DriveAction";
@@ -140,6 +141,7 @@ export class GameService extends BaseGameService<PlayerSession> {
         this.registerGameObject(LightItem);
         this.registerGameObject(FuelItem);
         this.registerGameObject(GateItem);
+        this.registerGameObject(LivingroomItem);
         this.registerGameObject(ToGameOverScreenItem);
         this.registerGameObject(CarItem);
         this.registerGameObject(CarKeyItem);
@@ -204,6 +206,7 @@ export class GameService extends BaseGameService<PlayerSession> {
             gateOpen: false,
             carFueled: false,
             escapedByCar: false,
+            usedFirstAid: false,
         };
     }
 

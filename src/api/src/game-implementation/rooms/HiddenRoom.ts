@@ -82,6 +82,14 @@ export class HiddenRoom extends Room {
                     "You are hidden under the bed",
                 ]);
             }
+            else {
+            // Checks if the player is hidden in the LivingRoom
+                if (room === "LivingRoom") {
+                    return new TextActionResult([
+                        "You are hidden in the drawer",
+                    ]);
+                }
+            }
 
             // If no room is found
             return new TextActionResult([

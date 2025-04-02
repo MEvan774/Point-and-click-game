@@ -2,8 +2,11 @@ import { ActionResult } from "../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../game-base/actionResults/TextActionResult";
 import { Action } from "../../game-base/actions/Action";
 import { Simple, SimpleAction } from "../../game-base/actions/SimpleAction";
+import { Item } from "../../game-base/gameObjects/Item";
 import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
+import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { PlayerSession } from "../types";
 import { BedroomRoom } from "./BedroomRoom";
 import { StartupRoom } from "./StartupRoom";
@@ -53,7 +56,12 @@ export class WinScreenRoom extends Room implements Simple {
         return [
             new SimpleAction("startup", "Go to main menu"),
             new SimpleAction("new-game", "New Game"),
+            new GoToStartupAction(),
         ];
+    }
+
+    public items(): Item[] {
+        return [new ToStartupItem()];
     }
 
     /**

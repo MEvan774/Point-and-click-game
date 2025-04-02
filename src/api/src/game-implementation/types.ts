@@ -72,4 +72,6 @@ export type PlayerSession = {
     carFueled: boolean;
     // True when car used to escape
     escapedByCar: boolean;
+    // True when dying with first aid
+    usedFirstAid: boolean;
 };

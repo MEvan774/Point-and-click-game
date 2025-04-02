@@ -7,6 +7,8 @@ import { gameService } from "../../global";
 import { Room } from "../../game-base/gameObjects/Room";
 import { ActionTypes } from "../../game-base/enums/ActionAlias";
 import { GameOverRoom } from "../rooms/GameOverRoom";
+import { PlayerSession } from "../types";
+import { BedroomRoom } from "../rooms/BedroomRoom";
 
 export class ToGameOverScreenItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "gameOver";
@@ -36,6 +38,21 @@ export class ToGameOverScreenItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+
+        if (playerSession.inventory.includes("FirstAidItem")) {
+            const index: number = playerSession.inventory.indexOf("FirstAidItem");
+            if (index !== -1)
+                playerSession.inventory.splice(index, 1);
+
+            const room: Room = new BedroomRoom();
+
+            gameService.getPlayerSession().currentRoom = room.alias;
+
+            playerSession.usedFirstAid = true;
+
+            return room.examine();
+        }
         const room: Room = new GameOverRoom();
 
         gameService.getPlayerSession().currentRoom = room.alias;
