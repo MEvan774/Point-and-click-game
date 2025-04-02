@@ -5,6 +5,7 @@ import { TextActionResult } from "../../../game-base/actionResults/TextActionRes
 import { GoTo } from "../../actions/GoToAction";
 import { OutsideRoom } from "../../rooms/OutsideRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
+import { PlayerSession } from "../../types";
 import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorShedOutside extends Item implements Examine, GoTo {
@@ -31,7 +32,17 @@ export class DoorShedOutside extends Item implements Examine, GoTo {
     }
 
     public examine(): ActionResult | undefined {
-        return new TextActionResult(["The door leads you back outside."]);
+        const playerSession: PlayerSession = gameService.getPlayerSession();
+        if (playerSession.walkedToFreezer) {
+            playerSession.walkedToFreezer = false;
+            playerSession.openedFreezer = false;
+            return new TextActionResult([
+                "You walk away from the freezer",
+            ]);
+        }
+        else {
+            return new TextActionResult(["The door leads you back outside."]);
+        }
     }
 
     public goto(): ActionResult | undefined {

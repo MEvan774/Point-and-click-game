@@ -7,6 +7,7 @@ import { Room } from "../../game-base/gameObjects/Room";
 import { gameService } from "../../global";
 import { GoToAction } from "../actions/GoToAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
+import { PickUpAction } from "../actions/PickUpAction";
 import { DiaryItem } from "../items/DiaryItem";
 import { DoorOfficeHallwayItem } from "../items/doors/DoorOfficeHallwayItem";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
@@ -80,6 +81,7 @@ export class WorkRoom extends Room implements Examine {
             new ExamineAction(),
             new GoToAction(),
             new GoToStartupAction(),
+            new PickUpAction(),
         ];
         return actions;
     }
