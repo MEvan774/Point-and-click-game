@@ -8,6 +8,7 @@ import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/F
 import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 import { OverlayComponent } from "./OverlayComponent";
 import { Timer } from "../../../api/src/game-base/timer/Timer";
+
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
  
