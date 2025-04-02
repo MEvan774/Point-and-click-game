@@ -1,7 +1,6 @@
 import { CanvasComponent } from "../../../../web/src/components/CanvasComponent";
 import { ActionTypes } from "../enums/ActionAlias";
 
-/**
 export class Timer {
     public static readonly Alias: string = "timer";
 
@@ -145,4 +144,3 @@ export class Timer {
         }, this.frameDuration);
     }
 }
-*/

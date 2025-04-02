@@ -68,6 +68,8 @@ import { DoorShedOutside } from "../items/doors/DoorShedOutside";
 import { FuelItem } from "../items/FuelItem";
 import { GateItem } from "../items/doors/GateItem";
 import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
+import { FuelAction } from "../actions/FuelAction";
+import { DriveAction } from "../actions/DriveAction";
 
 /**
  * Implementation of the game service used to operate the game engine
