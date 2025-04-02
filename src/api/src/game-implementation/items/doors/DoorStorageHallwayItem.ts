@@ -3,11 +3,9 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { HallwayRoom } from "../../rooms/HallwayRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 /**
  * The item that is used to go to the HallwayRoom from the StorageRoom
@@ -56,15 +54,6 @@ export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
      * @returns room.examine() for the HallwayRoom
      */
     public goto(): ActionResult | undefined {
-        new Timer();
-
-        const room: Room = new HallwayRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
+        return new TeleportActionResult(new HallwayRoom());
     }
 }

@@ -3,11 +3,9 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { BedroomRoom } from "../../rooms/BedroomRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorHallwayBedroomItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "hallway-bedroom-door";
@@ -37,15 +35,6 @@ export class DoorHallwayBedroomItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
-
-        const room: Room = new BedroomRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
+        return new TeleportActionResult(new BedroomRoom());
     }
 }

@@ -6,11 +6,9 @@ import { GoTo } from "../../actions/GoToAction";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
 import { PlayerSession } from "../../types";
 import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { Open } from "../../actions/OpenAction";
 import { OutsideRoom } from "../../rooms/OutsideRoom";
-import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
-import { Timer } from "../../../game-base/timer/Timer";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 /**
  * The item that is used to go to the OutsideRoom from the FrontDoorRoom
@@ -92,16 +90,11 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
      * @returns room.examine() for the OutsideRoom, or TextActionResult naming what is needed to open the door
      */
     public goto(): ActionResult | undefined {
-        new Timer();
-
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         // If the door is opened, go to the OutsideRoom
         if (playerSession.planksGone && playerSession.outsideKeyUsed) {
-            const room: Room = new OutsideRoom();
-
-            gameService.getPlayerSession().currentRoom = room.alias;
-            return room.examine();
+            return new TeleportActionResult(new OutsideRoom());
         }
 
         // If the crowbar is used but the key is not
@@ -202,9 +195,5 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
 
         // If neither the key or the crowbar is selected
         return new TextActionResult(["You should use a key and something to get rid of the planks."]);
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
     }
 }

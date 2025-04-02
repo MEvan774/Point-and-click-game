@@ -7,11 +7,11 @@ import { HitBox } from "../../../api/src/game-base/hitBox/HitBox";
 import { FlashLightUseItem } from "../../../api/src/game-base/FlashLightEffect/FlashLightUseItem";
 import { VomitMinigame } from "../../../api/src/game-implementation/minigames/VomitMinigame";
 import { OverlayComponent } from "./OverlayComponent";
-
+import { Timer } from "../../../api/src/game-base/timer/Timer";
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
-
-
+ 
+ 
     :host {
         font-family: "DungeonFont";
         width: 100%;
@@ -23,14 +23,14 @@ const styles: string = css`
         grid-column-gap: 0px;
         grid-row-gap: 0px;
     }
-
+ 
     .title {
         text-align: center;
         margin-top: 10px;
         overflow: auto;
         z-index: 10;
     }
-
+ 
     .header {
     display: flex;
     flex-direction: column;
@@ -38,7 +38,7 @@ const styles: string = css`
     position: relative;
     margin-top: 10px;
 }
-
+ 
 .header img {
     width: 1022px; /* Keeps aspect ratio */
     height: auto;
@@ -47,11 +47,11 @@ const styles: string = css`
     top: 0;  /* Align from top */
     left: 0; /* Align from left */
 }
-
+ 
 .header img:first-child {
     position: relative; /* Keeps first image as base */
 }
-
+ 
     .content {
         flex-grow: 1;
         overflow: auto;
@@ -66,17 +66,17 @@ const styles: string = css`
         -webkit-box-shadow: 85px 85px 0px 85px #211e20;
         -moz-box-shadow: 85px 85px 0px 85px #211e20;
     }
-
+ 
     .content p {
         margin: 0 0 10px 0;
         z-index: 10;
     }
-
+ 
     .content p:last-of-type {
         margin: 0;
         z-index: 10;
     }
-
+ 
     .footer {
         margin-top: 10px;
         display: flex;
@@ -96,7 +96,7 @@ const styles: string = css`
         pointer-events: none;
         z-index: 10;
     }
-
+ 
     .footer .buttons {
         z-index: 2000;
         display: flex;
@@ -104,7 +104,7 @@ const styles: string = css`
         overflow: auto;
         padding: 10px 10px 0 10px;
     }
-
+ 
     .footer .button {
         z-index: 2000;
         background-color: #e9efec;
@@ -118,7 +118,7 @@ const styles: string = css`
         display: inline-block;
         user-select: none;
     }
-
+ 
     .footer .button.active,
     .footer .button:hover {
         // transform: scale(105%);
@@ -127,7 +127,7 @@ const styles: string = css`
         background-color: #a0a08b;
         background-color:rgb(160, 160, 139);
     }
-
+ 
     .buttonImage {
         image-rendering: pixelated;
         background: none;
@@ -139,21 +139,21 @@ const styles: string = css`
         cursor: pointer;
         outline: inherit;
     }
-
+ 
     .active-item {
         background-color: gray;
         border: 2px solid white;
         border-radius: 20px;
         filter: brightness(1.2);
     }
-
+ 
     .options {
         float: right;
         background-color: transparent;
         border: none;
         cursor: pointer;
     }
-
+ 
     .button-Startup {
         z-index: 1;
         background-color: #e9efec;
@@ -166,7 +166,7 @@ const styles: string = css`
         user-select: none;
         font-size: 40px;
     }
-
+ 
     .redText {
         color: red;
     }
@@ -198,15 +198,13 @@ export class CanvasComponent extends HTMLElement {
     private _vomitMinigame: VomitMinigame | undefined;
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
-    private isMuted: boolean = false;
+    private _timer: Timer | undefined;
 
     /**
      * The "constructor" of a Web Component
      */
     public connectedCallback(): void {
         this.attachShadow({ mode: "open" });
-
-        this.Timer();
 
         void this.refreshGameState();
     }
@@ -259,7 +257,7 @@ export class CanvasComponent extends HTMLElement {
             <style>
                 ${styles}
             </style>
-    
+   
             ${this.renderTitle()}
             ${this.renderHeader()}
             ${this.renderContent()}
@@ -352,7 +350,7 @@ export class CanvasComponent extends HTMLElement {
         // Dit is de "Sound" instellingen-overlay
         const soundHtml: string = `
             <h2>Geluidinstellingen</h2>
-            <label for="volume">Background music:</label>
+            <label for="volume">Volume:</label>
             <input type="range" id="volume" min="0" max="1" step="0.01" value="${this.ambianceSound.volume}">
             <button id="mute-btn" class="option-btn">${this.ambianceSound.muted ? "Unmute" : "Mute"}</button>
             <button id="back-btn" class="option-btn">Return to options</button>
@@ -394,12 +392,6 @@ export class CanvasComponent extends HTMLElement {
             muteButton.addEventListener("click", () => {
                 this.ambianceSound.muted = !this.ambianceSound.muted;
                 muteButton.textContent = this.ambianceSound.muted ? "Unmute" : "Mute";
-                if (!this.isMuted) {
-                    this.isMuted = true;
-                }
-                else {
-                    this.isMuted = false;
-                }
             });
         }
         if (backButton) {
@@ -533,7 +525,7 @@ export class CanvasComponent extends HTMLElement {
           this._currentGameState?.roomAlias === "win") {
             return "";
         }
-
+        this.StartTimer();
         const roomName: string | undefined = this._currentGameState?.roomName;
         const inventory: string[] | undefined = this._currentGameState?.inventory;
         if (roomName && inventory) {
@@ -745,7 +737,7 @@ export class CanvasComponent extends HTMLElement {
         // Execute the action and update the game state.
         if (object) {
             // Play footsteps sound
-            if (action.alias === "go to" && !this.isMuted) {
+            if (action.alias === "go to") {
                 this.playFootstepsSound(object.alias);
 
                 if (object.alias.includes("Door") || object.alias.includes("door") || object.alias.includes("Shed")) {
@@ -784,12 +776,29 @@ export class CanvasComponent extends HTMLElement {
 
         // Renders room if the talk action is finished
         if (action.alias.includes(":2") || action.alias.includes(":4") || action.alias.includes(":6")) {
+            this._timer!.start();
+            await this.render();
+        }
+        // Alarm of the mirror character when given wrong answer
+        if (action.alias.includes(":666")) {
+            this._timer!.alarm();
             await this.render();
         }
 
         if (action.alias === "taste") {
+            this._timer?.pause();
             const mashSound: HTMLAudioElement = new Audio("public/audio/soundEffects/retroHurt.mp3");
             this._vomitMinigame = new VomitMinigame(this, mashSound, this._currentGameState!.inventory.includes("FuelItem"));
+        }
+
+        if (action.alias === "hide") {
+            this._timer!.isHiding = true;
+        }
+        if (action.alias === "stop hiding") {
+            this._timer!.isHiding = false;
+        }
+        if (action.alias === "talk") {
+            this._timer!.pause();
         }
     }
 
@@ -852,12 +861,6 @@ export class CanvasComponent extends HTMLElement {
                     objRef[i].isDebugHitboxOn, this, objRef[i].actionAlias, objRef[i].alias));
             }
         }
-    }
-
-    private Timer(): void {
-        setInterval(() => {
-            location.reload(); // This will refresh the page
-        }, 80000); // in 50 seconds
     }
 
     /**
@@ -951,8 +954,15 @@ export class CanvasComponent extends HTMLElement {
 
     /** Removes flashlight from the array and html */
     public DisableMinigame(): void {
+        this._timer?.start();
         this._vomitMinigame = undefined;
         // Removes the warning message: this._vomitMinigame is declared but never read.
         console.log(this._vomitMinigame);
+    }
+
+    private StartTimer(): void {
+        if (!this._timer)
+            this._timer = new Timer(new Audio("public/audio/soundEffects/soundWarningKidnapper.mp3"),
+                new Audio("public/audio/soundEffects/JumpScare.mp3"), this);
     }
 }

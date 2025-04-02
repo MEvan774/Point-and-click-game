@@ -15,6 +15,7 @@ import { DoorKitchenLivingRoomItem } from "../items/doors/DoorKitchenLivingRoomI
 import { ToStartupItem } from "../items/doors/ToStartupItem";
 import { FuelItem } from "../items/FuelItem";
 import { PanItem } from "../items/PanItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 import { PlayerSession } from "../types";
 import { LivingRoom } from "./LivingRoom";
 
@@ -61,7 +62,7 @@ export class KitchenRoom extends Room {
      */
     public objects(): GameObject[] {
         const gameObjects: GameObject[] = [];
-        gameObjects.push(new DoorKitchenLivingRoomItem(), new GhostCharacter(), new ToStartupItem());
+        gameObjects.push(new DoorKitchenLivingRoomItem(), new GhostCharacter(), new ToStartupItem(), new ToGameOverScreenItem());
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
         if (playerSession.inventory.includes("CrowbarItem")) {

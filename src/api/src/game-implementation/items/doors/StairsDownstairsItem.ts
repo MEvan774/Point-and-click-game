@@ -7,7 +7,6 @@ import { StartupRoom } from "../../rooms/StartupRoom";
 import { gameService } from "../../../global";
 import { Room } from "../../../game-base/gameObjects/Room";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
 
 export class StairsDownStairsItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "StairsDownStairsItem";
@@ -40,14 +39,9 @@ export class StairsDownStairsItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
         const startupRoom: Room = new StartupRoom();
 
         gameService.getPlayerSession().currentRoom = startupRoom.alias;
         return undefined;
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
     }
 }

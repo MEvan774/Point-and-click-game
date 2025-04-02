@@ -3,11 +3,9 @@ import { Examine } from "../../../game-base/actions/ExamineAction";
 import { ActionResult } from "../../../game-base/actionResults/ActionResult";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
-import { gameService } from "../../../global";
-import { Room } from "../../../game-base/gameObjects/Room";
 import { HallwayRoom } from "../../rooms/HallwayRoom";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 /**
  * A class for a door leading from the office to the hallway
  */
@@ -39,15 +37,6 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
-
-        const room: Room = new HallwayRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
+        return new TeleportActionResult(new HallwayRoom());
     }
 }

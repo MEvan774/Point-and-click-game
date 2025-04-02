@@ -22,6 +22,7 @@ import { GateKeyItem } from "../items/GateKeyItem";
 import { PickUpAction } from "../actions/PickUpAction";
 import { GoToStartupAction } from "../actions/GoToStartupAction";
 import { ToStartupItem } from "../items/doors/ToStartupItem";
+import { ToGameOverScreenItem } from "../items/ToGameOverScreenItem";
 
 /**
  * Implemention of the StorageRoom
@@ -84,7 +85,7 @@ export class StorageRoom extends Room {
 
         const playerSession: PlayerSession = gameService.getPlayerSession();
 
-        objects.push(new ToStartupItem());
+        objects.push(new ToStartupItem(), new ToGameOverScreenItem());
 
         // If the player is near the MirrorItem and hasn't solved the riddle, pushes the MirrorCharacter
         if (playerSession.walkedToMirror && !playerSession.solvedRiddle) {

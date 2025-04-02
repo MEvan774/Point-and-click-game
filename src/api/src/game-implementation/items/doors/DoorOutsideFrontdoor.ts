@@ -4,10 +4,8 @@ import { Item } from "../../../game-base/gameObjects/Item";
 import { TextActionResult } from "../../../game-base/actionResults/TextActionResult";
 import { GoTo } from "../../actions/GoToAction";
 import { FrontDoorRoom } from "../../rooms/FrontDoorRoom";
-import { Room } from "../../../game-base/gameObjects/Room";
-import { gameService } from "../../../global";
 import { ActionTypes } from "../../../game-base/enums/ActionAlias";
-import { Timer } from "../../../game-base/timer/Timer";
+import { TeleportActionResult } from "../../../game-base/actionResults/TeleportActionResult";
 
 export class DoorOutsideFrontdoor extends Item implements Examine, GoTo {
     public static readonly Alias: string = "Outside Frontdoor room";
@@ -37,15 +35,6 @@ export class DoorOutsideFrontdoor extends Item implements Examine, GoTo {
     }
 
     public goto(): ActionResult | undefined {
-        new Timer();
-
-        const room: Room = new FrontDoorRoom();
-
-        gameService.getPlayerSession().currentRoom = room.alias;
-        return room.examine();
-    }
-
-    public startTimer(): void {
-        new Timer(); // This will instantiate Timer
+        return new TeleportActionResult(new FrontDoorRoom());
     }
 }
