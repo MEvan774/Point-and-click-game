@@ -45,7 +45,7 @@ export class Timer {
 
     // Generate a random timeout between 40,000 and 70,000 ms
     private static getRandomTimeout(): number {
-        return Math.floor(Math.random() * (70000 - 40000 + 4000));
+        return Math.floor(Math.random() * (1000));
     }
 
     // Start or resume the timer
