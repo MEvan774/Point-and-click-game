@@ -7,4 +7,5 @@ export enum ActionTypes {
     Examine = "examine",
     Give = "give",
     WalkAway = "walk away",
+    Press = "Press",
 }

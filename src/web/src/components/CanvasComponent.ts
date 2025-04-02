@@ -757,11 +757,7 @@ export class CanvasComponent extends HTMLElement {
             }
 
             if (action.alias === "drive") {
-                this.playEngineSound();
-            }
-
-            if (action.alias === "Press") {
-                this.playLightSound();
+                await this.playEngineSound();
             }
 
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias, [object.alias]);
@@ -855,15 +851,15 @@ export class CanvasComponent extends HTMLElement {
         }
     }
 
-    private playEngineSound(): void {
+    private async playEngineSound(): Promise<void> {
         const engineStartSound: HTMLAudioElement = new Audio("public/audio/soundEffects/car-start-drive-away.mp3");
         engineStartSound.volume = 0.2;
-        engineStartSound.play();
-    
-        setTimeout(() => {
+        await engineStartSound.play();
+
+        setTimeout(async () => {
             engineStartSound.pause();
             engineStartSound.currentTime = 27;
-            engineStartSound.play();
+            await engineStartSound.play();
             setTimeout(() => {
                 engineStartSound.pause();
                 engineStartSound.currentTime = 0;
@@ -871,10 +867,10 @@ export class CanvasComponent extends HTMLElement {
         }, 3000);
     }
 
-    private playLightSound(): void {
+    private async playLightSound(): Promise<void> {
         const lightSwitchSound: HTMLAudioElement = new Audio("public/audio/soundEffects/light-switch.mp3");
-        lightSwitchSound.volume = 0.5;
-        lightSwitchSound.play();
+        lightSwitchSound.volume = 0.2;
+        await lightSwitchSound.play();
     }
 
     // Creates all hitboxes for the room
@@ -896,6 +892,10 @@ export class CanvasComponent extends HTMLElement {
      * @param objectAlias alias of the clicked object
      */
     public async setHitboxAction(actionAlias: string, objectAlias: string): Promise<void> {
+        if (actionAlias === "Press" && !this.isMuted) {
+            await this.playLightSound();
+        }
+
         // Get selected object
         const objectRef: GameObjectReference[] | undefined = this._currentGameState?.objects;
         if (!objectRef) return;
