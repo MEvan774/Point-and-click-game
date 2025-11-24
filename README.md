@@ -1,4 +1,17 @@
-# Opdracht blok 3 HBO-ICT SE
+# Opdracht blok 3 HBO-ICT SE (Point and click game)
+
+---
+
+## Overview
+This is a typescript point and click webgame, read the ingame instructions and 
+escape from the castle!
+---
+
+**Screenshot:**
+
+![Screenshot](docs/images/imageGame.png)
+
+---
 
 ## Hoe is deze repository ingericht
 - Story-board. Via het menu links (Plan > Issues) vind je alle user stories.
