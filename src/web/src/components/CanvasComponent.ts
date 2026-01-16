@@ -9,6 +9,7 @@ import { VomitMinigame } from "../../../api/src/game-implementation/minigames/Vo
 import { OverlayComponent } from "./OverlayComponent";
 import { Timer } from "../../../api/src/game-base/timer/Timer";
 import { FuelFillingMinigame } from "../../../api/src/game-implementation/minigames/FuelMinigame";
+import { CRTShader } from "../../../api/src/game-implementation/shaders/CRTShader";
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
@@ -245,10 +246,17 @@ export class CanvasComponent extends HTMLElement {
         await this.render();
     }
 
+    private _CRTShader: CRTShader | undefined;
+
     /**
      * Render the contents of this page
      */
     private async render(): Promise<void> {
+        if (!this._CRTShader) {
+            this._CRTShader = new CRTShader();
+            this._CRTShader.start();
+        }
+
         if (!sessionStorage.getItem("visited")) {
             await this.goToStartup();
         }

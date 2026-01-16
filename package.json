@@ -16,7 +16,11 @@
         "@hboictcloud/eslint-plugin-adventure-game": "^1.x",
         "@types/node": "^20.x",
         "eslint": "9.19.0",
-        "typescript": "5.7.3",
-        "typedoc": "0.27.6"
+        "html2canvas": "^1.4.1",
+        "typedoc": "0.27.6",
+        "typescript": "5.7.3"
+    },
+    "devDependencies": {
+        "@types/html2canvas": "^0.5.35"
     }
 }
