@@ -45,10 +45,6 @@ export class WorkRoom extends Room implements Examine {
         const playerSession: PlayerSession = gameService.getPlayerSession();
         const result: string[] = [];
         if (playerSession.selectedItem === "DiaryItem") {
-            if (!playerSession.keyFallen) {
-                playerSession.keyFallen = true;
-                playerSession.inventory.push("OutsideKeyItem");
-            }
             result.push("diaryContent");
         }
         else {
@@ -78,6 +74,10 @@ export class WorkRoom extends Room implements Examine {
 
         if (!playerSession.inventory.includes("DiaryItem"))
             objects.push(new DiaryItem());
+        else if (!playerSession.keyFallen) {
+            playerSession.keyFallen = true;
+            playerSession.inventory.push("OutsideKeyItem");
+        }
 
         if (!playerSession.inventory.includes("FirstAidItem"))
             objects.push(new FirstAidItem());

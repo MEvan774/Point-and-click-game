@@ -67,8 +67,8 @@ export class DiaryItem extends Item implements Examine, PickUp {
         playerSession.pickedUpDiary = true;
         playerSession.inventory.push("DiaryItem");
         return new TextActionResult([
-            "You have picked up the diary",
-            "+1 DiaryItem",
+            "You have picked up the diary... Huh? a key fell out!",
+            "+1 DiaryItem 1+ OutsideDoor Key",
         ]);
     }
 }
