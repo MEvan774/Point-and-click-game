@@ -119,6 +119,7 @@ export class Timer {
     }
 
     private jumpscare(): void {
+        return;
         void this._jumpscareSound.play();
         this.spriteElement.style.display = "block";
         let currentFrame: number = 0;

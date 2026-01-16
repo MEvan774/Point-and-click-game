@@ -112,131 +112,126 @@ export class GhostCharacter extends Character implements Examine, Talk {
                 return new TalkActionResult(
                     this,
                     [
-                        "(The ghost stands before a rotting, grimy stove, it boils over with something",
-                        "too thick, too red. It stirs—slow, deliberate—ignoring you.",
-                        "The smell of rotten flesh lingers in the air.)",
+                        "A ghost stands over a filthy stove, stirring a thick red mixture.",
+                        "It does not acknowledge you.",
                     ],
                     [
-                        new TalkChoice(1, "uh, Excuse me…?"),
-                        new TalkChoice(11, "(Walk away.)"),
+                        new TalkChoice(1, "Excuse me."),
+                        new TalkChoice(11, "Leave."),
                     ]
                 );
             }
-            case 1:
-            {
+
+            case 1: {
                 return new TalkActionResult(
                     this,
                     [
-                        "The ghost doesn’t react at first.",
-                        "Then, its head tilts slightly, like it only just realized you exist.",
+                        "The ghost pauses.",
+                        "It turns slightly toward you.",
                     ],
                     [
-                        new TalkChoice(3, "The front door… is there a way to open it?"),
+                        new TalkChoice(3, "Is there a way to open the front door?"),
                     ]
                 );
             }
-            case 3:
-            {
+
+            case 3: {
                 return new TalkActionResult(
                     this,
                     [
-                        "(The ghost stops. The spoon hovers over the pot, dripping something dark.)",
-                        "(It turns, just slightly. You hear bones creak, yours or its, you’re not sure.)",
-                        "“…You want out?” (Its voice crackles, low and wet.)",
-                        "(A beat of silence. Then: a short, rasping chuckle.) funny.",
+                        "You want to leave?",
+                        "That’s not free.",
                     ],
                     [
-                        new TalkChoice(8, "P-please... I need to leave."),
+                        new TalkChoice(8, "I need to get out."),
                     ]
                 );
             }
-            case 8:
-            {
+
+            case 8: {
                 return new TalkActionResult(
                     this,
                     [
-                        "You scrape. You pry. But doors do not open for the weak.",
-                        "(It gestures lazily toward the bubbling mess.)",
-                        "Trade. That’s the way of things. A tool for a tool.",
-                        "…But I do not want things.” (It finally looks at you—deep, hollow, unblinking.)",
+                        "Doors open through trade.",
+                        "I don’t want objects.",
                         "I want ingredients.",
                     ],
                     [
-                        new TalkChoice(9, "…Ingredients?"),
+                        new TalkChoice(9, "What ingredients?"),
                     ]
                 );
             }
-            case 9:
-            {
+
+            case 9: {
                 return new TalkActionResult(
                     this,
                     [
-                        "(The ghost nods, voice thick with something between hunger and amusement.)",
-                        "This dish should watch over us, even as it simmers. (Its head tilts slightly.) Find me what sees.",
-                        "I need the cut that tells no lies, where pain is etched deep. (Its voice is slow, deliberate.)",
-                        "…Bring them. Then, you may have what you need.",
+                        "Bring me eyes.",
+                        "Bring me a tongue.",
+                        "Do that, and I’ll give you what you need.",
                     ],
                     [
                         new TalkChoice(11, "Leave."),
                     ]
                 );
             }
-            case 11:
-            {
+
+            case 11: {
                 return new TalkActionResult(
                     this,
                     [
-                        "You left.",
+                        "You leave.",
                     ],
-                    [
-                    ]
+                    []
                 );
             }
         }
+
         return undefined;
     }
 
     private talkIfGivenIngredients(choiceId?: number): ActionResult | undefined {
         const playerSession: PlayerSession = gameService.getPlayerSession();
+
         switch (choiceId) {
             case undefined: {
                 return new TalkActionResult(
                     this,
                     [
-                        "The ghost is obsessively stirring in the stove.",
-                        "Your not sure if its wise to interrupt him.",
+                        "The ghost continues stirring at the stove.",
                     ],
                     [
-                        new TalkChoice(1, "Uhm…?"),
+                        new TalkChoice(1, "Get its attention."),
                     ]
                 );
             }
+
             case 1: {
                 return new TalkActionResult(
                     this,
                     [
-                        "(The ghost doesn’t face you. It reaches to the counter, slow and deliberate.)",
-                        "(With a scrape of rusted metal against stone, it slides something toward you.)",
-                        "(A crowbar—old, chipped, but heavy in your hands.)",
+                        "Without turning, the ghost pushes a crowbar toward you.",
                     ],
                     [
-                        new TalkChoice(555, "Leave."),
+                        new TalkChoice(555, "Take the crowbar."),
                     ]
                 );
             }
+
             case 555: {
                 playerSession.inventory.push("CrowbarItem");
+
                 return new TalkActionResult(
                     this,
                     [
-                        "You left with the crowbar, eager to break open the door.",
+                        "You take the crowbar.",
                         "+1 CrowbarItem",
                     ],
-                    [
-                    ]
+                    []
                 );
             }
         }
+
         return undefined;
     }
 

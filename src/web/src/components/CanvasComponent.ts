@@ -40,6 +40,7 @@ const styles: string = css`
     align-items: center;
     position: relative;
     margin-top: 10px;
+    transition: filter 0.4s ease;
 }
  
 .header img {
@@ -102,49 +103,110 @@ const styles: string = css`
         z-index: 10;
     }
  
-    .footer .buttons {
-        z-index: 2000;
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
-        padding: 10px 10px 0 10px;
-    }
- 
-    .footer .button {
-        z-index: 2000;
-        background-color: #e9efec;
-        color: #211e20;
-        border: 3px solid black;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 10px 10px 10px 10px;
-        font-weight: bold;
-        cursor: pointer;
-        display: inline-block;
-        user-select: none;
-    }
- 
-    .footer .button.active,
-    .footer .button:hover {
-        // transform: scale(105%);
-        padding: 10px 15px;
-        margin: 5px 0px 10px 10px;
-        background-color: #a0a08b;
-        background-color:rgb(160, 160, 139);
-    }
- 
-    .buttonImage {
-        image-rendering: pixelated;
-        background: none;
-        color: inherit;
-        border: 2px solid white;
-        border-radius: 20px;
-        padding: 4px;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-    }
- 
+.footer .button {
+    z-index: 2000;
+    background-color: #e9efec;
+    color: #211e20;
+    border: none;
+    border-radius: 0;
+    padding: 12px 10px;
+    margin: 10px 10px 10px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block;
+    user-select: none;
+    position: relative;
+      transition: transform 0.05s ease, background-color 0.1s ease;
+    
+    /* Single step pixelated corners 
+       Adjust these two values:
+       - 8px: size of the corner cutout (make bigger for chunkier)
+       - 4px: size of the diagonal step (make bigger for chunkier) */
+    clip-path: polygon(
+        /* Top-left corner */
+        8px 0,           /* Start of top edge */
+        8px 4px,         /* Step down */
+        4px 4px,         /* Step in */
+        4px 8px,         /* Step down to left edge */
+        0 8px,           /* Left edge starts */
+        
+        /* Left to bottom-left corner */
+        0 calc(100% - 8px),
+        4px calc(100% - 8px),
+        4px calc(100% - 4px),
+        8px calc(100% - 4px),
+        8px 100%,
+        
+        /* Bottom to bottom-right corner */
+        calc(100% - 8px) 100%,
+        calc(100% - 8px) calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 4px),
+        calc(100% - 4px) calc(100% - 8px),
+        100% calc(100% - 8px),
+        
+        /* Right to top-right corner */
+        100% 8px,
+        calc(100% - 4px) 8px,
+        calc(100% - 4px) 4px,
+        calc(100% - 8px) 4px,
+        calc(100% - 8px) 0
+    );
+}
+
+.footer .button:hover {
+  background-color: #a0a08b;
+}
+
+.footer .button:active {
+  transform: scale(0.9);
+}
+
+
+.buttonImage {
+    image-rendering: pixelated;
+    background: none;
+    color: inherit;
+    border: none;
+    border-radius: 0;
+    padding: 4px;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    
+    /* Single step for buttonImage 
+       6px: corner cutout size
+       3px: diagonal step size */
+    clip-path: polygon(
+        /* Top-left */
+        6px 0,
+        6px 3px,
+        3px 3px,
+        3px 6px,
+        0 6px,
+        
+        /* Left to bottom-left */
+        0 calc(100% - 6px),
+        3px calc(100% - 6px),
+        3px calc(100% - 3px),
+        6px calc(100% - 3px),
+        6px 100%,
+        
+        /* Bottom to bottom-right */
+        calc(100% - 6px) 100%,
+        calc(100% - 6px) calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 6px),
+        100% calc(100% - 6px),
+        
+        /* Right to top-right */
+        100% 6px,
+        calc(100% - 3px) 6px,
+        calc(100% - 3px) 3px,
+        calc(100% - 6px) 3px,
+        calc(100% - 6px) 0
+    );
+}
+
     .active-item {
         background-color: gray;
         border: 2px solid white;
@@ -754,6 +816,8 @@ export class CanvasComponent extends HTMLElement {
      * @param object Object that was clicked
      */
     private async handleClickAction(action: ActionReference, object?: GameObjectReference): Promise<void> {
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         // Execute the action and update the game state.
         if (object) {
             if (action.alias === "go to" && object.alias === "hallway-door") {
@@ -768,6 +832,8 @@ export class CanvasComponent extends HTMLElement {
 
                 if (object.alias.includes("Door") || object.alias.includes("door") || object.alias.includes("Shed")) {
                     if (!object.alias.includes("Stair")) {
+                    // FADE OUT the old room
+                        await this.fadeOut(300);
                         this.playDoorSound();
                     }
                 }
@@ -781,6 +847,15 @@ export class CanvasComponent extends HTMLElement {
 
             this.isActionTalk = false;
             await this.updateGameState(state);
+
+            // FADE IN the new room after rendering
+            if (action.alias === "go to") {
+                if (object.alias.includes("Door") || object.alias.includes("door") || object.alias.includes("Shed")) {
+                    if (!object.alias.includes("Stair")) {
+                        await this.fadeIn(300);
+                    }
+                }
+            }
         }
         else {
             const state: GameState | undefined = await this._gameRouteService.executeAction(action.alias);
@@ -1057,5 +1132,45 @@ export class CanvasComponent extends HTMLElement {
             this._timer = new Timer(new Audio("/audio/soundEffects/soundWarningKidnapper.mp3"),
                 new Audio("/audio/soundEffects/JumpScare.mp3"), this);
         }
+    }
+
+    private async fadeOut(durationMs = 300): Promise<void> {
+        return new Promise<void>(resolve => {
+            const header: HTMLElement | null = this.shadowRoot?.querySelector(".header") ?? null;
+
+            if (!header) {
+                console.warn("Header element not found in shadow root");
+                resolve();
+                return;
+            }
+
+            header.style.transition = `filter ${durationMs}ms ease`;
+            void header.offsetHeight; // Force reflow
+            header.style.filter = "brightness(0)";
+
+            setTimeout(() => resolve(), durationMs);
+        });
+    }
+
+    private async fadeIn(durationMs = 300): Promise<void> {
+        return new Promise<void>(resolve => {
+            const header: HTMLElement | null = this.shadowRoot?.querySelector(".header") ?? null;
+
+            if (!header) {
+                console.warn("Header element not found in shadow root");
+                resolve();
+                return;
+            }
+
+            // Start with black
+            header.style.filter = "brightness(0)";
+            header.style.transition = `filter ${durationMs}ms ease`;
+            void header.offsetHeight; // Force reflow
+
+            // Fade to normal
+            header.style.filter = "brightness(1)";
+
+            setTimeout(() => resolve(), durationMs);
+        });
     }
 }
