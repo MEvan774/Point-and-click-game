@@ -69,13 +69,11 @@ const styles: string = css`
         box-shadow: 85px 85px 0px 85px #211e20;
         -webkit-box-shadow: 85px 85px 0px 85px #211e20;
         -moz-box-shadow: 85px 85px 0px 85px #211e20;
-        pointer-events: none;
     }
  
     .content p {
         margin: 0 0 10px 0;
         z-index: 10;
-        pointer-events: none;
     }
  
     .content p:last-of-type {

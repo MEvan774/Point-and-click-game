@@ -59,7 +59,7 @@ export class SafeItem extends Item implements Examine, Open {
         return new TextActionResult([
             "There is a safe in the closet.",
             "The safe has a keypad on it.",
-            "Maybe someone knows the code?",
+            "You suddenly hear whispers from the mirror...",
         ]);
     }
 
