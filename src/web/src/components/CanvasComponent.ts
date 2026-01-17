@@ -217,6 +217,7 @@ const styles: string = css`
         background-color: transparent;
         border: none;
         cursor: pointer;
+        image-rendering: pixelated;
     }
  
     .button-Startup {
@@ -230,7 +231,44 @@ const styles: string = css`
         display: inline-block;
         user-select: none;
         font-size: 40px;
+
+            /* Single step for buttonImage 
+       6px: corner cutout size
+       3px: diagonal step size */
+    clip-path: polygon(
+        /* Top-left */
+        6px 0,
+        6px 3px,
+        3px 3px,
+        3px 6px,
+        0 6px,
+        
+        /* Left to bottom-left */
+        0 calc(100% - 6px),
+        3px calc(100% - 6px),
+        3px calc(100% - 3px),
+        6px calc(100% - 3px),
+        6px 100%,
+        
+        /* Bottom to bottom-right */
+        calc(100% - 6px) 100%,
+        calc(100% - 6px) calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 3px),
+        calc(100% - 3px) calc(100% - 6px),
+        100% calc(100% - 6px),
+        
+        /* Right to top-right */
+        100% 6px,
+        calc(100% - 3px) 6px,
+        calc(100% - 3px) 3px,
+        calc(100% - 6px) 3px,
+        calc(100% - 6px) 0
+    );
     }
+
+    .button-Startup:hover {
+  background-color: #a0a08b;
+}
  
     .redText {
         color: red;
