@@ -1,5 +1,5 @@
 {
   "buildCommand": "npm run build --workspace=src/web",
   "installCommand": "npm install",
-  "ignoreCommand": "exit 0"
+  "outputDirectory": "dist/web"
 }
