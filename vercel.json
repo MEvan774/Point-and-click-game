@@ -1,5 +1,4 @@
 {
   "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web && ls -la && ls -la dist && ls -la dist/web",
-  "installCommand": "npm install",
-  "outputDirectory": "dist/web"
+  "installCommand": "npm install"
 }
