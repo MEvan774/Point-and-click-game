@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd src/web && npm install && npm run build",
+  "buildCommand": "npm install --workspace=@adventure-game/web && npm run build --workspace=@adventure-game/web",
   "installCommand": "npm install",
-  "outputDirectory": "src/web/dist"
+  "outputDirectory": "dist/web"
 }
