@@ -10,7 +10,8 @@
     ],
     "scripts": {
         "typedoc": "npx typedoc",
-        "build": "npm run build --workspaces --if-present"
+        "build": "npm run build --workspaces --if-present",
+        "vercel-build": "npm install && npm run build --workspaces --if-present"
     },
     "dependencies": {
         "@hboictcloud/eslint-plugin": "^2.x",
