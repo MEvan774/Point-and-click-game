@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web && echo '{}' > dist/web/package.json",
+  "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web && mkdir -p public && cp -r dist/web/* public/",
   "installCommand": "npm install",
-  "outputDirectory": "dist/web"
+  "outputDirectory": "public"
 }
