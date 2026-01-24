@@ -8,11 +8,11 @@
     "workspaces": [
         "src/*"
     ],
-    "scripts": {
-        "typedoc": "npx typedoc",
-        "build": "npm run build --workspaces --if-present",
-        "vercel-build": "npm install && npm run build --workspaces --if-present"
-    },
+  "scripts": {
+    "typedoc": "npx typedoc",
+    "prebuild": "npm install --workspaces",
+    "build": "npm run build --workspaces --if-present"
+  },
     "dependencies": {
         "@hboictcloud/eslint-plugin": "^2.x",
         "@hboictcloud/eslint-plugin-adventure-game": "^1.x",
