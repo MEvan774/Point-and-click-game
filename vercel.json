@@ -1,7 +1,5 @@
 {
   "buildCommand": "npm install && npm run build --workspace=@adventure-game/web",
   "installCommand": "npm install",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "outputDirectory": "dist/web"
 }
