@@ -1,9 +1,12 @@
 {
-  "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web && echo 'export default function handler(req, res) { res.status(404).end(); }' > dist/web/index.js",
+  "version": 2,
+  "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web",
   "installCommand": "npm install",
   "outputDirectory": "dist/web",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "builds": [
+    {
+      "src": "dist/web/**",
+      "use": "@vercel/static"
+    }
   ]
 }
