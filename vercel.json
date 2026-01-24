@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build --workspace=src/web",
+  "buildCommand": "npm run build --workspace=src/shared && npm run build --workspace=src/web",
   "installCommand": "npm install",
-  "outputDirectory": "src/web"
+  "outputDirectory": "dist/web"
 }
