@@ -1,9 +1,5 @@
 {
-  "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web",
+  "buildCommand": "cd /vercel/path0 && npm install && npm run build --workspace=@adventure-game/web && echo '{}' > dist/web/package.json",
   "installCommand": "npm install",
-  "outputDirectory": "dist/web",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "status": 404, "dest": "/index.html" }
-  ]
+  "outputDirectory": "dist/web"
 }
