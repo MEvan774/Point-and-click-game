@@ -9,7 +9,8 @@
         "src/*"
     ],
     "scripts": {
-        "typedoc": "npx typedoc"
+        "typedoc": "npx typedoc",
+        "build": "npm run build --workspaces --if-present"
     },
     "dependencies": {
         "@hboictcloud/eslint-plugin": "^2.x",
