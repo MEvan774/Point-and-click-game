@@ -35,26 +35,26 @@ const styles: string = css`
     }
  
     .header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    margin-top: 10px;
-    transition: filter 0.4s ease;
-}
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin-top: 10px;
+        transition: filter 0.4s ease;
+    }
  
-.header img {
-    width: 1022px; /* Keeps aspect ratio */
-    height: auto;
-    image-rendering: pixelated;
-    position: absolute;  /* Ensure all images layer */
-    top: 0;  /* Align from top */
-    left: 0; /* Align from left */
-}
+    .header img {
+        width: 1022px;
+        height: auto;
+        image-rendering: pixelated;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
  
-.header img:first-child {
-    position: relative; /* Keeps first image as base */
-}
+    .header img:first-child {
+        position: relative;
+    }
  
     .content {
         flex-grow: 1;
@@ -90,10 +90,11 @@ const styles: string = css`
         width: 857px;
         z-index: 10;
     }
+    
     .footer img {
         image-rendering: pixelated;
-        width: 1022px; /* Scale up while maintaining aspect ratio */
-        height: auto; /* Keeps aspect ratio */
+        width: 1022px;
+        height: auto;
         position: absolute;
         margin-top: -103px;
         z-index: 1;
@@ -101,109 +102,85 @@ const styles: string = css`
         z-index: 10;
     }
  
-.footer .button {
-    z-index: 2000;
-    background-color: #e9efec;
-    color: #211e20;
-    border: none;
-    border-radius: 0;
-    padding: 12px 10px;
-    margin: 10px 10px 10px 10px;
-    font-weight: bold;
-    cursor: pointer;
-    display: inline-block;
-    user-select: none;
-    position: relative;
-      transition: transform 0.05s ease, background-color 0.1s ease;
-    
-    /* Single step pixelated corners 
-       Adjust these two values:
-       - 8px: size of the corner cutout (make bigger for chunkier)
-       - 4px: size of the diagonal step (make bigger for chunkier) */
-    clip-path: polygon(
-        /* Top-left corner */
-        8px 0,           /* Start of top edge */
-        8px 4px,         /* Step down */
-        4px 4px,         /* Step in */
-        4px 8px,         /* Step down to left edge */
-        0 8px,           /* Left edge starts */
-        
-        /* Left to bottom-left corner */
-        0 calc(100% - 8px),
-        4px calc(100% - 8px),
-        4px calc(100% - 4px),
-        8px calc(100% - 4px),
-        8px 100%,
-        
-        /* Bottom to bottom-right corner */
-        calc(100% - 8px) 100%,
-        calc(100% - 8px) calc(100% - 4px),
-        calc(100% - 4px) calc(100% - 4px),
-        calc(100% - 4px) calc(100% - 8px),
-        100% calc(100% - 8px),
-        
-        /* Right to top-right corner */
-        100% 8px,
-        calc(100% - 4px) 8px,
-        calc(100% - 4px) 4px,
-        calc(100% - 8px) 4px,
-        calc(100% - 8px) 0
-    );
-}
+    .footer .button {
+        z-index: 2000;
+        background-color: #e9efec;
+        color: #211e20;
+        border: none;
+        border-radius: 0;
+        padding: 12px 10px;
+        margin: 10px 10px 10px 10px;
+        font-weight: bold;
+        cursor: pointer;
+        display: inline-block;
+        user-select: none;
+        position: relative;
+        transition: transform 0.05s ease, background-color 0.1s ease;
+        clip-path: polygon(
+            8px 0,
+            8px 4px,
+            4px 4px,
+            4px 8px,
+            0 8px,
+            0 calc(100% - 8px),
+            4px calc(100% - 8px),
+            4px calc(100% - 4px),
+            8px calc(100% - 4px),
+            8px 100%,
+            calc(100% - 8px) 100%,
+            calc(100% - 8px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 8px),
+            100% calc(100% - 8px),
+            100% 8px,
+            calc(100% - 4px) 8px,
+            calc(100% - 4px) 4px,
+            calc(100% - 8px) 4px,
+            calc(100% - 8px) 0
+        );
+    }
 
-.footer .button:hover {
-  background-color: #a0a08b;
-}
+    .footer .button:hover {
+        background-color: #a0a08b;
+    }
 
-.footer .button:active {
-  transform: scale(0.9);
-}
+    .footer .button:active {
+        transform: scale(0.9);
+    }
 
-
-.buttonImage {
-    image-rendering: pixelated;
-    background: none;
-    color: inherit;
-    border: none;
-    border-radius: 0;
-    padding: 4px;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-    
-    /* Single step for buttonImage 
-       6px: corner cutout size
-       3px: diagonal step size */
-    clip-path: polygon(
-        /* Top-left */
-        6px 0,
-        6px 3px,
-        3px 3px,
-        3px 6px,
-        0 6px,
-        
-        /* Left to bottom-left */
-        0 calc(100% - 6px),
-        3px calc(100% - 6px),
-        3px calc(100% - 3px),
-        6px calc(100% - 3px),
-        6px 100%,
-        
-        /* Bottom to bottom-right */
-        calc(100% - 6px) 100%,
-        calc(100% - 6px) calc(100% - 3px),
-        calc(100% - 3px) calc(100% - 3px),
-        calc(100% - 3px) calc(100% - 6px),
-        100% calc(100% - 6px),
-        
-        /* Right to top-right */
-        100% 6px,
-        calc(100% - 3px) 6px,
-        calc(100% - 3px) 3px,
-        calc(100% - 6px) 3px,
-        calc(100% - 6px) 0
-    );
-}
+    .buttonImage {
+        image-rendering: pixelated;
+        background: none;
+        color: inherit;
+        border: none;
+        border-radius: 0;
+        padding: 4px;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        clip-path: polygon(
+            6px 0,
+            6px 3px,
+            3px 3px,
+            3px 6px,
+            0 6px,
+            0 calc(100% - 6px),
+            3px calc(100% - 6px),
+            3px calc(100% - 3px),
+            6px calc(100% - 3px),
+            6px 100%,
+            calc(100% - 6px) 100%,
+            calc(100% - 6px) calc(100% - 3px),
+            calc(100% - 3px) calc(100% - 3px),
+            calc(100% - 3px) calc(100% - 6px),
+            100% calc(100% - 6px),
+            100% 6px,
+            calc(100% - 3px) 6px,
+            calc(100% - 3px) 3px,
+            calc(100% - 6px) 3px,
+            calc(100% - 6px) 0
+        );
+    }
 
     .active-item {
         background-color: gray;
@@ -231,48 +208,271 @@ const styles: string = css`
         display: inline-block;
         user-select: none;
         font-size: 40px;
-
-            /* Single step for buttonImage 
-       6px: corner cutout size
-       3px: diagonal step size */
-    clip-path: polygon(
-        /* Top-left */
-        6px 0,
-        6px 3px,
-        3px 3px,
-        3px 6px,
-        0 6px,
-        
-        /* Left to bottom-left */
-        0 calc(100% - 6px),
-        3px calc(100% - 6px),
-        3px calc(100% - 3px),
-        6px calc(100% - 3px),
-        6px 100%,
-        
-        /* Bottom to bottom-right */
-        calc(100% - 6px) 100%,
-        calc(100% - 6px) calc(100% - 3px),
-        calc(100% - 3px) calc(100% - 3px),
-        calc(100% - 3px) calc(100% - 6px),
-        100% calc(100% - 6px),
-        
-        /* Right to top-right */
-        100% 6px,
-        calc(100% - 3px) 6px,
-        calc(100% - 3px) 3px,
-        calc(100% - 6px) 3px,
-        calc(100% - 6px) 0
-    );
+        clip-path: polygon(
+            6px 0,
+            6px 3px,
+            3px 3px,
+            3px 6px,
+            0 6px,
+            0 calc(100% - 6px),
+            3px calc(100% - 6px),
+            3px calc(100% - 3px),
+            6px calc(100% - 3px),
+            6px 100%,
+            calc(100% - 6px) 100%,
+            calc(100% - 6px) calc(100% - 3px),
+            calc(100% - 3px) calc(100% - 3px),
+            calc(100% - 3px) calc(100% - 6px),
+            100% calc(100% - 6px),
+            100% 6px,
+            calc(100% - 3px) 6px,
+            calc(100% - 3px) 3px,
+            calc(100% - 6px) 3px,
+            calc(100% - 6px) 0
+        );
     }
 
     .button-Startup:hover {
-  background-color: #a0a08b;
-}
+        background-color: #a0a08b;
+    }
  
     .redText {
         color: red;
     }
+
+    /* ============================================
+       ROTATION OVERLAY - Shows when device is in portrait mode
+       ============================================ */
+    .rotation-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #211e20;
+        z-index: 99999;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .rotation-icon {
+        font-size: 80px;
+        margin-bottom: 20px;
+        animation: rotate 2s ease-in-out infinite;
+        transform-origin: 50% 60%;
+        display: block;
+    }
+
+    .rotation-message {
+        font-size: 24px;
+        color: #e9efec;
+        margin-bottom: 10px;
+        font-family: "DungeonFont", sans-serif;
+        display: block;
+    }
+
+    .rotation-submessage {
+        font-size: 16px;
+        color: #a0a08b;
+        font-family: "DungeonFont", sans-serif;
+        display: block;
+    }
+
+    @keyframes rotate {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(90deg); }
+    }
+
+    /* ============================================
+       PORTRAIT MODE - Show rotation overlay
+       ============================================ */
+    @media (max-width: 915px) and (orientation: portrait) {
+        .rotation-overlay {
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+                image-rendering: pixelated;
+    image-rendering: crisp-edges;
+        }
+
+        :host {
+            overflow: hidden;
+        }
+
+        .title, .header, .content, .footer {
+            display: none !important;
+            visibility: hidden !important;
+        }
+    }
+    /* ============================================
+       MOBILE LANDSCAPE STYLES - Applied on mobile devices in landscape
+       ============================================ */
+    @media (max-width: 915px) and (orientation: landscape) {
+        :host {
+            max-width: 100%;
+            grid-template-rows: auto minmax(150px, 50vh) minmax(60px, auto) auto;
+            grid-row-gap: 3px;
+        }
+
+        .title {
+            margin-top: 3px;
+            font-size: 14px;
+            padding: 0 5px;
+        }
+
+        .header {
+            margin-top: 3px;
+            overflow: hidden;
+            max-height: 50vh;
+        }
+
+        .header img {
+            width: 100%;
+            max-width: 100vw;
+            height: auto;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header img:first-child {
+            position: relative;
+        }
+
+        .content {
+            margin-top: 5px;
+            width: calc(100% - 20px);
+            max-width: 100%;
+            height: auto;
+            min-height: 50px;
+            max-height: 12vh;
+            padding: 6px 10px;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            font-size: 12px;
+            line-height: 1.3;
+            overflow-y: auto;
+        }
+
+        .content p {
+            margin: 0 0 5px 0;
+            word-wrap: break-word;
+        }
+
+        .footer {
+            margin-top: 3px;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: 60px;
+            max-height: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 5px;
+        }
+
+        .footer img {
+            display: none;
+        }
+
+        .footer .button {
+            padding: 8px 12px;
+            margin: 3px;
+            font-size: 13px;
+            flex: 0 1 auto;
+            min-width: 85px;
+            max-width: 160px;
+        }
+
+        .button-Startup {
+            padding: 12px 18px;
+            margin: 5px;
+            font-size: 26px;
+        }
+
+        .buttonImage {
+            padding: 2px;
+        }
+
+        .buttonImage img {
+            height: 42px;
+            width: auto;
+        }
+
+        .options {
+            padding: 2px;
+        }
+
+        .options img {
+            height: 42px;
+            width: auto;
+        }
+
+        .actionButtons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+        }
+    }
+
+    /* ============================================
+       VERY SMALL LANDSCAPE - Extra optimizations
+       ============================================ */
+    @media (max-width: 667px) and (orientation: landscape) {
+        :host {
+            grid-template-rows: auto minmax(120px, 55vh) minmax(40px, auto) auto;
+        }
+
+        .title {
+            font-size: 11px;
+            margin-top: 2px;
+        }
+
+        .content {
+            font-size: 10px;
+            padding: 5px 8px;
+            min-height: 40px;
+            max-height: 10vh;
+        }
+
+        .footer {
+            min-height: 50px;
+            max-height: 70px;
+            padding: 4px;
+        }
+
+        .footer .button {
+            padding: 6px 8px;
+            margin: 2px;
+            font-size: 11px;
+            min-width: 75px;
+        }
+
+        .button-Startup {
+            padding: 10px 14px;
+            font-size: 22px;
+        }
+
+        .buttonImage img {
+            height: 38px;
+        }
+
+        .options img {
+            height: 38px;
+        }
+    }
+
 `;
 
 /**
@@ -367,6 +567,12 @@ export class CanvasComponent extends HTMLElement {
             <style>
                 ${styles}
             </style>
+            
+            <div class="rotation-overlay">
+                <div class="rotation-icon"><img src='assets/img/ui/PhoneIcon.png' height='65px'></div>
+                <div class="rotation-message">Please rotate your device</div>
+                <div class="rotation-submessage">This game is best played in landscape mode</div>
+            </div>
    
             ${this.renderTitle()}
             ${this.renderHeader()}
