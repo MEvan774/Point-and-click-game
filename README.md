@@ -56,3 +56,6 @@ Alle benodigde informatie is te vinden op de [HBO-ICT Knowledgebase](https://kno
 ## Studiehandleiding
 
 In de Studiehandleiding op de DLO staat beschreven welke competenties je gaat ontwikkelen en wat de leeruitkomsten zijn voor dit blok.
+
+
+localhost api: http://localhost:3001/
