@@ -605,26 +605,27 @@ export class CanvasComponent extends HTMLElement {
             ${this.renderTitle()}
             ${this.renderHeader()}
         `;
-        
+
         // Create wrapper for content and footer
-        const wrapper = document.createElement('div');
-        wrapper.className = 'content-footer-wrapper';
-        
+        const wrapper: HTMLDivElement = document.createElement("div");
+        wrapper.className = "content-footer-wrapper";
+
         // Add content
-        const contentHTML = this.renderContent();
+        const contentHTML: string = this.renderContent();
         if (contentHTML) {
-            const tempDiv = document.createElement('div');
+            const tempDiv: HTMLDivElement = document.createElement("div");
             tempDiv.innerHTML = contentHTML;
-            const contentElement = tempDiv.firstElementChild as HTMLElement;
+            const contentElement: HTMLElement = tempDiv.firstElementChild as HTMLElement;
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (contentElement) {
                 wrapper.appendChild(contentElement);
             }
         }
-        
+
         // Add footer
-        const footerElement = this.renderFooter();
+        const footerElement: HTMLElement = this.renderFooter();
         wrapper.appendChild(footerElement);
-        
+
         elements.push(wrapper);
         while (this.shadowRoot.firstChild) {
             this.shadowRoot.firstChild.remove();

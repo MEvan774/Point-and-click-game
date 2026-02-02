@@ -52,7 +52,7 @@ export class HitBox {
         this._hitboxDiv.style.cursor = "pointer";
 
         // Get the header element from shadow root
-        const shadowRoot = this._canvasRef.shadowRoot;
+        const shadowRoot: ShadowRoot | null = this._canvasRef.shadowRoot;
         if (shadowRoot) {
             this._headerElement = shadowRoot.querySelector(".header");
         }
@@ -69,42 +69,42 @@ export class HitBox {
         if (!this._headerElement) return;
 
         // Get the first image in the header (the base room image)
-        const headerImage = this._headerElement.querySelector("img");
+        const headerImage: HTMLImageElement | null = this._headerElement.querySelector("img");
         if (!headerImage) return;
-        
-        const imageRect = headerImage.getBoundingClientRect();
-        
+
+        const imageRect: DOMRect = headerImage.getBoundingClientRect();
+
         // Original game image dimensions (based on your CSS: 1022px width)
-        const originalImageWidth = 1022;
-        
+        const originalImageWidth: number = 1022;
+
         // Current image dimensions
-        const currentWidth = imageRect.width;
-        
+        const currentWidth: number = imageRect.width;
+
         // Calculate scale factor
-        const scaleX = currentWidth / originalImageWidth;
-        const scaleY = scaleX; // Maintain aspect ratio
-        
+        const scaleX: number = currentWidth / originalImageWidth;
+        const scaleY: number = scaleX; // Maintain aspect ratio
+
         // Scale position and size
-        const scaledWidth = this._originalSize.x * scaleX;
-        const scaledHeight = this._originalSize.y * scaleY;
-        const scaledPosX = this._originalPosition.x * scaleX;
-        const scaledPosY = this._originalPosition.y * scaleY;
-        
+        const scaledWidth: number = this._originalSize.x * scaleX;
+        const scaledHeight: number = this._originalSize.y * scaleY;
+        const scaledPosX: number = this._originalPosition.x * scaleX;
+        const scaledPosY: number = this._originalPosition.y * scaleY;
+
         // Position relative to the actual image using fixed positioning
-        const absoluteLeft = imageRect.left + (imageRect.width / 2) + scaledPosX;
-        const absoluteTop = imageRect.top + scaledPosY;
-        
+        const absoluteLeft: number = imageRect.left + (imageRect.width / 2) + scaledPosX;
+        const absoluteTop: number = imageRect.top + scaledPosY;
+
         // Get viewport dimensions
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-        
+        const viewportWidth: number = window.innerWidth;
+        const viewportHeight: number = window.innerHeight;
+
         // Constrain hitbox to stay within viewport bounds to prevent scrolling
-        const maxLeft = viewportWidth - scaledWidth;
-        const maxTop = viewportHeight - scaledHeight;
-        
-        const constrainedLeft = Math.max(0, Math.min(absoluteLeft, maxLeft));
-        const constrainedTop = Math.max(0, Math.min(absoluteTop, maxTop));
-        
+        const maxLeft: number = viewportWidth - scaledWidth;
+        const maxTop: number = viewportHeight - scaledHeight;
+
+        const constrainedLeft: number = Math.max(0, Math.min(absoluteLeft, maxLeft));
+        const constrainedTop: number = Math.max(0, Math.min(absoluteTop, maxTop));
+
         // Apply scaled and constrained values
         this._hitboxDiv.style.width = `${scaledWidth}px`;
         this._hitboxDiv.style.height = `${scaledHeight}px`;
@@ -123,7 +123,7 @@ export class HitBox {
         // Remove event listeners
         window.removeEventListener("resize", this._updatePositionBound);
         window.removeEventListener("orientationchange", this._updatePositionBound);
-        
+
         // Remove from DOM
         if (this._hitboxDiv.parentNode) {
             document.body.removeChild(this._hitboxDiv);
