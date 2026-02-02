@@ -33,12 +33,12 @@ export class HitBox {
         this._updatePositionBound = (): void => {
             setTimeout(() => this.updateHitboxPosition(), 50);
         };
-        this.createHitBox(position, size, isDebugHitboxVisible);
+        this.createHitBox(isDebugHitboxVisible);
         this.setupResponsiveListeners();
     }
 
     /** Creates the clickable part of the hitbox */
-    private createHitBox(position: Vector2, size: Vector2, isDebugHitboxVisible: boolean): void {
+    private createHitBox(isDebugHitboxVisible: boolean): void {
         /** if @param isDebugHitBoxVisible == true, it will color the hitbox pink so the developer can
          * easily edit the hitbox's position and size.
          */
