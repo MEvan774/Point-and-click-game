@@ -97,7 +97,6 @@ const styles: string = css`
         height: auto;
         position: absolute;
         margin-top: -103px;
-        z-index: 1;
         pointer-events: none;
         z-index: 10;
     }
@@ -240,6 +239,10 @@ const styles: string = css`
         color: red;
     }
 
+    .content-footer-wrapper {
+        display: contents;
+    }
+
     /* ============================================
        ROTATION OVERLAY - Shows when device is in portrait mode
        ============================================ */
@@ -298,8 +301,8 @@ const styles: string = css`
             display: flex !important;
             justify-content: center;
             align-items: center;
-                image-rendering: pixelated;
-    image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
 
         :host {
@@ -311,167 +314,192 @@ const styles: string = css`
             visibility: hidden !important;
         }
     }
+
     /* ============================================
        MOBILE LANDSCAPE STYLES - Applied on mobile devices in landscape
        ============================================ */
-    @media (max-width: 915px) and (orientation: landscape) {
-        :host {
-            max-width: 100%;
-            grid-template-rows: auto minmax(150px, 50vh) minmax(60px, auto) auto;
-            grid-row-gap: 3px;
-        }
-
-        .title {
-            margin-top: 3px;
-            font-size: 14px;
-            padding: 0 5px;
-        }
-
-        .header {
-            margin-top: 3px;
-            overflow: hidden;
-            max-height: 50vh;
-        }
-
-        .header img {
-            width: 100%;
-            max-width: 100vw;
-            height: auto;
-            position: relative;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header img:first-child {
-            position: relative;
-        }
-
-        .content {
-            margin-top: 5px;
-            width: calc(100% - 20px);
-            max-width: 100%;
-            height: auto;
-            min-height: 50px;
-            max-height: 12vh;
-            padding: 6px 10px;
-            box-shadow: none;
-            -webkit-box-shadow: none;
-            -moz-box-shadow: none;
-            font-size: 12px;
-            line-height: 1.3;
-            overflow-y: auto;
-        }
-
-        .content p {
-            margin: 0 0 5px 0;
-            word-wrap: break-word;
-        }
-
-        .footer {
-            margin-top: 3px;
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            min-height: 60px;
-            max-height: 80px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 5px;
-        }
-
-        .footer img {
-            display: none;
-        }
-
-        .footer .button {
-            padding: 8px 12px;
-            margin: 3px;
-            font-size: 13px;
-            flex: 0 1 auto;
-            min-width: 85px;
-            max-width: 160px;
-        }
-
-        .button-Startup {
-            padding: 12px 18px;
-            margin: 5px;
-            font-size: 26px;
-        }
-
-        .buttonImage {
-            padding: 2px;
-        }
-
-        .buttonImage img {
-            height: 42px;
-            width: auto;
-        }
-
-        .options {
-            padding: 2px;
-        }
-
-        .options img {
-            height: 42px;
-            width: auto;
-        }
-
-        .actionButtons {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-            width: 100%;
-        }
+   @media (max-width: 915px) and (orientation: landscape) {
+    :host {
+        max-width: 100%;
+        grid-template-rows: 0 1fr auto;  /* title(0), header(fills space), footer(auto-sized) */
+        grid-row-gap: 0;
+        height: 100vh;  /* Important: constrain to viewport */
+        overflow: hidden;
     }
 
-    /* ============================================
-       VERY SMALL LANDSCAPE - Extra optimizations
-       ============================================ */
-    @media (max-width: 667px) and (orientation: landscape) {
-        :host {
-            grid-template-rows: auto minmax(120px, 55vh) minmax(40px, auto) auto;
-        }
-
-        .title {
-            font-size: 11px;
-            margin-top: 2px;
-        }
-
-        .content {
-            font-size: 10px;
-            padding: 5px 8px;
-            min-height: 40px;
-            max-height: 10vh;
-        }
-
-        .footer {
-            min-height: 50px;
-            max-height: 70px;
-            padding: 4px;
-        }
-
-        .footer .button {
-            padding: 6px 8px;
-            margin: 2px;
-            font-size: 11px;
-            min-width: 75px;
-        }
-
-        .button-Startup {
-            padding: 10px 14px;
-            font-size: 22px;
-        }
-
-        .buttonImage img {
-            height: 38px;
-        }
-
-        .options img {
-            height: 38px;
-        }
+    /* Make the wrapper a flex container */
+    .content-footer-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 0px;
+        width: 100%;
+        position: relative;  /* Keep in flow, not fixed */
+        max-height: 25vh;  /* Limit height so header gets more space */
+        min-height: 80px;  /* Ensure it's always visible */
     }
+
+    .title {
+        height: 0;
+        overflow: visible;
+        margin: 0;
+        padding: 0;
+        font-size: 0;
+        line-height: 0;
+    }
+
+    .title br {
+        display: none;
+    }
+
+    .title > *:not(.buttonImage):not(.options) {
+        display: none;
+    }
+
+    .title .buttonImage,
+    .title .options {
+        position: fixed;
+        top: 5px;
+        z-index: 100;
+    }
+
+    .title .buttonImage:first-of-type {
+        left: 5px;
+    }
+
+    .title .options {
+        right: 5px;
+    }
+
+    .header {
+        margin-top: 0;
+        overflow: hidden;
+        max-height: 100%;  /* Fill available grid space */
+    }
+
+    .header img {
+        width: 100%;
+        max-width: 100vw;
+        height: auto;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .header img:first-child {
+        position: relative;
+    }
+
+    /* Make content and footer sit side by side */
+    .content {
+        margin-top: 15px;
+        width: 50%;
+        flex: 1;
+        height: 100%;  /* Fill wrapper height */
+        max-height: 25vh;
+        padding: 5px 8px;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        font-size: 11px;
+        line-height: 1.2;
+        overflow-y: auto;
+        z-index: 310;
+        pointer-events: none;
+        position: relative;
+        background-color: transparent;
+
+    }
+
+    .content p {
+        margin: 0 0 4px 0;
+        word-wrap: break-word;
+        font-size: 16px;
+        line-height: 1;
+    }
+
+    .footer {
+        margin-top: 0;
+        width: 50%;
+        flex: 1;
+        height: 100%;  /* Fill wrapper height */
+        max-height: 25vh;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 5px;
+        position: relative;
+        z-index: 300;
+    }
+
+    /* Hide the UI image on mobile */
+    .footer img {
+        width: 200%;
+        height: auto;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .footer .buttons {
+        position: relative;
+        z-index: 2147483647;
+        width: 86%;
+        right: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 10px;
+    }
+
+    .footer .button {
+        padding: 7px 10px;
+        margin: 3px;
+        font-size: 12px;
+        flex: 0 1 auto;
+        min-width: 80px;
+        max-width: 150px;
+        position: fixed;
+        z-index: 2147483647; 
+    }
+
+    .button-Startup {
+        padding: 12px 16px;
+        margin: 5px;
+        font-size: 24px;
+    }
+
+    .buttonImage {
+        padding: 2px;
+    }
+
+    .buttonImage img {
+        height: 40px;
+        width: auto;
+    }
+
+    .options {
+        padding: 2px;
+    }
+
+    .options img {
+        height: 40px;
+        width: auto;
+    }
+
+    .actionButtons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+    }
+}
+
+
+
+
+
+
 
 `;
 
@@ -576,9 +604,28 @@ export class CanvasComponent extends HTMLElement {
    
             ${this.renderTitle()}
             ${this.renderHeader()}
-            ${this.renderContent()}
-            ${this.renderFooter()}
         `;
+        
+        // Create wrapper for content and footer
+        const wrapper = document.createElement('div');
+        wrapper.className = 'content-footer-wrapper';
+        
+        // Add content
+        const contentHTML = this.renderContent();
+        if (contentHTML) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = contentHTML;
+            const contentElement = tempDiv.firstElementChild as HTMLElement;
+            if (contentElement) {
+                wrapper.appendChild(contentElement);
+            }
+        }
+        
+        // Add footer
+        const footerElement = this.renderFooter();
+        wrapper.appendChild(footerElement);
+        
+        elements.push(wrapper);
         while (this.shadowRoot.firstChild) {
             this.shadowRoot.firstChild.remove();
         }

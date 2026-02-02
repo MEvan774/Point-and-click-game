@@ -14,6 +14,13 @@ export class HitBox {
     private _canvasRef: CanvasComponent;
     /** Div of the hitbox where the player can click the element */
     public _hitboxDiv: HTMLDivElement = document.createElement("div");
+    /** Store original position and size for responsive scaling */
+    private _originalPosition: Vector2;
+    private _originalSize: Vector2;
+    /** Reference to the header element for positioning */
+    private _headerElement: HTMLElement | null = null;
+    /** Store bound function reference for cleanup */
+    private _updatePositionBound: () => void;
 
     /** Gets all the values from the @class CanvasComponent since its created there */
     public constructor(position: Vector2, size: Vector2, isDebugHitboxVisible: boolean,
@@ -21,7 +28,13 @@ export class HitBox {
         this._actionAlias = actionAlias;
         this._gameObjectAlias = gameObjectAlias;
         this._canvasRef = canvas;
+        this._originalPosition = { x: position.x, y: position.y };
+        this._originalSize = { x: size.x, y: size.y };
+        this._updatePositionBound = (): void => {
+            setTimeout(() => this.updateHitboxPosition(), 50);
+        };
         this.createHitBox(position, size, isDebugHitboxVisible);
+        this.setupResponsiveListeners();
     }
 
     /** Creates the clickable part of the hitbox */
@@ -32,23 +45,89 @@ export class HitBox {
         if (isDebugHitboxVisible)
             this._hitboxDiv.style.backgroundColor = "pink";
 
-        this._hitboxDiv.style.zIndex = "0";
-        this._hitboxDiv.style.position = "absolute";
-        this._hitboxDiv.style.width = `${size.x}px`;
-        this._hitboxDiv.style.height = `${size.y}px`;
-        this._hitboxDiv.style.left = `calc(50% + ${position.x}px)`;
-        this._hitboxDiv.style.top = `${position.y}px`;
+        this._hitboxDiv.style.zIndex = "50";
+        this._hitboxDiv.style.position = "fixed";
         this._hitboxDiv.style.opacity = "0.5";
         this._hitboxDiv.style.pointerEvents = "auto";
         this._hitboxDiv.style.cursor = "pointer";
+
+        // Get the header element from shadow root
+        const shadowRoot = this._canvasRef.shadowRoot;
+        if (shadowRoot) {
+            this._headerElement = shadowRoot.querySelector(".header");
+        }
+
+        // Set initial position and size
+        this.updateHitboxPosition();
 
         document.body.appendChild(this._hitboxDiv);
         this._hitboxDiv.addEventListener("click", () => this.clicked());
     }
 
+    /** Updates hitbox position and size based on current viewport and image scaling */
+    private updateHitboxPosition(): void {
+        if (!this._headerElement) return;
+
+        // Get the first image in the header (the base room image)
+        const headerImage = this._headerElement.querySelector("img");
+        if (!headerImage) return;
+        
+        const imageRect = headerImage.getBoundingClientRect();
+        
+        // Original game image dimensions (based on your CSS: 1022px width)
+        const originalImageWidth = 1022;
+        
+        // Current image dimensions
+        const currentWidth = imageRect.width;
+        
+        // Calculate scale factor
+        const scaleX = currentWidth / originalImageWidth;
+        const scaleY = scaleX; // Maintain aspect ratio
+        
+        // Scale position and size
+        const scaledWidth = this._originalSize.x * scaleX;
+        const scaledHeight = this._originalSize.y * scaleY;
+        const scaledPosX = this._originalPosition.x * scaleX;
+        const scaledPosY = this._originalPosition.y * scaleY;
+        
+        // Position relative to the actual image using fixed positioning
+        const absoluteLeft = imageRect.left + (imageRect.width / 2) + scaledPosX;
+        const absoluteTop = imageRect.top + scaledPosY;
+        
+        // Get viewport dimensions
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Constrain hitbox to stay within viewport bounds to prevent scrolling
+        const maxLeft = viewportWidth - scaledWidth;
+        const maxTop = viewportHeight - scaledHeight;
+        
+        const constrainedLeft = Math.max(0, Math.min(absoluteLeft, maxLeft));
+        const constrainedTop = Math.max(0, Math.min(absoluteTop, maxTop));
+        
+        // Apply scaled and constrained values
+        this._hitboxDiv.style.width = `${scaledWidth}px`;
+        this._hitboxDiv.style.height = `${scaledHeight}px`;
+        this._hitboxDiv.style.left = `${constrainedLeft}px`;
+        this._hitboxDiv.style.top = `${constrainedTop}px`;
+    }
+
+    /** Setup listeners for window resize and orientation change */
+    private setupResponsiveListeners(): void {
+        window.addEventListener("resize", this._updatePositionBound);
+        window.addEventListener("orientationchange", this._updatePositionBound);
+    }
+
     /** Removes the hitbox from canvas so new hiboxes can be placed after game refreshes */
     public removeHitBox(): void {
-        document.body.removeChild(this._hitboxDiv);
+        // Remove event listeners
+        window.removeEventListener("resize", this._updatePositionBound);
+        window.removeEventListener("orientationchange", this._updatePositionBound);
+        
+        // Remove from DOM
+        if (this._hitboxDiv.parentNode) {
+            document.body.removeChild(this._hitboxDiv);
+        }
     }
 
     /** Calls the action of the object by their aliases so it can be executed */
