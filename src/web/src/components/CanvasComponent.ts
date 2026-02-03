@@ -13,8 +13,9 @@ import { CRTShader } from "../../../api/src/game-implementation/shaders/CRTShade
 
 /** CSS affecting the {@link CanvasComponent} */
 const styles: string = css`
- 
- 
+    /* ============================================
+       BASE STYLES - Desktop Layout
+       ============================================ */
     :host {
         font-family: "DungeonFont";
         width: 100%;
@@ -108,7 +109,7 @@ const styles: string = css`
         border: none;
         border-radius: 0;
         padding: 12px 10px;
-        margin: 10px 10px 10px 10px;
+        margin: 10px;
         font-weight: bold;
         cursor: pointer;
         display: inline-block;
@@ -116,25 +117,12 @@ const styles: string = css`
         position: relative;
         transition: transform 0.05s ease, background-color 0.1s ease;
         clip-path: polygon(
-            8px 0,
-            8px 4px,
-            4px 4px,
-            4px 8px,
-            0 8px,
-            0 calc(100% - 8px),
-            4px calc(100% - 8px),
-            4px calc(100% - 4px),
-            8px calc(100% - 4px),
-            8px 100%,
-            calc(100% - 8px) 100%,
-            calc(100% - 8px) calc(100% - 4px),
-            calc(100% - 4px) calc(100% - 4px),
-            calc(100% - 4px) calc(100% - 8px),
-            100% calc(100% - 8px),
-            100% 8px,
-            calc(100% - 4px) 8px,
-            calc(100% - 4px) 4px,
-            calc(100% - 8px) 4px,
+            8px 0, 8px 4px, 4px 4px, 4px 8px, 0 8px,
+            0 calc(100% - 8px), 4px calc(100% - 8px), 4px calc(100% - 4px),
+            8px calc(100% - 4px), 8px 100%, calc(100% - 8px) 100%,
+            calc(100% - 8px) calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
+            calc(100% - 4px) calc(100% - 8px), 100% calc(100% - 8px), 100% 8px,
+            calc(100% - 4px) 8px, calc(100% - 4px) 4px, calc(100% - 8px) 4px,
             calc(100% - 8px) 0
         );
     }
@@ -158,25 +146,12 @@ const styles: string = css`
         cursor: pointer;
         outline: inherit;
         clip-path: polygon(
-            6px 0,
-            6px 3px,
-            3px 3px,
-            3px 6px,
-            0 6px,
-            0 calc(100% - 6px),
-            3px calc(100% - 6px),
-            3px calc(100% - 3px),
-            6px calc(100% - 3px),
-            6px 100%,
-            calc(100% - 6px) 100%,
-            calc(100% - 6px) calc(100% - 3px),
-            calc(100% - 3px) calc(100% - 3px),
-            calc(100% - 3px) calc(100% - 6px),
-            100% calc(100% - 6px),
-            100% 6px,
-            calc(100% - 3px) 6px,
-            calc(100% - 3px) 3px,
-            calc(100% - 6px) 3px,
+            6px 0, 6px 3px, 3px 3px, 3px 6px, 0 6px,
+            0 calc(100% - 6px), 3px calc(100% - 6px), 3px calc(100% - 3px),
+            6px calc(100% - 3px), 6px 100%, calc(100% - 6px) 100%,
+            calc(100% - 6px) calc(100% - 3px), calc(100% - 3px) calc(100% - 3px),
+            calc(100% - 3px) calc(100% - 6px), 100% calc(100% - 6px), 100% 6px,
+            calc(100% - 3px) 6px, calc(100% - 3px) 3px, calc(100% - 6px) 3px,
             calc(100% - 6px) 0
         );
     }
@@ -200,7 +175,7 @@ const styles: string = css`
         z-index: 1;
         background-color: #e9efec;
         color: #211e20;
-        padding: 20px 20px;
+        padding: 20px;
         margin: 0 0 10px 10px;
         font-weight: bold;
         cursor: pointer;
@@ -208,25 +183,12 @@ const styles: string = css`
         user-select: none;
         font-size: 40px;
         clip-path: polygon(
-            6px 0,
-            6px 3px,
-            3px 3px,
-            3px 6px,
-            0 6px,
-            0 calc(100% - 6px),
-            3px calc(100% - 6px),
-            3px calc(100% - 3px),
-            6px calc(100% - 3px),
-            6px 100%,
-            calc(100% - 6px) 100%,
-            calc(100% - 6px) calc(100% - 3px),
-            calc(100% - 3px) calc(100% - 3px),
-            calc(100% - 3px) calc(100% - 6px),
-            100% calc(100% - 6px),
-            100% 6px,
-            calc(100% - 3px) 6px,
-            calc(100% - 3px) 3px,
-            calc(100% - 6px) 3px,
+            6px 0, 6px 3px, 3px 3px, 3px 6px, 0 6px,
+            0 calc(100% - 6px), 3px calc(100% - 6px), 3px calc(100% - 3px),
+            6px calc(100% - 3px), 6px 100%, calc(100% - 6px) 100%,
+            calc(100% - 6px) calc(100% - 3px), calc(100% - 3px) calc(100% - 3px),
+            calc(100% - 3px) calc(100% - 6px), 100% calc(100% - 6px), 100% 6px,
+            calc(100% - 3px) 6px, calc(100% - 3px) 3px, calc(100% - 6px) 3px,
             calc(100% - 6px) 0
         );
     }
@@ -244,7 +206,7 @@ const styles: string = css`
     }
 
     /* ============================================
-       ROTATION OVERLAY - Shows when device is in portrait mode
+       ROTATION OVERLAY - Portrait Mode
        ============================================ */
     .rotation-overlay {
         position: fixed;
@@ -294,7 +256,7 @@ const styles: string = css`
     }
 
     /* ============================================
-       PORTRAIT MODE - Show rotation overlay
+       PORTRAIT MODE - Show Rotation Overlay
        ============================================ */
     @media (max-width: 915px) and (orientation: portrait) {
         .rotation-overlay {
@@ -316,191 +278,327 @@ const styles: string = css`
     }
 
     /* ============================================
-       MOBILE LANDSCAPE STYLES - Applied on mobile devices in landscape
+       MOBILE LANDSCAPE - Main Layout
        ============================================ */
-   @media (max-width: 915px) and (orientation: landscape) {
-    :host {
-        max-width: 100%;
-        grid-template-rows: 0 1fr auto;  /* title(0), header(fills space), footer(auto-sized) */
-        grid-row-gap: 0;
-        height: 100vh;  /* Important: constrain to viewport */
-        overflow: hidden;
+        @media (max-width: 915px) and (orientation: landscape) {
+        :host {
+            max-width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: block;  /* Changed from grid to block */
+            position: relative;
+        }
+
+        /* Title - Collapsed with fixed buttons */
+        .title {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            overflow: visible;
+            margin: 0;
+            padding: 0;
+            font-size: 0;
+            line-height: 0;
+            z-index: 100;
+        }
+
+        .title br {
+            display: none;
+        }
+
+        .title > *:not(.buttonImage):not(.options) {
+            display: none;
+        }
+
+        .title .buttonImage,
+        .title .options {
+            position: fixed;
+            top: 5px;
+            z-index: 100;
+        }
+
+        /* First inventory button */
+        .title .buttonImage:first-of-type {
+            left: 5px;
+        }
+
+        /* Second inventory button */
+        .title .buttonImage:nth-of-type(2) {
+            left: 55px;
+        }
+
+        /* Third inventory button */
+        .title .buttonImage:nth-of-type(3) {
+            left: 105px;
+        }
+
+        /* Fourth inventory button */
+        .title .buttonImage:nth-of-type(4) {
+            left: 155px;
+        }
+
+        /* Fifth inventory button */
+        .title .buttonImage:nth-of-type(5) {
+            left: 205px;
+        }
+
+        /* sixth inventory button */
+        .title .buttonImage:nth-of-type(6) {
+            left: 255px;
+        }
+
+        /* seventh inventory button */
+        .title .buttonImage:nth-of-type(7) {
+            left: 305px;
+        }
+
+        .title .options {
+            right: 5px;
+        }
+
+        .buttonImage {
+            padding: 2px;
+        }
+
+        .buttonImage img {
+            height: 40px;
+            width: auto;
+        }
+
+        .options {
+            padding: 2px;
+        }
+
+        .options img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Header - FULL SCREEN */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .header img {
+            width: 100%;
+            max-width: 100vw;
+            height: auto;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header img:first-child {
+            position: relative;
+        }
+
+        /* Content-Footer Wrapper - Overlaid at bottom */
+        .content-footer-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: row;
+            gap: 0;
+            width: 100%;
+            max-height: 30vh;
+            min-height: 100px;
+            z-index: 50;
+            background: #211e20;
+        }
+
+        /* Content - Text Area with transparent background */
+        .content {
+            margin: 0;
+            width: 50%;
+            flex: 1;
+            height: 100%;
+            max-height: 30vh;
+            padding: 5px 8px;
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            font-size: 11px;
+            line-height: 1.2;
+            overflow-y: auto;
+            z-index: 51;
+            pointer-events: none;
+            position: relative;
+            background-color: transparent;
+        }
+
+        .content p {
+            margin: 0 0 4px 0;
+            word-wrap: break-word;
+            font-size: 16px;
+            line-height: 1;
+            color: #e9efec;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Footer - Overlaid with GameUI.gif background */
+        .content-footer-wrapper .footer {
+            margin: 0;
+            width: 50%;
+            flex: 1;
+            height: 100%;
+            max-height: 30vh;
+            min-height: 100px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 5px;
+            position: relative;
+            z-index: 52;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: transparent;
+        }
+
+        /* Footer - Standalone (Startup/Game-Over/Win) - also overlaid */
+        .footer:not(.content-footer-wrapper .footer) {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            max-height: 30vh;
+            min-height: 100px;
+            margin: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 50;
+            background: transparent;
+        }
+
+        /* ENABLE GameUI.gif on mobile as background */
+        .footer img {
+            display: none;
+            width: 200%;
+            height: auto;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        /* Standalone footer image full width */
+        .footer:not(.content-footer-wrapper .footer) img {
+            width: 100%;
+            left: 0;
+            right: auto;
+        }
+
+        /* Buttons Container - on top of GameUI.gif */
+        .footer .buttons {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        /* Action Buttons */
+        .footer .button {
+            padding: 7px 10px;
+            margin: 3px;
+            font-size: 12px;
+            flex: 0 1 auto;
+            min-width: 70px;
+            max-width: 150px;
+            position: relative;
+            z-index: 300;
+            pointer-events: auto;
+        }
+
+        .button-Startup {
+            padding: 12px 16px;
+            margin: 5px;
+            font-size: 24px;
+        }
+
+        .actionButtons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            width: 100%;
+            max-width: 100%;
+            padding: 5px;
+            box-sizing: border-box;
+        }
     }
 
-    /* Make the wrapper a flex container */
-    .content-footer-wrapper {
-        display: flex;
-        flex-direction: row;
-        gap: 0px;
-        width: 100%;
-        position: relative;  /* Keep in flow, not fixed */
-        max-height: 25vh;  /* Limit height so header gets more space */
-        min-height: 80px;  /* Ensure it's always visible */
+    /* ============================================
+       MOBILE LANDSCAPE - Extra Small Devices
+       ============================================ */
+    @media (max-width: 667px) and (orientation: landscape) {
+        .content-footer-wrapper,
+        .footer:not(.content-footer-wrapper .footer) {
+            max-height: 28vh;
+            min-height: 90px;
+        }
+
+        .footer .button {
+            padding: 5px 8px;
+            margin: 2px;
+            font-size: 11px;
+            min-width: 60px;
+        }
+
+        .footer .buttons {
+            padding-top: 3px;
+        }
+
+        .content p {
+            font-size: 14px;
+        }
     }
 
-    .title {
-        height: 0;
-        overflow: visible;
-        margin: 0;
-        padding: 0;
-        font-size: 0;
-        line-height: 0;
+    /* ============================================
+       MOBILE LANDSCAPE - Short Screens (Tablets)
+       ============================================ */
+    @media (max-width: 915px) and (max-height: 500px) and (orientation: landscape) {
+        .content-footer-wrapper,
+        .footer:not(.content-footer-wrapper .footer) {
+            max-height: 35vh;
+            min-height: 85px;
+        }
+
+        .footer .button {
+            padding: 5px 7px;
+            margin: 2px;
+            font-size: 10px;
+            min-width: 55px;
+        }
+
+        .content p {
+            font-size: 13px;
+        }
     }
-
-    .title br {
-        display: none;
-    }
-
-    .title > *:not(.buttonImage):not(.options) {
-        display: none;
-    }
-
-    .title .buttonImage,
-    .title .options {
-        position: fixed;
-        top: 5px;
-        z-index: 100;
-    }
-
-    .title .buttonImage:first-of-type {
-        left: 5px;
-    }
-
-    .title .options {
-        right: 5px;
-    }
-
-    .header {
-        margin-top: 0;
-        overflow: hidden;
-        max-height: 100%;  /* Fill available grid space */
-    }
-
-    .header img {
-        width: 100%;
-        max-width: 100vw;
-        height: auto;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .header img:first-child {
-        position: relative;
-    }
-
-    /* Make content and footer sit side by side */
-    .content {
-        margin-top: 15px;
-        width: 50%;
-        flex: 1;
-        height: 100%;  /* Fill wrapper height */
-        max-height: 25vh;
-        padding: 5px 8px;
-        box-shadow: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        font-size: 11px;
-        line-height: 1.2;
-        overflow-y: auto;
-        z-index: 310;
-        pointer-events: none;
-        position: relative;
-        background-color: transparent;
-
-    }
-
-    .content p {
-        margin: 0 0 4px 0;
-        word-wrap: break-word;
-        font-size: 16px;
-        line-height: 1;
-    }
-
-    .footer {
-        margin-top: 0;
-        width: 50%;
-        flex: 1;
-        height: 100%;  /* Fill wrapper height */
-        max-height: 25vh;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 5px;
-        position: relative;
-        z-index: 300;
-    }
-
-    /* Hide the UI image on mobile */
-    .footer img {
-        width: 200%;
-        height: auto;
-        right: 0;
-        bottom: 0;
-        z-index: 1;
-    }
-
-    .footer .buttons {
-        position: relative;
-        z-index: 2147483647;
-        width: 86%;
-        right: 25%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 10px;
-    }
-
-    .footer .button {
-        padding: 7px 10px;
-        margin: 3px;
-        font-size: 12px;
-        flex: 0 1 auto;
-        min-width: 80px;
-        max-width: 150px;
-        position: fixed;
-        z-index: 2147483647; 
-    }
-
-    .button-Startup {
-        padding: 12px 16px;
-        margin: 5px;
-        font-size: 24px;
-    }
-
-    .buttonImage {
-        padding: 2px;
-    }
-
-    .buttonImage img {
-        height: 40px;
-        width: auto;
-    }
-
-    .options {
-        padding: 2px;
-    }
-
-    .options img {
-        height: 40px;
-        width: auto;
-    }
-
-    .actionButtons {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        width: 100%;
-    }
-}
-
-
-
-
-
-
-
 `;
 
 /**
@@ -592,27 +690,31 @@ export class CanvasComponent extends HTMLElement {
             return;
         }
         const elements: HTMLElement[] = htmlArray`
-            <style>
-                ${styles}
-            </style>
-            
-            <div class="rotation-overlay">
-                <div class="rotation-icon"><img src='assets/img/ui/PhoneIcon.png' height='65px'></div>
-                <div class="rotation-message">Please rotate your device</div>
-                <div class="rotation-submessage">This game is best played in landscape mode</div>
-            </div>
-   
-            ${this.renderTitle()}
-            ${this.renderHeader()}
-        `;
+        <style>
+            ${styles}
+        </style>
+        
+        <div class="rotation-overlay">
+            <div class="rotation-icon"><img src='assets/img/ui/PhoneIcon.png' height='65px'></div>
+            <div class="rotation-message">Please rotate your device</div>
+            <div class="rotation-submessage">This game is best played in landscape mode</div>
+        </div>
 
-        // Create wrapper for content and footer
-        const wrapper: HTMLDivElement = document.createElement("div");
-        wrapper.className = "content-footer-wrapper";
+        ${this.renderTitle()}
+        ${this.renderHeader()}
+    `;
 
-        // Add content
+        // Get content and footer
         const contentHTML: string = this.renderContent();
+        const footerElement: HTMLElement = this.renderFooter();
+
+        // Only create wrapper if content exists (not on startup/game-over/win screens)
         if (contentHTML) {
+        // Create wrapper for content and footer
+            const wrapper: HTMLDivElement = document.createElement("div");
+            wrapper.className = "content-footer-wrapper";
+
+            // Add content
             const tempDiv: HTMLDivElement = document.createElement("div");
             tempDiv.innerHTML = contentHTML;
             const contentElement: HTMLElement = tempDiv.firstElementChild as HTMLElement;
@@ -620,13 +722,16 @@ export class CanvasComponent extends HTMLElement {
             if (contentElement) {
                 wrapper.appendChild(contentElement);
             }
+
+            // Add footer
+            wrapper.appendChild(footerElement);
+            elements.push(wrapper);
+        }
+        else {
+        // On startup/game-over/win screens, just add footer directly (no wrapper)
+            elements.push(footerElement);
         }
 
-        // Add footer
-        const footerElement: HTMLElement = this.renderFooter();
-        wrapper.appendChild(footerElement);
-
-        elements.push(wrapper);
         while (this.shadowRoot.firstChild) {
             this.shadowRoot.firstChild.remove();
         }

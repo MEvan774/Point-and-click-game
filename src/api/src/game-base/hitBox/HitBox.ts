@@ -42,10 +42,18 @@ export class HitBox {
         /** if @param isDebugHitBoxVisible == true, it will color the hitbox pink so the developer can
          * easily edit the hitbox's position and size.
          */
-        if (isDebugHitboxVisible)
+        if (isDebugHitboxVisible) {
             this._hitboxDiv.style.backgroundColor = "pink";
+        }
 
-        this._hitboxDiv.style.zIndex = "50";
+        // Calculate z-index based on vertical position (higher Y = lower z-index)
+        // Range: 10-40 (lower hitboxes have lower z-index, higher hitboxes have higher z-index)
+        const baseZIndex: number = 10;
+        const zIndexRange: number = 30;
+        const normalizedY: number = Math.max(0, Math.min(1, (1022 - this._originalPosition.y) / 1022));
+        const calculatedZIndex: number = Math.floor(baseZIndex + (normalizedY * zIndexRange));
+
+        this._hitboxDiv.style.zIndex = calculatedZIndex.toString();
         this._hitboxDiv.style.position = "fixed";
         this._hitboxDiv.style.opacity = "0.5";
         this._hitboxDiv.style.pointerEvents = "auto";
@@ -61,7 +69,7 @@ export class HitBox {
         this.updateHitboxPosition();
 
         document.body.appendChild(this._hitboxDiv);
-        this._hitboxDiv.addEventListener("click", () => this.clicked());
+        this._hitboxDiv.addEventListener("click", () => void this.clicked());
     }
 
     /** Updates hitbox position and size based on current viewport and image scaling */
@@ -98,9 +106,13 @@ export class HitBox {
         const viewportWidth: number = window.innerWidth;
         const viewportHeight: number = window.innerHeight;
 
-        // Constrain hitbox to stay within viewport bounds to prevent scrolling
+        // Get footer height to prevent hitboxes from overlapping buttons
+        const footerElement: Element | null | undefined = this._canvasRef.shadowRoot?.querySelector(".footer");
+        const footerHeight: number = footerElement ? footerElement.getBoundingClientRect().height : 100;
+
+        // Constrain hitbox to stay within viewport bounds and ABOVE footer
         const maxLeft: number = viewportWidth - scaledWidth;
-        const maxTop: number = viewportHeight - scaledHeight;
+        const maxTop: number = (viewportHeight - footerHeight) - scaledHeight;
 
         const constrainedLeft: number = Math.max(0, Math.min(absoluteLeft, maxLeft));
         const constrainedTop: number = Math.max(0, Math.min(absoluteTop, maxTop));
