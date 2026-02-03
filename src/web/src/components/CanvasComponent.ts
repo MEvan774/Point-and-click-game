@@ -203,7 +203,9 @@ const styles: string = css`
 
     .content-footer-wrapper {
         display: contents;
+        height: 5vh;
     }
+
 
     /* ============================================
        ROTATION OVERLAY - Portrait Mode
@@ -408,20 +410,24 @@ const styles: string = css`
         }
 
         /* Content-Footer Wrapper - Overlaid at bottom */
-        .content-footer-wrapper {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            flex-direction: row;
-            gap: 0;
-            width: 100%;
-            max-height: 30vh;
-            min-height: 100px;
-            z-index: 50;
-            background: #211e20;
-        }
+.content-footer-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    width: 100%;
+
+    height: 15vh;          /* 👈 target size */
+    max-height: 15vh;      /* lock it */
+    min-height: 80px;      /* safety for very small screens */
+
+    z-index: 50;
+    background: #211e20;
+}
+
 
         /* Content - Text Area with transparent background */
         .content {
@@ -584,8 +590,9 @@ const styles: string = css`
     @media (max-width: 915px) and (max-height: 500px) and (orientation: landscape) {
         .content-footer-wrapper,
         .footer:not(.content-footer-wrapper .footer) {
-            max-height: 35vh;
-            min-height: 85px;
+        height: 15vh;
+        max-height: 15vh;
+        min-height: 75px;
         }
 
         .footer .button {
