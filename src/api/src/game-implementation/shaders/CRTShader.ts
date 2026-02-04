@@ -66,7 +66,7 @@ export class CRTShader {
     uniform vec2 u_resolution;
     
     // CRT parameters
-    #define CURVATURE 0
+    #define CURVATURE 1.08
     #define SCANLINE_INTENSITY 0.4 
     #define SCANLINE_COUNT 1.0
     #define VIGNETTE_INTENSITY 55.4
