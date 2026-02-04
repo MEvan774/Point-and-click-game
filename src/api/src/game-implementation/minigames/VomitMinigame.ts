@@ -23,6 +23,15 @@ export class VomitMinigame {
     private intervalTime = 500;
     private _isFuelInInventory: boolean;
 
+    private readonly onKeyDown = (event: KeyboardEvent): void => {
+        this.handleInput();
+        event.preventDefault();
+    };
+
+    private readonly onPointerDown = (): void => {
+        this.handleInput();
+    };
+
     /**
      * Instantiates html elements for the minigame
      * @param canvas Used to remove the reference to self in the canvasComponent
@@ -127,6 +136,12 @@ export class VomitMinigame {
 }
 `;
         document.head.appendChild(style);
+
+        // Add mobile input
+        document.addEventListener("keydown", this.onKeyDown);
+
+        // ✅ Mobile / pointer support
+        this.overlay.addEventListener("pointerdown", this.onPointerDown);
     }
 
     /**
@@ -238,8 +253,22 @@ export class VomitMinigame {
         }
     }
 
+    private handleInput(): void {
+        if (!this.gameRunning && !this.isgameFinnished) {
+            this.startGame();
+            return;
+        }
+
+        if (!this.isgameFinnished) {
+            this.mashButtonHandler();
+        }
+    }
+
     // removes itself from the document and from the canvas component
     private exitMinigame(): void {
+        document.removeEventListener("keydown", this.onKeyDown);
+        this.overlay.removeEventListener("pointerdown", this.onPointerDown);
+
         this._canvas.DisableMinigame();
         document.body.removeChild(this.overlay);
     }

@@ -254,7 +254,7 @@ const styles: string = css`
 
     @keyframes rotate {
         0%, 100% { transform: rotate(0deg); }
-        50% { transform: rotate(90deg); }
+        50% { transform: rotamax-height: 5vh;te(90deg); }
     }
 
     /* ============================================
@@ -290,7 +290,7 @@ const styles: string = css`
             display: block;  /* Changed from grid to block */
             position: relative;
         }
-
+max-height: 5vh;
         /* Title - Collapsed with fixed buttons */
         .title {
             position: fixed;
@@ -420,12 +420,13 @@ const styles: string = css`
     gap: 0;
     width: 100%;
 
-    height: 15vh;          /* 👈 target size */
-    max-height: 15vh;      /* lock it */
+    height: 5vh;          /* 👈 target size */
+    max-height: 5vh;      /* lock it */
     min-height: 80px;      /* safety for very small screens */
 
     z-index: 50;
     background: #211e20;
+        transform: translateY(12px);
 }
 
 
@@ -464,8 +465,8 @@ const styles: string = css`
             width: 50%;
             flex: 1;
             height: 100%;
-            max-height: 30vh;
-            min-height: 100px;
+            max-height: 8vh;
+            min-height: 40px;
             flex-wrap: wrap;
             justify-content: center;
             padding: 5px;
@@ -484,8 +485,8 @@ const styles: string = css`
             right: 0;
             width: 100%;
             max-width: 100%;
-            max-height: 30vh;
-            min-height: 100px;
+            max-height: 10vh;
+            min-height: 10px;
             margin: 0;
             overflow-y: auto;
             overflow-x: hidden;
@@ -564,8 +565,10 @@ const styles: string = css`
     @media (max-width: 667px) and (orientation: landscape) {
         .content-footer-wrapper,
         .footer:not(.content-footer-wrapper .footer) {
-            max-height: 28vh;
-            min-height: 90px;
+            max-height: 5vh;
+            height: 5vh;
+            min-height: 40px;
+            transform: translateY(16px);
         }
 
         .footer .button {
@@ -590,8 +593,8 @@ const styles: string = css`
     @media (max-width: 915px) and (max-height: 500px) and (orientation: landscape) {
         .content-footer-wrapper,
         .footer:not(.content-footer-wrapper .footer) {
-        height: 15vh;
-        max-height: 15vh;
+        height: 8vh;
+        max-height: 8vh;
         min-height: 75px;
         }
 

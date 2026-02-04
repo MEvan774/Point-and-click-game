@@ -18,6 +18,26 @@ export class FuelFillingMinigame {
     private maxFuel = 100;
     private _isKeyInInventory: boolean;
 
+    private readonly onKeyDown = (event: KeyboardEvent): void => {
+        void this.handleKeyDown(event);
+    };
+
+    private readonly onKeyUp = (event: KeyboardEvent): void => {
+        void this.handleKeyUp(event);
+    };
+
+    private readonly onPointerDown = (): void => {
+        if (!this.isGameFinished && !this.gameRunning) {
+            void this.startGame();
+        }
+    };
+
+    private readonly onPointerUp = (): void => {
+        if (this.gameRunning) {
+            void this.stopFilling();
+        }
+    };
+
     public constructor(canvas: CanvasComponent, fuelSound: HTMLAudioElement, isKeyInInventory: boolean) {
         this._canvas = canvas;
         this.fuelSound = fuelSound;
@@ -74,6 +94,15 @@ export class FuelFillingMinigame {
 
         this.overlay.appendChild(this.container);
         document.body.appendChild(this.overlay);
+
+        // MobileController
+        document.addEventListener("keydown", this.onKeyDown);
+        document.addEventListener("keyup", this.onKeyUp);
+
+        // ✅ Mobile / pointer support
+        this.overlay.addEventListener("pointerdown", this.onPointerDown);
+        this.overlay.addEventListener("pointerup", this.onPointerUp);
+        this.overlay.addEventListener("pointercancel", this.onPointerUp);
     }
 
     private async handleKeyDown(event: KeyboardEvent): Promise<void> {
@@ -135,6 +164,13 @@ export class FuelFillingMinigame {
     }
 
     private exitMinigame(): void {
+        document.removeEventListener("keydown", this.onKeyDown);
+        document.removeEventListener("keyup", this.onKeyUp);
+
+        this.overlay.removeEventListener("pointerdown", this.onPointerDown);
+        this.overlay.removeEventListener("pointerup", this.onPointerUp);
+        this.overlay.removeEventListener("pointercancel", this.onPointerUp);
+
         this._canvas.DisableMinigame();
         document.body.removeChild(this.overlay);
     }
