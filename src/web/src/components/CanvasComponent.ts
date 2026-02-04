@@ -400,7 +400,7 @@ max-height: 5vh;
             width: 100%;
             max-width: 100vw;
             height: auto;
-            position: relative;
+            position: absolute;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -427,6 +427,14 @@ max-height: 5vh;
     z-index: 50;
     background: #211e20;
         transform: translateY(12px);
+                overflow-y: auto;
+        overflow-x: hidden;
+
+        /* iOS smooth scrolling */
+        -webkit-overflow-scrolling: touch;
+
+        /* Prevent scroll chaining to body */
+        overscroll-behavior: contain;
 }
 
 
@@ -475,6 +483,14 @@ max-height: 5vh;
             overflow-y: auto;
             overflow-x: hidden;
             background: transparent;
+                    overflow-y: auto;
+        overflow-x: hidden;
+
+        /* iOS smooth scrolling */
+        -webkit-overflow-scrolling: touch;
+
+        /* Prevent scroll chaining to body */
+        overscroll-behavior: contain;
         }
 
         /* Footer - Standalone (Startup/Game-Over/Win) - also overlaid */
@@ -492,6 +508,14 @@ max-height: 5vh;
             overflow-x: hidden;
             z-index: 50;
             background: transparent;
+                    overflow-y: auto;
+        overflow-x: hidden;
+
+        /* iOS smooth scrolling */
+        -webkit-overflow-scrolling: touch;
+
+        /* Prevent scroll chaining to body */
+        overscroll-behavior: contain;
         }
 
         /* ENABLE GameUI.gif on mobile as background */
@@ -569,6 +593,14 @@ max-height: 5vh;
             height: 5vh;
             min-height: 40px;
             transform: translateY(16px);
+                    overflow-y: auto;
+        overflow-x: hidden;
+
+        /* iOS smooth scrolling */
+        -webkit-overflow-scrolling: touch;
+
+        /* Prevent scroll chaining to body */
+        overscroll-behavior: contain;
         }
 
         .footer .button {
@@ -609,6 +641,34 @@ max-height: 5vh;
             font-size: 13px;
         }
     }
+
+    /* ============================================
+   INVENTORY NEW ITEM FLASH
+   ============================================ */
+
+@keyframes inventory-flash {
+    0% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+    30% {
+        filter: brightness(2);
+        transform: scale(1.15);
+    }
+    60% {
+        filter: brightness(1.4);
+        transform: scale(1.05);
+    }
+    100% {
+        filter: brightness(1);
+        transform: scale(1);
+    }
+}
+
+.inventory-flash {
+    animation: inventory-flash 0.8s ease-out;
+    z-index: 3000;
+}
 `;
 
 /**
@@ -639,6 +699,10 @@ export class CanvasComponent extends HTMLElement {
     /** Initiates the audio */
     private ambianceSound!: HTMLAudioElement;
     private _timer: Timer | undefined;
+
+    /** Used to detect newly added inventory items */
+    private _previousInventory: string[] = [];
+
     /**
      * The "constructor" of a Web Component
      */
@@ -670,6 +734,9 @@ export class CanvasComponent extends HTMLElement {
             return;
         }
 
+        const previousInventory: string[] =
+        this._currentGameState?.inventory ?? [];
+
         // Reset the component
         this._currentGameState = state;
 
@@ -678,6 +745,36 @@ export class CanvasComponent extends HTMLElement {
 
         // Refresh the web component
         await this.render();
+
+        // Flash newly added inventory items
+        this.flashNewInventoryItems(previousInventory, state.inventory);
+    }
+
+    private flashNewInventoryItems(
+        previousInventory: string[],
+        currentInventory: string[]
+    ): void {
+        if (!this.shadowRoot) return;
+
+        const newItems: string[] = currentInventory.filter(
+            item => !previousInventory.includes(item)
+        );
+
+        if (newItems.length === 0) return;
+
+        newItems.forEach(itemId => {
+            const button: HTMLElement | null =
+            this.shadowRoot!.querySelector(`#${itemId}`);
+
+            if (!button) return;
+
+            button.classList.add("inventory-flash");
+
+            // Remove class after animation completes
+            window.setTimeout(() => {
+                button.classList.remove("inventory-flash");
+            }, 800);
+        });
     }
 
     private _CRTShader: CRTShader | undefined;
