@@ -734,8 +734,7 @@ export class CanvasComponent extends HTMLElement {
             return;
         }
 
-        const previousInventory: string[] =
-        this._currentGameState?.inventory ?? [];
+        this._previousInventory = this._currentGameState?.inventory ?? [];
 
         // Reset the component
         this._currentGameState = state;
@@ -747,7 +746,7 @@ export class CanvasComponent extends HTMLElement {
         await this.render();
 
         // Flash newly added inventory items
-        this.flashNewInventoryItems(previousInventory, state.inventory);
+        this.flashNewInventoryItems(this._previousInventory, state.inventory);
     }
 
     private flashNewInventoryItems(
