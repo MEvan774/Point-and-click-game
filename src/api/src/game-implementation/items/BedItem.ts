@@ -24,7 +24,7 @@ export class BedItem extends Item implements Examine, Hide {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: -300, y: 300 };
+    public _position: Vector2 = { x: -300, y: 200 };
     public _size: Vector2 = { x: 200, y: 250 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

@@ -152,9 +152,11 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
         if (playerSession.selectedItem === "CrowbarItem" && playerSession.outsideKeyUsed && !playerSession.planksGone) {
             playerSession.planksGone = true;
 
+            playerSession.inventory.splice(playerSession.inventory.indexOf("CrowbarItem"), 1);
+
             return new TextActionResult([
                 "You take the planks of the door using the crowbar you found.",
-                "The door is now open!",
+                "The crowbar broke... but its now open now!",
                 "You can go outside from now.",
             ]);
         }
@@ -163,9 +165,11 @@ export class DoorFrontDoorOutsideItem extends Item implements Examine, GoTo, Ope
         if (playerSession.selectedItem === "CrowbarItem" && !playerSession.planksGone) {
             playerSession.planksGone = true;
 
+            playerSession.inventory.splice(playerSession.inventory.indexOf("CrowbarItem"), 1);
+
             return new TextActionResult([
                 "You take the planks of the door using the crowbar you found.",
-                "Now you only have to find a key that fits...",
+                "The crowbar broke, you only have to find a key that fits...",
             ]);
         }
 
