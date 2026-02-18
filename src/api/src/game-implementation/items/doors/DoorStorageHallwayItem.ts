@@ -23,7 +23,7 @@ export class DoorStorageHallwayItem extends Item implements Examine, GoTo {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: -480, y: 200 };
+    public _position: Vector2 = { x: -480, y: 100 };
     public _size: Vector2 = { x: 140, y: 350 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

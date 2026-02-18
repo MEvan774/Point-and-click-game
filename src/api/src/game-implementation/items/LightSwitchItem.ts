@@ -17,7 +17,7 @@ export class LightSwitchItem extends Item implements Examine, Press {
      */
     public static readonly Alias: string = "LightSwitch";
     public static readonly ValidActions: string[] = ["press"];
-    public _position: Vector2 = { x: 195, y: 315 };
+    public _position: Vector2 = { x: 195, y: 215 };
     public _size: Vector2 = { x: 60, y: 60 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Press;

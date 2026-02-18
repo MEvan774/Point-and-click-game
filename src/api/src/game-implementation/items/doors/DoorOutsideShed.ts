@@ -16,7 +16,7 @@ export class DoorOutsideShed extends Item implements Examine, GoTo {
     * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
     * @param validActions the options that will show up when clicked on.
     */
-    public _position: Vector2 = { x: -375, y: 300 };
+    public _position: Vector2 = { x: -375, y: 200 };
     public _size: Vector2 = { x: 100, y: 150 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

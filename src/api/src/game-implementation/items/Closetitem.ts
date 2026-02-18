@@ -24,7 +24,7 @@ export class ClosetItem extends Item implements Examine, Hide {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 220, y: 150 };
+    public _position: Vector2 = { x: 220, y: 50 };
     public _size: Vector2 = { x: 250, y: 430 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

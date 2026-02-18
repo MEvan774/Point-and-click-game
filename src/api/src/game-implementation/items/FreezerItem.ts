@@ -19,7 +19,7 @@ export class FreezerItem extends Item implements Examine, Open, Hide {
      * validActions: Array of the alias of the actions that are possible for this item
      */
     public static readonly Alias: string = "Freezer";
-    public _position: Vector2 = { x: 230, y: 400 };
+    public _position: Vector2 = { x: 230, y: 300 };
     public _size: Vector2 = { x: 200, y: 170 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

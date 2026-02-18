@@ -23,7 +23,7 @@ export class CarItem extends Item implements Examine, Fuel, Drive {
      * @param validActions the options that will show up when clicked on.
      */
     public static readonly validActions: string[] = ["fuel", "drive"];
-    public _position: Vector2 = { x: -430, y: 380 };
+    public _position: Vector2 = { x: -430, y: 280 };
     public _size: Vector2 = { x: 305, y: 230 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

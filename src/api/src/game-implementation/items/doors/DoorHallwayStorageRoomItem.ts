@@ -17,7 +17,7 @@ export class DoorHallwayStorageRoomItem extends Item implements Examine, GoTo {
      * @validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: 100, y: 200 };
+    public _position: Vector2 = { x: 100, y: 100 };
     public _size: Vector2 = { x: 90, y: 270 };
     public static readonly validActions: string[] = [ActionTypes.GoTo];
 

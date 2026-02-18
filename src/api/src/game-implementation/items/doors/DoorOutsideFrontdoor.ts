@@ -16,8 +16,8 @@ export class DoorOutsideFrontdoor extends Item implements Examine, GoTo {
          * @param _isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
          * @param validActions the options that will show up when clicked on.
          */
-    public _position: Vector2 = { x: -509, y: 530 };
-    public _size: Vector2 = { x: 1020, y: 100 };
+    public _position: Vector2 = { x: -509, y: 400 };
+    public _size: Vector2 = { x: 1020, y: 200 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["go to"];

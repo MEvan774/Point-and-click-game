@@ -17,7 +17,7 @@ export class CorpseCharacter extends Character implements Examine, Talk {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: -165, y: 100 };
+    public _position: Vector2 = { x: -165, y: 0 };
     public _size: Vector2 = { x: 320, y: 520 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

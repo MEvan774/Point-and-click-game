@@ -24,7 +24,7 @@ export class LivingroomItem extends Item implements Examine, Hide {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 235, y: 375 };
+    public _position: Vector2 = { x: 235, y: 275 };
     public _size: Vector2 = { x: 175, y: 225 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

@@ -26,7 +26,7 @@ export class GateItem extends Item implements Examine, GoTo, Open {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 175, y: 230 };
+    public _position: Vector2 = { x: 175, y: 130 };
     public _size: Vector2 = { x: 225, y: 220 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

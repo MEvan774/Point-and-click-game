@@ -15,7 +15,7 @@ export class PanItem extends Item implements Examine, Taste {
      */
     public static readonly Alias: string = "Pan";
     public static readonly validActions: string[] = ["taste"];
-    public _position: Vector2 = { x: 75, y: 200 };
+    public _position: Vector2 = { x: 75, y: 100 };
     public _size: Vector2 = { x: 120, y: 130 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
