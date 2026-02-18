@@ -18,7 +18,7 @@ export class DoorLivingRoomFrontDoorItem extends Item implements Examine, GoTo {
          * @param validActions the options that will show up when clicked on.
          */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: 360, y: 100 };
+    public _position: Vector2 = { x: 360, y: 0 };
     public _size: Vector2 = { x: 180, y: 560 };
     public static readonly validActions: string[] = [ActionTypes.GoTo];
     public _isDebugHitboxVisible: boolean = false;

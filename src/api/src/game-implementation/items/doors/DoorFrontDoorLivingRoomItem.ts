@@ -23,7 +23,7 @@ export class DoorFrontDoorLivingRoomItem extends Item implements Examine, GoTo {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 320, y: 160 };
+    public _position: Vector2 = { x: 320, y: 60 };
     public _size: Vector2 = { x: 170, y: 400 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

@@ -17,8 +17,8 @@ export class BathroomItem extends Item implements Examine, GoTo {
      * @validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -152, y: 337 };
-    public _size: Vector2 = { x: 288, y: 100 };
+    public _position: Vector2 = { x: -152, y: 0 };
+    public _size: Vector2 = { x: 288, y: 600 };
     public _isDebugHitboxVisible: boolean = false;
 
     public static readonly validActions: string[] = [ActionTypes.GoTo];

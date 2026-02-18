@@ -23,8 +23,8 @@ export class FrontDoorHallwayItem extends Item implements Examine, GoTo {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: -510, y: 520 };
-    public _size: Vector2 = { x: 350, y: 100 };
+    public _position: Vector2 = { x: -510, y: 300 };
+    public _size: Vector2 = { x: 350, y: 260 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
     public static readonly validActions: string[] = ["go to"];

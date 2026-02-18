@@ -12,8 +12,8 @@ import { PlayerSession } from "../types";
 export class EyeCharacter extends Character implements Examine, Talk, GoTo {
     public static readonly Alias: string = "eyeCharacter";
 
-    public _position: Vector2 = { x: -318, y: 100 };
-    public _size: Vector2 = { x: 350, y: 450 };
+    public _position: Vector2 = { x: -318, y: 0 };
+    public _size: Vector2 = { x: 450, y: 1250 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
 

@@ -14,7 +14,7 @@ export class DoorLivingRoomKitchenItem extends Item implements Examine, GoTo {
     public static readonly Alias: string = "LivingToKitchenDoor";
 
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: 40, y: 200 };
+    public _position: Vector2 = { x: 40, y: 100 };
     public _size: Vector2 = { x: 150, y: 240 };
     public static readonly validActions: string[] = [ActionTypes.GoTo];
     public _isDebugHitboxVisible: boolean = false;

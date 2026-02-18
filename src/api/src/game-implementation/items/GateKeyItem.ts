@@ -23,7 +23,7 @@ export class GateKeyItem extends Item implements Examine, PickUp {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 100, y: 185 };
+    public _position: Vector2 = { x: 100, y: 90 };
     public _size: Vector2 = { x: 95, y: 90 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

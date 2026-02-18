@@ -14,8 +14,8 @@ export class BathtubItem extends Item implements Examine {
      * @validActions the options that will show up when clicked on.
      */
     public _action: ActionTypes = ActionTypes.Examine;
-    public _position: Vector2 = { x: -150, y: 0 };
-    public _size: Vector2 = { x: 200, y: 200 };
+    public _position: Vector2 = { x: -150, y: -500 };
+    public _size: Vector2 = { x: 200, y: 1800 };
     public _isDebugHitboxVisible: boolean = true;
 
     public static readonly validActions: string[] = [ActionTypes.PickUp];

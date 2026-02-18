@@ -20,7 +20,7 @@ export class DiaryItem extends Item implements Examine, PickUp {
      * @param validActions the options that will show up when clicked on.
      */
     public static readonly validActions: string[] = ["pick up", "read"];
-    public _position: Vector2 = { x: -55, y: 340 };
+    public _position: Vector2 = { x: -55, y: 240 };
     public _size: Vector2 = { x: 100, y: 80 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

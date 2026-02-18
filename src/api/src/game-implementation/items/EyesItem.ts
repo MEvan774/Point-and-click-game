@@ -10,7 +10,7 @@ import { PlayerSession } from "../types";
 export class EyesItem extends Item implements Examine, PickUp {
     public static readonly Alias: string = "Eyes";
     public static readonly validActions: string[] = ["pick up"];
-    public _position: Vector2 = { x: -10, y: 210 };
+    public _position: Vector2 = { x: -10, y: 110 };
     public _size: Vector2 = { x: 60, y: 60 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

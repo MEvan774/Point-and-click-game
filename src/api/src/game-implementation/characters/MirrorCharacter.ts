@@ -25,7 +25,7 @@ export class MirrorCharacter extends Character implements Examine, Talk {
      * validActions: Array of the alias of the actions that are possible for this item
      */
     public _position: Vector2 = { x: -270, y: 100 };
-    public _size: Vector2 = { x: 530, y: 530 };
+    public _size: Vector2 = { x: 530, y: 420 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;
 

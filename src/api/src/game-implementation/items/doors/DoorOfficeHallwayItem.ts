@@ -18,7 +18,7 @@ export class DoorOfficeHallwayItem extends Item implements Examine, GoTo {
      * @_isDebugHitboxVisible if true, makes the hitbox visible, false invisible.
      * @validActions the options that will show up when clicked on.
      */
-    public _position: Vector2 = { x: -509, y: 530 };
+    public _position: Vector2 = { x: -509, y: 430 };
     public _size: Vector2 = { x: 1020, y: 100 };
     public _isDebugHitboxVisible: boolean = false;
     public _action: ActionTypes = ActionTypes.Examine;

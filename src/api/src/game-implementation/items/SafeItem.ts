@@ -23,13 +23,13 @@ export class SafeItem extends Item implements Examine, Open {
      * _action: Action that happens when clicked on the item's hitbox
      * validActions: Array of the alias of the actions that are possible for this item
      */
-    public _position: Vector2 = { x: 35, y: 200 };
-    public _size: Vector2 = { x: 60, y: 60 };
+    public _position: Vector2 = { x: 30, y: 105 };
+    public _size: Vector2 = { x: 70, y: 70 };
     public _action: ActionTypes = ActionTypes.Examine;
     public _isDebugHitboxVisible: boolean = false;
     public static readonly validActions: string[] = ["open"];
 
-    // Create a new instance of this item
+    // Create a new instance of this itemado black light
     public constructor() {
         super(SafeItem.Alias, SafeItem.validActions);
     }

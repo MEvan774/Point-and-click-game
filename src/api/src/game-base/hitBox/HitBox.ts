@@ -37,38 +37,34 @@ export class HitBox {
         this.setupResponsiveListeners();
     }
 
-    /** Creates the clickable part of the hitbox */
     private createHitBox(isDebugHitboxVisible: boolean): void {
-        /** if @param isDebugHitBoxVisible == true, it will color the hitbox pink so the developer can
-         * easily edit the hitbox's position and size.
-         */
         if (isDebugHitboxVisible) {
             this._hitboxDiv.style.backgroundColor = "pink";
         }
 
-        // Calculate z-index based on vertical position (higher Y = lower z-index)
-        // Range: 10-40 (lower hitboxes have lower z-index, higher hitboxes have higher z-index)
         const baseZIndex: number = 10;
         const zIndexRange: number = 30;
         const normalizedY: number = Math.max(0, Math.min(1, (1022 - this._originalPosition.y) / 1022));
         const calculatedZIndex: number = Math.floor(baseZIndex + (normalizedY * zIndexRange));
 
         this._hitboxDiv.style.zIndex = calculatedZIndex.toString();
-        this._hitboxDiv.style.position = "fixed";
+        this._hitboxDiv.style.position = "absolute"; // <-- absolute, not fixed
         this._hitboxDiv.style.opacity = "0.5";
         this._hitboxDiv.style.pointerEvents = "auto";
         this._hitboxDiv.style.cursor = "pointer";
 
-        // Get the header element from shadow root
         const shadowRoot: ShadowRoot | null = this._canvasRef.shadowRoot;
         if (shadowRoot) {
             this._headerElement = shadowRoot.querySelector(".header");
         }
 
-        // Set initial position and size
         this.updateHitboxPosition();
 
-        document.body.appendChild(this._hitboxDiv);
+        // Append to the header (image container), not document.body
+        if (this._headerElement) {
+            this._headerElement.appendChild(this._hitboxDiv);
+        }
+
         this._hitboxDiv.addEventListener("click", () => void this.clicked());
     }
 
@@ -76,52 +72,33 @@ export class HitBox {
     private updateHitboxPosition(): void {
         if (!this._headerElement) return;
 
-        // Get the first image in the header (the base room image)
         const headerImage: HTMLImageElement | null = this._headerElement.querySelector("img");
         if (!headerImage) return;
 
-        const imageRect: DOMRect = headerImage.getBoundingClientRect();
-
-        // Original game image dimensions (based on your CSS: 1022px width)
         const originalImageWidth: number = 1022;
 
-        // Current image dimensions
-        const currentWidth: number = imageRect.width;
+        // The image's actual rendered width
+        const displayedWidth: number = headerImage.getBoundingClientRect().width;
+        const scale: number = displayedWidth / originalImageWidth;
 
-        // Calculate scale factor
-        const scaleX: number = currentWidth / originalImageWidth;
-        const scaleY: number = scaleX; // Maintain aspect ratio
+        const scaledWidth: number = this._originalSize.x * scale;
+        const scaledHeight: number = this._originalSize.y * scale;
+        const scaledPosX: number = this._originalPosition.x * scale;
+        const scaledPosY: number = this._originalPosition.y * scale;
 
-        // Scale position and size
-        const scaledWidth: number = this._originalSize.x * scaleX;
-        const scaledHeight: number = this._originalSize.y * scaleY;
-        const scaledPosX: number = this._originalPosition.x * scaleX;
-        const scaledPosY: number = this._originalPosition.y * scaleY;
+        // Position relative to the header container.
+        // The image is centered via CSS (left:50% + translateX(-50%) on mobile,
+        // or just centered via flex). We offset from the image's left edge.
+        const imageRect: DOMRect = headerImage.getBoundingClientRect();
+        const headerRect: DOMRect = this._headerElement.getBoundingClientRect();
 
-        // Position relative to the actual image using fixed positioning
-        const absoluteLeft: number = imageRect.left + (imageRect.width / 2) + scaledPosX;
-        const absoluteTop: number = imageRect.top + scaledPosY;
+        // Image's left edge relative to the header
+        const imageLeftInHeader: number = imageRect.left - headerRect.left;
 
-        // Get viewport dimensions
-        const viewportWidth: number = window.innerWidth;
-        const viewportHeight: number = window.innerHeight;
-
-        // Get footer height to prevent hitboxes from overlapping buttons
-        const footerElement: Element | null | undefined = this._canvasRef.shadowRoot?.querySelector(".footer");
-        const footerHeight: number = footerElement ? footerElement.getBoundingClientRect().height : 100;
-
-        // Constrain hitbox to stay within viewport bounds and ABOVE footer
-        const maxLeft: number = viewportWidth - scaledWidth;
-        const maxTop: number = (viewportHeight - footerHeight) - scaledHeight;
-
-        const constrainedLeft: number = Math.max(0, Math.min(absoluteLeft, maxLeft));
-        const constrainedTop: number = Math.max(0, Math.min(absoluteTop, maxTop));
-
-        // Apply scaled and constrained values
         this._hitboxDiv.style.width = `${scaledWidth}px`;
         this._hitboxDiv.style.height = `${scaledHeight}px`;
-        this._hitboxDiv.style.left = `${constrainedLeft}px`;
-        this._hitboxDiv.style.top = `${constrainedTop}px`;
+        this._hitboxDiv.style.left = `${imageLeftInHeader + (displayedWidth / 2) + scaledPosX}px`;
+        this._hitboxDiv.style.top = `${scaledPosY}px`; // directly relative to header top
     }
 
     /** Setup listeners for window resize and orientation change */
@@ -132,13 +109,11 @@ export class HitBox {
 
     /** Removes the hitbox from canvas so new hiboxes can be placed after game refreshes */
     public removeHitBox(): void {
-        // Remove event listeners
         window.removeEventListener("resize", this._updatePositionBound);
         window.removeEventListener("orientationchange", this._updatePositionBound);
 
-        // Remove from DOM
         if (this._hitboxDiv.parentNode) {
-            document.body.removeChild(this._hitboxDiv);
+            this._hitboxDiv.parentNode.removeChild(this._hitboxDiv);
         }
     }
 
