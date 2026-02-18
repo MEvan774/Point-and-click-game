@@ -63,6 +63,14 @@ export class VomitMinigame {
         this.overlay.style.userSelect = "none";
         this.overlay.style.webkitUserSelect = "none";
         this.overlay.style.touchAction = "manipulation"; // Improves touch responsiveness
+        this.overlay.addEventListener("touchstart", (e: TouchEvent) => {
+            e.preventDefault();
+            this.handleInput();
+        }, { passive: false });
+
+        this.overlay.addEventListener("touchend", (e: TouchEvent) => {
+            e.preventDefault();
+        }, { passive: false });
 
         this.container = document.createElement("div");
         this.container.style.textAlign = "center";
