@@ -1,61 +1,101 @@
-# Opdracht blok 3 HBO-ICT SE (Point and click game)
+# Kidnapped: Castle Breakout
 
----
+A browser-based point-and-click escape game built in TypeScript as part of a school project at HBO-ICT (Block 3).
 
-## Overview
-This is a typescript point and click webgame, read the ingame instructions and 
-escape from the castle!
----
+![Kidnapped: Castle Breakout](docs/images/Screenshot.png)
 
-**Screenshot:**
+## About
 
-![Screenshot](docs/images/imageGame.png)
+Kidnapped: Castle Breakout uses a component-based architecture with a Web Components frontend and an Express.js backend communicating over HTTPS. Players explore rooms within a castle, interact with objects, solve puzzles, and manage an inventory to ultimately escape.
 
----
+The team worked within a provided game engine framework (*LucaStars Game Engine™*) and extended it with custom systems. I focused on building the interactive hitbox system, a flashlight mechanic, and minigames (like a button-mashing vomit minigame). I also took on the **Scrum Master** role, organizing sprint planning, stand-ups, and retrospectives to keep the team on track across three sprints.
 
-## Hoe is deze repository ingericht
-- Story-board. Via het menu links (Plan > Issues) vind je alle user stories.
-- Broncode in de map `src` (Repository) voor een client- en server applicatie.
-- Documentatie in de map `docs` (Repository). Hier houden jullie gezamenlijk documentatie bij voor dit project.
+**Live demo:** [point-and-click-game-api.vercel.app](https://point-and-click-game-api.vercel.app)
 
-## Project voor de eerste keer opstarten
-1. Installeer Visual Studio Code, deze kun je downloaden via https://code.visualstudio.com/.
+## Features
 
-2. Installeer de volgende plugins voor Visual Studio Code. Dit kan via de browser, of vanuit Visual Studio Code zelf in de `Extensions` sectie van de linker menubalk:
-    - ESLint: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
-    - EditorConfig: https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig
-    - lit-plugin: https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin
+- Point-and-click gameplay with room exploration and puzzle solving
+- Responsive hitbox system that scales across screen sizes and orientations
+- Inventory management system
+- Flashlight mechanic with dynamic lighting
+- Interactive minigames
+- CRT shader post-processing effect (scanlines, vignette, noise, RGB shift)
+- Client-server architecture with Express.js backend
 
-3. Installeer NodeJS, deze kun je voor jouw systeem downloaden via https://nodejs.org/en/download/prebuilt-installer. 
-   - **Let op!** Installeer versie `20.x.x`!
+## Tech Stack
 
-4. Installeer Git, voor uitleg zie de [HBO-ICT Knowledgebase](https://knowledgebase.hbo-ict-hva.nl/1_beroepstaken/software/manage_and_control/git/installeren/git_installeren/#git-installeren).
+| Layer | Technology |
+|-------|-----------|
+| Language | TypeScript (99.2%) |
+| Frontend | Web Components |
+| Backend | Express.js (Node.js) |
+| Build Tools | Vite (client), esbuild (server) |
+| Deployment | Vercel |
 
-5. Configureer Git, voor uitleg zie de [HBO-ICT Knowledgebase](https://knowledgebase.hbo-ict-hva.nl/1_beroepstaken/software/manage_and_control/git/installeren/git_installeren/#git-configureren).
+## My Contributions
 
-6. Maak een SSH key aan en koppel deze aan GitLab, voor uitleg zie de [HBO-ICT Knowledgebase](https://knowledgebase.hbo-ict-hva.nl/1_beroepstaken/software/manage_and_control/git/installeren/git_installeren/#git-koppelen-aan-gitlab).
+### Responsive Hitbox System
+Dynamically creates invisible clickable regions over game objects on the canvas. Each hitbox scales and repositions itself based on the rendered image size, with z-index calculated from Y-position for natural depth ordering. Teammates only needed to set a position, size, and action — the hitbox system handled the rest.
 
-7. Clone dit project met Git naar je computer, dit kan je via de terminal doen met een `git clone` commando, vanuit Visual Studio Code zelf of met een visueel programma als Fork (https://git-fork.com/).
+### CRT Shader Effect
+A full-screen post-processing shader that renders scanlines, screen curvature, vignette darkening, noise grain, flicker, and RGB chromatic aberration — all running in real-time as a transparent overlay.
 
-8. Open na het clonen de map in Visual Studio Code met `File > Open Folder...`.
+### Scrum Master
+Organized sprint planning, daily stand-ups, and retrospectives across three sprints to keep the team on track and deliver on time.
 
-9. Ga in de menubalk naar `View > Open View...` en zoek naar "NPM". Als je nu in de `Explorer` sectie van de linker menubalk op de `package.json` klikt, krijg je een extra paneel erbij met de naam "NPM Scripts". 
+## Getting Started
 
-10. In het "NPM Scripts"-paneel, klik met rechts op `package.json` en klik op `Run Install`, of voer handmatig `npm install` in een terminal uit.
+### Prerequisites
 
-11. Start de server applicatie. Klik nu op de pijl achter `dev` onder `src\api\package.json`, of voer handmatig `npm run dev` vanuit de juiste map in een termimal uit.
-    - Via de build tool [esbuild](https://esbuild.github.io/) wordt er een lokale server opgestart. Als je de URL uit de terminal (als het goed is: http://127.0.0.1:3001) in de browser opent, zie je de tekst "Welcome to the API!". Wijzigingen die je maakt in de code worden nu realtime (direct) herladen!
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Node.js](https://nodejs.org/) (version `20.x.x`)
+- [Git](https://git-scm.com/)
 
-12. Start de client applicatie. Klik nu op de pijl achter `dev` onder `src\web\package.json`, of voer handmatig `npm run dev` vanuit de juiste map in een termimal uit.
-    - Via de build tool [Vite](https://vitejs.dev/) wordt er een lokale server opgestart. Als je de URL uit de terminal (als het goed is: http://127.0.0.1:3000) in de browser opent, zie je de standaard implementatie van een spel op basis van de *LucaStars Game Engine&trade;*. Wijzigingen die je maakt in de code worden nu realtime (direct) herladen!
+### Recommended VS Code Extensions
 
-## Projectbeschrijving en studiemateriaal
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [EditorConfig](https://marketplace.visualstudio.com/items?itemName=editorconfig.editorconfig)
+- [lit-plugin](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin)
 
-Alle benodigde informatie is te vinden op de [HBO-ICT Knowledgebase](https://knowledgebase.hbo-ict-hva.nl/3_onderwijs/se/opdracht3/).
+### Installation
 
-## Studiehandleiding
+```bash
+git clone https://github.com/MEvan774/Point-and-click-game.git
+cd Point-and-click-game
+npm install
+```
 
-In de Studiehandleiding op de DLO staat beschreven welke competenties je gaat ontwikkelen en wat de leeruitkomsten zijn voor dit blok.
+Start the server:
+```bash
+cd src/api
+npm run dev
+# API available at http://127.0.0.1:3001
+```
 
+Start the client:
+```bash
+cd src/web
+npm run dev
+# Game available at http://127.0.0.1:3000
+```
 
-localhost api: http://localhost:3001/
+## Project Structure
+
+```
+Point-and-click-game/
+├── src/
+│   ├── api/       # Express.js backend
+│   └── web/       # Web Components frontend
+├── docs/          # Project documentation
+├── tsconfig.json  # TypeScript configuration
+├── vercel.json    # Vercel deployment config
+└── package.json
+```
+
+## What I Learned
+
+- Component-based architecture with Web Components
+- Real-time WebGL shader programming (GLSL)
+- Building responsive interactive systems for canvas-based applications
+- Client-server communication over HTTPS
+- Scrum methodology in practice (sprint planning, stand-ups, retrospectives)
